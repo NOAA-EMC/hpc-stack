@@ -1,0 +1,11 @@
+# Ignore these files anywhere in the tree
+*.[aox]
+*.so
+*.mod
+*.pyc
+*.swp
+*~
+
+# Ignore the contents of these directories
+pkg
+log
