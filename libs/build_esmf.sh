@@ -18,6 +18,7 @@ if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
+  module try-load zlib
   module try-load szip
   [[ -z $mpi ]] || module load hpc-$HPC_MPI
   module load hdf5
@@ -53,6 +54,16 @@ export CFLAGS="-fPIC"
 export CXXFLAGS="-fPIC"
 export FCFLAGS="$FFLAGS"
 
+gitURL="https://github.com/esmf-org/esmf"
+
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
+software="ESMF_$version"
+[[ -d $software ]] || ( git clone -b $software $gitURL $software )
+[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+[[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
+export ESMF_DIR=$PWD
+
 if [[ ! -z $mpi ]]; then
 #  mpiexec --version | grep OpenRTE 2> /dev/null && export ESMF_COMM=openmpi
 #  mpiexec --version | grep Intel   2> /dev/null && export ESMF_COMM=intelmpi
@@ -76,32 +87,32 @@ elif [[ $COMPILER = "gnu" ]]; then
   export ESMF_COMPILER="gfortran"
 fi
 
+HDF5ExtraLibs=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+HDF5LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "AM_LDFLAGS" | cut -d: -f2)
+
 export ESMF_CXXCOMPILER=$CXX
 export ESMF_CXXLINKER=$CXX
+export ESMF_CXXLINKPATHS="-L$HDF5_ROOT/lib $HDF5LDFLAGS"
 export ESMF_F90COMPILER=$FC
 export ESMF_F90LINKER=$FC
-export ESMF_NETCDF=nc-config
+export ESMF_F90LINKPATHS="-L$HDF5_ROOT/lib $HDF5LDFLAGS"
+
+export ESMF_NETCDF=split
+export ESMF_NETCDF_INCLUDE=$NETCDF_ROOT/include
+export ESMF_NETCDF_LIBPATH=$NETCDF_ROOT/lib
+export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs"
 export ESMF_NFCONFIG=nf-config
 [[ -z $mpi ]] || export ESMF_PNETCDF=pnetcdf-config
 export ESMF_BOPT=O
 #export ESMF_OPTLEVEL=2
+export ESMF_ABI=64
+
 export ESMF_INSTALL_PREFIX=$prefix
 export ESMF_INSTALL_BINDIR=bin
 export ESMF_INSTALL_LIBDIR=lib
 export ESMF_INSTALL_MODDIR=mod
 export ESMF_INSTALL_HEADERDIR=include
-export ESMF_ABI=64
 export ESMF_SHARED_LIB_BUILD=OFF
-
-gitURL="https://git.code.sf.net/p/esmf/esmf.git"
-
-cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-
-software="ESMF_$version"
-[[ -d $software ]] || ( git clone -b $software $gitURL $software )
-[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
-[[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-export ESMF_DIR=$PWD
 
 make info
 make -j${NTHREADS:-4}
