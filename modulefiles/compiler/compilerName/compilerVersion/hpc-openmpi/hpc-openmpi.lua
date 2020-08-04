@@ -17,10 +17,6 @@ load(mpi)
 prereq(mpi)
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
-
-local mpath = pathJoin(opt,"modulefiles/mpi",compNameVer,"hpc-openmpi",pkgVersion)
-prepend_path("MODULEPATH", mpath)
-
 local mpath = pathJoin(opt,"modulefiles/mpi",compNameVer,"openmpi",pkgVersion)
 prepend_path("MODULEPATH", mpath)
 

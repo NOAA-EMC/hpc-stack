@@ -16,7 +16,7 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module try-load szip
-  [[ -z $mpi ]] || module load hpc-$HPC_MPI 
+  [[ -z $mpi ]] || module load hpc-$HPC_MPI
   module load hdf5
   [[ -z $mpi ]] || module load pnetcdf
   module load netcdf
@@ -51,6 +51,8 @@ export CXXFLAGS="-fPIC"
 export FCFLAGS="$FFLAGS"
 
 if [[ ! -z $mpi ]]; then
+#  mpiexec --version | grep OpenRTE 2> /dev/null && export ESMF_COMM=openmpi
+#  mpiexec --version | grep Intel   2> /dev/null && export ESMF_COMM=intelmpi
   if [[ $(echo $mpi | cut -d- -f1) = "openmpi" ]]; then
     export ESMF_COMM="openmpi"
   elif [[ $(echo $mpi | cut -d- -f1) = "mpich" ]]; then
@@ -62,12 +64,12 @@ else
   export ESMF_COMM="mpiuni"
 fi
 
-export ESMF_COMPILER=$(echo $compiler | cut -d- -f1)
-
-if [[ $ESMF_COMPILER = "intel" ]]; then
+COMPILER=$(echo $compiler | cut -d- -f1)
+if [[ $COMPILER = "intel" ]]; then
+  export ESMF_COMPILER="intel"
   export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
   export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"
-elif [[ $ESMF_COMPILER = "gnu" ]]; then
+elif [[ $COMPILER = "gnu" ]]; then
   export ESMF_COMPILER="gfortran"
 fi
 

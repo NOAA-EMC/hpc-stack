@@ -15,7 +15,7 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    [[ -z $mpi ]] || module load hpc-$HPC_MPI 
+    [[ -z $mpi ]] || module load hpc-$HPC_MPI
     module try-load szip
     module load hdf5
     [[ -z $mpi ]] || module load pnetcdf
@@ -54,7 +54,11 @@ gitURLroot="https://github.com/Unidata"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 curr_dir=$(pwd)
 
-export LDFLAGS="-L$HDF5_ROOT/lib -L$SZIP_ROOT/lib"
+LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
+LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+[[ -z $mpi ]] || LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4"
 
 cd $curr_dir
 
@@ -95,30 +99,30 @@ software=$name-"c"-$version
 mkdir -p build && cd build
 
 [[ -z $mpi ]] || extra_conf="--enable-pnetcdf --enable-parallel-tests"
-../configure --prefix=$prefix --enable-netcdf-4 $extra_conf
+../configure --prefix=$prefix \
+             --enable-cdf5 \
+             --disable-dap \
+             --enable-netcdf-4 \
+             --disable-doxygen \
+             --disable-shared \
+             $extra_conf
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
 
-export LDFLAGS+=" -L$prefix/lib"
-export CFLAGS+=" -I$prefix/include"
-export CXXFLAGS+=" -I$prefix/include"
-
-# generate modulefile from template
-[[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $c_version \
-         || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
 set +x
 echo "################################################################################"
 echo "BUILDING NETCDF-Fortran"
 echo "################################################################################"
-
-# Load netcdf-c before building netcdf-fortran
-$MODULES && module load netcdf
-
 set -x
+
+export LIBS=$($prefix/bin/nc-config --libs --static)
+export LDFLAGS+=" -L$prefix/lib -lnetcdf"
+export CFLAGS+=" -I$prefix/include"
+export CXXFLAGS+=" -I$prefix/include"
 
 cd $curr_dir
 
@@ -129,7 +133,8 @@ software=$name-"fortran"-$version
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-../configure --prefix=$prefix --enable-netcdf-4 $extra_conf
+../configure --prefix=$prefix \
+             --disable-shared
 
 #VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE make -j1 #NetCDF-Fortran-4.5.2 & intel/20 have a linker bug if built with j>1
@@ -153,10 +158,18 @@ software=$name-"cxx4"-$version
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-../configure --prefix=$prefix
+../configure --prefix=$prefix \
+             --disable-shared
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
 
 $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+
+##################################################
+
+# generate modulefile from template
+[[ -z $mpi ]] && modpath=compiler || modpath=mpi
+$MODULES && update_modules $modpath $name $c_version \
+         || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

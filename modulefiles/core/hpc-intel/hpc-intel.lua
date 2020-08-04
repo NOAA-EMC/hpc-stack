@@ -16,14 +16,16 @@ prereq(compiler)
 try_load("mkl")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
-setenv("HPC_OPT", opt)
-
 local mpath = pathJoin(opt,"modulefiles/compiler","intel",pkgVersion)
 prepend_path("MODULEPATH", mpath)
 
 setenv("FC",  "ifort")
 setenv("CC",  "icc")
 setenv("CXX", "icpc")
+
+setenv("SERIAL_FC",  "ifort")
+setenv("SERIAL_CC",  "icc")
+setenv("SERIAL_CXX", "icpc")
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)

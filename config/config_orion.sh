@@ -9,7 +9,7 @@ export HPC_COMPILER="intel/2019.5"
 export HPC_MPI="impi/2019.6"
 
 # Build options
-export PREFIX=${HOME}/hpc-opt
+export PREFIX=/apps/contrib/NCEP/sandbox/rmahajan/trial
 export HPC_OPT=${PREFIX}
 export USE_SUDO=N
 export PKGDIR=pkg
@@ -30,8 +30,8 @@ export      STACK_BUILD_PNG=N
 export   STACK_BUILD_JASPER=N
 export     STACK_BUILD_SZIP=N
 export     STACK_BUILD_ZLIB=N
-export     STACK_BUILD_HDF5=Y
-export  STACK_BUILD_PNETCDF=Y
+export     STACK_BUILD_HDF5=N
+export  STACK_BUILD_PNETCDF=N
 export   STACK_BUILD_NETCDF=Y
 export    STACK_BUILD_NCCMP=N
 export      STACK_BUILD_NCO=N

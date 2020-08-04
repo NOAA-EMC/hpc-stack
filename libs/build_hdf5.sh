@@ -44,8 +44,8 @@ export FFLAGS="-fPIC -w"
 export CFLAGS="-fPIC -w"
 export CXXFLAGS="-fPIC -w"
 export FCFLAGS="$FFLAGS"
-#SZIP_ROOT=${SZIP_ROOT:-/usr}
-#ZLIB_ROOT=${ZLIB_ROOT:-/usr}
+SZIP_ROOT=${SZIP_ROOT:-/usr}
+ZLIB_ROOT=${ZLIB_ROOT:-/usr}
 
 gitURL="https://bitbucket.hdfgroup.org/scm/hdffv/hdf5.git"
 
@@ -60,7 +60,10 @@ mkdir -p build && cd build
 
 [[ -z $mpi ]] || extra_conf="--enable-parallel --enable-unsupported"
 
-../configure --prefix=$prefix --enable-fortran --enable-cxx --enable-shared --with-szlib=$SZIP_ROOT --with-zlib=$ZLIB_ROOT $extra_conf
+../configure --prefix=$prefix \
+             --enable-fortran --enable-cxx \
+             --disable-shared --enable-static --enable-static-exec \
+             --with-szlib=$SZIP_ROOT --with-zlib=$ZLIB_ROOT $extra_conf
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check

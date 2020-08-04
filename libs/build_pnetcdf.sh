@@ -13,7 +13,7 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    module load hpc-$HPC_MPI 
+    module load hpc-$HPC_MPI
     module list
     set -x
 
@@ -25,7 +25,6 @@ if $MODULES; then
 else
     prefix=${PNETCDF_ROOT:-"/usr/local"}
 fi
-    
 
 export FC=$MPI_FC
 export CC=$MPI_CC
