@@ -53,11 +53,13 @@ echo "Compiler: $compilerName/$compilerVersion"
 echo "MPI: $mpiName/$mpiVersion"
 
 # Source helper functions
-#source "${HPC_BUILDSCRIPTS_DIR}/libs/update_modules.sh"
 source "${HPC_BUILDSCRIPTS_DIR}/stack_helpers.sh"
 
 # this is needed to set environment variables if modules are not used
 $MODULES || no_modules $1
+
+# Parse config/stack_$1.yaml to determine software and version
+eval $(parse_yaml config/stack_$1.yaml "STACK_")
 
 # create build directory if needed
 pkgdir=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
@@ -79,39 +81,34 @@ if $MODULES; then
 fi
 
 # ===============================================================================
-# Minimal HPC Stack
 #----------------------
 # MPI-independent
 # - should add a check at some point to see if they are already there.
 # this can be done in each script individually
 # it might warrant a --force flag to force rebuild when desired
-build_lib CMAKE cmake 3.17.2
-build_lib UDUNITS udunits 2.2.26
-build_lib JPEG jpeg 9.1.0
-build_lib ZLIB zlib 1.2.11
-build_lib PNG png 1.6.35
-build_lib SZIP szip 2.1.1
-build_lib JASPER jasper 2.0.15
-build_lib TKDIFF tkdirr 4.3.5
+build_lib cmake   ${STACK_cmake_version}
+build_lib udunits ${STACK_udunits_version}
+build_lib jpeg    ${STACK_jpeg_version}
+build_lib zlib    ${STACK_zlib_version}
+build_lib png     ${STACK_png_version}
+build_lib szip    ${STACK_szip_version}
+build_lib jasper  ${STACK_jasper_version}
 
 #----------------------
+# MPI-dependent
 # These must be rebuilt for each MPI implementation
-build_lib HDF5 hdf5 1.10.6
-build_lib PNETCDF pnetcdf 1.12.1
-build_lib NETCDF netcdf 4.7.3 4.5.2 4.3.0
-build_lib NCCMP nccmp 1.8.6.5
+build_lib hdf5    ${STACK_hdf5_version}
+build_lib pnetcdf ${STACK_pnetcdf_version}
+build_lib netcdf  ${STACK_netcdf_c_version} ${STACK_netcdf_f_version} ${STACK_netcdf_cxx_version}
+build_lib nccmp   ${STACK_nccmp_version}
+build_lib nco     ${STACK_nco_version}
 
-# ===============================================================================
-# Optional Extensions to the HPC Stack
+build_lib pio  ${STACK_pio_version}
+build_lib esmf ${STACK_esmf_version}
 
-#----------------------
-# These must be rebuilt for each MPI implementation
-build_lib GPTL gptl 8.0.2
-build_lib NCO nco 4.7.9
-build_lib PIO pio 2.5.0
-build_lib FFTW fftw 3.3.8
-build_lib ESMF esmf 8_0_0
-build_lib TAU2 tau2 3.25.1
+build_lib gptl ${STACK_gptl_version}
+build_lib fftw ${STACK_fftw_version}
+build_lib tau2 ${STACK_tau2_version}
 
 # ===============================================================================
 # optionally clean up

@@ -87,7 +87,7 @@ function no_modules {
       *     ) echo "Unknown MPI option = $MPIName, ABORT!"; exit 1 ;;
     esac
 
-    config_file="${HPC_STACK_ROOT}/buildscripts/config/config_${1:-"container"}.sh"
+    config_file="${HPC_STACK_ROOT}/config/config_${1:-"container"}.sh"
 
     set +x
     # look for build items that are set in the config file
@@ -101,36 +101,39 @@ function no_modules {
 }
 
 function build_lib() {
-    # Args: BUILD_SWITCH_VAR, build_script_name, version, [extra build script args]
+    # Args: build_script_name, version, [extra build script args]
     set +x
-    var="STACK_BUILD_$1"
+    var="STACK_${1}_build"
     if [[ ${!var} =~ [yYtT] ]]; then
-        ${HPC_BUILDSCRIPTS_DIR}/libs/build_$2.sh "${@:3}" 2>&1 | tee "$logdir/$2.log"
+        ${HPC_BUILDSCRIPTS_DIR}/libs/build_$1.sh "${@:2}" 2>&1 | tee "$logdir/$1.log"
         ret=${PIPESTATUS[0]}
         if [[ $ret > 0 ]]; then
-            echo "BUILD FAIL!  Lib: $2-$3 Error:$ret"
+            echo "BUILD FAIL!  Lib: $1-$2 Error:$ret"
             [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit $ret
         fi
-        echo "BUILD SUCCESS! Lib: $2-$3"
+        echo "BUILD SUCCESS! Lib: $1-$2"
     fi
     set -x
 }
 
+# https://stackoverflow.com/questions/5014632/how-can-i-parse-a-yaml-file-from-a-linux-shell-script
 function parse_yaml {
-   local prefix=$2
-   local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
-   sed -ne "s|^\($s\):|\1|" \
-        -e "s|^\($s\)\($w\)$s:$s[\"']\(.*\)[\"']$s\$|\1$fs\2$fs\3|p" \
-        -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
-   awk -F$fs '{
-      indent = length($1)/2;
-      vname[indent] = $2;
-      for (i in vname) {if (i > indent) {delete vname[i]}}
-      if (length($3) > 0) {
-         vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
-         printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
-      }
-   }'
+  set +x
+  local prefix=$2
+  local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
+  sed -ne "s|^\($s\):|\1|" \
+       -e "s|^\($s\)\($w\)$s:$s[\"']\(.*\)[\"']$s\$|\1$fs\2$fs\3|p" \
+       -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
+  awk -F$fs '{
+     indent = length($1)/2;
+     vname[indent] = $2;
+     for (i in vname) {if (i > indent) {delete vname[i]}}
+     if (length($3) > 0) {
+        vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
+        printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
+     }
+  }'
+  set -x
 }
 
 export -f update_modules
