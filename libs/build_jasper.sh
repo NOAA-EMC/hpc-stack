@@ -25,7 +25,8 @@ export CFLAGS="-fPIC"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-gitURL="https://github.com/mdadams/jasper"
+#gitURL="https://github.com/mdadams/jasper"
+gitURL="https://github.com/jasper-software/jasper"
 [[ -d $software ]] || ( git clone -b "version-$version" $gitURL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )

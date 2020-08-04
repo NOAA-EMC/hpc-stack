@@ -52,9 +52,10 @@ mpiVersion=$(echo $HPC_MPI | cut -d/ -f2)
 echo "Compiler: $compilerName/$compilerVersion"
 echo "MPI: $mpiName/$mpiVersion"
 
-source "${HPC_BUILDSCRIPTS_DIR}/libs/update_modules.sh"
+# Source helper functions
+#source "${HPC_BUILDSCRIPTS_DIR}/libs/update_modules.sh"
+source "${HPC_BUILDSCRIPTS_DIR}/stack_helpers.sh"
 
-# define update_modules function
 # this is needed to set environment variables if modules are not used
 $MODULES || no_modules $1
 
@@ -90,7 +91,7 @@ build_lib JPEG jpeg 9.1.0
 build_lib ZLIB zlib 1.2.11
 build_lib PNG png 1.6.35
 build_lib SZIP szip 2.1.1
-build_lib JASPER jasper 1.900.1
+build_lib JASPER jasper 2.0.15
 build_lib TKDIFF tkdirr 4.3.5
 
 #----------------------

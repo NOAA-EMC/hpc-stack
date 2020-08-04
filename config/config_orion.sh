@@ -38,5 +38,5 @@ export      STACK_BUILD_NCO=N
 export      STACK_BUILD_PIO=N
 export     STACK_BUILD_GPTL=N
 export   STACK_BUILD_TKDIFF=N
-export     STACK_BUILD_ESMF=Y
+export     STACK_BUILD_ESMF=N
 export     STACK_BUILD_TAU2=N
