@@ -2,13 +2,11 @@
 
 This repository provides a unified, shell script based build system for building commonly used software stack.
 
-Building the software stack is a **Two-Step process**, as described in the following sections.
+Building the software stack is a **Three-Step process**, as described in the following sections.
 
 ## Step 1: Configure Build
 
-The first step is to choose what components of the stack you wish to build and to specify any other aspects of the build that you would like.  This is normally done by editing the file `config/config_custom.sh`.  Here we describe some of the parameter settings available.
-
-For building on an EMC RHEL7 workstation, a configuration file (`config_rhel7emc.sh`) is provided.  This configuration is set up to build using GCC 9.2.0 and OpenMPI 3.1.5.
+The first step is to choose what components of the stack you wish to build and to specify any other aspects of the build that you would like.  This is normally done by editing the files `config/config_custom.sh` and `config/stack_custom.yaml`.  Here we describe some of the parameter settings available.
 
 **COMPILER** This defines the vendor and version of the compiler you wish to use for this build.  The format is the same as what you would typically use in a module load command:
 ```
@@ -36,7 +34,7 @@ _**NOTE: To enable a boolean flag use a single-digit `Y` or `T`.  To disable, us
 
 **MAKE_VERBOSE** Print out extra information to the log files during the build
 
-The remaining items enable or disable builds of each software package.  The following software can optionally be built with the scripts under `libs`.  Unless otherwise noted, the packages are built in Step 4 using the `build_scripts.sh` script.
+`config/stack_custom.yaml` defines which software packages to be built along with their version.  The following software can optionally be built with the scripts under `libs`.  Unless otherwise noted, the packages are built in Step 3 using the `build_stack.sh` script.
 
 * Compilers and MPI libraries
   - GNU
@@ -98,14 +96,14 @@ Here `<configuration>` is the same as in Step 2, namely a reference to the corre
 
 If you want to add a new library to the stack you need to follow these steps:
 1. write a new build script in libs, using exising scripts as a template
-2. define a new control flag and add it to the config files in config
-3. Add a call to the new build script in build\_stack.sh
+2. define a new section in the `yaml` file for that library/package in config directory
+3. Add a call to the new build script in `build\_stack.sh`
 4. Create a new module template at the appropriate place in the modulefiles directory, using exising files as a template
 
 # Configuring for a new HPC
 
 If you want to port this to a new HPC, you need to follow these steps:
-1. Write a new config file in libs, using exising configs as a template
+1. Write a new config file in `config`, using existing configs as a template. Also create a new yaml file, using existing yaml files as a template.
 2. Add/remove basic modules for that HPC
 3. Choose the appropriate Compiler/MPI combination.
 4. If a template modulefile does not exist for that Compiler/MPI combinattion, create module templates at the appropriate place in the modulefiles directory, using existing files as a template.

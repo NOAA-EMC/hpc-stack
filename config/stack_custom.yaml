@@ -1,0 +1,83 @@
+gnu:
+  build: NO
+  version: 9.3.0
+
+openmpi:
+  build: NO
+  version: 4.0.1
+
+cmake:
+  build: NO
+  version: 3.17.2
+
+jpeg:
+  build: NO
+  version: 9.1.0
+
+zlib:
+  build: NO
+  version: 1.2.11
+
+png:
+  build: NO
+  version: 1.6.35
+
+szip:
+  build: NO
+  version: 2.1.1
+
+jasper:
+  build: NO
+  version: 2.0.15
+
+udunits:
+  build: NO
+  version: 2.2.26
+
+hdf5:
+  build: NO
+  version: 1.10.6
+
+pnetcdf:
+  build: NO
+  version: 1.12.1
+
+netcdf_c:
+  build: NO
+  version: 4.7.3
+
+netcdf_f:
+  build: NO
+  version: 4.5.2
+
+netcdf_cxx:
+  build: NO
+  version: 4.3.0
+
+nccmp:
+  build: NO
+  version: 1.8.6.5
+
+nco:
+  build: NO
+  version: 4.7.9
+
+pio:
+  build: NO
+  version: 2.5.0
+
+esmf:
+  build: NO
+  version: 8_0_0
+
+gptl:
+  build: NO
+  version: 8.0.2
+
+fftw:
+  build: NO
+  version: 3.3.8
+
+tau2:
+  build: NO
+  version: 3.25.1
