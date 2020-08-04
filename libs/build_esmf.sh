@@ -11,6 +11,9 @@ software=${name}_$version
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
+COMPILER=$(echo $compiler | cut -d- -f1)
+MPI=$(echo $mpi | cut -d- -f1)
+
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -53,18 +56,18 @@ export FCFLAGS="$FFLAGS"
 if [[ ! -z $mpi ]]; then
 #  mpiexec --version | grep OpenRTE 2> /dev/null && export ESMF_COMM=openmpi
 #  mpiexec --version | grep Intel   2> /dev/null && export ESMF_COMM=intelmpi
-  if [[ $(echo $mpi | cut -d- -f1) = "openmpi" ]]; then
+  if [[ $MPI = "openmpi" ]]; then
     export ESMF_COMM="openmpi"
-  elif [[ $(echo $mpi | cut -d- -f1) = "mpich" ]]; then
+  elif [[ $MPI = "mpich" ]]; then
     export ESMF_COMM="mpich3"
-  elif [[ $(echo $mpi | cut -d- -f1) = "impi" ]]; then
+  elif [[ $MPI = "impi" ]]; then
     export ESMF_COMM="intelmpi"
   fi
 else
   export ESMF_COMM="mpiuni"
 fi
+export ESMF_MPIRUN=mpiexec
 
-COMPILER=$(echo $compiler | cut -d- -f1)
 if [[ $COMPILER = "intel" ]]; then
   export ESMF_COMPILER="intel"
   export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
@@ -78,14 +81,17 @@ export ESMF_CXXLINKER=$CXX
 export ESMF_F90COMPILER=$FC
 export ESMF_F90LINKER=$FC
 export ESMF_NETCDF=nc-config
+export ESMF_NFCONFIG=nf-config
 [[ -z $mpi ]] || export ESMF_PNETCDF=pnetcdf-config
 export ESMF_BOPT=O
-export ESMF_OPTLEVEL=2
+#export ESMF_OPTLEVEL=2
 export ESMF_INSTALL_PREFIX=$prefix
 export ESMF_INSTALL_BINDIR=bin
 export ESMF_INSTALL_LIBDIR=lib
 export ESMF_INSTALL_MODDIR=mod
+export ESMF_INSTALL_HEADERDIR=include
 export ESMF_ABI=64
+export ESMF_SHARED_LIB_BUILD=OFF
 
 gitURL="https://git.code.sf.net/p/esmf/esmf.git"
 
@@ -97,6 +103,7 @@ software="ESMF_$version"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 export ESMF_DIR=$PWD
 
+make info
 make -j${NTHREADS:-4}
 $SUDO make install
 [[ $MAKE_CHECK =~ [yYtT] ]] && make installcheck
