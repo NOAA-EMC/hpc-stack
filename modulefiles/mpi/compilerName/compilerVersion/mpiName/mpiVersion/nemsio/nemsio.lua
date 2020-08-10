@@ -12,6 +12,9 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
+load("bacio", "w3nco")
+prereq("bacio", "w3nco")
+
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)

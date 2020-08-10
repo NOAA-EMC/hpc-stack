@@ -27,7 +27,7 @@ szip:
   version: 2.1.1
 
 jasper:
-  build: YES
+  build: NO
   version: 2.0.15
 
 udunits:
@@ -81,3 +81,98 @@ fftw:
 tau2:
   build: NO
   version: 3.25.1
+
+bacio:
+  build: NO
+  version: v2.4.0
+  install_as: 2.4.0
+
+sigio:
+  build: NO
+  version: v2.3.0
+  install_as: 2.3.0
+
+sfcio:
+  build: NO
+  version: v1.4.0
+  install_as: 1.4.0
+
+gfsio:
+  build: NO
+  version: v1.4.0
+  install_as: 1.4.0
+
+nemsio:
+  build: NO
+  version: v2.5.1
+  install_as: 2.5.1
+
+nemsiogfs:
+  build: NO
+  version: v2.5.0
+  install_as: 2.5.0
+
+w3emc:
+  build: NO
+  version: v2.7.0
+  install_as: 2.7.0
+
+w3nco:
+  build: NO
+  version: v2.4.0
+  install_as: 2.4.0
+
+ip:
+  build: NO
+  version: v3.3.0
+  install_as: 3.3.0
+
+ip2:
+  build: NO
+  version: v1.1.0
+  install_as: 1.1.0
+
+sp:
+  build: NO
+  version: v2.3.0
+  install_as: 2.3.0
+
+landsfcutil:
+  build: NO
+  version: v2.4.0
+  install_as: 2.4.0
+
+g2:
+  build: NO
+  version: v3.4.0
+  install_as: 3.4.0
+
+g2tmpl:
+  build: NO
+  version: v1.9.0
+  install_as: 1.9.0
+
+crtm:
+  build: NO
+  version: v2.3.0
+  install_as: 2.3.0
+
+nceppost:
+  build: NO
+  version: dceca26
+  install_as: dceca26
+
+wrf_io:
+  build: NO
+  version: v1.1.1-cmake
+  install_as: 1.1.1
+
+bufr:
+  build: NO
+  version: bufr_v11.3.1.1
+  install_as: 11.3.1.1
+
+wgrib2:
+  build: NO
+  version: v2.0.8-cmake-v1.0.2
+  install_as: 2.0.8
