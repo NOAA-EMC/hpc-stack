@@ -111,25 +111,25 @@ build_lib fftw ${STACK_fftw_version}
 build_lib tau2 ${STACK_tau2_version}
 
 # NCEPlibs
-#build_nceplib bacio ${STACK_bacio_version} ${STACK_bacio_install_as}
-#build_nceplib sigio ${STACK_sigio_version} ${STACK_sigio_install_as}
-#build_nceplib sfcio ${STACK_sfcio_version} ${STACK_sfcio_install_as}
-#build_nceplib gfsio ${STACK_gfsio_version} ${STACK_gfsio_install_as}
-#build_nceplib w3nco ${STACK_w3nco_version} ${STACK_w3nco_install_as}
-#build_nceplib landsfcutil ${STACK_landsfcutil_version} ${STACK_landsfcutil_install_as}
-#build_nceplib ip ${STACK_ip_version} ${STACK_ip_install_as}
-#build_nceplib sp ${STACK_sp_version} ${STACK_sp_install_as}
-#build_nceplib ip2 ${STACK_ip2_version} ${STACK_ip2_install_as}
-#build_nceplib g2 ${STACK_g2_version} ${STACK_g2_install_as}
-#build_nceplib g2tmpl ${STACK_g2tmpl_version} ${STACK_g2tmpl_install_as}
-#build_nceplib crtm ${STACK_crtm_version} ${STACK_crtm_install_as}
-#build_nceplib nemsio ${STACK_nemsio_version} ${STACK_nemsio_install_as}
-#build_nceplib nemsiogfs ${STACK_nemsiogfs_version} ${STACK_nemsiogfs_install_as}
-#build_nceplib w3emc ${STACK_w3emc_version} ${STACK_w3emc_install_as}
+build_nceplib bacio ${STACK_bacio_version} ${STACK_bacio_install_as}
+build_nceplib sigio ${STACK_sigio_version} ${STACK_sigio_install_as}
+build_nceplib sfcio ${STACK_sfcio_version} ${STACK_sfcio_install_as}
+build_nceplib gfsio ${STACK_gfsio_version} ${STACK_gfsio_install_as}
+build_nceplib w3nco ${STACK_w3nco_version} ${STACK_w3nco_install_as}
+build_nceplib landsfcutil ${STACK_landsfcutil_version} ${STACK_landsfcutil_install_as}
+build_nceplib ip ${STACK_ip_version} ${STACK_ip_install_as}
+build_nceplib sp ${STACK_sp_version} ${STACK_sp_install_as}
+build_nceplib ip2 ${STACK_ip2_version} ${STACK_ip2_install_as}
+build_nceplib g2 ${STACK_g2_version} ${STACK_g2_install_as}
+build_nceplib g2tmpl ${STACK_g2tmpl_version} ${STACK_g2tmpl_install_as}
+build_nceplib crtm ${STACK_crtm_version} ${STACK_crtm_install_as}
+build_nceplib nemsio ${STACK_nemsio_version} ${STACK_nemsio_install_as}
+build_nceplib nemsiogfs ${STACK_nemsiogfs_version} ${STACK_nemsiogfs_install_as}
+build_nceplib w3emc ${STACK_w3emc_version} ${STACK_w3emc_install_as}
 build_nceplib nceppost ${STACK_nceppost_version} ${STACK_nceppost_install_as}
-#build_nceplib wrf_io ${STACK_wrf_io_version} ${STACK_wrf_io_install_as}
-#build_nceplib bufr ${STACK_bufr_version} ${STACK_bufr_install_as}
-#build_nceplib wgrib2 ${STACK_wgrib2_version} ${STACK_wgrib2_install_as}
+build_nceplib wrf_io ${STACK_wrf_io_version} ${STACK_wrf_io_install_as}
+build_nceplib bufr ${STACK_bufr_version} ${STACK_bufr_install_as}
+build_nceplib wgrib2 ${STACK_wgrib2_version} ${STACK_wgrib2_install_as}
 
 # ===============================================================================
 # optionally clean up

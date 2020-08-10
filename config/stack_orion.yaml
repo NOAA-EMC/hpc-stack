@@ -31,31 +31,31 @@ jasper:
   version: 2.0.15
 
 udunits:
-  build: NO
+  build: YES
   version: 2.2.26
 
 hdf5:
-  build: NO
+  build: YES
   version: 1.10.6
 
 pnetcdf:
-  build: NO
+  build: YES
   version: 1.12.1
 
 netcdf_c:
-  build: NO
+  build: YES
   version: 4.7.3
 
 netcdf_f:
-  build: NO
+  build: YES
   version: 4.5.2
 
 netcdf_cxx:
-  build: NO
+  build: YES
   version: 4.3.0
 
 nccmp:
-  build: NO
+  build: YES
   version: 1.8.6.5
 
 nco:
@@ -63,11 +63,11 @@ nco:
   version: 4.7.9
 
 pio:
-  build: NO
-  version: 2.5.0
+  build: YES
+  version: 2.5.1
 
 esmf:
-  build: NO
+  build: YES
   version: 8_0_0
 
 gptl:
