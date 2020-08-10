@@ -83,96 +83,96 @@ tau2:
   version: 3.25.1
 
 bacio:
-  build: NO
+  build: YES
   version: v2.4.0
   install_as: 2.4.0
 
 sigio:
-  build: NO
+  build: YES
   version: v2.3.0
   install_as: 2.3.0
 
 sfcio:
-  build: NO
+  build: YES
   version: v1.4.0
   install_as: 1.4.0
 
 gfsio:
-  build: NO
+  build: YES
   version: v1.4.0
   install_as: 1.4.0
 
 nemsio:
-  build: NO
+  build: YES
   version: v2.5.1
   install_as: 2.5.1
 
 nemsiogfs:
-  build: NO
+  build: YES
   version: v2.5.0
   install_as: 2.5.0
 
 w3emc:
-  build: NO
+  build: YES
   version: v2.7.0
   install_as: 2.7.0
 
 w3nco:
-  build: NO
+  build: YES
   version: v2.4.0
   install_as: 2.4.0
 
 ip:
-  build: NO
+  build: YES
   version: v3.3.0
   install_as: 3.3.0
 
 ip2:
-  build: NO
+  build: YES
   version: v1.1.0
   install_as: 1.1.0
 
 sp:
-  build: NO
+  build: YES
   version: v2.3.0
   install_as: 2.3.0
 
 landsfcutil:
-  build: NO
+  build: YES
   version: v2.4.0
   install_as: 2.4.0
 
 g2:
-  build: NO
+  build: YES
   version: v3.4.0
   install_as: 3.4.0
 
 g2tmpl:
-  build: NO
+  build: YES
   version: v1.9.0
   install_as: 1.9.0
 
 crtm:
-  build: NO
+  build: YES
   version: v2.3.0
   install_as: 2.3.0
 
 nceppost:
-  build: NO
+  build: YES
   version: dceca26
   install_as: dceca26
 
 wrf_io:
-  build: NO
+  build: YES
   version: v1.1.1-cmake
   install_as: 1.1.1
 
 bufr:
-  build: NO
+  build: YES
   version: bufr_v11.3.1.1
   install_as: 11.3.1.1
 
 wgrib2:
-  build: NO
+  build: YES
   version: v2.0.8-cmake-v1.0.2
   install_as: 2.0.8

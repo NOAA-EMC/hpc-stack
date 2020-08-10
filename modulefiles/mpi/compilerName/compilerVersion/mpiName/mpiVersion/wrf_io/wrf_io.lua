@@ -3,6 +3,7 @@ help([[
 
 local pkgName = myModuleName()
 local pkgVersion = myModuleVersion()
+local pkgNameVer = myModuleFullName()
 
 local hierA        = hierarchyA(pkgNameVer,2)
 local mpiNameVer   = hierA[1]

@@ -55,6 +55,7 @@ if $MODULES; then
       mpi=$mpi_check
       [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
       module load hpc-$HPC_MPI
+      module load netcdf
       module load sigio
       module load nemsio
       ;;
@@ -64,18 +65,21 @@ if $MODULES; then
       module load hpc-$HPC_MPI
       module try-load png
       module try-load jasper
+      module load netcdf
       module load bacio
-      module load sigio
-      module load sfcio
-      module load gfsio
       module load w3nco
-      module load nemsio
       module load g2
       module load g2tmpl
       module load ip
       module load sp
       module load w3emc
       module load crtm
+      # post executable requires the following,
+      # but we are not building post executable
+      # module load sigio
+      # module load sfcio
+      # module load gfsio
+      # module load nemsio
       ;;
   esac
   module list
@@ -111,11 +115,10 @@ export FCFLAGS="$FFLAGS"
 case $name in
   nceppost)
     gitURL="https://github.com/noaa-emc/emc_post"
-    extraCMakeFlags=""
+    extraCMakeFlags="-DBUILD_POSTEXEC=OFF"
     ;;
   crtm)
     gitURL="https://github.com/noaa-emc/emc_crtm"
-    extraCMakeFlags=""
     ;;
   *)
     gitURL="https://github.com/noaa-emc/nceplibs-$name"
@@ -126,7 +129,14 @@ esac
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-[[ -d $software ]] || ( git clone -b $version $gitURL $software )
+#[[ -d $software ]] || ( git clone --recursive -b $version $gitURL $software )
+if [[ ! -d $software ]]; then
+  git clone $gitURL $software
+  cd $software
+  git checkout $version
+  git submodule update --init --recursive
+  cd ..
+fi
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build

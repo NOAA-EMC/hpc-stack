@@ -3,10 +3,14 @@ help([[
 
 local pkgName = myModuleName()
 local pkgVersion = myModuleVersion()
+local pkgNameVer = myModuleFullName()
 
 local hierA        = hierarchyA(pkgNameVer,1)
 local compNameVer  = hierA[1]
 local compNameVerD = compNameVer:gsub("/","-")
+
+load("sp")
+prereq("sp")
 
 conflict(pkgName)
 
