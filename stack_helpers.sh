@@ -116,6 +116,22 @@ function build_lib() {
     set -x
 }
 
+function build_nceplib() {
+    # Args: lib name, version, [extra build script args]
+    set +x
+    var="STACK_${1}_build"
+    if [[ ${!var} =~ [yYtT] ]]; then
+        ${HPC_BUILDSCRIPTS_DIR}/libs/build_nceplibs.sh "${@:1}" 2>&1 | tee "$logdir/$1.log"
+        ret=${PIPESTATUS[0]}
+        if [[ $ret > 0 ]]; then
+            echo "BUILD FAIL!  NCEPlib: $1-$2 Error:$ret"
+            [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit $ret
+        fi
+        echo "BUILD SUCCESS! NCEPlib: $1-$2"
+    fi
+    set -x
+}
+
 # https://stackoverflow.com/questions/5014632/how-can-i-parse-a-yaml-file-from-a-linux-shell-script
 function parse_yaml {
   set +x

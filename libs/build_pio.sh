@@ -13,10 +13,12 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    module load hpc-$HPC_MPI 
+    module load hpc-$HPC_MPI
     module try-load cmake
-    module load netcdf
+    module load szip
+    module load hdf5
     module load pnetcdf
+    module load netcdf
     module list
     set -x
 
@@ -41,17 +43,30 @@ export FCFLAGS="$FFLAGS"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software=ParallelIO
-branch=pio$(echo $version | sed -e 's/\./_/g')
-[[ -d $software ]] || git clone https://github.com/NCAR/$software
-[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+software=$name-$version
+branch=pio_$(echo $version | sed -e 's/\./_/g')
+[[ -d $software ]] || git clone https://github.com/NCAR/ParallelIO $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 git fetch
 git checkout $branch
+[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
-export CMAKE_INCLUDE_PATH=$MPI_Fortran_INCLUDE_PATH #Find MPI is broken in PIO GPTL MPIMOD_PATH must be found at this prefix
-cmake -DNetCDF_C_PATH=$NETCDF -DNetCDF_Fortran_PATH=$NETCDF -DPnetCDF_PATH=$PNETCDF -DHDF5_PATH=$HDF5_ROOT -DCMAKE_INSTALL_PREFIX=$prefix -DPIO_USE_MALLOC=ON -DCMAKE_VERBOSE_MAKEFILE=1 -DPIO_ENABLE_TIMING=OFF ..
+
+# These flags (e.g.) set the following that were used for HDF5 library:
+#LDFLAGS2='-L$ZLIB_ROOT/lib -L$SZIP_ROOT/lib'
+#LDFLAGS3=' -lsz -lz -ldl -lm '
+LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+export LDFLAGS="$LDFLAGS2 $LDFLAGS3"
+
+cmake ..\
+  -DCMAKE_INSTALL_PREFIX=$prefix \
+  -DNetCDF_PATH=$NETCDF \
+  -DPnetCDF_PATH=$PNETCDF \
+  -DHDF5_PATH=$HDF5_ROOT \
+  -DCMAKE_VERBOSE_MAKEFILE=1
+
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 VERBOSE=$MAKE_VERBOSE $SUDO make install
