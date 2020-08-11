@@ -21,6 +21,10 @@ if $MODULES; then
     module load netcdf
     module list
     set -x
+    enable_pnetcdf=$(nc-config --has-pnetcdf)
+    set +x
+      [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
+    set -x
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
     if [[ -d $prefix ]]; then
@@ -29,6 +33,7 @@ if $MODULES; then
     fi
 else
     prefix=${NCCMP_ROOT:-"/usr/local"}
+    enable_pnetcdf=$(nc-config --has-pnetcdf)
 fi
 
 if [[ ! -z $mpi ]]; then
@@ -45,7 +50,9 @@ export CFLAGS="-fPIC"
 LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
 LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
 LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
-[[ -z $mpi ]] || LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+if [[ ! -z $mpi ]]; then
+  [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+fi
 LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
 export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4 $LDFLAGS5"
 

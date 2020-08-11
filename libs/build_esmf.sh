@@ -14,6 +14,8 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 COMPILER=$(echo $compiler | cut -d- -f1)
 MPI=$(echo $mpi | cut -d- -f1)
 
+[[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
+
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -22,7 +24,9 @@ if $MODULES; then
   module try-load szip
   [[ -z $mpi ]] || module load hpc-$HPC_MPI
   module load hdf5
-  [[ -z $mpi ]] || module load pnetcdf
+  if [[ ! -z $mpi ]]; then
+    [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
+  fi
   module load netcdf
   module try-load udunits
   module list
@@ -59,6 +63,8 @@ gitURL="https://github.com/esmf-org/esmf"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software="ESMF_$version"
+# ESMF does not support out of source builds; clean out the clone
+[[ -d $software ]] && ( echo "$software exists, cleaning ..."; rm -rf $software )
 [[ -d $software ]] || ( git clone -b $software $gitURL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
@@ -102,7 +108,7 @@ export ESMF_NETCDF_INCLUDE=$NETCDF_ROOT/include
 export ESMF_NETCDF_LIBPATH=$NETCDF_ROOT/lib
 export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs"
 export ESMF_NFCONFIG=nf-config
-[[ -z $mpi ]] || export ESMF_PNETCDF=pnetcdf-config
+[[ $enable_pnetcdf =~ [yYtT] ]] && export ESMF_PNETCDF=pnetcdf-config
 export ESMF_BOPT=O
 #export ESMF_OPTLEVEL=2
 export ESMF_ABI=64

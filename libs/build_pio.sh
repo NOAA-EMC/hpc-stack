@@ -9,6 +9,8 @@ version=${1:-${STACK_pio_version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
+[[ ${STACK_pio_enable_pnetcdf} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
+
 if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
@@ -17,7 +19,7 @@ if $MODULES; then
     module try-load cmake
     module load szip
     module load hdf5
-    module load pnetcdf
+    [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
     module load netcdf
     module list
     set -x
@@ -60,12 +62,15 @@ LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
 LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
 export LDFLAGS="$LDFLAGS2 $LDFLAGS3"
 
+[[ $enable_pnetcdf =~ [yYtT] ]] && CMAKE_FLAGS+=" -DWITH_PNETCDF=ON -DPnetCDF_PATH=$PNETCDF" \
+                                || CMAKE_FLAGS+=" -DWITH_PNETCDF=OFF"
+
 cmake ..\
   -DCMAKE_INSTALL_PREFIX=$prefix \
   -DNetCDF_PATH=$NETCDF \
-  -DPnetCDF_PATH=$PNETCDF \
   -DHDF5_PATH=$HDF5_ROOT \
-  -DCMAKE_VERBOSE_MAKEFILE=1
+  -DCMAKE_VERBOSE_MAKEFILE=1 \
+  $CMAKE_FLAGS
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check

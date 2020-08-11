@@ -15,7 +15,7 @@ png:
   version: 1.6.35
 
 szip:
-  build: NO
+  build: YES
   version: 2.1.1
 
 jasper:
@@ -40,17 +40,15 @@ netcdf:
   build: YES
   version: 4.7.4
   shared: YES
-  enable_pnetcdf: YES
+  enable_pnetcdf: NO
 
 netcdf_f:
   build: YES
   version: 4.5.3
-  shared: YES
 
 netcdf_cxx:
   build: YES
   version: 4.3.1
-  shared: YES
 
 nccmp:
   build: YES
@@ -63,11 +61,13 @@ nco:
 pio:
   build: YES
   version: 2.5.1
+  enable_pnetcdf: NO
 
 esmf:
   build: YES
   version: 8_0_0
   shared: YES
+  enable_pnetcdf: NO
 
 gptl:
   build: NO

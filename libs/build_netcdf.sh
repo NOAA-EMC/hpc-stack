@@ -11,6 +11,8 @@ cxx_version=${3:-${STACK_netcdf_cxx_version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
+[[ ${STACK_netcdf_enable_pnetcdf} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
+
 if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
@@ -18,7 +20,9 @@ if $MODULES; then
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
     module try-load szip
     module load hdf5
-    [[ -z $mpi ]] || module load pnetcdf
+    if [[ ! -z $mpi ]]; then
+      [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
+    fi
     module list
     set -x
 
@@ -54,15 +58,13 @@ gitURLroot="https://github.com/Unidata"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 curr_dir=$(pwd)
 
-if [[ ${STACK_netcdf_shared} =~ [yYtT] ]]; then
-  LDFLAGS1="-L$HDF5_ROOT/lib"
-  LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-  [[ -z $mpi ]] || LDFLAGS4="-L$PNETCDF_ROOT/lib"
-else
-  LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
-  LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+LDFLAGS1="-L$HDF5_ROOT/lib"
+LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+[[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib"
+if [[ ${STACK_netcdf_shared} != [yYtT] ]]; then
+  LDFLAGS1+=" -lhdf5_hl -lhdf5"
   LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
-  [[ -z $mpi ]] || LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+  [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4+=" -lpnetcdf"
 fi
 export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4"
 
@@ -105,15 +107,15 @@ software=$name-"c"-$version
 mkdir -p build && cd build
 
 [[ ${STACK_netcdf_shared} =~ [yYtT] ]] || shared_flags="--disable-shared"
-[[ ${STACK_netcdf_enable_pnetcdf} =~ [yYtT] ]] && pnetcdf="--enable-pnetcdf"
+[[ $enable_pnetcdf =~ [yYtT] ]] && pnetcdf_conf="--enable-pnetcdf"
+[[ -z $mpi ]] || extra_conf="--enable-parallel-tests"
 
-[[ -z $mpi ]] || extra_conf="$pnetcdf --enable-parallel-tests"
 ../configure --prefix=$prefix \
              --enable-cdf5 \
              --disable-dap \
              --enable-netcdf-4 \
              --disable-doxygen \
-             $shared_flags $extra_conf
+             $shared_flags $pnetcdf_conf $extra_conf
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
