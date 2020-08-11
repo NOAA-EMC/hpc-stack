@@ -2,10 +2,13 @@
 
 set -ex
 
-name=$1       #  first column of COMPONENTS
-version=$2    # second column of COMPONENTS
-install_as=$3 #  third column of COMPONENTS
-OPENMP=${4:-"OFF"}
+name=$1
+eval s_version="\${STACK_${name}_version}"
+eval s_install_as="\${STACK_${name}_install_as}"
+eval s_openmp="\${STACK_${name}_openmp}"
+version=${2:-$s_version}    # second column of COMPONENTS
+install_as=${3:-${s_install_as}} #  third column of COMPONENTS
+openmp=${4:-${s_openmp:-"OFF"}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -27,6 +30,7 @@ if $MODULES; then
       mpi=$mpi_check
       [[ -z $mpi ]] || module load hpc-$HPC_MPI
       module try-load jasper
+      module try-load zlib
       module try-load png
       module load netcdf
       module load ip2
@@ -146,7 +150,7 @@ cmake .. \
   -DCMAKE_INSTALL_PREFIX=$prefix \
   -DENABLE_TESTS=OFF \
   $extraCMakeFlags \
-  -DOPENMP=${OPENMP}
+  -DOPENMP=${openmp}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check

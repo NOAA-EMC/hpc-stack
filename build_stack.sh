@@ -19,7 +19,7 @@ supported_options=("custom")
 HPC_BUILDSCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export HPC_STACK_ROOT=${HPC_BUILDSCRIPTS_DIR}
 
-# ===============================================================================
+# ==============================================================================
 # First source the config file
 
 if [[ $# -ne 1 ]]; then
@@ -72,69 +72,75 @@ mkdir -p $logdir
 # install with root permissions?
 [[ $USE_SUDO =~ [yYtT] ]] && export SUDO="sudo" || unset SUDO
 
-# ===============================================================================
+# ==============================================================================
 
 # start with a clean slate
 if $MODULES; then
-  module use $HPC_OPT/modulefiles/core
-  module load hpc-stack
+  module use $HPC_OPT/modulefiles/stack
+  module load hpc
 fi
 
-# ===============================================================================
+# ==============================================================================
+#----------------------
+# Compiler and MPI
+build_lib gnu
+build_lib mpi
+
+# ==============================================================================
 #----------------------
 # MPI-independent
 # - should add a check at some point to see if they are already there.
 # this can be done in each script individually
 # it might warrant a --force flag to force rebuild when desired
-build_lib cmake   ${STACK_cmake_version}
-build_lib udunits ${STACK_udunits_version}
-build_lib jpeg    ${STACK_jpeg_version}
-build_lib zlib    ${STACK_zlib_version}
-build_lib png     ${STACK_png_version}
-build_lib szip    ${STACK_szip_version}
-build_lib jasper  ${STACK_jasper_version}
+build_lib cmake
+build_lib udunits
+build_lib jpeg
+build_lib zlib
+build_lib png
+build_lib szip
+build_lib jasper
 
 #----------------------
 # MPI-dependent
 # These must be rebuilt for each MPI implementation
-build_lib hdf5    ${STACK_hdf5_version}
-build_lib pnetcdf ${STACK_pnetcdf_version}
-build_lib netcdf  ${STACK_netcdf_c_version} ${STACK_netcdf_f_version} ${STACK_netcdf_cxx_version}
-build_lib nccmp   ${STACK_nccmp_version}
-build_lib nco     ${STACK_nco_version}
+build_lib hdf5
+build_lib pnetcdf
+build_lib netcdf
+build_lib nccmp
+build_lib nco
 
-build_lib pio  ${STACK_pio_version}
-build_lib esmf ${STACK_esmf_version}
+build_lib pio
+build_lib esmf
 
-build_lib gptl ${STACK_gptl_version}
-build_lib fftw ${STACK_fftw_version}
-build_lib tau2 ${STACK_tau2_version}
+build_lib gptl
+build_lib fftw
+build_lib tau2
 
 # NCEPlibs
-build_nceplib bacio ${STACK_bacio_version} ${STACK_bacio_install_as}
-build_nceplib sigio ${STACK_sigio_version} ${STACK_sigio_install_as}
-build_nceplib sfcio ${STACK_sfcio_version} ${STACK_sfcio_install_as}
-build_nceplib gfsio ${STACK_gfsio_version} ${STACK_gfsio_install_as}
-build_nceplib w3nco ${STACK_w3nco_version} ${STACK_w3nco_install_as}
-build_nceplib sp    ${STACK_sp_version}    ${STACK_sp_install_as}
-build_nceplib ip    ${STACK_ip_version}    ${STACK_ip_install_as}
-build_nceplib ip2   ${STACK_ip2_version}   ${STACK_ip2_install_as}
-build_nceplib landsfcutil ${STACK_landsfcutil_version} ${STACK_landsfcutil_install_as}
-build_nceplib nemsio    ${STACK_nemsio_version}    ${STACK_nemsio_install_as}
-build_nceplib nemsiogfs ${STACK_nemsiogfs_version} ${STACK_nemsiogfs_install_as}
-build_nceplib w3emc     ${STACK_w3emc_version}     ${STACK_w3emc_install_as}
-build_nceplib g2        ${STACK_g2_version}        ${STACK_g2_install_as}
-build_nceplib g2tmpl    ${STACK_g2tmpl_version}    ${STACK_g2tmpl_install_as}
-build_nceplib crtm      ${STACK_crtm_version}      ${STACK_crtm_install_as}
-build_nceplib nceppost  ${STACK_nceppost_version}  ${STACK_nceppost_install_as}
-build_nceplib wrf_io    ${STACK_wrf_io_version}    ${STACK_wrf_io_install_as}
-build_nceplib bufr      ${STACK_bufr_version}      ${STACK_bufr_install_as}
-build_nceplib wgrib2    ${STACK_wgrib2_version}    ${STACK_wgrib2_install_as}
+build_nceplib bacio
+build_nceplib sigio
+build_nceplib sfcio
+build_nceplib gfsio
+build_nceplib w3nco
+build_nceplib sp
+build_nceplib ip
+build_nceplib ip2
+build_nceplib landsfcutil
+build_nceplib nemsio
+build_nceplib nemsiogfs
+build_nceplib w3emc
+build_nceplib g2
+build_nceplib g2tmpl
+build_nceplib crtm
+build_nceplib nceppost
+build_nceplib wrf_io
+build_nceplib bufr
+build_nceplib wgrib2
 
-# ===============================================================================
+# ==============================================================================
 # optionally clean up
 [[ $MAKE_CLEAN =~ [yYtT] ]] && \
     ( $SUDO rm -rf $pkgdir; $SUDO rm -rf $logdir )
 
-# ===============================================================================
+# ==============================================================================
 echo "build_stack.sh $1: success!"

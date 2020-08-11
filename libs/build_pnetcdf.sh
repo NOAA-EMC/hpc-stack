@@ -3,7 +3,7 @@
 set -ex
 
 name="pnetcdf"
-version=$1
+version=${1:-${STACK_pnetcdf_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -30,6 +30,7 @@ export FC=$MPI_FC
 export CC=$MPI_CC
 export CXX=$MPI_CXX
 
+export F77=$FC
 export F9X=$FC
 export FFLAGS="-fPIC -w"
 export CFLAGS="-fPIC"
@@ -46,7 +47,9 @@ url="https://parallel-netcdf.github.io/Release/$software.tar.gz"
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-../configure --prefix=$prefix
+[[ ${STACK_pnetcdf_shared} =~ [yYtT] ]] && shared_flags="--enable-shared"
+
+../configure --prefix=$prefix $shared_flags
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check

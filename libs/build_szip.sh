@@ -3,7 +3,7 @@
 set -ex
 
 name="szip"
-version=$1
+version=${1:-${STACK_szip_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -46,7 +46,7 @@ mkdir -p build && cd build
 
 ../configure --prefix=$prefix
 
-make -j${NTHREADS:-4} 
+make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
 

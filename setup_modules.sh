@@ -74,15 +74,15 @@ $SUDO cp $HPC_STACK_ROOT/modulefiles/compiler/compilerName/compilerVersion/hpc-$
 #===============================================================================
 
 # Deploy directory for stack modulefile
-$SUDO mkdir -p $HPC_OPT/modulefiles/core/hpc-stack
-$SUDO cp $HPC_STACK_ROOT/modulefiles/core/hpc-stack/hpc-stack.lua \
-         $HPC_OPT/modulefiles/core/hpc-stack/1.0.0.lua
+$SUDO mkdir -p $HPC_OPT/modulefiles/stack/hpc
+$SUDO cp $HPC_STACK_ROOT/modulefiles/stack/hpc/hpc.lua \
+         $HPC_OPT/modulefiles/stack/hpc/1.0.0.lua
 
 # Replace #HPC_OPT# from template with $HPC_OPT,
 # sed does not like delimiter (/) to be a part of replacement string, do magic!
-cd $HPC_OPT/modulefiles/core/hpc-stack
+cd $HPC_OPT/modulefiles/stack/hpc
 repl=$(echo ${HPC_OPT} | sed -e "s#/#\\\/#g")
-$SUDO sed -i -e "s/#HPC_OPT#/${repl}/g" $HPC_OPT/modulefiles/core/hpc-stack/1.0.0.lua
+$SUDO sed -i -e "s/#HPC_OPT#/${repl}/g" $HPC_OPT/modulefiles/stack/hpc/1.0.0.lua
 
 #===============================================================================
 

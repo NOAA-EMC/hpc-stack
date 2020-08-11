@@ -4,7 +4,7 @@
 # CGAL Library used by Atlas
 # https://www.cgal.org
 #
-# WARNING: 
+# WARNING:
 #   Dependencies include the gnu gmp and mpfr libraries
 #   Also, if you are using gnu compilers prior to 9.0, then
 #   you also need to install the boost.thread libraries.
@@ -21,7 +21,7 @@
 set -ex
 
 name="cgal"
-version=$1
+version=${1:-${STACK_cgal_version}}
 
 [[ $USE_SUDO =~ [yYtT] ]] && export SUDO="sudo" || unset SUDO
 
@@ -37,13 +37,13 @@ if $MODULES; then
 
     prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"
     if [[ -d $prefix ]]; then
-	[[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-            || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
+                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
     fi
 
 else
     prefix=${CGAL_ROOT:-"/usr/local"}
-fi    
+fi
 
 cd $HPC_STACK_ROOT/${PKGDIR:-"pkg"}
 
@@ -58,6 +58,6 @@ $SUDO make install
 
 # generate modulefile from template
 $MODULES && update_modules core $name $version \
-	 || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+   || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
 exit 0

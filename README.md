@@ -34,32 +34,58 @@ _**NOTE: To enable a boolean flag use a single-digit `Y` or `T`.  To disable, us
 
 **MAKE_VERBOSE** Print out extra information to the log files during the build
 
-`config/stack_custom.yaml` defines which software packages to be built along with their version.  The following software can optionally be built with the scripts under `libs`.  Unless otherwise noted, the packages are built in Step 3 using the `build_stack.sh` script.
+`config/stack_custom.yaml` defines which software packages to be built along with their version.  Other package specific options can be specified.
+
+The following software can optionally be built with the scripts under `libs`. These packages are built in Step 3 using the `build_stack.sh` script.
 
 * Compilers and MPI libraries
-  - GNU
+  - GNU/GCC
+  - Intel/IPS
   - OpenMPI
   - MPICH
   - `hpc-` Meta-modules for all the above as well as Intel and IMPI
 
-* Minimal HPC Stack
-  - SZip (Step 3)
-  - Zlib
-  - HDF5
-  - NetCDF
-  - PNetCDF
+* HPC Stack
+  - CMake
   - Udunits
-  - ncccmp
-  - nco
-
-* Supplementary Libraries
   - PNG
   - JPEG
   - Jasper
+  - SZip
+  - Zlib
+  - HDF5
+  - PNetCDF
+  - NetCDF
+  - ParallelIO
+  - ncccmp
+  - nco
+  - FFTW
+  - GPTL
+  - Tau2
   - FFTW
   - ESMF
 
-**IMPORTANT: Steps 1, 2, and 3 need to be repeated for each compiler/mpi combination that you wish to install.**  The new packages will be installed alongside any previously-exising packages that may already exist and that are built from other compiler/mpi combinations.
+* NCEP Libraries
+  - NCEPLIBS-bacio
+  - NCEPLIBS-sigio
+  - NCEPLIBS-sfcio
+  - NCEPLIBS-gfsio
+  - NCEPLIBS-w3nco
+  - NCEPLIBS-sp
+  - NCEPLIBS-ip
+  - NCEPLIBS-ip2
+  - NCEPLIBS-g2
+  - NCEPLIBS-g2tmpl
+  - NCEPLIBS-nemsio
+  - NCEPLIBS-nemsiogfs
+  - NCEPLIBS-w3emc
+  - NCEPLIBS-landsfcutil
+  - NCEPLIBS-bufr
+  - NCEPLIBS-wgrib2
+  - EMC_crtm
+  - EMC_post
+
+**IMPORTANT: Steps 1, 2, and 3 need to be repeated for each compiler/mpi combination that you wish to install.**  The new packages will be installed alongside any previously-existing packages that may already have been built from other compiler/mpi combinations.
 
 ## Step 2: Set Up Compiler, MPI, and Module System
 
@@ -107,3 +133,14 @@ If you want to port this to a new HPC, you need to follow these steps:
 2. Add/remove basic modules for that HPC
 3. Choose the appropriate Compiler/MPI combination.
 4. If a template modulefile does not exist for that Compiler/MPI combinattion, create module templates at the appropriate place in the modulefiles directory, using existing files as a template.
+
+# Using the HPC-stack
+To use the HPC-stack, you need to activate the stack.  This is done by loading the `hpc` module  under `$HPC_OPT/modulefiles/stack` as follows:
+```
+module use $HPC_OPT/modulefiles/stack
+module load hpc
+```
+This will put the `hpc-compiler` module in your `MODULEPATH`, which can be loaded as:
+```
+module load hpc-compiler
+```

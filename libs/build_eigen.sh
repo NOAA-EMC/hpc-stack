@@ -3,7 +3,7 @@
 set -ex
 
 name="eigen"
-version=$1
+version=${1:-${STACK_eigen_version}}
 
 [[ $USE_SUDO =~ [yYtT] ]] && export SUDO="sudo" || unset SUDO
 

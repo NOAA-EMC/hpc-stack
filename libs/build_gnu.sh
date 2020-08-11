@@ -3,7 +3,7 @@
 set -ex
 
 name="gnu"
-version=$1
+version=${1:-${STACK_gnu_version}}
 
 software="gcc-$version"
 

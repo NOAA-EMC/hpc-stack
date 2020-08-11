@@ -6,7 +6,7 @@
 set -ex
 
 name="tkdiff"
-version=$1
+version=${1:-${STACK_tkdiff_version}}
 
 if $MODULES; then
     prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"

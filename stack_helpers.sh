@@ -101,37 +101,38 @@ function no_modules {
 }
 
 function build_lib() {
-    # Args: build_script_name, version, [extra build script args]
+    # Args: build_script_name
     set +x
     var="STACK_${1}_build"
     if [[ ${!var} =~ [yYtT] ]]; then
-        ${HPC_BUILDSCRIPTS_DIR}/libs/build_$1.sh "${@:2}" 2>&1 | tee "$logdir/$1.log"
+        ${HPC_BUILDSCRIPTS_DIR}/libs/build_$1.sh 2>&1 | tee "$logdir/$1.log"
         ret=${PIPESTATUS[0]}
         if [[ $ret > 0 ]]; then
-            echo "BUILD FAIL!  Lib: $1-$2 Error:$ret"
+            echo "BUILD FAIL!  Lib: $1 Error:$ret"
             [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit $ret
         fi
-        echo "BUILD SUCCESS! Lib: $1-$2"
+        echo "BUILD SUCCESS! Lib: $1"
     fi
     set -x
 }
 
 function build_nceplib() {
-    # Args: lib name, version, [extra build script args]
+    # Args: lib name
     set +x
     var="STACK_${1}_build"
     if [[ ${!var} =~ [yYtT] ]]; then
-        ${HPC_BUILDSCRIPTS_DIR}/libs/build_nceplibs.sh "${@:1}" 2>&1 | tee "$logdir/$1.log"
+        ${HPC_BUILDSCRIPTS_DIR}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$logdir/$1.log"
         ret=${PIPESTATUS[0]}
         if [[ $ret > 0 ]]; then
-            echo "BUILD FAIL!  NCEPlib: $1-$2 Error:$ret"
+            echo "BUILD FAIL!  NCEPlib: $1 Error:$ret"
             [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit $ret
         fi
-        echo "BUILD SUCCESS! NCEPlib: $1-$2"
+        echo "BUILD SUCCESS! NCEPlib: $1"
     fi
     set -x
 }
 
+# Inspiration from:
 # https://stackoverflow.com/questions/5014632/how-can-i-parse-a-yaml-file-from-a-linux-shell-script
 function parse_yaml {
   set +x
@@ -146,7 +147,7 @@ function parse_yaml {
      for (i in vname) {if (i > indent) {delete vname[i]}}
      if (length($3) > 0) {
         vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
-        printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
+        printf("export %s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
      }
   }'
   set -x
@@ -155,4 +156,5 @@ function parse_yaml {
 export -f update_modules
 export -f no_modules
 export -f build_lib
+export -f build_nceplib
 export -f parse_yaml

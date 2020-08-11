@@ -3,8 +3,8 @@
 set -x
 
 name="boost"
-version=$1
-[[ $# -lt 2 ]] && level="full" || level=$2
+version=${1:-${STACK_boost_version}}
+level=${2:-${STACK_boost_level:-"full"}}
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 software=$name\_$(echo $version | sed 's/\./_/g')

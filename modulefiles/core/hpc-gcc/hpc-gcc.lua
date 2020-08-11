@@ -8,26 +8,25 @@ local pkgNameVer = myModuleFullName()
 family("MetaCompiler")
 
 conflict(pkgName)
-conflict("hpc-gnu", "hpc-gcc")
+conflict("hpc-intel")
 
-local compiler = pathJoin("intel",pkgVersion)
+local compiler = pathJoin("gcc",pkgVersion)
 load(compiler)
 prereq(compiler)
-try_load("mkl")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
-local mpath = pathJoin(opt,"modulefiles/compiler","intel",pkgVersion)
+local mpath = pathJoin(opt,"modulefiles/compiler","gcc",pkgVersion)
 prepend_path("MODULEPATH", mpath)
 
-setenv("FC",  "ifort")
-setenv("CC",  "icc")
-setenv("CXX", "icpc")
+setenv("FC",  "gfortran")
+setenv("CC",  "gcc")
+setenv("CXX", "g++")
 
-setenv("SERIAL_FC",  "ifort")
-setenv("SERIAL_CC",  "icc")
-setenv("SERIAL_CXX", "icpc")
+setenv("SERIAL_FC",  "gfortran")
+setenv("SERIAL_CC",  "gcc")
+setenv("SERIAL_CXX", "g++")
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: Compiler")
-whatis("Description: Intel Compiler Family and module access")
+whatis("Description: GNU Compiler Family and module access")

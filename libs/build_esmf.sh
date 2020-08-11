@@ -3,7 +3,7 @@
 set -ex
 
 name="esmf"
-version=$1
+version=${1:-${STACK_esmf_version}}
 
 software=${name}_$version
 
@@ -112,7 +112,7 @@ export ESMF_INSTALL_BINDIR=bin
 export ESMF_INSTALL_LIBDIR=lib
 export ESMF_INSTALL_MODDIR=mod
 export ESMF_INSTALL_HEADERDIR=include
-export ESMF_SHARED_LIB_BUILD=OFF
+[[ ${STACK_esmf_shared} =~ [yYtT] ]] || export ESMF_SHARED_LIB_BUILD=OFF
 
 make info
 make -j${NTHREADS:-4}

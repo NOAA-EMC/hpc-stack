@@ -3,7 +3,7 @@
 set -ex
 
 name="gptl"
-version=$1
+version=${1:-${STACK_gptl_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -13,7 +13,7 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    module load hpc-$HPC_MPI 
+    module load hpc-$HPC_MPI
     module try-load cmake
     module list
     set -x
@@ -41,7 +41,7 @@ autoreconf -i
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 ../configure --enable-pmpi --prefix=$prefix
-VERBOSE=$MAKE_VERBOSE make 
+VERBOSE=$MAKE_VERBOSE make
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 

@@ -3,7 +3,7 @@
 set -ex
 
 name="tau2"
-version="2.28.1"
+version=${1:-${STACK_tau2_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -14,7 +14,7 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    module load hpc-$HPC_MPI 
+    module load hpc-$HPC_MPI
     module load pdtoolkit
     module load zlib
     module list
@@ -41,7 +41,7 @@ export PDTOOLKIT_ROOT=$PDT_ROOT
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software=tau2  
+software=tau2
 [[ -d $PDTOOLKIT_ROOT ]] || ( echo "$software requires pdtoolkit, ABORT!"; exit 1 )
 [[ -d $software ]] || git clone https://github.com/UO-OACISS/tau2
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
@@ -49,7 +49,7 @@ software=tau2
 [[ -d build ]] && rm -rf build
 
 $SUDO ./configure -prefix=$prefix -c++=$CXX -cc=$CC -fortran=$FC -mpi -ompt -bfd=download \
-                  -dwarf=download -unwind=download -iowrapper -pdt=$PDTOOLKIT_ROOT 
+                  -dwarf=download -unwind=download -iowrapper -pdt=$PDTOOLKIT_ROOT
 
 #                  -arch=x86_64
 

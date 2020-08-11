@@ -3,7 +3,7 @@
 set -ex
 
 name="hdf5"
-version=$1
+version=${1:-${STACK_hdf5_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -60,10 +60,12 @@ mkdir -p build && cd build
 
 [[ -z $mpi ]] || extra_conf="--enable-parallel --enable-unsupported"
 
+[[ ${STACK_hdf5_shared} =~ [yYtT] ]] || shared_flags="--disable-shared --enable-static --enable-static-exec"
+
 ../configure --prefix=$prefix \
              --enable-fortran --enable-cxx \
-             --disable-shared --enable-static --enable-static-exec \
-             --with-szlib=$SZIP_ROOT --with-zlib=$ZLIB_ROOT $extra_conf
+             --with-szlib=$SZIP_ROOT --with-zlib=$ZLIB_ROOT \
+             $shared_flags $extra_conf
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check

@@ -3,16 +3,25 @@
 set -ex
 
 name="jasper"
-version=$1
+version=${1:-${STACK_jasper_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
-set +x
-source $MODULESHOME/init/bash
-module load hpc-$HPC_COMPILER
-module list
-set -x
+if $MODULES; then
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  module list
+  set -x
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
+  if [[ -d $prefix ]]; then
+      [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
+                                 || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+  fi
+else
+    prefix=${HDF5_ROOT:-"/usr/local"}
+fi
 
 export FC=$SERIAL_FC
 export CC=$SERIAL_CC
@@ -34,12 +43,6 @@ sourceDir=$PWD
 [[ -d build_jasper ]] && rm -rf build_jasper
 mkdir -p build_jasper && cd build_jasper
 buildDir=$PWD
-
-prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
-if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                      || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-fi
 
 # Starting w/ version-2.0.0, jasper is built using cmake
 cmakeVer="2.0.0"

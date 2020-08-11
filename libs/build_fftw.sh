@@ -3,7 +3,7 @@
 set -ex
 
 name="fftw"
-version=$1
+version=${1:-${STACK_fftw_version}}
 
 software=$name-$version
 
@@ -11,12 +11,21 @@ software=$name-$version
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
-set +x
-source $MODULESHOME/init/bash
-module load hpc-$HPC_COMPILER
-[[ -z $mpi ]] || module load hpc-$HPC_MPI 
-module list
-set -x
+if $MODULES; then
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  [[ -z $mpi ]] || module load hpc-$HPC_MPI
+  module list
+  set -x
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
+  if [[ -d $prefix ]]; then
+      [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
+                                 || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+  fi
+else
+  prefix=${ESMF_ROOT:-"/usr/local"}
+fi
 
 if [[ ! -z $mpi ]]; then
   export FC=$MPI_FC
@@ -40,12 +49,6 @@ url="http://fftw.org/${software}.tar.gz"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
-
-prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
-if [[ -d $prefix ]]; then
-  [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                             || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-fi
 
 [[ -z $mpi ]] || ( export MPICC=$MPI_CC; extra_conf="--enable-mpi" )
 

@@ -3,7 +3,7 @@
 set -ex
 
 name="nccmp"
-version=$1
+version=${1:-${STACK_nccmp_version}}
 
 software=$name-$version
 
@@ -42,14 +42,20 @@ else
 fi
 
 export CFLAGS="-fPIC"
-export LDFLAGS="-L$NETCDF_ROOT/lib -L$HDF5_ROOT/lib -L$SZIP_ROOT/lib"
+LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
+LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+[[ -z $mpi ]] || LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
+export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4 $LDFLAGS5"
 
 url="https://gitlab.com/remikz/nccmp/-/archive/$version/${software}.tar.gz"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 # Enable header pad comparison, if netcdf-c src directory exists!
-[[ -d "netcdf-c-$NETCDF_VERSION" ]] && extra_confs="--with-netcdf=$PWD/netcdf-c-$NETCDF_VERSION" || extra_confs=""
+[[ -d "netcdf-c-$NETCDF_VERSION" ]] && netcdf_src="$PWD/netcdf-c-$NETCDF_VERSION"
+[[ -d "netcdf-c-$NETCDF_VERSION" ]] && extra_confs="--with-netcdf=$netcdf_src"
 
 [[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
@@ -58,6 +64,15 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 mkdir -p build && cd build
 
 ../configure --prefix=$prefix $extra_confs
+#cmake .. \
+#  -DBUILD_TESTS=OFF \
+#  -DCMAKE_BUILD_TYPE=Release \
+#  -DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+#  -DCMAKE_INSTALL_PREFIX=$prefix \
+#  -DCMAKE_VERBOSE_MAKEFILE=ON \
+#  -DNETCDF_INC_DIR=$NETCDF_ROOT/include \
+#  -DNETCDF_LIB_PATH=$NETCDF_ROOT/lib/libnetcdf.a \
+#  -DWITH_NETCDF=$netcdf_src
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check

@@ -3,7 +3,7 @@
 set -ex
 
 name="nco"
-version=$1
+version=${1:-${STACK_nco_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -13,7 +13,7 @@ if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
-  [[ -z $mpi ]] || module load hpc-$HPC_MPI 
+  [[ -z $mpi ]] || module load hpc-$HPC_MPI
   module try-load szip
   module load hdf5
   module load netcdf
@@ -48,7 +48,12 @@ export CXXFLAGS="-fPIC"
 export F77=$FC
 export FCFLAGS=$FFLAGS
 
-export LDFLAGS="-L$NETCDF_ROOT/lib -L$HDF5_ROOT/lib -L$SZIP_ROOT/lib"
+LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
+LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+[[ -z $mpi ]] || LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
+export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4 $LDFLAGS5"
 
 gitURL="https://github.com/nco/nco.git"
 

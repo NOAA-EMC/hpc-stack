@@ -2,8 +2,8 @@
 
 set -ex
 
-name=$1
-version=$2
+name=${1:-${STACK_mpi_implementatio}}
+version=${2:-${STACK_mpi_version}}
 
 mm=$(echo $version | cut -d. -f-2)
 patch=$(echo $version | cut -d. -f3)
@@ -11,17 +11,27 @@ patch=$(echo $version | cut -d. -f3)
 case "$name" in
     openmpi ) url="https://download.open-mpi.org/release/open-mpi/v$mm/openmpi-$version.tar.gz" ;;
     mpich   ) url="http://www.mpich.org/static/downloads/$version/mpich-$version.tar.gz" ;;
-    *       ) echo "Invalid option for MPI = $name, ABORT!"; exit 1 ;;
+    *       ) echo "Invalid MPI implementation = $name, ABORT!"; exit 1 ;;
 esac
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
-set +x
-source $MODULESHOME/init/bash
-module load hpc-$HPC_COMPILER
-module list
-set -x
+if $MODULES; then
+    set +x
+    source $MODULESHOME/init/bash
+    module load hpc-$HPC_COMPILER
+    module list
+    set -x
+
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
+    if [[ -d $prefix ]]; then
+        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
+                                  || ( echo "ERROR: $prefix EXISTS, ABORT!"; exit 1 )
+    fi
+else
+    prefix=${MPI_ROOT:-"/usr/local"}
+fi
 
 export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
@@ -39,12 +49,6 @@ software=$name-$version
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
-
-prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
-if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                               || ( echo "ERROR: $prefix EXISTS, ABORT!"; exit 1 )
-fi
 
 # If on a Mac, need to disable -flat_namespace for the link step. This is so because
 # we have mixed C/C++ and Fortran in several libraries, and -flat_namespace leads

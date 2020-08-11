@@ -3,9 +3,9 @@
 set -ex
 
 name="netcdf"
-c_version=$1
-f_version=$2
-cxx_version=$3
+c_version=${1:-${STACK_netcdf_version}}
+f_version=${2:-${STACK_netcdf_f_version}}
+cxx_version=${3:-${STACK_netcdf_cxx_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -54,10 +54,16 @@ gitURLroot="https://github.com/Unidata"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 curr_dir=$(pwd)
 
-LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
-LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
-[[ -z $mpi ]] || LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+if [[ ${STACK_netcdf_shared} =~ [yYtT] ]]; then
+  LDFLAGS1="-L$HDF5_ROOT/lib"
+  LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+  [[ -z $mpi ]] || LDFLAGS4="-L$PNETCDF_ROOT/lib"
+else
+  LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
+  LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+  LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+  [[ -z $mpi ]] || LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+fi
 export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4"
 
 cd $curr_dir
@@ -98,14 +104,16 @@ software=$name-"c"-$version
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-[[ -z $mpi ]] || extra_conf="--enable-pnetcdf --enable-parallel-tests"
+[[ ${STACK_netcdf_shared} =~ [yYtT] ]] || shared_flags="--disable-shared"
+[[ ${STACK_netcdf_enable_pnetcdf} =~ [yYtT] ]] && pnetcdf="--enable-pnetcdf"
+
+[[ -z $mpi ]] || extra_conf="$pnetcdf --enable-parallel-tests"
 ../configure --prefix=$prefix \
              --enable-cdf5 \
              --disable-dap \
              --enable-netcdf-4 \
              --disable-doxygen \
-             --disable-shared \
-             $extra_conf
+             $shared_flags $extra_conf
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
@@ -113,17 +121,37 @@ $SUDO make install
 
 $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
+##################################################
+
+# generate modulefile from template
+[[ -z $mpi ]] && modpath=compiler || modpath=mpi
+$MODULES && update_modules $modpath $name $c_version \
+         || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+
+##################################################
+
 set +x
 echo "################################################################################"
 echo "BUILDING NETCDF-Fortran"
 echo "################################################################################"
 set -x
 
-export LIBS=$($prefix/bin/nc-config --libs --static)
-export LDFLAGS+=" -L$prefix/lib -lnetcdf"
+# Load netcdf-c before building netcdf-fortran
+set +x
+$MODULES && module load netcdf
+set -x
+
+if [[ ${STACK_netcdf_shared} =~ [yYtT] ]]; then
+  export LIBS=$($prefix/bin/nc-config --libs)
+  export LDFLAGS+=" -L$prefix/lib"
+else
+  export LIBS=$($prefix/bin/nc-config --libs --static)
+  export LDFLAGS+=" -L$prefix/lib -lnetcdf"
+fi
 export CFLAGS+=" -I$prefix/include"
 export CXXFLAGS+=" -I$prefix/include"
 
+echo $LDFLAGS
 cd $curr_dir
 
 version=$f_version
@@ -134,7 +162,7 @@ software=$name-"fortran"-$version
 mkdir -p build && cd build
 
 ../configure --prefix=$prefix \
-             --disable-shared
+             $shared_flags
 
 #VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE make -j1 #NetCDF-Fortran-4.5.2 & intel/20 have a linker bug if built with j>1
@@ -159,17 +187,10 @@ software=$name-"cxx4"-$version
 mkdir -p build && cd build
 
 ../configure --prefix=$prefix \
-             --disable-shared
+             $shared_flags
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
 
 $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
-
-##################################################
-
-# generate modulefile from template
-[[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $c_version \
-         || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
