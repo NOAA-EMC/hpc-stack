@@ -8,19 +8,19 @@ jpeg:
 
 zlib:
   build: YES
-  version: 1.2.6
+  version: 1.2.11
 
 png:
   build: YES
-  version: 1.2.44
+  version: 1.6.35
 
 szip:
-  build: NO
+  build: YES
   version: 2.1.1
 
 jasper:
   build: YES
-  version: 1.900.1
+  version: 2.0.15
 
 udunits:
   build: YES
@@ -29,19 +29,19 @@ udunits:
 hdf5:
   build: YES
   version: 1.10.6
-  shared: NO
+  shared: YES
   enable_szip: NO
   enable_zlib: YES
 
 pnetcdf:
   build: NO
   version: 1.12.1
-  shared: NO
+  shared: YES
 
 netcdf:
   build: YES
   version: 4.7.4
-  shared: NO
+  shared: YES
   enable_pnetcdf: NO
 
 netcdf_f:
@@ -61,14 +61,14 @@ nco:
   version: 4.9.3
 
 pio:
-  build: NO
+  build: YES
   version: 2.5.1
   enable_pnetcdf: NO
 
 esmf:
   build: YES
-  version: 8_0_0
-  shared: NO
+  version: 8_1_0_beta_snapshot_00
+  shared: YES
   enable_pnetcdf: NO
 
 gptl:

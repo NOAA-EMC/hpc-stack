@@ -15,6 +15,7 @@ COMPILER=$(echo $compiler | cut -d- -f1)
 MPI=$(echo $mpi | cut -d- -f1)
 
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
+[[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 if $MODULES; then
   set +x
@@ -118,7 +119,7 @@ export ESMF_INSTALL_BINDIR=bin
 export ESMF_INSTALL_LIBDIR=lib
 export ESMF_INSTALL_MODDIR=mod
 export ESMF_INSTALL_HEADERDIR=include
-[[ ${STACK_esmf_shared} =~ [yYtT] ]] || export ESMF_SHARED_LIB_BUILD=OFF
+[[ $enable_shared =~ [yYtT] ]] || export ESMF_SHARED_LIB_BUILD=OFF
 
 make info
 make -j${NTHREADS:-4}

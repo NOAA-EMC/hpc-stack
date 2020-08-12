@@ -7,20 +7,20 @@ module load git
 # Compiler/MPI combination
 #export HPC_COMPILER="intel/2019.5"
 #export HPC_MPI="impi/2019.6"
-export HPC_COMPILER="intel/2018.4"
-export HPC_MPI="impi/2018.4"
-#export HPC_COMPILER="intel/2020"
-#export HPC_MPI="impi/2020"
+#export HPC_COMPILER="intel/2018.4"
+#export HPC_MPI="impi/2018.4"
+export HPC_COMPILER="intel/2020"
+export HPC_MPI="impi/2020"
 #export HPC_COMPILER="gcc/8.3.0"
 #export HPC_MPI="openmpi/4.0.2"
 
 # Build options
-export PREFIX=/apps/contrib/NCEP/sandbox/rmahajan/trial3
+export PREFIX=/apps/contrib/NCEP/sandbox/rmahajan/test1
 export HPC_OPT=${PREFIX}
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log
-export OVERWRITE=Y
+export OVERWRITE=N
 export NTHREADS=8
 export   MAKE_CHECK=N
 export MAKE_VERBOSE=N
