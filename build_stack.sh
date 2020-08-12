@@ -92,24 +92,24 @@ build_lib mpi
 # - should add a check at some point to see if they are already there.
 # this can be done in each script individually
 # it might warrant a --force flag to force rebuild when desired
-#build_lib cmake
-#build_lib udunits
-#build_lib jpeg
-#build_lib zlib
-#build_lib png
-#build_lib szip
-#build_lib jasper
-#
-##----------------------
-## MPI-dependent
-## These must be rebuilt for each MPI implementation
-#build_lib hdf5
-#build_lib pnetcdf
-#build_lib netcdf
-#build_lib nccmp
-#build_lib nco
+build_lib cmake
+build_lib udunits
+build_lib jpeg
+build_lib zlib
+build_lib png
+build_lib szip
+build_lib jasper
 
-#build_lib pio
+#----------------------
+# MPI-dependent
+# These must be rebuilt for each MPI implementation
+build_lib hdf5
+build_lib pnetcdf
+build_lib netcdf
+build_lib nccmp
+build_lib nco
+
+build_lib pio
 build_lib esmf
 
 build_lib gptl
