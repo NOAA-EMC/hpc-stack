@@ -14,6 +14,7 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   [[ -z $mpi ]] || module load hpc-$HPC_MPI
+  module try-load zlib
   module try-load szip
   module load hdf5
   module load netcdf
@@ -53,14 +54,14 @@ export CXXFLAGS="-fPIC"
 export F77=$FC
 export FCFLAGS=$FFLAGS
 
-LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
-LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
-if [[ ! -z $mpi ]]; then
-  [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
-fi
-LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
-export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4 $LDFLAGS5"
+#LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
+#LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+#LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+#if [[ ! -z $mpi ]]; then
+#  [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+#fi
+#LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
+#export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4 $LDFLAGS5"
 
 gitURL="https://github.com/nco/nco.git"
 
@@ -73,9 +74,23 @@ software=$name-$version
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-../configure --prefix=$prefix --enable-doc=no
+#../configure --prefix=$prefix \
+#             --enable-doc=no \
+#             --enable-netcdf4 \
+#             --enable-shared=no \
+#             NETCDF_INC=$NETCDF_ROOT/include \
+#             NETCDF_LIB=$NETCDF_ROOT/lib
 
-make -j${NTHREADS:-4}
+cmake .. \
+  -DNETCDF_INCLUDE:PATH=$NETCDF_ROOT/include \
+  -DNETCDF_LIBRARY:FILE=$NETCDF_ROOT/lib/libnetcdf.a \
+  -DHDF5_LIBRARY:FILE=$HDF5_ROOT/lib/libhdf5.a \
+  -DHDF5_HL_LIBRARY:FILE=$HDF5_ROOT/lib/libhdf5_hl.a \
+  -DZLIB_LIBRARY:FILE=$ZLIB_ROOT/lib/libz.a \
+  -DSZIP_LIBRARY:FILE=$SZIP_ROOT/lib/libsz.a \
+  -DCMAKE_INSTALL_PREFIX=$prefix
+
+VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
 

@@ -34,14 +34,21 @@ export CXXFLAGS="-fPIC"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-url=http://www.zlib.net/$software.tar.gz
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
+#url=http://www.zlib.net/$software.tar.gz
+#[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
+gitURL=https://github.com/madler/zlib
+[[ -d $software ]] || ( git clone -b v$version $gitURL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-[[ -d build ]] && rm -rf build
-mkdir -p build && cd build
 
-../configure --prefix=$prefix
+outOfSource="1.2.10"
+if [ "$(printf '%s\n' "$outOfSource" "$version" | sort -V | head -n1)" = "$outOfSource" ]; then
+  [[ -d build ]] && rm -rf build
+  mkdir -p build && cd build
+  ../configure --prefix=$prefix
+else
+  ./configure --prefix=$prefix
+fi
 
 make -j${NTHREADS:-4}
 [[ "$CHECK" = "YES" ]] && make check

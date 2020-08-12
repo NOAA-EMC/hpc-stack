@@ -70,16 +70,16 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-../configure --prefix=$prefix $extra_confs
-#cmake .. \
-#  -DBUILD_TESTS=OFF \
-#  -DCMAKE_BUILD_TYPE=Release \
-#  -DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
-#  -DCMAKE_INSTALL_PREFIX=$prefix \
-#  -DCMAKE_VERBOSE_MAKEFILE=ON \
-#  -DNETCDF_INC_DIR=$NETCDF_ROOT/include \
-#  -DNETCDF_LIB_PATH=$NETCDF_ROOT/lib/libnetcdf.a \
-#  -DWITH_NETCDF=$netcdf_src
+#../configure --prefix=$prefix $extra_confs
+cmake .. \
+  -DBUILD_TESTS=OFF \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
+  -DCMAKE_INSTALL_PREFIX=$prefix \
+  -DCMAKE_VERBOSE_MAKEFILE=ON \
+  -DNETCDF_INC_DIR=$NETCDF_ROOT/include \
+  -DNETCDF_LIB_PATH=$NETCDF_ROOT/lib/libnetcdf.a \
+  -DWITH_NETCDF=$netcdf_src
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check

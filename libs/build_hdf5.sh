@@ -9,13 +9,17 @@ version=${1:-${STACK_hdf5_version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
+[[ ${STACK_hdf5_enable_szip} =~ [yYtT] ]] && enable_szip=YES || enable_szip=NO
+[[ ${STACK_hdf5_enable_zlib} =~ [yYtT] ]] && enable_zlib=YES || enable_zlib=NO
+[[ ${STACK_hdf5_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   [[ -z $HPC_MPI ]] || module load hpc-$HPC_MPI
-  module try-load szip
-  module try-load zlib
+  [[ $enable_szip =~ [yYtT] ]] && module try-load szip
+  [[ $enable_zlib =~ [yYtT] ]] && module try-load zlib
   module list
   set -x
 
@@ -27,6 +31,8 @@ if $MODULES; then
 
 else
     prefix=${HDF5_ROOT:-"/usr/local"}
+    SZIP_ROOT=${SZIP_ROOT:-/usr}
+    ZLIB_ROOT=${ZLIB_ROOT:-/usr}
 fi
 
 if [[ ! -z $mpi ]]; then
@@ -44,8 +50,6 @@ export FFLAGS="-fPIC -w"
 export CFLAGS="-fPIC -w"
 export CXXFLAGS="-fPIC -w"
 export FCFLAGS="$FFLAGS"
-SZIP_ROOT=${SZIP_ROOT:-/usr}
-ZLIB_ROOT=${ZLIB_ROOT:-/usr}
 
 gitURL="https://bitbucket.hdfgroup.org/scm/hdffv/hdf5.git"
 
@@ -60,12 +64,13 @@ mkdir -p build && cd build
 
 [[ -z $mpi ]] || extra_conf="--enable-parallel --enable-unsupported"
 
-[[ ${STACK_hdf5_shared} =~ [yYtT] ]] || shared_flags="--disable-shared --enable-static --enable-static-exec"
+[[ $enable_shared =~ [yYtT] ]] || shared_flags="--disable-shared --enable-static --enable-static-exec"
+[[ $enable_szip =~ [yYtT] ]] && szip_flags="--with-szip=$SZIP_ROOT"
+[[ $enable_zlib =~ [yYtT] ]] && zlib_flags="--with-zlib=$ZLIB_ROOT"
 
 ../configure --prefix=$prefix \
              --enable-fortran --enable-cxx \
-             --with-szlib=$SZIP_ROOT --with-zlib=$ZLIB_ROOT \
-             $shared_flags $extra_conf
+             $szip_flags $zlib_flags $shared_flags $extra_conf
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
