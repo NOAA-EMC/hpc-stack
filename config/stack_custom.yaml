@@ -2,8 +2,9 @@ gnu:
   build: NO
   version: 9.3.0
 
-openmpi:
+mpi:
   build: NO
+  flavor: openmpi
   version: 4.0.1
 
 cmake:
@@ -37,38 +38,41 @@ udunits:
 hdf5:
   build: NO
   version: 1.10.6
+  shared: YES
+  enable_szip: NO
+  enable_zlib: NO
 
 pnetcdf:
   build: NO
   version: 1.12.1
+  shared: YES
 
 netcdf:
   build: NO
-  version: 4.7.4
-
-netcdf_f:
-  build: NO
-  version: 4.5.3
-
-netcdf_cxx:
-  build: NO
-  version: 4.3.1
+  shared: YES
+  enable_pnetcdf: NO
+  version_c: 4.7.4
+  version_f: 4.5.3
+  version_cxx: 4.3.1
 
 nccmp:
   build: NO
-  version: 1.8.6.5
+  version: 1.8.7.0
 
 nco:
   build: NO
-  version: 4.7.9
+  version: 4.9.3
 
 pio:
   build: NO
-  version: 2.5.0
+  version: 2.5.1
+  enable_pnetcdf: NO
 
 esmf:
   build: NO
-  version: 8_0_0
+  version: 8_1_0_beta_snapshot_00
+  shared: YES
+  enable_pnetcdf: NO
 
 gptl:
   build: NO
@@ -86,93 +90,112 @@ bacio:
   build: NO
   version: v2.4.0
   install_as: 2.4.0
+  openmp: OFF
 
 sigio:
   build: NO
   version: v2.3.0
   install_as: 2.3.0
+  openmp: OFF
 
 sfcio:
   build: NO
   version: v1.4.0
   install_as: 1.4.0
+  openmp: OFF
 
 gfsio:
   build: NO
   version: v1.4.0
   install_as: 1.4.0
+  openmp: OFF
 
 w3nco:
   build: NO
   version: v2.4.0
   install_as: 2.4.0
+  openmp: OFF
 
 sp:
   build: NO
   version: v2.3.0
   install_as: 2.3.0
+  openmp: OFF
 
 ip:
   build: NO
   version: v3.3.0
   install_as: 3.3.0
+  openmp: OFF
 
 ip2:
   build: NO
   version: v1.1.0
   install_as: 1.1.0
+  openmp: OFF
 
 landsfcutil:
   build: NO
   version: v2.4.0
   install_as: 2.4.0
+  openmp: OFF
 
 nemsio:
   build: NO
   version: v2.5.1
   install_as: 2.5.1
+  openmp: OFF
 
 nemsiogfs:
   build: NO
   version: v2.5.0
   install_as: 2.5.0
+  openmp: OFF
 
 w3emc:
   build: NO
   version: v2.7.0
   install_as: 2.7.0
+  openmp: OFF
 
 g2:
   build: NO
   version: v3.4.0
   install_as: 3.4.0
+  openmp: OFF
 
 g2tmpl:
   build: NO
   version: v1.9.0
   install_as: 1.9.0
+  openmp: OFF
 
 crtm:
   build: NO
   version: v2.3.0
   install_as: 2.3.0
+  openmp: OFF
 
 nceppost:
   build: NO
   version: dceca26
   install_as: dceca26
+  openmp: OFF
 
 wrf_io:
   build: NO
   version: v1.1.1-cmake
   install_as: 1.1.1
+  openmp: OFF
 
 bufr:
   build: NO
   version: bufr_v11.3.1.1
   install_as: 11.3.1.1
+  openmp: OFF
 
 wgrib2:
   build: NO
   version: v2.0.8-cmake-v1.0.2
   install_as: 2.0.8
+  openmp: OFF

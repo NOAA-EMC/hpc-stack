@@ -1,26 +1,18 @@
 #!/bin/bash
 
-# This script creates a module file for a given package
-# based on a pre-existing template
-#
-# Arguments:
-# $1 = module path: valid options are core, compiler, or mpi
-# $2 = package name
-# $3 = package version
-
 function update_modules {
-    OPT="${HPC_OPT:-$OPT}"
+    PREFIX=${PREFIX:-${OPT}}
     case $1 in
-        core     )
+        core )
             tmpl_file=$HPC_STACK_ROOT/modulefiles/core/$2/$2.lua
-            to_dir=$OPT/modulefiles/core ;;
+            to_dir=$PREFIX/modulefiles/core ;;
         compiler )
             tmpl_file=$HPC_STACK_ROOT/modulefiles/compiler/compilerName/compilerVersion/$2/$2.lua
-            to_dir=$OPT/modulefiles/compiler/$HPC_COMPILER ;;
-        mpi      )
+            to_dir=$PREFIX/modulefiles/compiler/$HPC_COMPILER ;;
+        mpi )
             tmpl_file=$HPC_STACK_ROOT/modulefiles/mpi/compilerName/compilerVersion/mpiName/mpiVersion/$2/$2.lua
-            to_dir=$OPT/modulefiles/mpi/$HPC_COMPILER/$HPC_MPI ;;
-        *) echo "ERROR: INVALID MODULE PATH, ABORT!"; exit 1 ;;
+            to_dir=$PREFIX/modulefiles/mpi/$HPC_COMPILER/$HPC_MPI ;;
+        * ) echo "ERROR: INVALID MODULE PATH, ABORT!"; exit 1 ;;
     esac
 
     [[ -e $tmpl_file ]] || ( echo "ERROR: $tmpl_file NOT FOUND!  ABORT!"; exit 1 )
@@ -40,8 +32,8 @@ function update_modules {
 function no_modules {
 
     # this function defines environment variables that are
-    # normally done by the modules.  It's mainly intended
-    # for use in generating the containers
+    # normally done by the modules.
+    # It's mainly intended for use when not using LMod
 
     compilerName=$(echo $HPC_COMPILER | cut -d/ -f1)
     mpiName=$(echo $HPC_MPI | cut -d/ -f1)
@@ -50,12 +42,12 @@ function no_modules {
     # so these should be considered defaults
 
     case $compilerName in
-      gnu   )
+      gnu|gcc )
           export SERIAL_CC=${SERIAL_CC:-"gcc"}
           export SERIAL_CXX=${SERIAL_CXX:-"g++"}
           export SERIAL_FC=${SERIAL_FC:-"gfortran"}
           ;;
-      intel )
+      intel|ips )
           export SERIAL_CC=${SERIAL_CC:-"icc"}
           export SERIAL_CXX=${SERIAL_CXX:-"icpc"}
           export SERIAL_FC=${SERIAL_FC:-"ifort"}
@@ -65,7 +57,7 @@ function no_modules {
           export SERIAL_CXX=${SERIAL_CXX:-"clang++"}
           export SERIAL_FC=${SERIAL_FC:-"gfortran"}
           ;;
-      *     ) echo "Unknown compiler option = $compilerName, ABORT!"; exit 1 ;;
+      * ) echo "Unknown compiler option = $compilerName, ABORT!"; exit 1 ;;
     esac
 
     case $mpiName in
@@ -74,30 +66,30 @@ function no_modules {
           export MPI_CXX=${MPI_CXX:-"mpicxx"}
           export MPI_FC=${MPI_FC:-"mpifort"}
           ;;
-      mpich  )
+      mpich )
           export MPI_CC=${MPI_CC:-"mpicc"}
           export MPI_CXX=${MPI_CXX:-"mpicxx"}
           export MPI_FC=${MPI_FC:-"mpifort"}
           ;;
-      impi   )
+      impi )
           export MPI_CC=${MPI_CC:-"mpiicc"}
           export MPI_CXX=${MPI_CXX:-"mpiicpc"}
           export MPI_FC=${MPI_FC:-"mpiifort"}
           ;;
-      *     ) echo "Unknown MPI option = $MPIName, ABORT!"; exit 1 ;;
+      * ) echo "Unknown MPI option = $mpiName, ABORT!"; exit 1 ;;
     esac
 
-    config_file="${HPC_STACK_ROOT}/config/config_${1:-"container"}.sh"
+}
 
-    set +x
-    # look for build items that are set in the config file
-    while IFS= read -r line ; do
-        if [[ $(echo $line | grep "STACK_BUILD" | cut -d= -f2) =~ [yYtT] ]]; then
-            pkg=$(echo $line | cut -d= -f1 | cut -d_ -f3)
-            eval export ${pkg}_ROOT=${PREFIX:-"/usr/local"}
-        fi
-    done < $config_file
-    set -x
+function set_pkg_root() {
+  # export <PKG>_ROOT environment variables
+  for i in $(printenv | grep "STACK_.*_build="); do
+    pkg=$(echo $i | cut -d_ -f2 | tr 'a-z' 'A-Z')
+    build=$(echo $i | cut -d_ -f3 | cut -d= -f2)
+    if [[ $build =~ ^(yes|YES|true|TRUE)$ ]]; then
+        eval export ${pkg}_ROOT=${PREFIX:-"/usr/local"}
+    fi
+  done
 }
 
 function build_lib() {
@@ -155,6 +147,7 @@ function parse_yaml {
 
 export -f update_modules
 export -f no_modules
+export -f set_pkg_root
 export -f build_lib
 export -f build_nceplib
 export -f parse_yaml

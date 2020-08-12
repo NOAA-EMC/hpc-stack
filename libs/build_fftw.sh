@@ -24,7 +24,7 @@ if $MODULES; then
                                  || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
 else
-  prefix=${ESMF_ROOT:-"/usr/local"}
+  prefix=${FFTW_ROOT:-"/usr/local"}
 fi
 
 if [[ ! -z $mpi ]]; then

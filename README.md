@@ -16,7 +16,6 @@ For example, `COMPILER=gnu/7.3.0`.
 
 **MPI** is the MPI library you wish to use for this build.  The format is the same as for `COMPILER`, for example: `export MPI=openmpi/3.1.2`.
 
-**PREFIX** is the directory where the software packages will be installed.  Normally this is set to be the same as the `HPC_OPT` environment variable (default value `/opt/modules`), though this is not required.  If `HPC_OPT` and `PREFIX` are both the same, then the software installation trees (the top level of each being is the compiler, e.g. `gnu-7.3.0`) will branch directly off of `$HPC_OPT` while the module files will be located in the `modulefiles subdirectory.
 
 **USE_SUDO** If `PREFIX` is set to a value that requires root permission to write to, such as `/opt/modules`, then this flag should be enabled.
 
@@ -89,17 +88,24 @@ The following software can optionally be built with the scripts under `libs`. Th
 
 ## Step 2: Set Up Compiler, MPI, and Module System
 
+This step is only required if using Lua modules for managing the software stack.
+If LMod is not desired or used, the user can skip ahead to Step 3.
+
 Run from the top directory:
 ```
-./setup_modules.sh [<configuration>]
+./setup_modules.sh -p <prefix> -c <configuration>
 ```
-where `<configuration>` points to the configuration script that you wish to use, as described in Step 1.  The name of this file is `config/config_<configuration>`.  For example, to use the `config/config_custom.sh` you would enter this:
-```
-./setup_modules.sh custom
-```
-If no arguments are specified, the default is `custom`.  Note that you can skip this step as well for container builds because we currenly include only one compiler/mpi combination in each container.  So, each package is only build once and there is no need for modules.
+where:
 
-This script sets up the module directory tree in `$HPC_OPT`.  It also sets up the compiler and mpi modules.  The compiler and mpi modules are handled separately from the rest of the build because, when possible, we wish to exploit site-specific installations that maximize performance.
+- `<prefix>` is the directory where the software packages will be installed with a default value `$HOME/opt`.  The software installation trees (the top level of each being is the compiler, e.g. `gnu-7.3.0`) will branch directly off of `<prefix>` while the module files will be located in the `<prefix>/modulefiles` subdirectory.
+
+- `<configuration>` points to the configuration script that you wish to use, as described in Step 1.  For example, to use the `config/config_custom.sh` you would enter this:
+```
+./setup_modules.sh -c config/config_custom.sh
+```
+If no arguments are specified, the default is `config/config_custom.sh`.  Note that you can skip this step as well for container builds because we currenly include only one compiler/mpi combination in each container.  So, each package is only build once and there is no need for modules.
+
+This script sets up the module directory tree in `<prefix>/modulefiles`.  It also sets up the compiler and mpi modules.  The compiler and mpi modules are handled separately from the rest of the build because, when possible, we wish to exploit site-specific installations that maximize performance.
 
 **For this reason, the compiler and mpi modules are preceded by a `hpc-` label**.  For example, to load the gnu compiler module and the openmpi software library, you would enter this:
 ```
@@ -114,9 +120,9 @@ So, in short, you should never load the compiler or MPI modules directly.  Inste
 
 Now all that remains is to build the stack:
 ```
-./build_stack.sh [<configuration>]
+./build_stack.sh -p <prefix> -c <configuration> -y <yaml> -m
 ```
-Here `<configuration>` is the same as in Step 2, namely a reference to the corresponding configuration file in the `config` directory.  As in Step 2, if this argument is omitted, the default is to use `config/config_custom.sh`.
+Here `<prefix>` and `<configuration>` are the same as in Step 2, namely a reference to the installation prefix and a corresponding configuration file in the `config` directory.  As in Step 2, if these argument is omitted, the default is to use `$HOME/opt` and `config/config_custom.sh` respectively.  `<yaml>` represents a user configurable yaml file containing a list of packages that need to be built in the stack along with their versions and package options. The default value of `<yaml>` is `config/stack_custom.yaml`.  The `-m` option is required if LMod is used for managing the software stack.
 
 # Adding a New library/package
 

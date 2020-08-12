@@ -31,8 +31,6 @@ if $MODULES; then
 
 else
     prefix=${HDF5_ROOT:-"/usr/local"}
-    SZIP_ROOT=${SZIP_ROOT:-/usr}
-    ZLIB_ROOT=${ZLIB_ROOT:-/usr}
 fi
 
 if [[ ! -z $mpi ]]; then

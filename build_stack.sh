@@ -1,47 +1,88 @@
 #!/bin/bash
 # The purpose of this script is to build the software stack using
-# the compiler/MPI combination defined by setup_modules.sh
-#
-# Arguments:
-# configuration: Determines which libraries will be installed.
-#     Each supported option will have an associated config_<option>.sh
-#     file that will be used to
+# the compiler/MPI combination
 #
 # sample usage:
-# build_stack.sh "custom"
+# build_stack.sh -p "prefix" -c "config.sh" -y "stack.yaml" -m
+# build_stack.sh -h
+#
 
 set -e
-
-# currently supported configuration options
-supported_options=("custom")
 
 # root directory for the repository
 HPC_BUILDSCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export HPC_STACK_ROOT=${HPC_BUILDSCRIPTS_DIR}
 
 # ==============================================================================
-# First source the config file
 
-if [[ $# -ne 1 ]]; then
-    source "${HPC_BUILDSCRIPTS_DIR}/config/config_custom.sh"
+usage() {
+  set +x
+  echo
+  echo "Usage: $0 -p <prefix> | -c <config> | -y <yaml> -m -h"
+  echo
+  echo "  -p  installation prefix <prefix>    DEFAULT: $HOME/opt"
+  echo "  -c  use configuration file <config> DEFAULT: config/config_custom.sh"
+  echo "  -y  use yaml file <yaml>            DEFAULT: config/stack_custom.yaml"
+  echo "  -m  use modules                     DEFAULT: NO"
+  echo "  -h  display this message and quit"
+  echo
+  exit 1
+}
+
+# ==============================================================================
+
+[[ $# -eq 0 ]] && usage
+
+# Defaults:
+export PREFIX="$HOME/opt"
+config="${HPC_STACK_ROOT}/config/config_custom.sh"
+yaml="${HPC_STACK_ROOT}/config/stack_custom.yaml"
+export MODULES=false
+
+while getopts ":p:c:y:mh" opt; do
+  case $opt in
+    p)
+      export PREFIX=$OPTARG
+      ;;
+    c)
+      config=$OPTARG
+      ;;
+    y)
+      yaml=$OPTARG
+      ;;
+    m)
+      export MODULES=true
+      ;;
+    h|\?|:)
+      usage
+      ;;
+  esac
+done
+
+# ==============================================================================
+
+# Source helper functions
+source "${HPC_STACK_ROOT}/stack_helpers.sh"
+
+#===============================================================================
+
+# Source the config file
+if [[ -e $config ]]; then
+  source $config
 else
-    config_file="${HPC_BUILDSCRIPTS_DIR}/config/config_$1.sh"
-    if [[ -e $config_file ]]; then
-      source $config_file
-    else
-      echo "ERROR: CONFIG FILE $config_file DOES NOT EXIST!"
-      echo "Currently supported options: "
-      echo ${supported_options[*]}
-      exit 1
-    fi
-
+  echo "ERROR: CONFIG FILE $config DOES NOT EXIST, ABORT!"
+  exit 1
 fi
 
-HPC_OPT=${HPC_OPT:-$OPT}
-if [ -z "$HPC_OPT" ]; then
-    echo "Set HPC_OPT to modules directory (suggested: $HOME/opt/modules)"
-    exit 1
+# Source the yaml to determine software and version
+if [[ -e $yaml ]]; then
+  eval $(parse_yaml $yaml "STACK_")
+else
+  echo "ERROR: YAML FILE $yaml DOES NOT EXIST, ABORT!"
+  exit 1
 fi
+
+# ==============================================================================
 
 compilerName=$(echo $HPC_COMPILER | cut -d/ -f1)
 compilerVersion=$(echo $HPC_COMPILER | cut -d/ -f2)
@@ -52,32 +93,28 @@ mpiVersion=$(echo $HPC_MPI | cut -d/ -f2)
 echo "Compiler: $compilerName/$compilerVersion"
 echo "MPI: $mpiName/$mpiVersion"
 
-# Source helper functions
-source "${HPC_BUILDSCRIPTS_DIR}/stack_helpers.sh"
+# install with root permissions?
+[[ $USE_SUDO =~ [yYtT] ]] && export SUDO="sudo" || export SUDO=""
 
-# this is needed to set environment variables if modules are not used
-$MODULES || no_modules $1
-
-# Parse config/stack_$1.yaml to determine software and version
-eval $(parse_yaml config/stack_$1.yaml "STACK_")
+# ==============================================================================
 
 # create build directory if needed
 pkgdir=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 mkdir -p $pkgdir
 
 # This is for the log files
-logdir=$HPC_STACK_ROOT/$LOGDIR
+logdir=$HPC_STACK_ROOT/${LOGDIR:-"log"}
 mkdir -p $logdir
-
-# install with root permissions?
-[[ $USE_SUDO =~ [yYtT] ]] && export SUDO="sudo" || unset SUDO
 
 # ==============================================================================
 
 # start with a clean slate
 if $MODULES; then
-  module use $HPC_OPT/modulefiles/stack
+  module use $PREFIX/modulefiles/stack
   module load hpc
+else
+  no_modules
+  set_pkg_root
 fi
 
 # ==============================================================================
@@ -143,4 +180,4 @@ build_nceplib wgrib2
     ( $SUDO rm -rf $pkgdir; $SUDO rm -rf $logdir )
 
 # ==============================================================================
-echo "build_stack.sh $1: success!"
+echo "build_stack.sh: SUCCESS!"
