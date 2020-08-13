@@ -121,7 +121,9 @@ fi
 #----------------------
 # Compiler and MPI
 build_lib gnu
+[[ ${STACK_gnu_build} =~ [yYtT] ]] && prependPATH GNU
 build_lib mpi
+[[ ${STACK_mpi_build} =~ [yYtT] ]] && prependPATH MPI
 
 # ==============================================================================
 #----------------------

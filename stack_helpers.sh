@@ -92,6 +92,10 @@ function set_pkg_root() {
   done
 }
 
+function source_env() {
+  $MODULES || export PATH="${1}_ROOT/bin:$PATH"
+}
+
 function build_lib() {
     # Args: build_script_name
     set +x
