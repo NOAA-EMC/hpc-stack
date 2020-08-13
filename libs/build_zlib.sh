@@ -51,7 +51,7 @@ else
 fi
 
 make -j${NTHREADS:-4}
-[[ "$CHECK" = "YES" ]] && make check
+[[ "$MAKE_CHECK" = "YES" ]] && make check
 $SUDO make install
 
 # generate modulefile from template
