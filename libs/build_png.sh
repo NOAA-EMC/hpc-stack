@@ -13,7 +13,7 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    module load zlib
+    module load zlib/${STACK_zlib_version}
     module list
     set -x
 

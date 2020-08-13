@@ -15,8 +15,8 @@ if $MODULES; then
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     module load hpc-$HPC_MPI
-    module load pdtoolkit
-    module load zlib
+    module load pdtoolkit/${STACK_pdtoolkit_version}
+    module load zlib/${STACK_zlib_version}
     module list
     set -x
 

@@ -12,7 +12,7 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    module load boost-headers
+    module load boost-headers/${STACK_boost_version}
     module list
     set -x
 

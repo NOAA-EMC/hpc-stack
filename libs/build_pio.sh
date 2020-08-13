@@ -16,11 +16,11 @@ if $MODULES; then
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     module load hpc-$HPC_MPI
-    module try-load cmake
-    module load szip
-    module load hdf5
-    [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
-    module load netcdf
+    module try-load cmake/${STACK_cmake_version}
+    module load szip/${STACK_szip_version}
+    module load hdf5/${STACK_hdf5_version}
+    [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf/${STACK_netcdf_version}
+    module load netcdf/${STACK_netcdf_version}
     module list
     set -x
 
