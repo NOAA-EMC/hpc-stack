@@ -2,7 +2,7 @@
 
 set -ex
 
-name=${1:-${STACK_mpi_implementatio}}
+name=${1:-${STACK_mpi_flavor}}
 version=${2:-${STACK_mpi_version}}
 
 mm=$(echo $version | cut -d. -f-2)

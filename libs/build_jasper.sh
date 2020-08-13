@@ -20,7 +20,7 @@ if $MODULES; then
                                  || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
 else
-    prefix=${HDF5_ROOT:-"/usr/local"}
+    prefix=${JASPER_ROOT:-"/usr/local"}
 fi
 
 export FC=$SERIAL_FC

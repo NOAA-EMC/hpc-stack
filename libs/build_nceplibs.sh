@@ -96,7 +96,8 @@ if $MODULES; then
   fi
 
 else
-    eval prefix="\${${name}_ROOT:-'/usr/local'}"
+    nameUpper=$(echo $name | tr [a-z] [A-Z])
+    eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
 fi
 
 if [[ ! -z $mpi ]]; then

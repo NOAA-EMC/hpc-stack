@@ -5,8 +5,6 @@ export HPC_COMPILER="gnu/9.3.0"
 export HPC_MPI="openmpi/4.0.1"
 
 # Build options
-export PREFIX=/opt/modules
-export HPC_OPT=$PREFIX
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log

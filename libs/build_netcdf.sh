@@ -3,9 +3,9 @@
 set -ex
 
 name="netcdf"
-c_version=${1:-${STACK_netcdf_version}}
-f_version=${2:-${STACK_netcdf_f_version}}
-cxx_version=${3:-${STACK_netcdf_cxx_version}}
+c_version=${1:-${STACK_netcdf_version_c}}
+f_version=${2:-${STACK_netcdf_version_f}}
+cxx_version=${3:-${STACK_netcdf_version_cxx}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')

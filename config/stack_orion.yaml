@@ -40,17 +40,11 @@ pnetcdf:
 
 netcdf:
   build: YES
-  version: 4.7.4
   shared: YES
   enable_pnetcdf: NO
-
-netcdf_f:
-  build: YES
-  version: 4.5.3
-
-netcdf_cxx:
-  build: YES
-  version: 4.3.1
+  version_c: 4.7.4
+  version_f: 4.5.3
+  version_cxx: 4.3.1
 
 nccmp:
   build: YES
