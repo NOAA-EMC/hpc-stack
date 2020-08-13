@@ -71,28 +71,38 @@ software="ESMF_$version"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 export ESMF_DIR=$PWD
 
-if [[ ! -z $mpi ]]; then
 #  mpiexec --version | grep OpenRTE 2> /dev/null && export ESMF_COMM=openmpi
 #  mpiexec --version | grep Intel   2> /dev/null && export ESMF_COMM=intelmpi
-  if [[ $MPI = "openmpi" ]]; then
-    export ESMF_COMM="openmpi"
-  elif [[ $MPI = "mpich" ]]; then
-    export ESMF_COMM="mpich3"
-  elif [[ $MPI = "impi" ]]; then
-    export ESMF_COMM="intelmpi"
-  fi
-else
-  export ESMF_COMM="mpiuni"
-fi
 export ESMF_MPIRUN=mpiexec
+case $MPI in
+  openmpi )
+    export ESMF_COMM="openmpi"
+    ;;
+  mpich )
+    export ESMF_COMM="mpich3"
+    ;;
+  impi )
+    export ESMF_COMM="intelmpi"
+    ;;
+  * )
+    export ESMF_COMM="mpiuni"
+    export ESMF_MPIRUN=""
+    ;;
+esac
 
-if [[ $COMPILER = "intel" ]]; then
-  export ESMF_COMPILER="intel"
-  export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
-  export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"
-elif [[ $COMPILER = "gnu" ]]; then
-  export ESMF_COMPILER="gfortran"
-fi
+case $COMPILER in
+  intel|ips )
+    export ESMF_COMPILER="intel"
+    export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
+    export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"
+    ;;
+  gnu|gcc )
+    export ESMF_COMPILER="gfortran"
+    ;;
+  * )
+    echo "Unsupported compiler = $COMPILER, ABORT!"; exit 1
+    ;;
+esac
 
 HDF5ExtraLibs=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
 HDF5LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "AM_LDFLAGS" | cut -d: -f2)
