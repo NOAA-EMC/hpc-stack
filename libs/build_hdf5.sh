@@ -18,8 +18,8 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   [[ -z $HPC_MPI ]] || module load hpc-$HPC_MPI
-  [[ $enable_szip =~ [yYtT] ]] && module try-load szip/${STACK_szip_version}
-  [[ $enable_zlib =~ [yYtT] ]] && module try-load zlib/${STACK_zlib_version}
+  [[ $enable_szip =~ [yYtT] ]] && module try-load szip
+  [[ $enable_zlib =~ [yYtT] ]] && module try-load zlib
   module list
   set -x
 

@@ -16,14 +16,14 @@ if $MODULES; then
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
-    module try-load szip/${STACK_szip_version}
-    module load hdf5/${STACK_hdf5_version}
-    module load netcdf/${STACK_netcdf_version}
+    module try-load szip
+    module load hdf5
+    module load netcdf
     module list
     set -x
     enable_pnetcdf=$(nc-config --has-pnetcdf)
     set +x
-      [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf/${STACK_pnetcdf_version}
+      [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
     set -x
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"

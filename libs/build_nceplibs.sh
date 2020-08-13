@@ -24,66 +24,66 @@ if $MODULES; then
     wrf_io)
       mpi=$mpi_check
       [[ -z $mpi ]] || module load hpc-$HPC_MPI
-      module load netcdf/${STACK_netcdf_version}
+      module load netcdf
       ;;
     wgrib2)
       mpi=$mpi_check
       [[ -z $mpi ]] || module load hpc-$HPC_MPI
-      module try-load jasper/${STACK_jasper_version}
-      module try-load zlib/${STACK_zlib_version}
-      module try-load png/${STACK_png_version}
-      module load netcdf/${STACK_netcdf_version}
-      module load ip2/${STACK_ip2_version}
+      module try-load jasper
+      module try-load zlib
+      module try-load png
+      module load netcdf
+      module load ip2
       ;;
     ip2)
-      module load sp/${STACK_sp_version}
+      module load sp
       ;;
     g2)
-      module try-load png/${STACK_png_version}
-      module try-load jasper/${STACK_jasper_version}
+      module try-load png
+      module try-load jasper
       ;;
     nemsio)
       mpi=$mpi_check
       [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
       module load hpc-$HPC_MPI
-      module load bacio/${STACK_bacio_version}
-      module load w3nco/${STACK_w3nco_version}
+      module load bacio
+      module load w3nco
       ;;
     nemsiogfs)
       mpi=$mpi_check
       [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
       module load hpc-$HPC_MPI
-      module load nemsio/${STACK_nemsio_version}
+      module load nemsio
       ;;
     w3emc)
       mpi=$mpi_check
       [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
       module load hpc-$HPC_MPI
-      module load netcdf/${STACK_netcdf_version}
-      module load sigio/${STACK_sigio_version}
-      module load nemsio/${STACK_nemsio_version}
+      module load netcdf
+      module load sigio
+      module load nemsio
       ;;
     nceppost)
       mpi=$mpi_check
       [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
       module load hpc-$HPC_MPI
-      module try-load png/${STACK_png_version}
-      module try-load jasper/${STACK_jasper_version}
-      module load netcdf/${STACK_netcdf_version}
-      module load bacio/${STACK_bacio_version}
-      module load w3nco/${STACK_w3nco_version}
-      module load g2/${STACK_g2_version}
-      module load g2tmpl/${STACK_g2tmpl_version}
-      module load ip/${STACK_ip_version}
-      module load sp/${STACK_sp_version}
-      module load w3emc/${STACK_w3emc_version}
-      module load crtm/${STACK_crtm_version}
+      module try-load png
+      module try-load jasper
+      module load netcdf
+      module load bacio
+      module load w3nco
+      module load g2
+      module load g2tmpl
+      module load ip
+      module load sp
+      module load w3emc
+      module load crtm
       # post executable requires the following,
       # but we are not building post executable
-      # module load sigio/${STACK_sigio_version}
-      # module load sfcio/${STACK_sfcio_version}
-      # module load gfsio/${STACK_gfsio_version}
-      # module load nemsio/${STACK_nemsio_version}
+      # module load sigio
+      # module load sfcio
+      # module load gfsio
+      # module load nemsio
       ;;
   esac
   module list

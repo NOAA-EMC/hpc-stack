@@ -51,7 +51,7 @@ netcdf:
   build: NO
   shared: YES
   enable_pnetcdf: NO
-  version: 4.7.4
+  version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
 

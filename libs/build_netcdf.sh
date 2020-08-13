@@ -3,7 +3,7 @@
 set -ex
 
 name="netcdf"
-c_version=${1:-${STACK_netcdf_version}}
+c_version=${1:-${STACK_netcdf_version_c}}
 f_version=${2:-${STACK_netcdf_version_f}}
 cxx_version=${3:-${STACK_netcdf_version_cxx}}
 
@@ -18,10 +18,10 @@ if $MODULES; then
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
-    module try-load szip/${STACK_szip_version}
-    module load hdf5/${STACK_hdf5_version}
+    module try-load szip
+    module load hdf5
     if [[ ! -z $mpi ]]; then
-      [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf/${STACK_pnetcdf_version}
+      [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
     fi
     module list
     set -x
@@ -140,7 +140,7 @@ set -x
 
 # Load netcdf-c before building netcdf-fortran
 set +x
-$MODULES && module load netcdf/${STACK_netcdf_version}
+$MODULES && module load netcdf
 set -x
 
 if [[ ${STACK_netcdf_shared} =~ [yYtT] ]]; then

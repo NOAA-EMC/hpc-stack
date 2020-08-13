@@ -21,15 +21,15 @@ if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
-  module try-load zlib/${STACK_zlib_version}
-  module try-load szip/${STACK_szip_version}
+  module try-load zlib
+  module try-load szip
   [[ -z $mpi ]] || module load hpc-$HPC_MPI
-  module load hdf5/${STACK_hdf5_version}
+  module load hdf5
   if [[ ! -z $mpi ]]; then
-    [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf/${STACK_pnetcdf_version}
+    [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   fi
-  module load netcdf/${STACK_netcdf_version}
-  module try-load udunits/${STACK_udunits_version}
+  module load netcdf
+  module try-load udunits
   module list
   set -x
 
