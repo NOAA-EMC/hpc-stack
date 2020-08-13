@@ -92,11 +92,6 @@ function set_pkg_root() {
   done
 }
 
-function prependPATH() {
-  var="${1}_ROOT"
-  $MODULES || export PATH="${!var}/bin:$PATH"
-}
-
 function build_lib() {
     # Args: build_script_name
     set +x
@@ -153,7 +148,6 @@ function parse_yaml {
 export -f update_modules
 export -f no_modules
 export -f set_pkg_root
-export -f prependPATH
 export -f build_lib
 export -f build_nceplib
 export -f parse_yaml
