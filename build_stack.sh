@@ -111,7 +111,7 @@ mkdir -p $logdir
 # start with a clean slate
 if $MODULES; then
   module use $PREFIX/modulefiles/stack
-  module load hpc/1.0.0
+  module load hpc
 else
   no_modules
   set_pkg_root

@@ -17,5 +17,11 @@ export DOWNLOAD_ONLY=F
 export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
 
-# Load these basic modules for WCOSS Dell
+# WCOSS Dell specific
+# LMod has disabled "default" and requires exact module match.
+# https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html
+export LMOD_EXACT_MATCH="no"
+export LMOD_EXTENDED_DEFAULT="yes"
+
+# Load these basic modules
 module load cmake/3.16.2
