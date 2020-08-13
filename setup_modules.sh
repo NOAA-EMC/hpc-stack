@@ -112,7 +112,7 @@ $SUDO cp $HPC_STACK_ROOT/modulefiles/stack/hpc/hpc.lua \
 # sed does not like delimiter (/) to be a part of replacement string, do magic!
 cd $PREFIX/modulefiles/stack/hpc
 repl=$(echo ${PREFIX} | sed -e "s#/#\\\/#g")
-$SUDO sed -i -e "s/#PREFIX#/${repl}/g" $PREFIX/modulefiles/stack/hpc/1.0.0.lua
+$SUDO sed -i -e "s/#HPC_OPT#/${repl}/g" $PREFIX/modulefiles/stack/hpc/1.0.0.lua
 
 #===============================================================================
 
