@@ -8,6 +8,8 @@ version=${1:-${STACK_jasper_version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
+[[ ${STACK_jasper_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -44,6 +46,8 @@ sourceDir=$PWD
 mkdir -p build_jasper && cd build_jasper
 buildDir=$PWD
 
+[[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="-DJAS_ENABLE_SHARED=OFF"
+
 # Starting w/ version-2.0.0, jasper is built using cmake
 cmakeVer="2.0.0"
 if [ "$(printf '%s\n' "$cmakeVer" "$version" | sort -V | head -n1)" = "$cmakeVer" ]; then
@@ -58,7 +62,8 @@ if [[ "$useCmake" == "YES" ]]; then
       -H$sourceDir -B$buildDir \
       -DCMAKE_INSTALL_PREFIX=$prefix \
       -DCMAKE_BUILD_TYPE=RELEASE \
-      -DJAS_ENABLE_DOC=FALSE
+      -DJAS_ENABLE_DOC=FALSE \
+      $shared_flags
     cd $buildDir
 else
     ../configure --prefix=$prefix --enable-libjpeg

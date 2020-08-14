@@ -8,6 +8,8 @@ version=${1:-${STACK_zlib_version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
+[[ ${STACK_zlib_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+
 if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
@@ -41,13 +43,15 @@ gitURL=https://github.com/madler/zlib
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
+[[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="--static"
+
 outOfSource="1.2.10"
 if [ "$(printf '%s\n' "$outOfSource" "$version" | sort -V | head -n1)" = "$outOfSource" ]; then
   [[ -d build ]] && rm -rf build
   mkdir -p build && cd build
-  ../configure --prefix=$prefix
+  ../configure --prefix=$prefix $shared_flags
 else
-  ./configure --prefix=$prefix
+  ./configure --prefix=$prefix $shared_flags
 fi
 
 make -j${NTHREADS:-4}

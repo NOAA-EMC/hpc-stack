@@ -8,6 +8,8 @@ version=${1:-${STACK_szip_version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
+[[ ${STACK_szip_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+
 # manage package dependencies here
 if $MODULES; then
     set +x
@@ -44,7 +46,9 @@ url=https://support.hdfgroup.org/ftp/lib-external/szip/$version/src/$software.ta
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-../configure --prefix=$prefix
+[[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="--disable-shared --enable-static"
+
+../configure --prefix=$prefix $shared_flags
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
