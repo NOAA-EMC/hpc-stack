@@ -8,6 +8,8 @@ version=${1:-${STACK_udunits_version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
+[[ ${STACK_udunits_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+
 if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
@@ -41,7 +43,9 @@ url=ftp://ftp.unidata.ucar.edu/pub/udunits/$software.tar.gz
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-../configure --prefix=$prefix
+[[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="--disable-shared --enable-static"
+
+../configure --prefix=$prefix $shared_flags
 
 make -j${NTHREADS:-4}
 [[ "$MAKE_CHECK" = "YES" ]] && make check

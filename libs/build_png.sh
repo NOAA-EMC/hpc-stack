@@ -8,6 +8,8 @@ version=${1:-${STACK_png_version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
+[[ ${STACK_png_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+
 # manage package dependencies here
 if $MODULES; then
     set +x
@@ -41,10 +43,13 @@ sourceDir=$PWD
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
+[[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="-DPNG_SHARED=OFF"
+
 cmake $sourceDir \
   -DCMAKE_INSTALL_PREFIX=$prefix \
   -DCMAKE_BUILD_TYPE=RELEASE \
-  -DZLIB_ROOT=${ZLIB_ROOT}
+  -DZLIB_ROOT=${ZLIB_ROOT} \
+  $shared_flags
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
