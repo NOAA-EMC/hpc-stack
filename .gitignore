@@ -5,8 +5,15 @@
 *.pyc
 *.swp
 *~
+*.patch
+*.diff
+*.tar.gz
+*.zip
+*.tgz
 
 # Ignore the contents of these directories
 pkg*
 log*
 *.log*
+test*
+
