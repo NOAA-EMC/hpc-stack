@@ -129,7 +129,7 @@ Here `<prefix>` and `<configuration>` are the same as in Step 2, namely a refere
 If you want to add a new library to the stack you need to follow these steps:
 1. write a new build script in libs, using exising scripts as a template
 2. define a new section in the `yaml` file for that library/package in config directory
-3. Add a call to the new build script in `build\_stack.sh`
+3. Add a call to the new build script in `build_stack.sh`
 4. Create a new module template at the appropriate place in the modulefiles directory, using exising files as a template
 
 # Configuring for a new HPC
@@ -154,4 +154,12 @@ module load hpc-compiler
 ```
 export PATH="$PREFIX/bin:$PATH"
 export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
+```
+
+# Known work-around's for certain installations of Lmod.
+- On some machine's (e.g. **WCOSS_DELL_P3**), LMod is built to disable loading of default modulefiles and requires the user to load the module with an explicit version of the module.  e.g. `module load netcdf/4.7.4` instead of `module load netcdf`. The latter looks for the `default` module which is either the latest version or a version that is marked as default.  To circumvent this, it is necessary to place the following lines in `modulefiles/stack/hpc/hpc.lua` prior to executing `setup_modules.sh` or in `$PREFIX/modulefiles/stack/hpc/1.0.0.lua` after executing `setup_modules.sh`.
+```
+-- https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html
+setenv("LMOD_EXACT_MATCH", "no")
+setenv("LMOD_EXTENDED_DEFAULT", "yes")
 ```
