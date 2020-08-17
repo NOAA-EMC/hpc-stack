@@ -1,0 +1,29 @@
+name: Build Linux
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: openmpi-linux-stack
+    runs-on: ubuntu-latest
+    env:
+      FC: gfortran-9
+      CC: gcc-9
+      CXX: g++-9
+      VERBOSE: 1
+
+    steps:
+
+    - name: install-openmpi
+      run: |
+        sudo apt-get install openmpi-bin libopenmpi-dev
+
+    - name: checkout-hpc-stack-openmpi
+      uses: actions/checkout@v2
+      with:
+        path: openmpi-linux
+        submodules: true
+
+    - name: build-openmpi-linux-stack
+      run: |
+        cd openmpi-linux/hpc-stack
+        build_stack.sh -p ./install -c config/config_custom.sh -y config/stack_custom.yaml
