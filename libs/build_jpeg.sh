@@ -27,7 +27,7 @@ else
 fi
 
 export CC=$SERIAL_CC
-export CFLAGS="-fPIC"
+export CFLAGS="${STACK_jpeg_CFLAGS} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 

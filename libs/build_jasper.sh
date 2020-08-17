@@ -30,8 +30,8 @@ export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 
 export F77=$FC
-export FFLAGS="-fPIC"
-export CFLAGS="-fPIC"
+export FFLAGS="${STACK_jasper_FFLAGS} -fPIC"
+export CFLAGS="${STACK_jasper_CFLAGS} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 

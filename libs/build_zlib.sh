@@ -29,9 +29,10 @@ export FC=$SERIAL_FC
 export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 
-export FCFLAGS="-fPIC"
-export CFLAGS="-fPIC"
-export CXXFLAGS="-fPIC"
+export FFLAGS="${STACK_zlib_FFLAGS} -fPIC"
+export CFLAGS="${STACK_zlib_CFLAGS} -fPIC"
+export CXXFLAGS="${STACK_zlib_CXXFLAGS} -fPIC"
+export FCFLAGS="$FFLAGS"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
