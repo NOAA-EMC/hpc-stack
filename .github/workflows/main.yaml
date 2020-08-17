@@ -32,10 +32,11 @@ jobs:
         prefix=$GITHUB_WORKSPACE/linux-openmpi/install
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
-        ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml 2>&1 | tee build-linux-openmpi.log
+        #./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml 2>&1 | tee $prefix/build-linux-openmpi.log
+        ./setup_modules.sh -p $prefix -c config/config_custom.sh 2>&1 | tee $prefix/build-linux-openmpi.log
 
     - name: upload-build-linux-openmpi-log
       uses: actions/upload-artifact@v2
       with:
         name: build-linux-openmpi-log
-        path: build-linux-openmpi.log
+        path: $GITHUB_WORKSPACE/linux-openmpi/install/build-linux-openmpi.log
