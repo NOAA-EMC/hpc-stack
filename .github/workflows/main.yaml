@@ -1,0 +1,80 @@
+name: Build Linux OpenMPI
+on: [push, pull_request]
+
+jobs:
+  build:
+    # OpenMPI
+    name: linux-openmpi
+    runs-on: ubuntu-latest
+    env:
+      CC: gcc-9
+      CXX: g++-9
+      FC: gfortran-9
+      VERBOSE: 1
+
+    steps:
+
+    - name: install-openmpi
+      run: |
+        sudo apt-get install openmpi-bin libopenmpi-dev
+
+    - name: checkout-linux-openmpi
+      uses: actions/checkout@v2
+      with:
+        path: linux-openmpi
+        submodules: true
+
+    - name: build-linux-openmpi
+      run: |
+        cd linux-openmpi
+        export CC=mpicc
+        export CXX=mpicxx
+        export FC=mpifort
+        prefix=$GITHUB_WORKSPACE/linux-openmpi/install
+        export PATH="$prefix/bin:$PATH"
+        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
+        ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml 2>&1 | tee build-linux-openmpi.log
+
+    - name: upload-build-linux-openmpi-log
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-linux-openmpi-log
+        path: linux-openmpi/build-linux-openmpi.log
+
+#    # MPICH
+#    name: linux-mpich
+#    runs-on: ubuntu-latest
+#    env:
+#      CC: gcc-9
+#      CXX: g++-9
+#      FC: gfortran-9
+#      VERBOSE: 1
+#
+#    steps:
+#
+#    - name: install-mpich
+#      run: |
+#        sudo apt-get install libmpich-dev
+#
+#    - name: checkout-linux-mpich
+#      uses: actions/checkout@v2
+#      with:
+#        path: linux-mpich
+#        submodules: true
+#
+#    - name: build-linux-mpich
+#      run: |
+#        cd linux-mpich
+#        export CC=mpicc
+#        export CXX=mpicxx
+#        export FC=mpifort
+#        prefix=$GITHUB_WORKSPACE/linux-mpich/install
+#        export PATH="$prefix/bin:$PATH"
+#        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
+#        ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml 2>&1 | tee build-linux-mpich.log
+#
+#    - name: upload-build-linux-mpich-log
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: build-linux-mpich-log
+#        path: linux-mpich/build-linux-mpich.log

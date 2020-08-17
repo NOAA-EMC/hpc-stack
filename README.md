@@ -122,7 +122,7 @@ Now all that remains is to build the stack:
 ```
 ./build_stack.sh -p <prefix> -c <configuration> -y <yaml> -m
 ```
-Here `<prefix>` and `<configuration>` are the same as in Step 2, namely a reference to the installation prefix and a corresponding configuration file in the `config` directory.  As in Step 2, if these argument is omitted, the default is to use `$HOME/opt` and `config/config_custom.sh` respectively.  `<yaml>` represents a user configurable yaml file containing a list of packages that need to be built in the stack along with their versions and package options. The default value of `<yaml>` is `config/stack_custom.yaml`.  The `-m` option is required if LMod is used for managing the software stack.
+Here the `-m` option is only required if LMod is used for managing the software stack.  It should be omitted otherwise.  `<prefix>` and `<configuration>` are the same as in Step 2, namely a reference to the installation prefix and a corresponding configuration file in the `config` directory.  As in Step 2, if this argument is omitted, the default is to use `$HOME/opt` and `config/config_custom.sh` respectively.  `<yaml>` represents a user configurable yaml file containing a list of packages that need to be built in the stack along with their versions and package options. The default value of `<yaml>` is `config/stack_custom.yaml`.
 
 # Adding a New library/package
 

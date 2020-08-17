@@ -68,6 +68,9 @@ if [[ ${STACK_netcdf_shared} != [yYtT] ]]; then
 fi
 export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4"
 
+export CFLAGS+=" -I$HDF5_ROOT/include"
+export CPPFLAGS+=" -I$HDF5_ROOT/include"
+
 cd $curr_dir
 
 ##################################################
