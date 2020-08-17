@@ -26,4 +26,5 @@ jobs:
     - name: build-linux-openmpi
       run: |
         cd linux-openmpi
-        build_stack.sh -p ./install -c config/config_custom.sh -y config/stack_custom.yaml
+        ls
+        ./build_stack.sh -p ./install -c config/config_custom.sh -y config/stack_custom.yaml
