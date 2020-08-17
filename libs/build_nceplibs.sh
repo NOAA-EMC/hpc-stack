@@ -110,10 +110,14 @@ else
   export CXX=$SERIAL_CXX
 fi
 
+eval fflags="\${STACK_${name}_FFLAGS}"
+eval cflags="\${STACK_${name}_CFLAGS}"
+eval cxxflags="\${STACK_${name}_CXXFLAGS}"
+
 export F9X=$FC
-export FFLAGS="-fPIC -w"
-export CFLAGS="-fPIC -w"
-export CXXFLAGS="-fPIC -w"
+export FFLAGS="$fflags -fPIC -w"
+export CFLAGS="$cflags -fPIC -w"
+export CXXFLAGS="$cxxflags -fPIC -w"
 export FCFLAGS="$FFLAGS"
 
 # Set properties based on library name

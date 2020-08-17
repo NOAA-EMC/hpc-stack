@@ -32,9 +32,9 @@ export CXX=$MPI_CXX
 
 export F77=$FC
 export F9X=$FC
-export FFLAGS="-fPIC -w"
-export CFLAGS="-fPIC"
-export CXXFLAGS="-fPIC"
+export FFLAGS="${STACK_pnetcdf_FFLAGS} -fPIC -w"
+export CFLAGS="${STACK_pnetcdf_CFLAGS} -fPIC"
+export CXXFLAGS="${STACK_pnetcdf_CXXFLAGS} -fPIC"
 export FCFLAGS="$FFLAGS"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}

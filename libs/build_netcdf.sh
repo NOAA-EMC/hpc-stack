@@ -48,9 +48,9 @@ fi
 
 export F77=$FC
 export F9X=$FC
-export FFLAGS="-fPIC"
-export CFLAGS="-fPIC"
-export CXXFLAGS="-fPIC -std=c++11"
+export FFLAGS="${STACK_netcdf_FFLAGS} -fPIC"
+export CFLAGS="${STACK_netcdf_CFLAGS} -fPIC"
+export CXXFLAGS="${STACK_netcdf_CXXFLAGS} -fPIC -std=c++11"
 export FCFLAGS="$FFLAGS"
 
 gitURLroot="https://github.com/Unidata"
