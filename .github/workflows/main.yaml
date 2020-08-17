@@ -29,7 +29,10 @@ jobs:
         export CC=mpicc
         export CXX=mpicxx
         export FC=mpifort
-        ./build_stack.sh -p $GITHUB_WORKSPACE/linux-openmpi/install -c config/config_custom.sh -y config/stack_custom.yaml 2>&1 | tee build-linux-openmpi.log
+        prefix=$GITHUB_WORKSPACE/linux-openmpi/install
+        export PATH="$prefix/bin:$PATH"
+        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
+        ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml 2>&1 | tee build-linux-openmpi.log
 
     - name: upload-build-linux-openmpi-log
       uses: actions/upload-artifact@v2
