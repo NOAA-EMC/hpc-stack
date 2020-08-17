@@ -26,5 +26,7 @@ jobs:
     - name: build-linux-openmpi
       run: |
         cd linux-openmpi
-        ls
-        ./build_stack.sh -p ./install -c config/config_custom.sh -y config/stack_custom.yaml
+        export CC=mpicc
+        export CXX=mpicxx
+        export FC=mpifort
+        ./build_stack.sh -p $GITHUB_WORKSPACE/linux-openmpi/install -c config/config_custom.sh -y config/stack_custom.yaml
