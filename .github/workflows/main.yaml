@@ -6,9 +6,9 @@ jobs:
     name: linux-openmpi
     runs-on: ubuntu-latest
     env:
-      FC: gfortran-9
       CC: gcc-9
       CXX: g++-9
+      FC: gfortran-9
       VERBOSE: 1
 
     steps:
@@ -29,4 +29,10 @@ jobs:
         export CC=mpicc
         export CXX=mpicxx
         export FC=mpifort
-        ./build_stack.sh -p $GITHUB_WORKSPACE/linux-openmpi/install -c config/config_custom.sh -y config/stack_custom.yaml
+        ./build_stack.sh -p $GITHUB_WORKSPACE/linux-openmpi/install -c config/config_custom.sh -y config/stack_custom.yaml 2>&1 | tee build-linux-openmpi.log
+
+    - name: upload-build-linux-openmpi-log
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-linux-openmpi-log
+        path: build-linux-openmpi.log
