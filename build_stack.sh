@@ -5,7 +5,6 @@
 # sample usage:
 # build_stack.sh -p "prefix" -c "config.sh" -y "stack.yaml" -m
 # build_stack.sh -h
-#
 
 set -e
 
@@ -175,6 +174,8 @@ build_nceplib nceppost
 build_nceplib wrf_io
 build_nceplib bufr
 build_nceplib wgrib2
+build_nceplib prod_util
+build_nceplib grib_util
 
 # ==============================================================================
 # optionally clean up
