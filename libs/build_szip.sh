@@ -41,7 +41,7 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
 url=https://support.hdfgroup.org/ftp/lib-external/szip/$version/src/$software.tar.gz
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
+[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz && rm -f $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
