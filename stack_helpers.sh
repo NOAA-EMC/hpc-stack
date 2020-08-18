@@ -84,8 +84,8 @@ function no_modules {
 function set_pkg_root() {
   # export <PKG>_ROOT environment variables
   for i in $(printenv | grep "STACK_.*_build="); do
-    pkg=$(echo $i | cut -d_ -f2 | tr 'a-z' 'A-Z')
-    build=$(echo $i | cut -d_ -f3 | cut -d= -f2)
+    pkg=$(echo $i | cut -d= -f1 | tr 'a-z' 'A-Z' | cut -d_ -f2- | rev | cut -d_ -f2- | rev)
+    build=$(echo $i | cut -d= -f2)
     if [[ $build =~ ^(yes|YES|true|TRUE)$ ]]; then
         eval export ${pkg}_ROOT=${PREFIX:-"/usr/local"}
     fi
