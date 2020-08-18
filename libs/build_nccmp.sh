@@ -7,6 +7,12 @@ version=${1:-${STACK_nccmp_version}}
 
 software=$name-$version
 
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
+url="https://gitlab.com/remikz/nccmp/-/archive/$version/${software}.tar.gz"
+[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz && rm -f $software.tar.gz )
+[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
@@ -56,16 +62,10 @@ fi
 LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
 export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4 $LDFLAGS5"
 
-url="https://gitlab.com/remikz/nccmp/-/archive/$version/${software}.tar.gz"
-
-cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-
 # Enable header pad comparison, if netcdf-c src directory exists!
 [[ -d "netcdf-c-$NETCDF_VERSION" ]] && netcdf_src="$PWD/netcdf-c-$NETCDF_VERSION"
 [[ -d "netcdf-c-$NETCDF_VERSION" ]] && extra_confs="--with-netcdf=$netcdf_src"
 
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
-[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
