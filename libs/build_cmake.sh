@@ -5,7 +5,7 @@
 # allows you to place it into a module context so you can experiment
 # with different versions
 
-set -ex
+set -eux
 
 name="cmake"
 version=${1:-${STACK_cmake_version}}

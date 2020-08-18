@@ -8,7 +8,7 @@ version=${1:-${STACK_zlib_version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
-[[ ${STACK_zlib_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+[[ ${STACK_zlib_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 if $MODULES; then
     set +x
@@ -29,9 +29,9 @@ export FC=$SERIAL_FC
 export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 
-export FFLAGS="${STACK_zlib_FFLAGS} -fPIC"
-export CFLAGS="${STACK_zlib_CFLAGS} -fPIC"
-export CXXFLAGS="${STACK_zlib_CXXFLAGS} -fPIC"
+export FFLAGS="${STACK_zlib_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_zlib_CFLAGS:-} -fPIC"
+export CXXFLAGS="${STACK_zlib_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}

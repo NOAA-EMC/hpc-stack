@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="jpeg"
 version=${1:-${STACK_jpeg_version}}
@@ -27,7 +27,7 @@ else
 fi
 
 export CC=$SERIAL_CC
-export CFLAGS="${STACK_jpeg_CFLAGS} -fPIC"
+export CFLAGS="${STACK_jpeg_CFLAGS:-} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 

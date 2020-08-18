@@ -18,7 +18,7 @@
 #
 #
 
-set -ex
+set -eux
 
 name="cgal"
 version=${1:-${STACK_cgal_version}}

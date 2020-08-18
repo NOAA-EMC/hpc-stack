@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="fftw"
 version=${1:-${STACK_fftw_version}}

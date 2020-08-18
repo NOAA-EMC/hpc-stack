@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="hdf5"
 version=${1:-${STACK_hdf5_version}}
@@ -9,9 +9,9 @@ version=${1:-${STACK_hdf5_version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
-[[ ${STACK_hdf5_enable_szip} =~ [yYtT] ]] && enable_szip=YES || enable_szip=NO
-[[ ${STACK_hdf5_enable_zlib} =~ [yYtT] ]] && enable_zlib=YES || enable_zlib=NO
-[[ ${STACK_hdf5_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+[[ ${STACK_hdf5_enable_szip:-} =~ [yYtT] ]] && enable_szip=YES || enable_szip=NO
+[[ ${STACK_hdf5_enable_zlib:-} =~ [yYtT] ]] && enable_zlib=YES || enable_zlib=NO
+[[ ${STACK_hdf5_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 if $MODULES; then
   set +x
@@ -44,9 +44,9 @@ else
 fi
 
 export F9X=$FC
-export FFLAGS="${STACK_hdf5_FFLAGS} -fPIC -w"
-export CFLAGS="${STACK_hdf5_CFLAGS} -fPIC -w"
-export CXXFLAGS="${STACK_hdf5_CXXFLAGS} -fPIC -w"
+export FFLAGS="${STACK_hdf5_FFLAGS:-} -fPIC -w"
+export CFLAGS="${STACK_hdf5_CFLAGS:-} -fPIC -w"
+export CXXFLAGS="${STACK_hdf5_CXXFLAGS:-} -fPIC -w"
 export FCFLAGS="$FFLAGS"
 
 gitURL="https://bitbucket.hdfgroup.org/scm/hdffv/hdf5.git"
@@ -68,7 +68,7 @@ mkdir -p build && cd build
 
 ../configure --prefix=$prefix \
              --enable-fortran --enable-cxx \
-             $szip_flags $zlib_flags $shared_flags $extra_conf
+             ${szip_flags:-} ${zlib_flags:-} ${shared_flags:-} ${extra_conf:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check

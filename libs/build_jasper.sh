@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="jasper"
 version=${1:-${STACK_jasper_version}}
@@ -8,7 +8,7 @@ version=${1:-${STACK_jasper_version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
-[[ ${STACK_jasper_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+[[ ${STACK_jasper_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 if $MODULES; then
   set +x
@@ -30,8 +30,8 @@ export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 
 export F77=$FC
-export FFLAGS="${STACK_jasper_FFLAGS} -fPIC"
-export CFLAGS="${STACK_jasper_CFLAGS} -fPIC"
+export FFLAGS="${STACK_jasper_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_jasper_CFLAGS:-} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 

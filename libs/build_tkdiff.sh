@@ -3,7 +3,7 @@
 # tkdiff is a side-by-side diff viewer, editor, and merge provider
 # this script installs into /usr/local/bin so it requires root privileges
 
-set -ex
+set -eux
 
 name="tkdiff"
 version=${1:-${STACK_tkdiff_version}}

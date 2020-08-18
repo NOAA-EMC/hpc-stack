@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name=$1
 eval s_version="\${STACK_${name}_version}"
@@ -19,6 +19,7 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
 
+  mpi=''
   # Load dependencies
   case $name in
     wrf_io)
@@ -110,9 +111,9 @@ else
   export CXX=$SERIAL_CXX
 fi
 
-eval fflags="\${STACK_${name}_FFLAGS}"
-eval cflags="\${STACK_${name}_CFLAGS}"
-eval cxxflags="\${STACK_${name}_CXXFLAGS}"
+eval fflags="\${STACK_${name}_FFLAGS:-}"
+eval cflags="\${STACK_${name}_CFLAGS:-}"
+eval cxxflags="\${STACK_${name}_CXXFLAGS:-}"
 
 export F9X=$FC
 export FFLAGS="$fflags -fPIC -w"
@@ -154,7 +155,7 @@ mkdir -p build && cd build
 cmake .. \
   -DCMAKE_INSTALL_PREFIX=$prefix \
   -DENABLE_TESTS=OFF \
-  $extraCMakeFlags \
+  ${extraCMakeFlags:-} \
   -DOPENMP=${openmp}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}

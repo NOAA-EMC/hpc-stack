@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="gptl"
 version=${1:-${STACK_gptl_version}}

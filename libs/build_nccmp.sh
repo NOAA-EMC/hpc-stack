@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="nccmp"
 version=${1:-${STACK_nccmp_version}}
@@ -46,7 +46,7 @@ else
     export CXX=$SERIAL_CXX
 fi
 
-export CFLAGS="${STACK_nccmp_CFLAGS} -fPIC"
+export CFLAGS="${STACK_nccmp_CFLAGS:-} -fPIC"
 LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
 LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
 LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
@@ -54,7 +54,7 @@ if [[ ! -z $mpi ]]; then
   [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
 fi
 LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
-export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4 $LDFLAGS5"
+export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-} ${LDFLAGS5:-}"
 
 url="https://gitlab.com/remikz/nccmp/-/archive/$version/${software}.tar.gz"
 

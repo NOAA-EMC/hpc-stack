@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="lapack"
 version=${1:-${STACK_lapack_version}}

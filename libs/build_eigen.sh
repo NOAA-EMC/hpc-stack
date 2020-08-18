@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="eigen"
 version=${1:-${STACK_eigen_version}}

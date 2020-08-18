@@ -7,7 +7,7 @@
 # build_stack.sh -h
 #
 
-set -e
+set -eu
 
 # root directory for the repository
 HPC_BUILDSCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -121,9 +121,9 @@ fi
 #----------------------
 # Compiler and MPI
 build_lib gnu
-$MODULES || { [[ ${STACK_gnu_build} =~ [yYtT] ]] && export PATH="$PREFIX/bin:$PATH"; }
+$MODULES || { [[ ${STACK_gnu_build:-} =~ [yYtT] ]] && export PATH="$PREFIX/bin:$PATH"; }
 build_lib mpi
-$MODULES || { [[ ${STACK_mpi_build} =~ [yYtT] ]] && export PATH="$PREFIX/bin:$PATH"; }
+$MODULES || { [[ ${STACK_mpi_build:-} =~ [yYtT] ]] && export PATH="$PREFIX/bin:$PATH"; }
 
 # ==============================================================================
 #----------------------

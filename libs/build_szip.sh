@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="szip"
 version=${1:-${STACK_szip_version}}
@@ -8,7 +8,7 @@ version=${1:-${STACK_szip_version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
-[[ ${STACK_szip_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+[[ ${STACK_szip_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 # manage package dependencies here
 if $MODULES; then
@@ -32,9 +32,9 @@ export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 export FC=$SERIAL_FC
 
-export FFLAGS="${STACK_szip_FFLAGS} -fPIC"
-export CFLAGS="${STACK_szip_CFLAGS} -fPIC"
-export CXXFLAGS="${STACK_szip_CXXFLAGS} -fPIC"
+export FFLAGS="${STACK_szip_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_szip_CFLAGS:-} -fPIC"
+export CXXFLAGS="${STACK_szip_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}

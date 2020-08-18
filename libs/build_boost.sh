@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -eux
 
 name="boost"
 version=${1:-${STACK_boost_version}}

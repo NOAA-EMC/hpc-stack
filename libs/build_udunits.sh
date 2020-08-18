@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="udunits"
 version=${1:-${STACK_udunits_version}}
@@ -8,7 +8,7 @@ version=${1:-${STACK_udunits_version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
-[[ ${STACK_udunits_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+[[ ${STACK_udunits_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 if $MODULES; then
     set +x
@@ -30,8 +30,8 @@ export FC=$SERIAL_FC
 export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 
-export FFLAGS="${STACK_udunits_FFLAGS} -fPIC"
-export CFLAGS="${STACK_udunits_CFLAGS} -fPIC"
+export FFLAGS="${STACK_udunits_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_udunits_CFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}

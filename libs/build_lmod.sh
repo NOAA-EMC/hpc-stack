@@ -7,7 +7,7 @@
 # usage:
 # build_lmod.sh <prefix>
 
-set -ex
+set -eux
 
 if [[ $# -lt 1 ]]; then
     mods_path=/opt

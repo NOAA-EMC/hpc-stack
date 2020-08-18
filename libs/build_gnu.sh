@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="gnu"
 version=${1:-${STACK_gnu_version}}
