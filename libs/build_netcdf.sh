@@ -167,7 +167,7 @@ software=$name-"fortran"-$version
 mkdir -p build && cd build
 
 ../configure --prefix=$prefix \
-             $shared_flags
+             ${shared_flags:-}
 
 #VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE make -j1 #NetCDF-Fortran-4.5.2 & intel/20 have a linker bug if built with j>1
@@ -192,7 +192,7 @@ software=$name-"cxx4"-$version
 mkdir -p build && cd build
 
 ../configure --prefix=$prefix \
-             $shared_flags
+             ${shared_flags:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check

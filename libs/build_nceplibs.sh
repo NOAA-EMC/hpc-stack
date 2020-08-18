@@ -13,13 +13,13 @@ openmp=${4:-${s_openmp:-"OFF"}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi_check=$(echo $HPC_MPI | sed 's/\//-/g')
+mpi=''
 
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
 
-  mpi=''
   # Load dependencies
   case $name in
     wrf_io)
@@ -129,6 +129,10 @@ case $name in
     ;;
   crtm)
     gitURL="https://github.com/noaa-emc/emc_crtm"
+    ;;
+  wgrib2)
+    gitURL="https://github.com/noaa-emc/nceplibs-$name"
+    extraCMakeFlags="-DUSE_IPOLATES=0 -DUSE_SPECTRAL=OFF"
     ;;
   *)
     gitURL="https://github.com/noaa-emc/nceplibs-$name"

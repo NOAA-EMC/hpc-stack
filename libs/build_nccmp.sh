@@ -63,8 +63,8 @@ LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
 export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-} ${LDFLAGS5:-}"
 
 # Enable header pad comparison, if netcdf-c src directory exists!
-[[ -d "netcdf-c-$NETCDF_VERSION" ]] && netcdf_src="$PWD/netcdf-c-$NETCDF_VERSION"
-[[ -d "netcdf-c-$NETCDF_VERSION" ]] && extra_confs="--with-netcdf=$netcdf_src"
+[[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && netcdf_src="$PWD/netcdf-c-$NETCDF_VERSION"
+[[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && extra_confs="--with-netcdf=$netcdf_src"
 
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -79,7 +79,7 @@ cmake .. \
   -DCMAKE_VERBOSE_MAKEFILE=ON \
   -DNETCDF_INC_DIR=$NETCDF_ROOT/include \
   -DNETCDF_LIB_PATH=$NETCDF_ROOT/lib/libnetcdf.a \
-  -DWITH_NETCDF=$netcdf_src
+  -DWITH_NETCDF=${netcdf_src:-}
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
