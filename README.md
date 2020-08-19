@@ -81,6 +81,8 @@ The following software can optionally be built with the scripts under `libs`. Th
   - NCEPLIBS-landsfcutil
   - NCEPLIBS-bufr
   - NCEPLIBS-wgrib2
+  - NCEPLIBS-prod_util
+  - NCEPLIBS-grib_util
   - EMC_crtm
   - EMC_post
 
@@ -139,6 +141,9 @@ If you want to port this to a new HPC, you need to follow these steps:
 2. Add/remove basic modules for that HPC
 3. Choose the appropriate Compiler/MPI combination.
 4. If a template modulefile does not exist for that Compiler/MPI combinattion, create module templates at the appropriate place in the modulefiles directory, using existing files as a template.
+
+# Using the **DOWNLOAD_ONLY** option
+If an HPC (e.g. NOAA RDHPCS Hera) does not allow access to online software via `wget` or `git clone`, you will have to download all the packages using the **DOWNLOAD_ONLY** option in the `config_custom.sh`.  Execute `build_stack.sh` as you would on a machine that does allow access to online software with `DOWNLOAD_ONLY=YES` and all the packages will be downloaded in the `pkg` directory.  Transfer the contents of the `pkg` directory to the machine you wish to install the hpc-stack and execute `build_stack.sh`.  `build_stack.sh` will detect the already downloaded packages and use them rather than fetching them.
 
 # Using the HPC-stack
 - If Lmod is used to manage the software stack, to use the HPC-stack, you need to activate the stack.  This is done by loading the `hpc` module under `$PREFIX/modulefiles/stack` as follows:
