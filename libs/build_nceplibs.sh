@@ -34,7 +34,8 @@ if $MODULES; then
       module try-load zlib
       module try-load png
       module load netcdf
-      module load ip2
+      #module load sp  # building with USE_SPECTRAL=OFF
+      #module load ip2 # building with USE_IPOLATES=0
       ;;
     ip2)
       module load sp
@@ -86,6 +87,16 @@ if $MODULES; then
       # module load gfsio
       # module load nemsio
       ;;
+    grib_util)
+      module try-load jasper
+      module try-load zlib
+      module try-load png
+      module load bacio
+      module load w3nco
+      module load g2
+      module load ip
+      module load sp
+      ;;
   esac
   module list
   set -x
@@ -122,6 +133,8 @@ export CXXFLAGS="$cxxflags -fPIC -w"
 export FCFLAGS="$FFLAGS"
 
 # Set properties based on library name
+gitURL="https://github.com/noaa-emc/nceplibs-$name"
+extraCMakeFlags=""
 case $name in
   nceppost)
     gitURL="https://github.com/noaa-emc/emc_post"
@@ -131,12 +144,9 @@ case $name in
     gitURL="https://github.com/noaa-emc/emc_crtm"
     ;;
   wgrib2)
-    gitURL="https://github.com/noaa-emc/nceplibs-$name"
-    extraCMakeFlags="-DUSE_IPOLATES=0 -DUSE_SPECTRAL=OFF"
-    ;;
-  *)
-    gitURL="https://github.com/noaa-emc/nceplibs-$name"
-    extraCMakeFlags=""
+    [[ -z ${STACK_wgrib2_ipolates:-} ]] && ipolates=0   || ipolates=$STACK_wgrib2_ipolates
+    [[ -z ${STACK_wgrib2_spectral:-} ]] && spectral=OFF || spectral=$STACK_wgrib2_spectral
+    extraCMakeFlags="-DUSE_SPECTRAL=$spectral -DUSE_IPOLATES=$ipolates"
     ;;
 esac
 

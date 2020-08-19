@@ -199,3 +199,17 @@ wgrib2:
   version: v2.0.8-cmake-v1.0.2
   install_as: 2.0.8
   openmp: OFF
+  spectral: OFF
+  ipolates: 0
+
+prod_util:
+  build: NO
+  version: develop
+  install_as: develop
+  openmp: OFF
+
+grib_util:
+  build: NO
+  version: develop
+  install_as: develop
+  openmp: OFF
