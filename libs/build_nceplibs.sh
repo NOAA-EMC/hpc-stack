@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name=$1
 eval s_version="\${STACK_${name}_version}"
@@ -13,6 +13,7 @@ openmp=${4:-${s_openmp:-"OFF"}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi_check=$(echo $HPC_MPI | sed 's/\//-/g')
+mpi=''
 
 if $MODULES; then
   set +x
@@ -121,9 +122,9 @@ else
   export CXX=$SERIAL_CXX
 fi
 
-eval fflags="\${STACK_${name}_FFLAGS}"
-eval cflags="\${STACK_${name}_CFLAGS}"
-eval cxxflags="\${STACK_${name}_CXXFLAGS}"
+eval fflags="\${STACK_${name}_FFLAGS:-}"
+eval cflags="\${STACK_${name}_CFLAGS:-}"
+eval cxxflags="\${STACK_${name}_CXXFLAGS:-}"
 
 export F9X=$FC
 export FFLAGS="$fflags -fPIC -w"
@@ -143,8 +144,8 @@ case $name in
     gitURL="https://github.com/noaa-emc/emc_crtm"
     ;;
   wgrib2)
-    [[ -z $STACK_wgrib2_ipolates ]] && ipolates=0   || ipolates=$STACK_wgrib2_ipolates
-    [[ -z $STACK_wgrib2_spectral ]] && spectral=OFF || spectral=$STACK_wgrib2_spectral
+    [[ -z ${STACK_wgrib2_ipolates:-} ]] && ipolates=0   || ipolates=$STACK_wgrib2_ipolates
+    [[ -z ${STACK_wgrib2_spectral:-} ]] && spectral=OFF || spectral=$STACK_wgrib2_spectral
     extraCMakeFlags="-DUSE_SPECTRAL=$spectral -DUSE_IPOLATES=$ipolates"
     ;;
 esac
@@ -168,7 +169,7 @@ mkdir -p build && cd build
 cmake .. \
   -DCMAKE_INSTALL_PREFIX=$prefix \
   -DENABLE_TESTS=OFF \
-  $extraCMakeFlags \
+  ${extraCMakeFlags:-} \
   -DOPENMP=${openmp}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}

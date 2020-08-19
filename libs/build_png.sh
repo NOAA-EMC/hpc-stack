@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="png"
 version=${1:-${STACK_png_version}}
@@ -8,7 +8,7 @@ version=${1:-${STACK_png_version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
-[[ ${STACK_png_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+[[ ${STACK_png_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 # manage package dependencies here
 if $MODULES; then
@@ -30,7 +30,7 @@ else
 fi
 
 export CC=$SERIAL_CC
-export CFLAGS="${STACK_png_CFLAGS} -fPIC"
+export CFLAGS="${STACK_png_CFLAGS:-} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 

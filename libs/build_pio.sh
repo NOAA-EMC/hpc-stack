@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="pio"
 version=${1:-${STACK_pio_version}}
@@ -9,7 +9,7 @@ version=${1:-${STACK_pio_version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
-[[ ${STACK_pio_enable_pnetcdf} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
+[[ ${STACK_pio_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 
 if $MODULES; then
     set +x
@@ -38,9 +38,9 @@ export CC=$MPI_CC
 export CXX=$MPI_CXX
 
 export F9X=$FC
-export FFLAGS="${STACK_pio_FFLAGS} -fPIC"
-export CFLAGS="${STACK_pio_CFLAGS} -fPIC"
-export CXXFLAGS="${STACK_pio_CXXFLAGS} -fPIC"
+export FFLAGS="${STACK_pio_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_pio_CFLAGS:-} -fPIC"
+export CXXFLAGS="${STACK_pio_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
@@ -67,8 +67,8 @@ export LDFLAGS="$LDFLAGS2 $LDFLAGS3"
 
 cmake ..\
   -DCMAKE_INSTALL_PREFIX=$prefix \
-  -DNetCDF_PATH=$NETCDF \
-  -DHDF5_PATH=$HDF5_ROOT \
+  -DNetCDF_PATH=${NETCDF:-} \
+  -DHDF5_PATH=${HDF5_ROOT:-} \
   -DCMAKE_VERBOSE_MAKEFILE=1 \
   $CMAKE_FLAGS
 

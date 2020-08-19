@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="netcdf"
 c_version=${1:-${STACK_netcdf_version_c}}
@@ -11,7 +11,7 @@ cxx_version=${3:-${STACK_netcdf_version_cxx}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
-[[ ${STACK_netcdf_enable_pnetcdf} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
+[[ ${STACK_netcdf_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 
 if $MODULES; then
     set +x
@@ -48,9 +48,9 @@ fi
 
 export F77=$FC
 export F9X=$FC
-export FFLAGS="${STACK_netcdf_FFLAGS} -fPIC"
-export CFLAGS="${STACK_netcdf_CFLAGS} -fPIC"
-export CXXFLAGS="${STACK_netcdf_CXXFLAGS} -fPIC -std=c++11"
+export FFLAGS="${STACK_netcdf_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_netcdf_CFLAGS:-} -fPIC"
+export CXXFLAGS="${STACK_netcdf_CXXFLAGS:-} -fPIC -std=c++11"
 export FCFLAGS="$FFLAGS"
 
 gitURLroot="https://github.com/Unidata"
@@ -61,12 +61,12 @@ curr_dir=$(pwd)
 LDFLAGS1="-L$HDF5_ROOT/lib"
 LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
 [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib"
-if [[ ${STACK_netcdf_shared} != [yYtT] ]]; then
+if [[ ${STACK_netcdf_shared:-} != [yYtT] ]]; then
   LDFLAGS1+=" -lhdf5_hl -lhdf5"
   LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
   [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4+=" -lpnetcdf"
 fi
-export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4"
+export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
 
 export CFLAGS+=" -I$HDF5_ROOT/include"
 export CPPFLAGS+=" -I$HDF5_ROOT/include"
@@ -118,7 +118,7 @@ mkdir -p build && cd build
              --disable-dap \
              --enable-netcdf-4 \
              --disable-doxygen \
-             $shared_flags $pnetcdf_conf $extra_conf
+             ${shared_flags:-} ${pnetcdf_conf:-} ${extra_conf:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
@@ -167,7 +167,7 @@ software=$name-"fortran"-$version
 mkdir -p build && cd build
 
 ../configure --prefix=$prefix \
-             $shared_flags
+             ${shared_flags:-}
 
 #VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE make -j1 #NetCDF-Fortran-4.5.2 & intel/20 have a linker bug if built with j>1
@@ -192,7 +192,7 @@ software=$name-"cxx4"-$version
 mkdir -p build && cd build
 
 ../configure --prefix=$prefix \
-             $shared_flags
+             ${shared_flags:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check

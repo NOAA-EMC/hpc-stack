@@ -96,7 +96,10 @@ function build_lib() {
     # Args: build_script_name
     set +x
     var="STACK_${1}_build"
-    if [[ ${!var} =~ [yYtT] ]]; then
+    set +u
+    stack_build=${!var}
+    set -u
+    if [[ ${stack_build} =~ [yYtT] ]]; then
         ${HPC_BUILDSCRIPTS_DIR}/libs/build_$1.sh 2>&1 | tee "$logdir/$1.log"
         ret=${PIPESTATUS[0]}
         if [[ $ret > 0 ]]; then

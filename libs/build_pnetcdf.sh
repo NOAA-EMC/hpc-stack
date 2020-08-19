@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -eux
 
 name="pnetcdf"
 version=${1:-${STACK_pnetcdf_version}}
@@ -32,9 +32,9 @@ export CXX=$MPI_CXX
 
 export F77=$FC
 export F9X=$FC
-export FFLAGS="${STACK_pnetcdf_FFLAGS} -fPIC -w"
-export CFLAGS="${STACK_pnetcdf_CFLAGS} -fPIC"
-export CXXFLAGS="${STACK_pnetcdf_CXXFLAGS} -fPIC"
+export FFLAGS="${STACK_pnetcdf_FFLAGS:-} -fPIC -w"
+export CFLAGS="${STACK_pnetcdf_CFLAGS:-} -fPIC"
+export CXXFLAGS="${STACK_pnetcdf_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
