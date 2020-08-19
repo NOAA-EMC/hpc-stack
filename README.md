@@ -118,6 +118,8 @@ These `hpc-` modules are really meta-modules that will both load the compiler/mp
 
 So, in short, you should never load the compiler or MPI modules directly.  Instead, you should always load the `hpc-` meta-modules as demonstrated above - they will provide everything you need to load and then use these software libraries.
 
+If the compiler and/or MPI is natively available on the system and the user wishes to make use of it e.g. `/usr/bin/gcc`, the `setup_modules.sh` script prompts the user to answer questions regarding their use.  For e.g. in containers, one would like to use the system provided GNU compilers, but build a MPI implementation.
+
 ## Step 3: Build Software Stack
 
 Now all that remains is to build the stack:
@@ -137,10 +139,11 @@ If you want to add a new library to the stack you need to follow these steps:
 # Configuring for a new HPC
 
 If you want to port this to a new HPC, you need to follow these steps:
-1. Write a new config file in `config`, using existing configs as a template. Also create a new yaml file, using existing yaml files as a template.
+1. Write a new config file `config/config_<hpc>.sh`, using existing configs as a template. Also create a new yaml file `config/stack_<hpc>.yaml`, using existing yaml files as a template.
 2. Add/remove basic modules for that HPC
 3. Choose the appropriate Compiler/MPI combination.
-4. If a template modulefile does not exist for that Compiler/MPI combinattion, create module templates at the appropriate place in the modulefiles directory, using existing files as a template.
+4. If a template modulefile does not exist for that Compiler/MPI combinattion, create module templates at the appropriate place in the modulefiles directory, using existing files as a template. E.g. `hpc-ips` or `hpc-smpi`.
+5. If the HPC provides some basic modules for e.g. Git, CMake, etc. they can be loaded in `config/config_<hpc>.sh`
 
 # Using the **DOWNLOAD_ONLY** option
 If an HPC (e.g. NOAA RDHPCS Hera) does not allow access to online software via `wget` or `git clone`, you will have to download all the packages using the **DOWNLOAD_ONLY** option in the `config_custom.sh`.  Execute `build_stack.sh` as you would on a machine that does allow access to online software with `DOWNLOAD_ONLY=YES` and all the packages will be downloaded in the `pkg` directory.  Transfer the contents of the `pkg` directory to the machine you wish to install the hpc-stack and execute `build_stack.sh`.  `build_stack.sh` will detect the already downloaded packages and use them rather than fetching them.

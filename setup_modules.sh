@@ -102,6 +102,28 @@ $SUDO cp $HPC_STACK_ROOT/modulefiles/compiler/compilerName/compilerVersion/hpc-$
          $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName/$mpiVersion.lua
 
 #===============================================================================
+# Query the user if using native compiler and MPI
+echo "Are you using native compiler $compilerName [yes|YES|no|NO]: (DEFAULT: NO)  "
+read responseCompiler
+if [[ $responseCompiler =~ [yYtT] ]]; then
+  echo -e "==========================\n USING NATIVE COMPILER"
+  cd $PREFIX/modulefiles/core/hpc-$compilerName
+  $SUDO sed -i -e '/load(compiler)/d' $compilerVersion.lua
+  $SUDO sed -i -e '/prereq(compiler)/d' $compilerVersion.lua
+  echo
+fi
+
+echo "Are you using native MPI $mpiName [yes|YES|no|NO]: (DEFAULT: NO)  "
+read responseMPI
+if [[ $responseMPI =~ [yYtT] ]]; then
+  echo -e "===========================\n USING NATIVE MPI"
+  cd $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName
+  $SUDO sed -i -e '/load(mpi)/d' $mpiVersion.lua
+  $SUDO sed -i -e '/prereq(mpi)/d' $mpiVersion.lua
+  echo
+fi
+
+#===============================================================================
 
 # Deploy directory for stack modulefile
 $SUDO mkdir -p $PREFIX/modulefiles/stack/hpc
