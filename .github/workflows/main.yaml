@@ -29,10 +29,10 @@ jobs:
         sudo apt-get install libmpich-dev
       if: matrix.os == 'ubuntu-20.04' && matrix.mpi == 'mpich'
 
-    - name: Install dependencies (macOS & MPICH)
-      run: |
-        brew install mpich
-      if: matrix.os == 'macos-10.15' && matrix.mpi == 'mpich'
+      #    - name: Install dependencies (macOS & MPICH)
+      #      run: |
+      #        brew install mpich
+      #      if: matrix.os == 'macos-10.15' && matrix.mpi == 'mpich'
 
     - name: Get Sources
       uses: actions/checkout@v2
@@ -55,5 +55,5 @@ jobs:
         prefix=$GITHUB_WORKSPACE/install-${{ matrix.os }}-${{ matrix.mpi }}
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
-        ./build_stack.sh -p $prefix -c config/config_mac.sh -y config/stack_custom.yaml
+        ./build_stack.sh -p $prefix -c config/config_mac.sh -y config/stack_mac.yaml
       if: matrix.os == 'macos-10.15'
