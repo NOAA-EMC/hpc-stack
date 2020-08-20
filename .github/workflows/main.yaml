@@ -42,20 +42,6 @@ jobs:
         path: ${{ matrix.os }}-${{ matrix.mpi }}
         submodules: true
 
-    - name: Set Environment (Linux)
-      env:
-        FC: gfortran-9
-        CC: gcc-9
-        CXX: g++-9
-      if: matrix.os == 'ubuntu-20.04'
-
-    - name: Set Environment (macOS)
-      env:
-        FC: gfortran-9
-        CC: clang
-        CXX: clang++
-      if: matrix.os == 'macos-10.15'
-
     - name: Build (Linux)
       run: |
         cd ${{ matrix.os }}-${{ matrix.mpi }}
@@ -63,6 +49,10 @@ jobs:
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
+      env:
+        FC: gfortran-9
+        CC: gcc-9
+        CXX: g++-9
       if: matrix.os == 'ubuntu-20.04'
 
     - name: Build (macOS)
@@ -72,4 +62,8 @@ jobs:
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
         ./build_stack.sh -p $prefix -c config/config_mac.sh -y config/stack_custom.yaml
+      env:
+        FC: gfortran-9
+        CC: clang
+        CXX: clang++
       if: matrix.os == 'macos-10.15'
