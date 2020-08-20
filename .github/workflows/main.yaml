@@ -1,4 +1,4 @@
-name: Build Linux OpenMPI
+name: Build on Linux
 on: [push, pull_request]
 
 jobs:
@@ -17,7 +17,6 @@ jobs:
     - name: install-openmpi
       run: |
         sudo apt-get install openmpi-bin libopenmpi-dev
-        #sudo apt-get install libmpich-dev
 
     - name: checkout-linux-openmpi
       uses: actions/checkout@v2
@@ -28,44 +27,36 @@ jobs:
     - name: build-linux-openmpi
       run: |
         cd linux-openmpi
-        #export SERIAL_FC=$FC
-        #export SERIAL_CC=$CC
-        #export SERIAL_CXX=$CXX
-        gcc --version
-        mpicc --version
         prefix=$GITHUB_WORKSPACE/linux-openmpi/install
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
 
-#    # MPICH
-#    name: linux-mpich
-#    runs-on: ubuntu-20.04
-#    env:
-#      CC: gcc-9
-#      CXX: g++-9
-#      FC: gfortran-9
-#      VERBOSE: 1
-#
-#    steps:
-#
-#    - name: install-mpich
-#      run: |
-#        sudo apt-get install libmpich-dev
-#
-#    - name: checkout-linux-mpich
-#      uses: actions/checkout@v2
-#      with:
-#        path: linux-mpich
-#        submodules: true
-#
-#    - name: build-linux-mpich
-#      run: |
-#        cd linux-mpich
-#        export SERIAL_FC=$FC
-#        export SERIAL_CC=$CC
-#        export SERIAL_CXX=$CXX
-#        prefix=$GITHUB_WORKSPACE/linux-mpich/install
-#        export PATH="$prefix/bin:$PATH"
-#        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
-#        ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
+    # MPICH
+    name: linux-mpich
+    runs-on: ubuntu-20.04
+    env:
+      CC: gcc-9
+      CXX: g++-9
+      FC: gfortran-9
+      VERBOSE: 1
+
+    steps:
+
+    - name: install-mpich
+      run: |
+        sudo apt-get install libmpich-dev
+
+    - name: checkout-linux-mpich
+      uses: actions/checkout@v2
+      with:
+        path: linux-mpich
+        submodules: true
+
+    - name: build-linux-mpich
+      run: |
+        cd linux-mpich
+        prefix=$GITHUB_WORKSPACE/linux-mpich/install
+        export PATH="$prefix/bin:$PATH"
+        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
+        ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
