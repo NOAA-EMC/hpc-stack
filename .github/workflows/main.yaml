@@ -16,7 +16,8 @@ jobs:
 
     - name: install-openmpi
       run: |
-        sudo apt-get install openmpi-bin libopenmpi-dev
+        #        sudo apt-get install openmpi-bin libopenmpi-dev
+        sudo apt-get install libmpich-dev
 
     - name: checkout-linux-openmpi
       uses: actions/checkout@v2
