@@ -3,7 +3,6 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
     env:
       FC: gfortran-9
       CC: gcc-9
@@ -11,32 +10,34 @@ jobs:
       VERBOSE: 1
     strategy:
       matrix:
+        os: ['ubuntu-20.04']
         mpi: ['openmpi', 'mpich']
+    runs-on: ${{ matrix.os }}
 
     steps:
 
-    - name: Install dependencies (OpenMPI)
+    - name: Install dependencies (Linux & OpenMPI)
       run: |
         sudo apt-get update
         sudo apt-get install openmpi-bin libopenmpi-dev
-      if: matrix.mpi == 'openmpi'
+      if: matrix.os == 'ubuntu-20.04' && matrix.mpi == 'openmpi'
 
-    - name: Install dependencies (MPICH)
+    - name: Install dependencies (Linux & MPICH)
       run: |
         sudo apt-get update
         sudo apt-get install libmpich-dev
-      if: matrix.mpi == 'mpich'
+      if: matrix.os == 'ubuntu-20.04' && matrix.mpi == 'mpich'
 
     - name: Get Sources
       uses: actions/checkout@v2
       with:
-        path: linux-${{ matrix.mpi }}
+        path: ${{ matrix.os }}-${{ matrix.mpi }}
         submodules: true
 
     - name: Build
       run: |
-        cd linux-${{ matrix.mpi }}
-        prefix=$GITHUB_WORKSPACE/install-${{ matrix.mpi }}
+        cd ${{ matrix.os }}-${{ matrix.mpi }}
+        prefix=$GITHUB_WORKSPACE/install-${{ matrix.os }}-${{ matrix.mpi }}
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
