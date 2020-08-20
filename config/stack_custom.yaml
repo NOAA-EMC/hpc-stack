@@ -43,7 +43,7 @@ hdf5:
   enable_zlib: YES
 
 pnetcdf:
-  build: YES
+  build: NO
   version: 1.12.1
   shared: YES
 
