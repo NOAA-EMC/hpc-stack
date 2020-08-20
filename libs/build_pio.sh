@@ -10,6 +10,7 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 [[ ${STACK_pio_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
+[[ ${STACK_pio_enable_gptl:-} =~ [yYtT] ]] && enable_gptl=YES || enable_gptl=NO
 
 if $MODULES; then
     set +x
@@ -64,6 +65,8 @@ export LDFLAGS="$LDFLAGS2 $LDFLAGS3"
 
 [[ $enable_pnetcdf =~ [yYtT] ]] && CMAKE_FLAGS+=" -DWITH_PNETCDF=ON -DPnetCDF_PATH=$PNETCDF" \
                                 || CMAKE_FLAGS+=" -DWITH_PNETCDF=OFF"
+[[ $enable_gptl =~ [yYtT] ]] && CMAKE_FLAGS+=" -DPIO_ENABLE_TIMING=ON" \
+                             || CMAKE_FLAGS+=" -DPIO_ENABLE_TIMING=OFF"
 
 cmake ..\
   -DCMAKE_INSTALL_PREFIX=$prefix \

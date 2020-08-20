@@ -1,68 +1,61 @@
-name: Build Linux OpenMPI
+name: Build
 on: [push, pull_request]
 
 jobs:
   build:
-    # OpenMPI
-    name: linux-openmpi
-    runs-on: ubuntu-latest
     env:
-      CC: gcc-9
-      CXX: g++-9
       FC: gfortran-9
       VERBOSE: 1
+    strategy:
+      matrix:
+        os: ['ubuntu-20.04']
+        mpi: ['openmpi']
+        #os: ['ubuntu-20.04', 'macos-10.15']
+        #mpi: ['openmpi', 'mpich']
+        #exclude:
+        #  - os: 'macos-10.15'
+        #    mpi: 'openmpi'
+    runs-on: ${{ matrix.os }}
 
     steps:
 
-    - name: install-openmpi
+    - name: Install dependencies (Linux & OpenMPI)
       run: |
+        sudo apt-get update
         sudo apt-get install openmpi-bin libopenmpi-dev
+      if: matrix.os == 'ubuntu-20.04' && matrix.mpi == 'openmpi'
 
-    - name: checkout-linux-openmpi
+    - name: Install dependencies (Linux & MPICH)
+      run: |
+        sudo apt-get update
+        sudo apt-get install libmpich-dev
+      if: matrix.os == 'ubuntu-20.04' && matrix.mpi == 'mpich'
+
+    - name: Install dependencies (macOS & MPICH)
+      run: |
+        brew install mpich
+      if: matrix.os == 'macos-10.15' && matrix.mpi == 'mpich'
+
+    - name: Get Sources
       uses: actions/checkout@v2
       with:
-        path: linux-openmpi
+        path: ${{ matrix.os }}-${{ matrix.mpi }}
         submodules: true
 
-    - name: build-linux-openmpi
+    - name: Build (Linux)
       run: |
-        cd linux-openmpi
-        export CC=mpicc
-        export CXX=mpicxx
-        export FC=mpifort
-        prefix=$GITHUB_WORKSPACE/linux-openmpi/install
+        cd ${{ matrix.os }}-${{ matrix.mpi }}
+        prefix=$GITHUB_WORKSPACE/install-${{ matrix.os }}-${{ matrix.mpi }}
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
+      if: matrix.os == 'ubuntu-20.04'
 
-#    # MPICH
-#    name: linux-mpich
-#    runs-on: ubuntu-latest
-#    env:
-#      CC: gcc-9
-#      CXX: g++-9
-#      FC: gfortran-9
-#      VERBOSE: 1
-#
-#    steps:
-#
-#    - name: install-mpich
-#      run: |
-#        sudo apt-get install libmpich-dev
-#
-#    - name: checkout-linux-mpich
-#      uses: actions/checkout@v2
-#      with:
-#        path: linux-mpich
-#        submodules: true
-#
-#    - name: build-linux-mpich
-#      run: |
-#        cd linux-mpich
-#        export CC=mpicc
-#        export CXX=mpicxx
-#        export FC=mpifort
-#        prefix=$GITHUB_WORKSPACE/linux-mpich/install
-#        export PATH="$prefix/bin:$PATH"
-#        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
-#        ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
+    - name: Build (macOS)
+      run: |
+        cd ${{ matrix.os }}-${{ matrix.mpi }}
+        prefix=$GITHUB_WORKSPACE/install-${{ matrix.os }}-${{ matrix.mpi }}
+        export PATH="$prefix/bin:$PATH"
+        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
+        ./build_stack.sh -p $prefix -c config/config_mac.sh -y config/stack_mac.yaml
+      if: matrix.os == 'macos-10.15'

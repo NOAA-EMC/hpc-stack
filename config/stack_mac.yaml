@@ -4,15 +4,15 @@ gnu:
 
 mpi:
   build: YES
-  flavor: openmpi
-  version: 4.0.1
+  flavor: mpich
+  version: 3.3.1
 
 cmake:
   build: NO
   version: 3.17.2
 
 jpeg:
-  build: NO
+  build: YES
   version: 9.1.0
 
 zlib:
@@ -43,7 +43,7 @@ hdf5:
   enable_zlib: YES
 
 pnetcdf:
-  build: YES
+  build: NO
   version: 1.12.1
   shared: YES
 
@@ -67,6 +67,7 @@ pio:
   build: YES
   version: 2.5.1
   enable_pnetcdf: NO
+  enable_gptl: NO
 
 esmf:
   build: YES
@@ -129,7 +130,7 @@ ip:
   openmp: OFF
 
 ip2:
-  build: YES
+  build: NO
   version: v1.1.0
   install_as: 1.1.0
   openmp: OFF
@@ -203,13 +204,13 @@ wgrib2:
   ipolates: 0
 
 prod_util:
-  build: NO
+  build: YES
   version: develop
   install_as: develop
   openmp: OFF
 
 grib_util:
-  build: NO
+  build: YES
   version: develop
   install_as: develop
   openmp: OFF

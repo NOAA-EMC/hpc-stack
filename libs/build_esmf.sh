@@ -71,6 +71,27 @@ software="ESMF_$version"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 export ESMF_DIR=$PWD
 
+export ESMF_OS=$(uname -s)
+
+# This is going to need a little work to adapt for various combinations
+# of Darwin/Linux with GNU/Clang/Intel etc.
+case $COMPILER in
+  intel|ips )
+    export ESMF_COMPILER="intel"
+    export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
+    export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"
+    ;;
+  gnu|gcc )
+    export ESMF_COMPILER="gfortran"
+    ;;
+  clang )
+    export ESMF_COMPILER="gfortranclang"
+    ;;
+  * )
+    echo "Unsupported compiler = $COMPILER, ABORT!"; exit 1
+    ;;
+esac
+
 #  mpiexec --version | grep OpenRTE 2> /dev/null && export ESMF_COMM=openmpi
 #  mpiexec --version | grep Intel   2> /dev/null && export ESMF_COMM=intelmpi
 export ESMF_MPIRUN=mpiexec
@@ -87,20 +108,6 @@ case $MPI in
   * )
     export ESMF_COMM="mpiuni"
     export ESMF_MPIRUN=""
-    ;;
-esac
-
-case $COMPILER in
-  intel|ips )
-    export ESMF_COMPILER="intel"
-    export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
-    export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"
-    ;;
-  gnu|gcc )
-    export ESMF_COMPILER="gfortran"
-    ;;
-  * )
-    echo "Unsupported compiler = $COMPILER, ABORT!"; exit 1
     ;;
 esac
 

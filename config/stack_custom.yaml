@@ -43,7 +43,7 @@ hdf5:
   enable_zlib: YES
 
 pnetcdf:
-  build: YES
+  build: NO
   version: 1.12.1
   shared: YES
 
@@ -67,6 +67,7 @@ pio:
   build: YES
   version: 2.5.1
   enable_pnetcdf: NO
+  enable_gptl: NO
 
 esmf:
   build: YES
