@@ -8,11 +8,13 @@ jobs:
       VERBOSE: 1
     strategy:
       matrix:
-        os: ['ubuntu-20.04', 'macos-10.15']
-        mpi: ['openmpi', 'mpich']
-        exclude:
-          - os: 'macos-10.15'
-            mpi: 'openmpi'
+        os: ['ubuntu-20.04']
+        mpi: ['openmpi']
+        #os: ['ubuntu-20.04', 'macos-10.15']
+        #mpi: ['openmpi', 'mpich']
+        #exclude:
+        #  - os: 'macos-10.15'
+        #    mpi: 'openmpi'
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -29,10 +31,10 @@ jobs:
         sudo apt-get install libmpich-dev
       if: matrix.os == 'ubuntu-20.04' && matrix.mpi == 'mpich'
 
-      #    - name: Install dependencies (macOS & MPICH)
-      #      run: |
-      #        brew install mpich
-      #      if: matrix.os == 'macos-10.15' && matrix.mpi == 'mpich'
+      - name: Install dependencies (macOS & MPICH)
+        run: |
+          brew install mpich
+        if: matrix.os == 'macos-10.15' && matrix.mpi == 'mpich'
 
     - name: Get Sources
       uses: actions/checkout@v2
