@@ -63,6 +63,7 @@ pio:
   build: YES
   version: 2.5.1
   enable_pnetcdf: NO
+  enable_gptl: NO
 
 esmf:
   build: YES
