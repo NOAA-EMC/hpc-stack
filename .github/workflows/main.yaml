@@ -16,8 +16,8 @@ jobs:
 
     - name: install-openmpi
       run: |
-        #        sudo apt-get install openmpi-bin libopenmpi-dev
-        sudo apt-get install libmpich-dev
+        sudo apt-get install openmpi-bin libopenmpi-dev
+        #sudo apt-get install libmpich-dev
 
     - name: checkout-linux-openmpi
       uses: actions/checkout@v2
@@ -28,9 +28,10 @@ jobs:
     - name: build-linux-openmpi
       run: |
         cd linux-openmpi
-        export SERIAL_FC=$FC
-        export SERIAL_CC=$CC
-        export SERIAL_CXX=$CXX
+        #export SERIAL_FC=$FC
+        #export SERIAL_CC=$CC
+        #export SERIAL_CXX=$CXX
+        gcc --version
         mpicc --version
         prefix=$GITHUB_WORKSPACE/linux-openmpi/install
         export PATH="$prefix/bin:$PATH"
@@ -39,7 +40,7 @@ jobs:
 
 #    # MPICH
 #    name: linux-mpich
-#    runs-on: ubuntu-latest
+#    runs-on: ubuntu-20.04
 #    env:
 #      CC: gcc-9
 #      CXX: g++-9
