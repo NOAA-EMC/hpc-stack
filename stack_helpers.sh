@@ -60,9 +60,11 @@ function no_modules {
       * ) echo "Unknown compiler option = $compilerName, ABORT!"; exit 1 ;;
     esac
 
+    echo "=========================="
     echo "C Compiler: $SERIAL_CC"
     echo "C++ Compiler: $SERIAL_CXX"
     echo "Fortran Compiler: $SERIAL_FC"
+    echo "=========================="
 
     case $mpiName in
       openmpi)
@@ -83,9 +85,11 @@ function no_modules {
       * ) echo "Unknown MPI option = $mpiName, ABORT!"; exit 1 ;;
     esac
 
+    echo "=========================="
     echo "MPI C Compiler: $MPI_CC"
     echo "MPI C++ Compiler: $MPI_CXX"
     echo "MPI Fortran Compiler: $MPI_FC"
+    echo "=========================="
 
 }
 
@@ -123,7 +127,10 @@ function build_nceplib() {
     # Args: lib name
     set +x
     var="STACK_${1}_build"
-    if [[ ${!var} =~ [yYtT] ]]; then
+    set +u
+    stack_build=${!var}
+    set -u
+    if [[ ${stack_build} =~ [yYtT] ]]; then
         ${HPC_BUILDSCRIPTS_DIR}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$logdir/$1.log"
         ret=${PIPESTATUS[0]}
         if [[ $ret > 0 ]]; then
