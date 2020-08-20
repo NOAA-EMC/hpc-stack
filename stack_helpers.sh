@@ -60,6 +60,10 @@ function no_modules {
       * ) echo "Unknown compiler option = $compilerName, ABORT!"; exit 1 ;;
     esac
 
+    echo "C Compiler: $SERIAL_CC"
+    echo "C++ Compiler: $SERIAL_CXX"
+    echo "Fortran Compiler: $SERIAL_FC"
+
     case $mpiName in
       openmpi)
           export MPI_CC=${MPI_CC:-"mpicc"}
@@ -78,6 +82,10 @@ function no_modules {
           ;;
       * ) echo "Unknown MPI option = $mpiName, ABORT!"; exit 1 ;;
     esac
+
+    echo "MPI C Compiler: $MPI_CC"
+    echo "MPI C++ Compiler: $MPI_CXX"
+    echo "MPI Fortran Compiler: $MPI_FC"
 
 }
 
