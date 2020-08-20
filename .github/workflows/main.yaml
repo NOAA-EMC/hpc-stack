@@ -27,12 +27,10 @@ jobs:
     - name: build-linux-openmpi
       run: |
         cd linux-openmpi
-        printenv
-        echo $CC
-        echo $(which mpicc)
-        #export CC=mpicc
-        #export CXX=mpicxx
-        #export FC=mpifort
+        export SERIAL_FC=$FC
+        export SERIAL_CC=$CC
+        export SERIAL_CXX=$CXX
+        mpicc --version
         prefix=$GITHUB_WORKSPACE/linux-openmpi/install
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
@@ -62,9 +60,9 @@ jobs:
 #    - name: build-linux-mpich
 #      run: |
 #        cd linux-mpich
-#        export CC=mpicc
-#        export CXX=mpicxx
-#        export FC=mpifort
+#        export SERIAL_FC=$FC
+#        export SERIAL_CC=$CC
+#        export SERIAL_CXX=$CXX
 #        prefix=$GITHUB_WORKSPACE/linux-mpich/install
 #        export PATH="$prefix/bin:$PATH"
 #        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
