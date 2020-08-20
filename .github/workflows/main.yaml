@@ -3,60 +3,40 @@ on: [push, pull_request]
 
 jobs:
   build:
-    # OpenMPI
-    name: linux-openmpi
     runs-on: ubuntu-20.04
     env:
       FC: gfortran-9
       CC: gcc-9
       CXX: g++-9
       VERBOSE: 1
+    strategy:
+      matrix:
+        mpi: ['openmpi', 'mpich']
 
     steps:
 
-    - name: install-openmpi
+    - name: Install dependencies (OpenMPI)
       run: |
+        sudo apt-get update
         sudo apt-get install openmpi-bin libopenmpi-dev
+      if: matrix.mpi == 'openmpi'
 
-    - name: checkout-linux-openmpi
+    - name: Install dependencies (MPICH)
+      run: |
+        sudo apt-get update
+        sudo apt-get install libmpich-dev
+      if: matrix.mpi == 'mpich'
+
+    - name: Get Sources
       uses: actions/checkout@v2
       with:
-        path: linux-openmpi
+        path: linux-${{ matrix.mpi }}
         submodules: true
 
-    - name: build-linux-openmpi
+    - name: Build
       run: |
-        cd linux-openmpi
-        prefix=$GITHUB_WORKSPACE/linux-openmpi/install
+        cd linux-${{ matrix.mpi }}
+        prefix=$GITHUB_WORKSPACE/install-${{ matrix.mpi }}
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
-
-#    # MPICH
-#    name: linux-mpich
-#    runs-on: ubuntu-20.04
-#    env:
-#      CC: gcc-9
-#      CXX: g++-9
-#      FC: gfortran-9
-#      VERBOSE: 1
-#
-#    steps:
-#
-#    - name: install-mpich
-#      run: |
-#        sudo apt-get install libmpich-dev
-#
-#    - name: checkout-linux-mpich
-#      uses: actions/checkout@v2
-#      with:
-#        path: linux-mpich
-#        submodules: true
-#
-#    - name: build-linux-mpich
-#      run: |
-#        cd linux-mpich
-#        prefix=$GITHUB_WORKSPACE/linux-mpich/install
-#        export PATH="$prefix/bin:$PATH"
-#        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
-#        ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
