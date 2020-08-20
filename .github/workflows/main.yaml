@@ -7,9 +7,9 @@ jobs:
     name: linux-openmpi
     runs-on: ubuntu-latest
     env:
+      FC: gfortran-9
       CC: gcc-9
       CXX: g++-9
-      FC: gfortran-9
       VERBOSE: 1
 
     steps:
@@ -27,9 +27,12 @@ jobs:
     - name: build-linux-openmpi
       run: |
         cd linux-openmpi
-        export CC=mpicc
-        export CXX=mpicxx
-        export FC=mpifort
+        printenv
+        echo $CC
+        echo $(which mpicc)
+        #export CC=mpicc
+        #export CXX=mpicxx
+        #export FC=mpifort
         prefix=$GITHUB_WORKSPACE/linux-openmpi/install
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"

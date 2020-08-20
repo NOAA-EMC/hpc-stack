@@ -12,51 +12,51 @@ cmake:
   version: 3.17.2
 
 jpeg:
-  build: YES
+  build: NO
   version: 9.1.0
 
 zlib:
-  build: YES
+  build: NO
   version: 1.2.11
 
 png:
-  build: YES
+  build: NO
   version: 1.6.35
 
 szip:
-  build: YES
+  build: NO
   version: 2.1.1
 
 jasper:
-  build: YES
+  build: NO
   version: 2.0.15
 
 udunits:
-  build: YES
+  build: NO
   version: 2.2.26
 
 hdf5:
-  build: YES
+  build: NO
   version: 1.10.6
-  shared: YES
+  shared: NO
   enable_szip: NO
-  enable_zlib: YES
+  enable_zlib: NO
 
 pnetcdf:
-  build: YES
+  build: NO
   version: 1.12.1
-  shared: YES
+  shared: NO
 
 netcdf:
-  build: YES
-  shared: YES
+  build: NO
+  shared: NO
   enable_pnetcdf: NO
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
 
 nccmp:
-  build: YES
+  build: NO
   version: 1.8.7.0
 
 nco:
@@ -64,14 +64,14 @@ nco:
   version: 4.9.3
 
 pio:
-  build: YES
+  build: NO
   version: 2.5.1
   enable_pnetcdf: NO
 
 esmf:
-  build: YES
+  build: NO
   version: 8_1_0_beta_snapshot_00
-  shared: YES
+  shared: NO
   enable_pnetcdf: NO
 
 gptl:
@@ -93,19 +93,19 @@ bacio:
   openmp: OFF
 
 sigio:
-  build: YES
+  build: NO
   version: v2.3.0
   install_as: 2.3.0
   openmp: OFF
 
 sfcio:
-  build: YES
+  build: NO
   version: v1.4.0
   install_as: 1.4.0
   openmp: OFF
 
 gfsio:
-  build: YES
+  build: NO
   version: v1.4.0
   install_as: 1.4.0
   openmp: OFF
@@ -117,13 +117,13 @@ w3nco:
   openmp: OFF
 
 sp:
-  build: YES
+  build: NO
   version: v2.3.0
   install_as: 2.3.0
   openmp: OFF
 
 ip:
-  build: YES
+  build: NO
   version: v3.3.0
   install_as: 3.3.0
   openmp: OFF
@@ -135,7 +135,7 @@ ip2:
   openmp: OFF
 
 landsfcutil:
-  build: YES
+  build: NO
   version: v2.4.0
   install_as: 2.4.0
   openmp: OFF
@@ -147,55 +147,55 @@ nemsio:
   openmp: OFF
 
 nemsiogfs:
-  build: YES
+  build: NO
   version: v2.5.0
   install_as: 2.5.0
   openmp: OFF
 
 w3emc:
-  build: YES
+  build: NO
   version: v2.7.0
   install_as: 2.7.0
   openmp: OFF
 
 g2:
-  build: YES
+  build: NO
   version: v3.4.0
   install_as: 3.4.0
   openmp: OFF
 
 g2tmpl:
-  build: YES
+  build: NO
   version: v1.9.0
   install_as: 1.9.0
   openmp: OFF
 
 crtm:
-  build: YES
+  build: NO
   version: v2.3.0
   install_as: 2.3.0
   openmp: OFF
 
 nceppost:
-  build: YES
+  build: NO
   version: dceca26
   install_as: dceca26
   openmp: OFF
 
 wrf_io:
-  build: YES
+  build: NO
   version: v1.1.1-cmake
   install_as: 1.1.1
   openmp: OFF
 
 bufr:
-  build: YES
+  build: NO
   version: bufr_v11.3.1.1
   install_as: 11.3.1.1
   openmp: OFF
 
 wgrib2:
-  build: YES
+  build: NO
   version: v2.0.8-cmake-v1.0.3
   install_as: 2.0.8
   openmp: OFF
@@ -203,13 +203,13 @@ wgrib2:
   ipolates: 0
 
 prod_util:
-  build: YES
+  build: NO
   version: develop
   install_as: develop
   openmp: OFF
 
 grib_util:
-  build: YES
+  build: NO
   version: develop
   install_as: develop
   openmp: OFF
