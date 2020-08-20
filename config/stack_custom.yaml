@@ -60,7 +60,7 @@ nccmp:
   version: 1.8.7.0
 
 nco:
-  build: YES
+  build: NO
   version: 4.9.3
 
 pio:
