@@ -14,39 +14,40 @@ case "$name" in
     *       ) echo "Invalid MPI implementation = $name, ABORT!"; exit 1 ;;
 esac
 
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
+software=$name-$version
+[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz; rm -f $software.tar.gz )
+[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
 if $MODULES; then
-    set +x
-    source $MODULESHOME/init/bash
-    module load hpc-$HPC_COMPILER
-    module list
-    set -x
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  module list
+  set -x
 
-    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
-    if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                  || ( echo "ERROR: $prefix EXISTS, ABORT!"; exit 1 )
-    fi
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
+  if [[ -d $prefix ]]; then
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
+                               || ( echo "ERROR: $prefix EXISTS, ABORT!"; exit 1 )
+  fi
 else
-    prefix=${MPI_ROOT:-"/usr/local"}
+  prefix=${MPI_ROOT:-"/usr/local"}
 fi
 
 export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 export FC=$SERIAL_FC
 
-export FFLAGS="${STACK_mpi_FFLAGS} -fPIC"
-export CFLAGS="${STACK_mpi_CFLAGS} -fPIC"
-export CXXFLAGS="${STACK_mpi_CXXFLAGS} -fPIC"
+export FFLAGS="${STACK_mpi_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_mpi_CFLAGS:-} -fPIC"
+export CXXFLAGS="${STACK_mpi_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
-cd ${HPC_STACK_ROOT}/${PKGDIR:-"../pkg"}
-
-software=$name-$version
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
-[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
@@ -55,37 +56,32 @@ mkdir -p build && cd build
 # we have mixed C/C++ and Fortran in several libraries, and -flat_namespace leads
 # to aborts when exceptions are thrown. (See the ZenHub issue JCSDA/oops#649 for details.)
 # Fortunately, mpich provides a configure control (--enable-two-level-namespace) for doing
-# this. Unfortunately, openmpi has -flat_namepace harwired into its configure script. A
+# this. Unfortunately, openmpi has -flat_namepace hardwired into its configure script. A
 # workaround for openmpi is to strip off the -flat_namespace settings in the configure
 # script using sed.
 host=$(uname -s)
 case "$name" in
-    openmpi )
-       extra_conf="--enable-mpi-fortran --enable-mpi-cxx"
-       if [[ "$host" == "Darwin" ]]
-       then
-           # On a Mac, use the sed hack to disable -flat_namespace
-           sed -i '.bak' -e's/-Wl,-flat_namespace//g' ../configure
-           extra_conf="$extra_conf --with-wrapper-ldflags=-Wl,-commons,use_dylibs"
-       fi
-       ;;
-    mpich   )
-       if [[ "$host" == "Darwin" ]]
-       then
-           # On a Mac, use the control to disable -flat_namespace
-           extra_conf="--enable-fortran --enable-cxx --enable-two-level-namespace"
-       else
-           extra_conf="--enable-fortran --enable-cxx"
-       fi
-       ;;
-    *       )
-       echo "Invalid option for MPI = $software, ABORT!"
-       exit 1
-       ;;
+  openmpi )
+    extra_conf="--enable-mpi-fortran --enable-mpi-cxx"
+    # On a Mac, use the sed hack to disable -flat_namespace
+    if [[ "$host" == "Darwin" ]]; then
+      sed -i '.bak' -e's/-Wl,-flat_namespace//g' ../configure
+      extra_conf+=" --with-wrapper-ldflags=-Wl,-commons,use_dylibs"
+    fi
+    ;;
+  mpich )
+    extra_conf="--enable-fortran --enable-cxx"
+    # On a Mac, use the control to disable -flat_namespace
+    [[ "$host" == "Darwin" ]] && extra_conf+=" --enable-two-level-namespace"
+    ;;
+  * )
+    echo "Invalid option for MPI = $software, ABORT!"
+    exit 1
+    ;;
 esac
 
 ../configure --prefix=$prefix $extra_conf
-make -j${NTHREADS:-4}
+VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
 
