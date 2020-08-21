@@ -30,9 +30,9 @@ export FC=$SERIAL_FC
 export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 
-export FFLAGS="${STACK_lapack_FFLAGS} -fPIC"
-export CFLAGS="${STACK_lapack_CFLAGS} -fPIC"
-export CXXFLAGS="${STACK_lapack_CXXFLAGS} -fPIC"
+export FFLAGS="${STACK_FFLAGS:-} ${STACK_lapack_FFLAGS} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_lapack_CFLAGS} -fPIC"
+export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_lapack_CXXFLAGS} -fPIC"
 export FCFLAGS="$FFLAGS"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}

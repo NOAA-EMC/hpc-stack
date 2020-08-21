@@ -44,9 +44,9 @@ else
 fi
 
 export F9X=$FC
-export FFLAGS="${STACK_hdf5_FFLAGS:-} -fPIC -w"
-export CFLAGS="${STACK_hdf5_CFLAGS:-} -fPIC -w"
-export CXXFLAGS="${STACK_hdf5_CXXFLAGS:-} -fPIC -w"
+export FFLAGS="${STACK_FFLAGS:-} ${STACK_hdf5_FFLAGS:-} -fPIC -w"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_hdf5_CFLAGS:-} -fPIC -w"
+export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_hdf5_CXXFLAGS:-} -fPIC -w"
 export FCFLAGS="$FFLAGS"
 
 gitURL="https://bitbucket.hdfgroup.org/scm/hdffv/hdf5.git"

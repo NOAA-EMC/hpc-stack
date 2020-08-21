@@ -30,7 +30,7 @@ else
 fi
 
 export CC=$SERIAL_CC
-export CFLAGS="${STACK_png_CFLAGS:-} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_png_CFLAGS:-} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 

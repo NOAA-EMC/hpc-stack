@@ -47,9 +47,9 @@ else
     export CXX=$SERIAL_CXX
 fi
 
-export FFLAGS="${STACK_nco_FFLAGS:-} -fPIC"
-export CFLAGS="${STACK_nco_CFLAGS:-} -fPIC"
-export CXXFLAGS="${STACK_nco_CXXFLAGS:-} -fPIC"
+export FFLAGS="${STACK_FFLAGS:-} ${STACK_nco_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_nco_CFLAGS:-} -fPIC"
+export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_nco_CXXFLAGS:-} -fPIC"
 
 export F77=$FC
 export FCFLAGS=$FFLAGS

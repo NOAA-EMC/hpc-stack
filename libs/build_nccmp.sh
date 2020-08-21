@@ -52,7 +52,7 @@ else
     export CXX=$SERIAL_CXX
 fi
 
-export CFLAGS="${STACK_nccmp_CFLAGS:-} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_nccmp_CFLAGS:-} -fPIC"
 LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
 LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
 LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)

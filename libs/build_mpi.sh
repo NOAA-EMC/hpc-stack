@@ -43,9 +43,9 @@ export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 export FC=$SERIAL_FC
 
-export FFLAGS="${STACK_mpi_FFLAGS:-} -fPIC"
-export CFLAGS="${STACK_mpi_CFLAGS:-} -fPIC"
-export CXXFLAGS="${STACK_mpi_CXXFLAGS:-} -fPIC"
+export FFLAGS="${STACK_FFLAGS:-} ${STACK_mpi_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_mpi_CFLAGS:-} -fPIC"
+export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_mpi_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
