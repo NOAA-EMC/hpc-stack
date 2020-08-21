@@ -72,14 +72,16 @@ software="ESMF_$version"
 export ESMF_DIR=$PWD
 
 export ESMF_OS=$(uname -s)
+export ESMF_F90COMPILEOPTS=${FFLAGS}
+export ESMF_CXXCOMPILEOPTS=${CXXFLAGS}
 
 # This is going to need a little work to adapt for various combinations
 # of Darwin/Linux with GNU/Clang/Intel etc.
 case $COMPILER in
   intel|ips )
     export ESMF_COMPILER="intel"
-    export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
-    export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"
+    export ESMF_F90COMPILEOPTS+=" -g -traceback -fp-model precise"
+    export ESMF_CXXCOMPILEOPTS+=" -g -traceback -fp-model precise"
     ;;
   gnu|gcc )
     export ESMF_COMPILER="gfortran"
