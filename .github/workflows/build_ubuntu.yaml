@@ -4,14 +4,11 @@ on: [push, pull_request]
 jobs:
   build:
     env:
-      CC: gcc-9
-      CXX: g++-9
-      FC: gfortran-9
       VERBOSE: 1
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        mpi: ['openmpi']
+        mpi: ['openmpi', 'mpich']
 
     steps:
 
@@ -27,7 +24,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install libmpich-dev
 
-    - name: Get Sources
+    - name: Get sources
       uses: actions/checkout@v2
       with:
         path: ${{ matrix.mpi }}
@@ -38,6 +35,14 @@ jobs:
         prefix=$GITHUB_WORKSPACE/install-${{ matrix.mpi }}
         export PATH="$prefix/bin:$PATH"
         export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
+        if [[ ${{ matrix.mpi }} == "mpich" ]]; then
+          mpi_ver=$( mpiexec --version | grep Version | awk '{ print $2 }' )
+        elif [[ ${{ matrix.mpi }} == "openmpi" ]]; then
+          mpi_ver=$( mpiexec --version | grep OpenRTE | awk '{ print $3 }' )
+        fi
+        gnu_ver=$( gcc -dumpversion )
+        export HPC_COMPILER="gnu/${gnu_ver}"
+        export HPC_MPI="${{ matrix.mpi }}/${mpi_ver}"
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
 
     - name: Upload logs
