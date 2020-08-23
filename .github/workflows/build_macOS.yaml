@@ -1,0 +1,53 @@
+name: Build macOS
+on: [push, pull_request]
+
+jobs:
+  build:
+    env:
+      VERBOSE: 1
+    runs-on: macos-10.15
+    strategy:
+      matrix:
+        mpi: ['mpich']
+        compiler: ['clang', 'gcc']
+
+    steps:
+
+#    - name: Update brew packages
+#      run: |
+#        brew update
+
+    - name: Get sources
+      uses: actions/checkout@v2
+      with:
+        path: ${{ matrix.compiler }}-${{ matrix.mpi }}
+
+    - name: Build
+      run: |
+        cd ${{ matrix.compiler }}-${{ matrix.mpi }}
+        prefix=$GITHUB_WORKSPACE/install-${{ matrix.compiler }}-${{ matrix.mpi }}
+        export PATH="$prefix/bin:$PATH"
+        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
+        if [[ ${{ matrix.compiler }} == "gcc" ]]; then
+          export CC=/usr/local/bin/gcc-9
+          export CXX=/usr/local/bin/g++-9
+          export FC=/usr/local/bin/gfortran-9
+        elif [[ ${{ matrix.compiler }} == "clang" ]]; then
+          export CC=clang
+          export CXX=clang++
+          export FC=/usr/local/bin/gfortran-9
+        fi
+        export SERIAL_CC=${CC}
+        export SERIAL_CXX=${CXX}
+        export SERIAL_FC=${FC}
+        gcc_ver=$( ${CC} -dumpfullversion -dumpversion )
+        export HPC_COMPILER="${{ matrix.compiler }}/${gcc_ver}"
+        export HPC_MPI="${{ matrix.mpi }}/${mpi_ver}"
+        ./build_stack.sh -p $prefix -c config/config_mac.sh -y config/stack_mac.yaml
+
+    - name: Upload logs
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.compiler }}-${{ matrix.mpi }}-log
+        path: ${{ matrix.compiler }}-${{ matrix.mpi }}/log

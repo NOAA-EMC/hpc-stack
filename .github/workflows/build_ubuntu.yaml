@@ -40,7 +40,7 @@ jobs:
         elif [[ ${{ matrix.mpi }} == "openmpi" ]]; then
           mpi_ver=$( mpiexec --version | grep OpenRTE | awk '{ print $3 }' )
         fi
-        gnu_ver=$( gcc -dumpversion )
+        gnu_ver=$( gcc -dumpfullversion -dumpversion )
         export HPC_COMPILER="gnu/${gnu_ver}"
         export HPC_MPI="${{ matrix.mpi }}/${mpi_ver}"
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
