@@ -34,7 +34,7 @@ jobs:
           export FC=/usr/local/bin/gfortran-9
         elif [[ ${{ matrix.compiler }} == "clang" ]]; then
           export CC=clang
-          export CXX=clang+
+          export CXX=clang++
           export FC=/usr/local/bin/gfortran-9
         fi
         export SERIAL_CC=${CC}
