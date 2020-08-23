@@ -38,8 +38,8 @@ else
 fi
 
 export F77=$FC
-export FFLAGS="${STACK_fftw_FFLAGS} -fPIC"
-export CFLAGS="${STACK_fftw_CFLAGS} -fPIC"
+export FFLAGS="${STACK_FFLAGS:-} ${STACK_fftw_FFLAGS} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_fftw_CFLAGS} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 

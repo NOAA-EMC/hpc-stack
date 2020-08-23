@@ -112,7 +112,7 @@ function build_lib() {
     stack_build=${!var}
     set -u
     if [[ ${stack_build} =~ [yYtT] ]]; then
-        ${HPC_BUILDSCRIPTS_DIR}/libs/build_$1.sh 2>&1 | tee "$logdir/$1.log"
+        ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$logdir/$1.log"
         ret=${PIPESTATUS[0]}
         if [[ $ret > 0 ]]; then
             echo "BUILD FAIL!  Lib: $1 Error:$ret"
@@ -131,7 +131,7 @@ function build_nceplib() {
     stack_build=${!var}
     set -u
     if [[ ${stack_build} =~ [yYtT] ]]; then
-        ${HPC_BUILDSCRIPTS_DIR}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$logdir/$1.log"
+        ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$logdir/$1.log"
         ret=${PIPESTATUS[0]}
         if [[ $ret > 0 ]]; then
             echo "BUILD FAIL!  NCEPlib: $1 Error:$ret"

@@ -127,9 +127,9 @@ eval cflags="\${STACK_${name}_CFLAGS:-}"
 eval cxxflags="\${STACK_${name}_CXXFLAGS:-}"
 
 export F9X=$FC
-export FFLAGS="$fflags -fPIC -w"
-export CFLAGS="$cflags -fPIC -w"
-export CXXFLAGS="$cxxflags -fPIC -w"
+export FFLAGS="${STACK_FFLAGS:-} $fflags -fPIC -w"
+export CFLAGS="${STACK_CFLAGS:-} $cflags -fPIC -w"
+export CXXFLAGS="${STACK_CXXFLAGS:-} $cxxflags -fPIC -w"
 export FCFLAGS="$FFLAGS"
 
 # Set properties based on library name

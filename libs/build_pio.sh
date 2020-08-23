@@ -39,9 +39,9 @@ export CC=$MPI_CC
 export CXX=$MPI_CXX
 
 export F9X=$FC
-export FFLAGS="${STACK_pio_FFLAGS:-} -fPIC"
-export CFLAGS="${STACK_pio_CFLAGS:-} -fPIC"
-export CXXFLAGS="${STACK_pio_CXXFLAGS:-} -fPIC"
+export FFLAGS="${STACK_FFLAGS:-} ${STACK_pio_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_pio_CFLAGS:-} -fPIC"
+export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_pio_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}

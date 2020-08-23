@@ -9,8 +9,7 @@
 set -eu
 
 # root directory for the repository
-HPC_BUILDSCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-export HPC_STACK_ROOT=${HPC_BUILDSCRIPTS_DIR}
+export HPC_STACK_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # ==============================================================================
 

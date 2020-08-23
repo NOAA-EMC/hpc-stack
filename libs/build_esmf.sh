@@ -54,9 +54,9 @@ else
 fi
 
 export F9X=$FC
-export FFLAGS="${STACK_esmf_FFLAGS:-} -fPIC"
-export CFLAGS="${STACK_esmf_CFLAGS:-} -fPIC"
-export CXXFLAGS="${STACK_esmf_CXXFLAGS:-} -fPIC"
+export FFLAGS="${STACK_FFLAGS:-} ${STACK_esmf_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_esmf_CFLAGS:-} -fPIC"
+export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_esmf_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
 gitURL="https://github.com/esmf-org/esmf"
