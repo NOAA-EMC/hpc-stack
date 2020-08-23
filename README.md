@@ -1,6 +1,6 @@
 # Software Stack
 
-![](https://github.com/noaa-emc/hpc-stack/workflows/Build/badge.svg)
+![Ubuntu](https://github.com/noaa-emc/hpc-stack/workflows/Build%20Ubuntu/badge.svg)
 
 This repository provides a unified, shell script based build system for building commonly used software stack.
 
