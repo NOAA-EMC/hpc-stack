@@ -1,0 +1,48 @@
+name: Build Ubuntu
+on: [push, pull_request]
+
+jobs:
+  build:
+    env:
+      CC: gcc-9
+      CXX: g++-9
+      FC: gfortran-9
+      VERBOSE: 1
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        mpi: ['openmpi']
+
+    steps:
+
+    - name: Install dependencies (OpenMPI)
+      if: matrix.mpi == 'openmpi'
+      run: |
+        sudo apt-get update
+        sudo apt-get install openmpi-bin libopenmpi-dev
+
+    - name: Install dependencies (MPICH)
+      if: matrix.mpi == 'mpich'
+      run: |
+        sudo apt-get update
+        sudo apt-get install libmpich-dev
+
+    - name: Get Sources
+      uses: actions/checkout@v2
+      with:
+        path: ${{ matrix.mpi }}
+
+    - name: Build
+      run: |
+        cd ${{ matrix.mpi }}
+        prefix=$GITHUB_WORKSPACE/install-${{ matrix.mpi }}
+        export PATH="$prefix/bin:$PATH"
+        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
+        ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
+
+    - name: Upload logs
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ matrix.mpi }}-log
+        path: ${{ matrix.mpi }}/log
