@@ -97,6 +97,9 @@ if $MODULES; then
       module load ip
       module load sp
       ;;
+   prod_util)
+      module load w3nco
+      ;;
   esac
   module list
   set -x
