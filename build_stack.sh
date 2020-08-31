@@ -108,6 +108,7 @@ mkdir -p $logdir
 
 # start with a clean slate
 if $MODULES; then
+  source $MODULESHOME/init/bash
   module use $PREFIX/modulefiles/stack
   module load hpc
 else

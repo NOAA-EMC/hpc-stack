@@ -16,6 +16,10 @@ MPI=$(echo $mpi | cut -d- -f1)
 
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+[[ ${STACK_esmf_debug} =~ [yYtT] ]] && enable_debug=YES || enable_debug=NO
+
+# This will allow debug version of software (ESMF) to be installed next to the optimized version (this is only affected for $MODULES)
+[[ $enable_debug =~ [yYtT] ]] && version_install=$version-debug || version_install=$version
 
 if $MODULES; then
   set +x
@@ -33,7 +37,7 @@ if $MODULES; then
   module list
   set -x
 
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version_install"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -127,8 +131,7 @@ export ESMF_NETCDF_LIBPATH=$NETCDF_ROOT/lib
 export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs"
 export ESMF_NFCONFIG=nf-config
 [[ $enable_pnetcdf =~ [yYtT] ]] && export ESMF_PNETCDF=pnetcdf-config
-export ESMF_BOPT=O
-#export ESMF_OPTLEVEL=2
+[[ $enable_debug =~ [yYtT] ]] && export ESMF_BOPT=g || export ESMF_BOPT=O
 export ESMF_ABI=64
 
 export ESMF_INSTALL_PREFIX=$prefix
@@ -145,5 +148,5 @@ $SUDO make install
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version \
+$MODULES && update_modules $modpath $name $version_install \
          || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

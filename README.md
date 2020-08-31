@@ -126,7 +126,7 @@ These `hpc-` modules are really meta-modules that will both load the compiler/mp
 
 So, in short, you should never load the compiler or MPI modules directly.  Instead, you should always load the `hpc-` meta-modules as demonstrated above - they will provide everything you need to load and then use these software libraries.
 
-If the compiler and/or MPI is natively available on the system and the user wishes to make use of it e.g. `/usr/bin/gcc`, the `setup_modules.sh` script prompts the user to answer questions regarding their use.  For e.g. in containers, one would like to use the system provided GNU compilers, but build a MPI implementation. 
+If the compiler and/or MPI is natively available on the system and the user wishes to make use of it e.g. `/usr/bin/gcc`, the `setup_modules.sh` script prompts the user to answer questions regarding their use.  For e.g. in containers, one would like to use the system provided GNU compilers, but build a MPI implementation.
 
 ## Step 3: Build Software Stack
 
