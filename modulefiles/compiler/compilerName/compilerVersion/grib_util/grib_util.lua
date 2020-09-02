@@ -16,7 +16,7 @@ local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
 setenv("grib_util_ROOT", base)
-prepend_path(PATH, pathJoin(base, "bin"))
+prepend_path("PATH", pathJoin(base, "bin"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
