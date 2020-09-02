@@ -3,9 +3,17 @@
 set -eux
 
 name=$1
-eval s_version="\${STACK_${name}_version}"
-eval s_install_as="\${STACK_${name}_install_as}"
-eval s_openmp="\${STACK_${name}_openmp}"
+
+var_version="STACK_${name}_version"
+var_install_as="STACK_${name}_install_as"
+var_openmp="STACK_${name}_openmp"
+
+set +u
+s_version=${!var_version}
+s_install_as=${!var_install_as}
+s_openmp=${!var_openmp}
+set -u
+
 version=${2:-$s_version}    # second column of COMPONENTS
 install_as=${3:-${s_install_as}} #  third column of COMPONENTS
 openmp=${4:-${s_openmp:-"OFF"}}
