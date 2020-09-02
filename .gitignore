@@ -1,19 +1,22 @@
 # Ignore these files anywhere in the tree
 *.[aox]
 *.so
+*.dylib
 *.mod
 *.pyc
 *.swp
 *~
+*.DS_Store
 *.patch
 *.diff
 *.tar.gz
 *.zip
 *.tgz
+*.bz2
+*.log*
 
 # Ignore the contents of these directories
-pkg*
-log*
-*.log*
-test*
-
+pkg*/
+log*/
+test*/
+build*/

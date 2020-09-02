@@ -112,6 +112,7 @@ function build_lib() {
     stack_build=${!var}
     set -u
     if [[ ${stack_build} =~ [yYtT] ]]; then
+        [[ -f $logdir/$1.log ]] && ( logDate=$(date -r $logdir/$1.log +%F_%H%M); mv -f $logdir/$1.log $logdir/$1.log.$logDate )
         ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$logdir/$1.log"
         ret=${PIPESTATUS[0]}
         if [[ $ret > 0 ]]; then
@@ -131,6 +132,7 @@ function build_nceplib() {
     stack_build=${!var}
     set -u
     if [[ ${stack_build} =~ [yYtT] ]]; then
+        [[ -f $logdir/$1.log ]] && ( logDate=$(date -r $logdir/$1.log +%F_%H%M); mv -f $logdir/$1.log $logdir/$1.log.$logDate )
         ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$logdir/$1.log"
         ret=${PIPESTATUS[0]}
         if [[ $ret > 0 ]]; then
@@ -142,8 +144,6 @@ function build_nceplib() {
     set -x
 }
 
-# Inspiration from:
-# https://stackoverflow.com/questions/5014632/how-can-i-parse-a-yaml-file-from-a-linux-shell-script
 function parse_yaml {
   set +x
   local prefix=$2
