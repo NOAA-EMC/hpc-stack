@@ -122,7 +122,7 @@ sp:
   build: YES
   version: v2.3.1
   install_as: 2.3.1
-  openmp: ON
+  openmp: OFF
 
 ip:
   build: YES
