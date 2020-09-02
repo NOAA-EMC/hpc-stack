@@ -92,31 +92,26 @@ bacio:
   build: YES
   version: v2.4.1
   install_as: 2.4.1
-  openmp: OFF
 
 sigio:
   build: YES
   version: v2.3.2
   install_as: 2.3.2
-  openmp: OFF
 
 sfcio:
   build: YES
   version: v1.4.1
   install_as: 1.4.1
-  openmp: OFF
 
 gfsio:
   build: YES
   version: v1.4.1
   install_as: 1.4.1
-  openmp: OFF
 
 w3nco:
   build: YES
   version: v2.4.1
   install_as: 2.4.1
-  openmp: OFF
 
 sp:
   build: YES
@@ -146,7 +141,6 @@ nemsio:
   build: YES
   version: v2.5.2
   install_as: 2.5.2
-  openmp: OFF
 
 nemsiogfs:
   build: YES
@@ -158,25 +152,21 @@ w3emc:
   build: YES
   version: v2.7.1
   install_as: 2.7.1
-  openmp: OFF
 
 g2:
   build: YES
   version: v3.4.1
   install_as: 3.4.1
-  openmp: OFF
 
 g2tmpl:
   build: YES
   version: v1.9.1
   install_as: 1.9.1
-  openmp: OFF
 
 crtm:
   build: YES
   version: v2.3.0
   install_as: 2.3.0
-  openmp: OFF
 
 nceppost:
   build: YES
@@ -194,7 +184,6 @@ bufr:
   build: YES
   version: bufr_v11.4.0
   install_as: 11.4.0
-  openmp: OFF
 
 wgrib2:
   build: YES
@@ -208,7 +197,6 @@ prod_util:
   build: YES
   version: develop
   install_as: develop
-  openmp: OFF
 
 grib_util:
   build: YES
