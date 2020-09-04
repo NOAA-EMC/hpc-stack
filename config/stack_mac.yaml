@@ -115,21 +115,21 @@ w3nco:
 
 sp:
   build: YES
-  version: v2.3.2
-  install_as: 2.3.2
-  openmp: OFF
+  version: v2.3.3
+  install_as: 2.3.3
+  openmp: ON
 
 ip:
   build: YES
-  version: v3.3.2
-  install_as: 3.3.2
-  openmp: OFF
+  version: v3.3.3
+  install_as: 3.3.3
+  openmp: ON
 
 ip2:
   build: NO
   version: v1.1.2
   install_as: 1.1.2
-  openmp: OFF
+  openmp: ON
 
 landsfcutil:
   build: YES
@@ -143,8 +143,8 @@ nemsio:
 
 nemsiogfs:
   build: YES
-  version: v2.5.2
-  install_as: 2.5.2
+  version: v2.5.3
+  install_as: 2.5.3
 
 w3emc:
   build: YES
@@ -170,13 +170,13 @@ nceppost:
   build: YES
   version: dceca26
   install_as: dceca26
-  openmp: OFF
+  openmp: ON
 
 wrf_io:
   build: YES
-  version: v1.1.1-cmake-v4
+  version: v1.1.1-cmake-v5
   install_as: 1.1.1
-  openmp: OFF
+  openmp: ON
 
 bufr:
   build: YES
@@ -200,4 +200,4 @@ grib_util:
   build: YES
   version: v1.2.1
   install_as: 1.2.1
-  openmp: OFF
+  openmp: ON

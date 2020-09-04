@@ -111,14 +111,14 @@ w3nco:
 
 sp:
   build: YES
-  version: v2.3.2
-  install_as: 2.3.2
+  version: v2.3.3
+  install_as: 2.3.3
   openmp: ON
 
 ip:
   build: YES
-  version: v3.3.2
-  install_as: 3.3.2
+  version: v3.3.3
+  install_as: 3.3.3
   openmp: ON
 
 ip2:
@@ -139,8 +139,8 @@ nemsio:
 
 nemsiogfs:
   build: YES
-  version: v2.5.2
-  install_as: 2.5.2
+  version: v2.5.3
+  install_as: 2.5.3
 
 w3emc:
   build: YES
@@ -170,7 +170,7 @@ nceppost:
 
 wrf_io:
   build: YES
-  version: v1.1.1-cmake-v4
+  version: v1.1.1-cmake-v5
   install_as: 1.1.1
   openmp: ON
 
