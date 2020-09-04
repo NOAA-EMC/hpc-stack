@@ -174,7 +174,7 @@ nceppost:
 
 wrf_io:
   build: YES
-  version: v1.1.1-cmake-v2
+  version: v1.1.1-cmake-v4
   install_as: 1.1.1
   openmp: ON
 
