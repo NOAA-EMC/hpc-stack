@@ -144,8 +144,8 @@ nemsiogfs:
 
 w3emc:
   build: YES
-  version: v2.7.2
-  install_as: 2.7.2
+  version: v2.7.3
+  install_as: 2.7.3
 
 g2:
   build: YES
@@ -181,7 +181,7 @@ bufr:
 
 wgrib2:
   build: YES
-  version: v2.0.8-cmake-v4
+  version: v2.0.8-cmake-v5
   install_as: 2.0.8
   openmp: OFF
   spectral: OFF
