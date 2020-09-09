@@ -104,6 +104,7 @@ if [[ $responseCompiler =~ [yYtT] ]]; then
   cd $PREFIX/modulefiles/core/hpc-$compilerName
   $SUDO sed -i -e '/load(compiler)/d' $compilerVersion.lua
   $SUDO sed -i -e '/prereq(compiler)/d' $compilerVersion.lua
+  [[ -f $compilerVersion.lua-e ]] && rm -f "$compilerVersion.lua-e" # Stupid macOS does not understand -i, and creates a backup with -e (-e is the next sed option)
   echo
 fi
 
@@ -114,6 +115,7 @@ if [[ $responseMPI =~ [yYtT] ]]; then
   cd $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName
   $SUDO sed -i -e '/load(mpi)/d' $mpiVersion.lua
   $SUDO sed -i -e '/prereq(mpi)/d' $mpiVersion.lua
+  [[ -f $mpiVersion.lua-e ]] && rm -f "$mpiVersion.lua-e"
   echo
 fi
 

@@ -64,7 +64,7 @@ function no_modules {
       export SERIAL_CXX=${SERIAL_CXX:-"clang++"}
       export SERIAL_FC=${SERIAL_FC:-"gfortran"}
       ;;
-    cray* )
+    cray | cray* )
       export SERIAL_CC=${SERIAL_CC:-"cc"}
       export SERIAL_CXX=${SERIAL_CXX:-"CC"}
       export SERIAL_FC=${SERIAL_FC:-"ftn"}
@@ -92,7 +92,7 @@ function no_modules {
       export MPI_CXX=${MPI_CXX:-"mpiicpc"}
       export MPI_FC=${MPI_FC:-"mpiifort"}
       ;;
-    cray* )
+    cray | cray* )
       export MPI_CC=${MPI_CC:-"cc"}
       export MPI_CXX=${MPI_CXX:-"CC"}
       export MPI_FC=${MPI_FC:-"ftn"}
@@ -117,7 +117,7 @@ function set_pkg_root() {
     pkg=$(echo $i | cut -d= -f1 | tr 'a-z' 'A-Z' | cut -d_ -f2- | rev | cut -d_ -f2- | rev)
     build=$(echo $i | cut -d= -f2)
     if [[ $build =~ ^(yes|YES|true|TRUE)$ ]]; then
-        eval export ${pkg}_ROOT=$prefix
+      eval export ${pkg}_ROOT=$prefix
     fi
   done
 }
