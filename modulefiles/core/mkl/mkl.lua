@@ -23,6 +23,10 @@ prepend_path("LD_LIBRARY_PATH", pathJoin(base,"tbb/lib"))
 prepend_path("LD_LIBRARY_PATH", pathJoin(base,"compiler/lib"))
 prepend_path("LD_LIBRARY_PATH", pathJoin(base,"mkl/lib"))
 
+prepend_path("DYLD_LIBRARY_PATH", pathJoin(base,"tbb/lib"))
+prepend_path("DYLD_LIBRARY_PATH", pathJoin(base,"compiler/lib"))
+prepend_path("DYLD_LIBRARY_PATH", pathJoin(base,"mkl/lib"))
+
 prepend_path("PKG_CONFIG_PATH", pathJoin(base,"mkl/bin/pkgconfig"))
 
 whatis("Name: ".. pkgName)
