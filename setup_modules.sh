@@ -19,7 +19,7 @@ set -eu
 # root directory for the repository
 HPC_STACK_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-HPC_STACK_VERSION="$(cat ${HPC_STACK_ROOT}/VERSION)"
+HPC_STACK_VERSION="$(head -n 1 ${HPC_STACK_ROOT}/VERSION)"
 
 #===============================================================================
 
@@ -123,7 +123,7 @@ fi
 # Deploy directory for stack modulefile
 $SUDO mkdir -p $PREFIX/modulefiles/stack/hpc
 $SUDO cp $HPC_STACK_ROOT/modulefiles/stack/hpc/hpc.lua \
-         $PREFIX/modulefiles/stack/hpc//$HPC_STACK_VERSION.lua
+         $PREFIX/modulefiles/stack/hpc/$HPC_STACK_VERSION.lua
 
 # Replace #PREFIX# from template with $PREFIX,
 # sed does not like delimiter (/) to be a part of replacement string, do magic!
