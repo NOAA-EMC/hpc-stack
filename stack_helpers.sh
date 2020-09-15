@@ -127,7 +127,7 @@ function set_no_modules_path() {
   prefix=${PREFIX:-${HPC_OPT:-"/usr/local"}}
   export PATH="$prefix/bin:$PATH"
   export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
-  export CMAKE_PREFIX_PATH=$prefix
+  #export CMAKE_PREFIX_PATH=$prefix
 }
 
 function build_lib() {

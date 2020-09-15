@@ -168,6 +168,12 @@ This will put the `hpc-<compilerName>` module in your `MODULEPATH`, which can be
 ```
 module load hpc-<compilerName>/<compilerVersion>
 ```
+- If the HPC-stack is not managed via modules, you need to add `$PREFIX` to the PATH as follows:
+```
+export PATH="$PREFIX/bin:$PATH"
+export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
+export CMAKE_PREFIX_PATH="$PREFIX"
+```
 
 ### Known work-around's for certain installations of Lmod.
 - On some machine's (e.g. **WCOSS_DELL_P3**), LMod is built to disable loading of default modulefiles and requires the user to load the module with an explicit version of the module.  e.g. `module load netcdf/4.7.4` instead of `module load netcdf`. The latter looks for the `default` module which is either the latest version or a version that is marked as default.  To circumvent this, it is necessary to place the following lines in `modulefiles/stack/hpc/hpc.lua` prior to executing `setup_modules.sh` or in `$PREFIX/modulefiles/stack/hpc/1.0.0.lua` after executing `setup_modules.sh`.
