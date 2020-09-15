@@ -113,6 +113,7 @@ if $MODULES; then
   module load hpc
 else
   no_modules
+  set_no_modules_path
   set_pkg_root
 fi
 
