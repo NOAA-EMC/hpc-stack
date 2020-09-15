@@ -124,12 +124,10 @@ function set_pkg_root() {
 
 function set_no_modules_path() {
   # add $PREFIX to PATH, LD_LIBRARY_PATH and CMAKE_PREFIX_PATH
-  set +u
   prefix=${PREFIX:-${HPC_OPT:-"/usr/local"}}
-  export PATH="$prefix/bin:${PATH:-}"
+  export PATH=$prefix/bin${PATH:+:$PATH}
   export LD_LIBRARY_PATH=$prefix/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-  #export CMAKE_PREFIX_PATH=$prefix
-  set -u
+  export CMAKE_PREFIX_PATH=$prefix${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}
 }
 
 function build_lib() {
