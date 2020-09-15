@@ -17,8 +17,6 @@ family("mpi")
 conflict(pkgName)
 conflict("openmpi","impi")
 
-try_load("szip")
-
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
