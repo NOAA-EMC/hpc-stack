@@ -224,7 +224,7 @@ tau2:
   version: 3.25.1
 
 cgal:
-  build: YES
+  build: NO
   version: 5.0.2
 
 ecbuild:

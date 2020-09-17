@@ -36,7 +36,7 @@ udunits:
   version: 2.2.26
 
 hdf5:
-  build: YES
+  build: NO
   version: 1.10.6
   shared: YES
   enable_szip: NO
@@ -48,7 +48,7 @@ pnetcdf:
   shared: YES
 
 netcdf:
-  build: YES
+  build: NO
   shared: YES
   enable_pnetcdf: NO
   version_c: 4.7.4
@@ -56,7 +56,7 @@ netcdf:
   version_cxx: 4.3.1
 
 nccmp:
-  build: YES
+  build: NO
   version: 1.8.7.0
 
 nco:
@@ -64,7 +64,7 @@ nco:
   version: 4.9.3
 
 pio:
-  build: YES
+  build: NO
   version: 2.5.1
   enable_pnetcdf: NO
   enable_gptl: NO
@@ -216,7 +216,7 @@ tau2:
   version: 3.25.1
 
 cgal:
-  build: YES
+  build: NO
   version: 5.0.2
 
 ecbuild:
