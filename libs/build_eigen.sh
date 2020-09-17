@@ -24,7 +24,7 @@ fi
 
 cd $HPC_STACK_ROOT/${PKGDIR:-"pkg"}
 
-gitURL="git clone https://gitlab.com/libeigen/eigen.git"
+gitURL="https://gitlab.com/libeigen/eigen.git"
 
 software=$name-$version
 [[ -d $software ]] || ( git clone -b $version $gitURL $software )
