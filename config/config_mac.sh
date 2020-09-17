@@ -5,7 +5,6 @@ export HPC_COMPILER="clang/11.0.3"
 export HPC_MPI="mpich/3.3.1"
 
 # Build options
-export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log
 export OVERWRITE=N

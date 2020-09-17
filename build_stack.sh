@@ -91,9 +91,6 @@ mpiVersion=$(echo $HPC_MPI | cut -d/ -f2)
 echo "Compiler: $compilerName/$compilerVersion"
 echo "MPI: $mpiName/$mpiVersion"
 
-# install with root permissions?
-[[ $USE_SUDO =~ [yYtT] ]] && export SUDO="sudo" || export SUDO=""
-
 # ==============================================================================
 
 # create build directory if needed
@@ -181,7 +178,7 @@ build_nceplib grib_util
 # ==============================================================================
 # optionally clean up
 [[ $MAKE_CLEAN =~ [yYtT] ]] && \
-    ( $SUDO rm -rf $pkgdir; $SUDO rm -rf $logdir )
+    ( rm -rf $pkgdir; rm -rf $logdir )
 
 # ==============================================================================
 echo "build_stack.sh: SUCCESS!"

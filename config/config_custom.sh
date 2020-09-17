@@ -5,7 +5,6 @@ export HPC_COMPILER=${HPC_COMPILER:-"gnu/9.3.0"}
 export HPC_MPI=${HPC_MPI:-"openmpi/4.0.1"}
 
 # Build options
-export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log
 export OVERWRITE=N

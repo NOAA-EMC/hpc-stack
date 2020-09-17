@@ -28,12 +28,12 @@ function update_modules {
   [[ -d $to_dir ]] || ( echo "ERROR: $mod_dir MODULE DIRECTORY NOT FOUND! ABORT!"; exit 1 )
 
   cd $to_dir
-  $SUDO mkdir -p $name; cd $name
-  $SUDO cp $tmpl_file $version.lua
+  mkdir -p $name; cd $name
+  cp $tmpl_file $version.lua
 
   # Make the latest installed version the default
-  [[ -e default ]] && $SUDO rm -f default
-  $SUDO ln -s $version.lua default
+  [[ -e default ]] && rm -f default
+  ln -s $version.lua default
 }
 
 function no_modules {
