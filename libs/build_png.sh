@@ -12,21 +12,20 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
 # manage package dependencies here
 if $MODULES; then
-    set +x
-    source $MODULESHOME/init/bash
-    module load hpc-$HPC_COMPILER
-    module load zlib
-    module list
-    set -x
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  module load zlib
+  module list
+  set -x
 
-    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
-    if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-    fi
-
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
+  if [[ -d $prefix ]]; then
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix ) \
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+  fi
 else
-    prefix=${PNG_ROOT:-"/usr/local"}
+  prefix=${PNG_ROOT:-"/usr/local"}
 fi
 
 export CC=$SERIAL_CC
@@ -53,7 +52,7 @@ cmake $sourceDir \
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+make install
 
 # generate modulefile from template
 $MODULES && update_modules compiler $name $version \

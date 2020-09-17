@@ -11,18 +11,18 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 [[ ${STACK_zlib_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 if $MODULES; then
-    set +x
-    source $MODULESHOME/init/bash
-    module load hpc-$HPC_COMPILER
-    module list
-    set -x
-    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
-    if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-    fi
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  module list
+  set -x
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
+  if [[ -d $prefix ]]; then
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix ) \
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+  fi
 else
-    prefix=${ZLIB_ROOT:-"/usr/local"}
+  prefix=${ZLIB_ROOT:-"/usr/local"}
 fi
 
 export FC=$SERIAL_FC
@@ -57,7 +57,7 @@ fi
 
 make -j${NTHREADS:-4}
 [[ "$MAKE_CHECK" = "YES" ]] && make check
-$SUDO make install
+make install
 
 # generate modulefile from template
 $MODULES && update_modules compiler $name $version \

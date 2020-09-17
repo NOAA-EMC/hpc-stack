@@ -5,25 +5,21 @@ set -eux
 name="eigen"
 version=${1:-${STACK_eigen_version}}
 
-[[ $USE_SUDO =~ [yYtT] ]] && export SUDO="sudo" || unset SUDO
-
-# this is only needed if MAKE_CHECK is enabled
 if $MODULES; then
-    set +x
-    source $MODULESHOME/init/bash
-    module load hpc-$HPC_COMPILER
-    module load boost-headers
-    module list
-    set -x
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  module load boost-headers
+  module list
+  set -x
 
-    prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"
-    if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-    fi
-
+  prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"
+  if [[ -d $prefix ]]; then
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix ) \
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+  fi
 else
-    prefix=${EIGEN_ROOT:-"/usr/local"}
+   prefix=${EIGEN_ROOT:-"/usr/local"}
 fi
 
 cd $HPC_STACK_ROOT/${PKGDIR:-"pkg"}
@@ -38,7 +34,7 @@ mkdir -p build && cd build
 
 cmake .. -DCMAKE_INSTALL_PREFIX=$prefix
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+make install
 
 # generate modulefile from template
 $MODULES && update_modules core $name $version \

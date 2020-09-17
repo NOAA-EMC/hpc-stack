@@ -11,30 +11,30 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 # manage package dependencies here
 if $MODULES; then
-    set +x
-    source $MODULESHOME/init/bash
-    module load hpc-$HPC_COMPILER
-    module load hpc-$HPC_MPI
-    module load pdtoolkit
-    module load zlib
-    module list
-    set -x
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  module load hpc-$HPC_MPI
+  module load pdtoolkit
+  module load zlib
+  module list
+  set -x
 
-    prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
-    if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-    fi
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
+  if [[ -d $prefix ]]; then
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix ) \
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+  fi
 else
-    prefix=${TAU_ROOT:-"/usr/local/$name/$version"}
+  prefix=${TAU_ROOT:-"/usr/local/$name/$version"}
 fi
 
 export CC=${MPI_CC:-"mpicc"}
 export CXX=${MPI_CXX:-"mpiicpc"}
 if [[ $MPI_FC = "mpifort" ]]; then
-    export FC="mpif90"
+  export FC="mpif90"
 else
-    export FC=${MPI_FC:-"mpif90"}
+  export FC=${MPI_FC:-"mpif90"}
 fi
 
 export PDTOOLKIT_ROOT=$PDT_ROOT
@@ -48,13 +48,13 @@ software=tau2
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 
-$SUDO ./configure -prefix=$prefix -c++=$CXX -cc=$CC -fortran=$FC -mpi -ompt -bfd=download \
-                  -dwarf=download -unwind=download -iowrapper -pdt=$PDTOOLKIT_ROOT
+./configure -prefix=$prefix -c++=$CXX -cc=$CC -fortran=$FC -mpi -ompt -bfd=download \
+            -dwarf=download -unwind=download -iowrapper -pdt=$PDTOOLKIT_ROOT
 
 #                  -arch=x86_64
 
 # Note - if this doesn't work you might have to run the entire script as root
-$SUDO make install
+make install
 
 # generate modulefile from template
 $MODULES && update_modules mpi $name $version \

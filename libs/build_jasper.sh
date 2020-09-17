@@ -18,11 +18,11 @@ if $MODULES; then
   set -x
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
   if [[ -d $prefix ]]; then
-      [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                 || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix ) \
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
 else
-    prefix=${JASPER_ROOT:-"/usr/local"}
+  prefix=${JASPER_ROOT:-"/usr/local"}
 fi
 
 export FC=$SERIAL_FC
@@ -71,7 +71,7 @@ fi
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+make install
 
 # generate modulefile from template
 $MODULES && update_modules compiler $name $version \

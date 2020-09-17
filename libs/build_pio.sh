@@ -13,25 +13,25 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 [[ ${STACK_pio_enable_gptl:-} =~ [yYtT] ]] && enable_gptl=YES || enable_gptl=NO
 
 if $MODULES; then
-    set +x
-    source $MODULESHOME/init/bash
-    module load hpc-$HPC_COMPILER
-    module load hpc-$HPC_MPI
-    module try-load cmake
-    module load szip
-    module load hdf5
-    [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
-    module load netcdf
-    module list
-    set -x
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  module load hpc-$HPC_MPI
+  module try-load cmake
+  module load szip
+  module load hdf5
+  [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
+  module load netcdf
+  module list
+  set -x
 
-    prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
-    if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-    fi
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
+  if [[ -d $prefix ]]; then
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix; mkdir $prefix ) \
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+  fi
 else
-    prefix=${PIO_ROOT:-"/usr/local"}
+  prefix=${PIO_ROOT:-"/usr/local"}
 fi
 
 export FC=$MPI_FC
@@ -77,7 +77,7 @@ cmake ..\
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-VERBOSE=$MAKE_VERBOSE $SUDO make install
+VERBOSE=$MAKE_VERBOSE make install
 
 # generate modulefile from template
 $MODULES && update_modules mpi $name $version \

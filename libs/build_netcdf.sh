@@ -14,36 +14,35 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 [[ ${STACK_netcdf_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 
 if $MODULES; then
-    set +x
-    source $MODULESHOME/init/bash
-    module load hpc-$HPC_COMPILER
-    [[ -z $mpi ]] || module load hpc-$HPC_MPI
-    module try-load szip
-    module load hdf5
-    if [[ ! -z $mpi ]]; then
-      [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
-    fi
-    module list
-    set -x
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  [[ -z $mpi ]] || module load hpc-$HPC_MPI
+  module try-load szip
+  module load hdf5
+  if [[ ! -z $mpi ]]; then
+    [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
+  fi
+  module list
+  set -x
 
-    prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$c_version"
-    if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-    fi
-
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$c_version"
+  if [[ -d $prefix ]]; then
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix; mkdir $prefix ) \
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+  fi
 else
-    prefix=${NETCDF_ROOT:-"/usr/local"}
+  prefix=${NETCDF_ROOT:-"/usr/local"}
 fi
 
 if [[ ! -z $mpi ]]; then
-    export FC=$MPI_FC
-    export CC=$MPI_CC
-    export CXX=$MPI_CXX
+  export FC=$MPI_FC
+  export CC=$MPI_CC
+  export CXX=$MPI_CXX
 else
-    export FC=$SERIAL_FC
-    export CC=$SERIAL_CC
-    export CXX=$SERIAL_CXX
+  export FC=$SERIAL_FC
+  export CC=$SERIAL_CC
+  export CXX=$SERIAL_CXX
 fi
 
 export F77=$FC
@@ -122,7 +121,7 @@ mkdir -p build && cd build
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+make install
 
 $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
@@ -172,7 +171,7 @@ mkdir -p build && cd build
 #VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE make -j1 #NetCDF-Fortran-4.5.2 & intel/20 have a linker bug if built with j>1
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+make install
 
 cd $curr_dir
 
@@ -196,6 +195,6 @@ mkdir -p build && cd build
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+make install
 
 $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

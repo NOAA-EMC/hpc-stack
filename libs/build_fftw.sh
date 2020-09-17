@@ -20,8 +20,8 @@ if $MODULES; then
   set -x
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
   if [[ -d $prefix ]]; then
-      [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                 || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix ) \
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
 else
   prefix=${FFTW_ROOT:-"/usr/local"}
@@ -38,8 +38,8 @@ else
 fi
 
 export F77=$FC
-export FFLAGS="${STACK_FFLAGS:-} ${STACK_fftw_FFLAGS} -fPIC"
-export CFLAGS="${STACK_CFLAGS:-} ${STACK_fftw_CFLAGS} -fPIC"
+export FFLAGS="${STACK_FFLAGS:-} ${STACK_fftw_FFLAGS:-} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_fftw_CFLAGS:-} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
@@ -56,7 +56,7 @@ mkdir -p build && cd build
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+make install
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi

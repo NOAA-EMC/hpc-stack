@@ -32,7 +32,7 @@ if $MODULES; then
 
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix ) \
                                || ( echo "ERROR: $prefix EXISTS, ABORT!"; exit 1 )
   fi
 else
@@ -83,7 +83,7 @@ esac
 ../configure --prefix=$prefix $extra_conf
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+make install
 
 # generate modulefile from template
 $MODULES && update_modules compiler $name $version \

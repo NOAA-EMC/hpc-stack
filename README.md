@@ -23,8 +23,6 @@ The first step is to chose the **COMPILER** and the **MPI** specify any other as
 
 - **HPC_MPI:** is the MPI library you wish to use for this build.  The format is the same as for `HPC_COMPILER`, for example: `HPC_MPI=impi/2020`.
 
-- **USE_SUDO:** If `PREFIX` is set to a value that requires root permission to write to, such as `/opt/modules`, then this flag should be enabled. For example, `USE_SUDO=Y`
-
 - **DOWNLOAD_ONLY:** The stack allows the option to download the source code for all the software without performing the installation.  This is especially useful for installing the stack on machines that do not allow internet connectivity to websites hosting the softwares e.g. GitHub.
 
 _**NOTE: To enable a boolean flag use a single-digit `Y` or `T`.  To disable, use `N` or `F` (case insensitive)**_

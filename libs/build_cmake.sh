@@ -11,16 +11,16 @@ name="cmake"
 version=${1:-${STACK_cmake_version}}
 
 if $MODULES; then
-    module load hpc-$HPC_COMPILER
-    module list
+  module load hpc-$HPC_COMPILER
+  module list
 
-    prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"
-    if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-    fi
+  prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"
+  if [[ -d $prefix ]]; then
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix; mkdir $prefix ) \
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+  fi
 else
-    prefix=${CMAKE_ROOT:-"/usr/local"}
+  prefix=${CMAKE_ROOT:-"/usr/local"}
 fi
 
 software=$name-$version
@@ -34,9 +34,9 @@ export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 export FC=$SERIAL_FC
 
-$SUDO ./bootstrap --prefix=$prefix
-$SUDO make -j${NTHREADS:-4}
-$SUDO make install
+./bootstrap --prefix=$prefix
+make -j${NTHREADS:-4}
+make install
 
 # generate modulefile from template
 $MODULES && update_modules core $name $version \

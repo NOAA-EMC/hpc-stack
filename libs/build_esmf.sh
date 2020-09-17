@@ -39,10 +39,9 @@ if $MODULES; then
 
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version_install"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
-
 else
   prefix=${ESMF_ROOT:-"/usr/local"}
 fi
@@ -143,7 +142,7 @@ export ESMF_INSTALL_HEADERDIR=include
 
 make info
 make -j${NTHREADS:-4}
-$SUDO make install
+make install
 [[ $MAKE_CHECK =~ [yYtT] ]] && make installcheck
 
 # generate modulefile from template

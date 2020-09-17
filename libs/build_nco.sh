@@ -29,7 +29,7 @@ if $MODULES; then
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
 
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
 else
@@ -38,13 +38,13 @@ else
 fi
 
 if [[ ! -z $mpi ]]; then
-    export FC=$MPI_FC
-    export CC=$MPI_CC
-    export CXX=$MPI_CXX
+  export FC=$MPI_FC
+  export CC=$MPI_CC
+  export CXX=$MPI_CXX
 else
-    export FC=$SERIAL_FC
-    export CC=$SERIAL_CC
-    export CXX=$SERIAL_CXX
+  export FC=$SERIAL_FC
+  export CC=$SERIAL_CC
+  export CXX=$SERIAL_CXX
 fi
 
 export FFLAGS="${STACK_FFLAGS:-} ${STACK_nco_FFLAGS:-} -fPIC"
@@ -92,7 +92,7 @@ cmake .. \
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+make install
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi

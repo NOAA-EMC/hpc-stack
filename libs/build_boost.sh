@@ -18,16 +18,16 @@ url="https://dl.bintray.com/boostorg/release/$version/source/$software.tar.gz"
 
 if [[ $level = "headers-only" ]]; then
 
-    $MODULES && prefix="${PREFIX:-"/opt/modules"}/core/$name/$version" \
-             || prefix=${BOOST_ROOT:-"/usr/local"}
-    $SUDO mkdir -p $prefix $prefix/include
-    $SUDO cp -R boost $prefix/include
+  $MODULES && prefix="${PREFIX:-"/opt/modules"}/core/$name/$version" \
+           || prefix=${BOOST_ROOT:-"/usr/local"}
+  mkdir -p $prefix $prefix/include
+  cp -R boost $prefix/include
 
-    # generate modulefile from template
-    $MODULES && update_modules core "boost-headers" $version \
-             || echo "boost-headers" $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+  # generate modulefile from template
+  $MODULES && update_modules core "boost-headers" $version \
+           || echo "boost-headers" $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
-    exit 0
+  exit 0
 fi
 
 ########################################################################
@@ -39,19 +39,19 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 debug="--debug-configuration"
 
 if $MODULES; then
-    set +x
-    source $MODULESHOME/init/bash
-    module load hpc-$HPC_COMPILER
-    [[ -z $mpi ]] || module load hpc-$HPC_MPI
-    module list
-    set -x
-    prefix="${PREFIX:-"$HOME/opt"}/$compiler/$mpi/$name/$version"
-    if [[ -d $prefix ]]; then
-      [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                 || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-    fi
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  [[ -z $mpi ]] || module load hpc-$HPC_MPI
+  module list
+  set -x
+  prefix="${PREFIX:-"$HOME/opt"}/$compiler/$mpi/$name/$version"
+  if [[ -d $prefix ]]; then
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; rm -rf $prefix ) \
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+  fi
 else
-    prefix=${BOOST_ROOT:-"/usr/local"}
+  prefix=${BOOST_ROOT:-"/usr/local"}
 fi
 
 BoostRoot=$(pwd)
@@ -89,9 +89,9 @@ export PATH="$BoostBuild/bin:$PATH"
 
 cd $BoostRoot
 b2 $debug --build-dir=$build_boost address-model=64 toolset=$toolset stage
-$SUDO mkdir -p $prefix $prefix/include
-$SUDO cp -R boost $prefix/include
-$SUDO mv stage/lib $prefix
+mkdir -p $prefix $prefix/include
+cp -R boost $prefix/include
+mv stage/lib $prefix
 
 rm -f $HOME/user-config.jam
 
