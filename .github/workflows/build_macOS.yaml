@@ -26,8 +26,6 @@ jobs:
       run: |
         cd ${{ matrix.compiler }}-${{ matrix.mpi }}
         prefix=$GITHUB_WORKSPACE/install-${{ matrix.compiler }}-${{ matrix.mpi }}
-        export PATH="$prefix/bin:$PATH"
-        export LD_LIBRARY_PATH="$prefix/lib:$LD_LIBRARY_PATH"
         if [[ ${{ matrix.compiler }} == "gcc" ]]; then
           export CC=/usr/local/bin/gcc-9
           export CXX=/usr/local/bin/g++-9

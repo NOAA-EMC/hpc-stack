@@ -122,6 +122,14 @@ function set_pkg_root() {
   done
 }
 
+function set_no_modules_path() {
+  # add $PREFIX to PATH, LD_LIBRARY_PATH and CMAKE_PREFIX_PATH
+  prefix=${PREFIX:-${HPC_OPT:-"/usr/local"}}
+  export PATH=$prefix/bin${PATH:+:$PATH}
+  export LD_LIBRARY_PATH=$prefix/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+  export CMAKE_PREFIX_PATH=$prefix${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}
+}
+
 function build_lib() {
   # Args: build_script_name
   set +x
@@ -184,6 +192,7 @@ function parse_yaml {
 export -f update_modules
 export -f no_modules
 export -f set_pkg_root
+export -f set_no_modules_path
 export -f build_lib
 export -f build_nceplib
 export -f parse_yaml
