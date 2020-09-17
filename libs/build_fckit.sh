@@ -50,6 +50,7 @@ mkdir -p build && cd build
 
 ecbuild --prefix=$prefix --build=Release ..
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
+[[ $MAKE_CHECK =~ [yYtT] ]] && ctest
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template
