@@ -48,9 +48,7 @@ git checkout $version
 [[ -d build ]] && $SUDO rm -rf build
 mkdir -p build && cd build
 
-ecbuild .. \
-        --prefix=$prefix \
-        --build=Release
+ecbuild --prefix=$prefix --build=Release ..
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
