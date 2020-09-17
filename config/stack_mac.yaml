@@ -76,18 +76,6 @@ esmf:
   enable_pnetcdf: NO
   debug: NO
 
-gptl:
-  build: NO
-  version: 8.0.2
-
-fftw:
-  build: NO
-  version: 3.3.8
-
-tau2:
-  build: NO
-  version: 3.25.1
-
 bacio:
   build: YES
   version: v2.4.1
@@ -201,3 +189,52 @@ grib_util:
   version: v1.2.1
   install_as: 1.2.1
   openmp: ON
+
+boost:
+  build: YES
+  version: 1.68.0
+  level: headers-only
+
+eigen:
+  build: YES
+  version: 3.3.7
+
+gsl_lite:
+  build: YES
+  version: 0.37.0
+
+gptl:
+  build: NO
+  version: 8.0.2
+
+fftw:
+  build: NO
+  version: 3.3.8
+
+tau2:
+  build: NO
+  version: 3.25.1
+
+cgal:
+  build: YES
+  version: 5.0.2
+
+ecbuild:
+  build: YES
+  version: release-stable
+  repo: jcsda
+
+eckit:
+  build: YES
+  version: release-stable
+  repo: jcsda
+
+fckit:
+  build: YES
+  version: release-stable
+  repo: jcsda
+
+atlas:
+  build: YES
+  version: release-stable
+  repo: jcsda
