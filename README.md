@@ -52,7 +52,7 @@ The following software can optionally be built with the scripts under `libs`. Th
   - MPICH
   - `hpc-` Meta-modules for all the above as well as Intel and IMPI
 
-* HPC Stack
+* HPC Stack - Third Party Libraries
   - CMake
   - Udunits
   - PNG
@@ -70,6 +70,10 @@ The following software can optionally be built with the scripts under `libs`. Th
   - GPTL
   - Tau2
   - FFTW
+  - Boost
+  - Eigen
+
+* UFS Dependencies
   - ESMF
 
 * NCEP Libraries
@@ -93,6 +97,12 @@ The following software can optionally be built with the scripts under `libs`. Th
   - NCEPLIBS-grib_util
   - EMC_crtm
   - EMC_post
+
+* JEDI Dependencies
+  - ecbuild
+  - eckit
+  - fckit
+  - atlas
 
 **IMPORTANT: Steps 1, 2, and 3 need to be repeated for each compiler/MPI combination that you wish to install.**  The new packages will be installed alongside any previously-existing packages that may already have been built from other compiler/MPI combinations.
 
@@ -137,6 +147,13 @@ Now all that remains is to build the stack:
 Here the `-m` option is only required if LMod is used for managing the software stack.  It should be omitted otherwise.  `<prefix>` and `<configuration>` are the same as in Step 2, namely a reference to the installation prefix and a corresponding configuration file in the `config` directory.  As in Step 2, if this argument is omitted, the default is to use `$HOME/opt` and `config/config_custom.sh` respectively.  `<yaml>` represents a user configurable yaml file containing a list of packages that need to be built in the stack along with their versions and package options. The default value of `<yaml>` is `config/stack_custom.yaml`.
 
 ## Additional Notes:
+
+### Setting compiler flags and other options
+Often it is necessary to specify compiler flags (e.g. `gfortran-10 -fallow-argument-mismatch`) to the packages via `FFLAGS`.  There are 2 ways this can be achieved.
+1. For all packages:
+One can define variable e.g. `STACK_FFLAGS=-fallow-argument-mismatch` in the config file `config_custom.sh`.  This will append `STACK_FFLAGS` to `FFLAGS` in every build script under libs.
+2. Package specific flags:
+To compile only the specific package under `libs` with the above compiler flag, one can define variable `FFLAGS=-fallow-argument-mismatch` in the `<package>` section of the YAML file `stack_custom.yaml`.  This will append `STACK_<package>_FFLAGS` to `FFLAGS` in the build script for that `<package>` only.
 
 ### Adding a New library/package
 

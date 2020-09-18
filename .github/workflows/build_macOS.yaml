@@ -13,9 +13,10 @@ jobs:
 
     steps:
 
-#    - name: Update brew packages
-#      run: |
-#        brew update
+    - name: Update brew packages
+      run: |
+        sudo ln -sf /usr/local/opt/openssl/lib/libcrypto.dylib /usr/local/lib/
+        sudo ln -sf /usr/local/opt/openssl/lib/libssl.dylib    /usr/local/lib/
 
     - name: Get sources
       uses: actions/checkout@v2
