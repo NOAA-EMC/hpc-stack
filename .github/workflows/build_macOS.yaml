@@ -13,9 +13,10 @@ jobs:
 
     steps:
 
-#    - name: Update brew packages
-#      run: |
+    - name: Install brew packages
+      run: |
 #        brew update
+        brew install openssl
 
     - name: Get sources
       uses: actions/checkout@v2
