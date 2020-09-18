@@ -17,7 +17,6 @@ jobs:
       run: |
         sudo ln -sf /usr/local/opt/openssl/lib/libcrypto.dylib /usr/local/lib/
         sudo ln -sf /usr/local/opt/openssl/lib/libssl.dylib    /usr/local/lib/
-        ls -lrt /usr/local/lib
 
     - name: Get sources
       uses: actions/checkout@v2

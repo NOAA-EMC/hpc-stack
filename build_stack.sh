@@ -147,10 +147,10 @@ build_lib pnetcdf
 build_lib netcdf
 build_lib nccmp
 build_lib nco
+build_lib pio
 
 # UFS 3rd party dependencies
 
-build_lib pio
 build_lib esmf
 
 # NCEPlibs
