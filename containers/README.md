@@ -5,7 +5,7 @@ This `README.md` describes how to build a hierarchy of Docker containers for use
 
 There are 3 levels of containers that are made available.  At the very bottom a `BaseContainer` is created that contains only the basic Linux tools such as compilers (`GCC` or `Intel`), MPI implementations (`OpenMPI`, `MPICH` or `Intel MPI`), GNU utils such as `curl`, `wget`, as well as `git`, `cmake`, `vim`, `python`, etc.  [Dockerfile.ubuntu.base](./Dockerfile.ubuntu.base) contains an example of the contents of a `BaseContainer`.
 
-The next hierarchy of containers is an `HPCContainer`.  A `HPCContainer` is built on top of a `BaseContainer` where we build the [hpc-stack](https://github.com/noaa-emc/hpc-stack).  The `hpc-stack` contains all the third-party libraries required for running the applications such as UFS, GSI, JEDI etc.  [Dockerfile.hpc.ubuntu.base](./Dockerfile.hpc.ubuntu.base) contains an example of the contents of a `HPCContainer`.
+The next level in the hierarchy of containers is an `HPCContainer`.  A `HPCContainer` is built on top of a `BaseContainer` where we build the [hpc-stack](https://github.com/noaa-emc/hpc-stack).  The `hpc-stack` contains all the third-party libraries required for running the applications such as UFS, GSI, JEDI etc.  [Dockerfile.hpc.ubuntu.base](./Dockerfile.hpc.ubuntu.base) contains an example of the contents of a `HPCContainer`.
 
 The top-level in the hierarchy of containers is the `AppContainer`.  An `AppContainer` is built on the `HPCContainer` and typically will contain the application specific tools, codes and static fixed files.  For example, a `UFSContainer` will provide the fix files and static data to compile, build and execute a UFS application.
 

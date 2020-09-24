@@ -46,63 +46,62 @@ The next step is to choose what components of the stack you wish to build.  This
 The following software can optionally be built with the scripts under `libs`. These packages are built in Step 3 using the `build_stack.sh` script.
 
 * Compilers and MPI libraries
-  - GNU/GCC
+  - [GNU/GCC](https://gcc.gnu.org/)
   - Intel/IPS
-  - OpenMPI
-  - MPICH
+  - [OpenMPI](https://www.open-mpi.org/)
+  - [MPICH](https://www.mpich.org/)
   - `hpc-` Meta-modules for all the above as well as Intel and IMPI
 
 * HPC Stack - Third Party Libraries
-  - CMake
-  - Udunits
-  - PNG
-  - JPEG
-  - Jasper
-  - SZip
-  - Zlib
-  - HDF5
-  - PNetCDF
-  - NetCDF
-  - ParallelIO
-  - nccmp
-  - nco
-  - FFTW
-  - GPTL
-  - Tau2
-  - FFTW
-  - Boost
-  - Eigen
+  - [CMake](https://cmake.org/)
+  - [Udunits](https://www.unidata.ucar.edu/software/udunits/)
+  - [PNG](http://www.libpng.org/pub/png/)
+  - [JPEG](https://jpeg.org/)
+  - [Jasper](https://github.com/jasper-software/jasper)
+  - [SZip](https://support.hdfgroup.org/doc_resource/SZIP/)
+  - [Zlib](http://www.zlib.net/)
+  - [HDF5](https://www.hdfgroup.org/solutions/hdf5/)
+  - [PNetCDF](https://parallel-netcdf.github.io/)
+  - [NetCDF](https://www.unidata.ucar.edu/software/netcdf/)
+  - [ParallelIO](https://github.com/NCAR/ParallelIO)
+  - [nccmp](https://gitlab.com/remikz/nccmp)
+  - [nco](http://nco.sourceforge.net/)
+  - [FFTW](http://www.fftw.org/)
+  - [GPTL](https://jmrosinski.github.io/GPTL/)
+  - [Tau2]()
+  - [Boost](https://beta.boost.org/)
+  - [Eigen](http://eigen.tuxfamily.org/)
 
 * UFS Dependencies
-  - ESMF
+  - [ESMF](https://www.earthsystemcog.org/projects/esmf/)
 
 * NCEP Libraries
-  - NCEPLIBS-bacio
-  - NCEPLIBS-sigio
-  - NCEPLIBS-sfcio
-  - NCEPLIBS-gfsio
-  - NCEPLIBS-w3nco
-  - NCEPLIBS-sp
-  - NCEPLIBS-ip
-  - NCEPLIBS-ip2
-  - NCEPLIBS-g2
-  - NCEPLIBS-g2tmpl
-  - NCEPLIBS-nemsio
-  - NCEPLIBS-nemsiogfs
-  - NCEPLIBS-w3emc
-  - NCEPLIBS-landsfcutil
-  - NCEPLIBS-bufr
-  - NCEPLIBS-wgrib2
-  - NCEPLIBS-prod_util
-  - NCEPLIBS-grib_util
-  - EMC_crtm
-  - EMC_post
+  - [NCEPLIBS-bacio](https://github.com/noaa-emc/nceplibs-bacio.git)
+  - [NCEPLIBS-sigio](https://github.com/noaa-emc/nceplibs-sigio.git)
+  - [NCEPLIBS-sfcio](https://github.com/noaa-emc/nceplibs-sfcio.git)
+  - [NCEPLIBS-gfsio](https://github.com/noaa-emc/nceplibs-gfsio.git)
+  - [NCEPLIBS-w3nco](https://github.com/noaa-emc/nceplibs-w3nco.git)
+  - [NCEPLIBS-sp](https://github.com/noaa-emc/nceplibs-sp.git)
+  - [NCEPLIBS-ip](https://github.com/noaa-emc/nceplibs-ip.git)
+  - [NCEPLIBS-ip2](https://github.com/noaa-emc/nceplibs-ip2.git)
+  - [NCEPLIBS-g2](https://github.com/noaa-emc/nceplibs-g2.git)
+  - [NCEPLIBS-g2tmpl](https://github.com/noaa-emc/nceplibs-g2tmpl.git)
+  - [NCEPLIBS-nemsio](https://github.com/noaa-emc/nceplibs-nemsio.git)
+  - [NCEPLIBS-nemsiogfs](https://github.com/noaa-emc/nceplibs-nemsiogfs.git)
+  - [NCEPLIBS-w3emc](https://github.com/noaa-emc/nceplibs-w3emc.git)
+  - [NCEPLIBS-landsfcutil](https://github.com/noaa-emc/nceplibs-landsfcutil.git)
+  - [NCEPLIBS-bufr](https://github.com/noaa-emc/nceplibs-bufr.git)
+  - [NCEPLIBS-wgrib2](https://github.com/noaa-emc/nceplibs-wgrib2.git)
+  - [NCEPLIBS-prod_util](https://github.com/noaa-emc/nceplibs-prod_util.git)
+  - [NCEPLIBS-grib_util](https://github.com/noaa-emc/nceplibs-grib_util.git)
+  - [EMC_crtm](https://github.com/noaa-emc/EMC_crtm.git)
+  - [EMC_post](https://github.com/noaa-emc/EMC_post.git)
 
 * JEDI Dependencies
-  - ecbuild
-  - eckit
-  - fckit
-  - atlas
+  - [ecbuild](https://github.com/jcsda/ecbuild.git)
+  - [eckit](https://github.com/jcsda/eckit.git)
+  - [fckit](https://github.com/jcsda/fckit.git)
+  - [atlas](https://github.com/jcsda/atlas.git)
 
 **IMPORTANT: Steps 1, 2, and 3 need to be repeated for each compiler/MPI combination that you wish to install.**  The new packages will be installed alongside any previously-existing packages that may already have been built from other compiler/MPI combinations.
 
@@ -192,7 +191,7 @@ export LD_LIBRARY_PATH="$PREFIX/lib:$LD_LIBRARY_PATH"
 export CMAKE_PREFIX_PATH="$PREFIX"
 ```
 
-### Known work-around's for certain installations of Lmod.
+### Known workaround for certain installations of Lmod.
 - On some machine's (e.g. **WCOSS_DELL_P3**), LMod is built to disable loading of default modulefiles and requires the user to load the module with an explicit version of the module.  e.g. `module load netcdf/4.7.4` instead of `module load netcdf`. The latter looks for the `default` module which is either the latest version or a version that is marked as default.  To circumvent this, it is necessary to place the following lines in `modulefiles/stack/hpc/hpc.lua` prior to executing `setup_modules.sh` or in `$PREFIX/modulefiles/stack/hpc/1.0.0.lua` after executing `setup_modules.sh`.
 ```
 -- https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html
