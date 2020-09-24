@@ -35,7 +35,7 @@ ncep_base    ubuntu   c5925a4ef101   6 hours ago   596MB
 To start a docker container image e.g. `hpc_base` and `ssh` into it:
 
 ```
-$> docker run -it &lt;dockerImageName&gt;
+$> docker run -it <dockerImageName>
 ```
 
 NOTE: Once you log out or exit out of the container, your local work will be lost.  To save work on the local disk see Docker documentation.
