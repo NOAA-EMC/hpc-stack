@@ -77,7 +77,7 @@ esmf:
   debug: NO
 
 fms:
-  build: YES
+  build: NO
   version: master
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -DLARGEFILE=ON"
