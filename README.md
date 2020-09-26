@@ -74,6 +74,7 @@ The following software can optionally be built with the scripts under `libs`. Th
 
 * UFS Dependencies
   - [ESMF](https://www.earthsystemcog.org/projects/esmf/)
+  - [FMS](https://github.com/noaa-gfdl/fms.git)
 
 * NCEP Libraries
   - [NCEPLIBS-bacio](https://github.com/noaa-emc/nceplibs-bacio.git)

@@ -152,6 +152,7 @@ build_lib pio
 # UFS 3rd party dependencies
 
 build_lib esmf
+build_lib fms
 
 # NCEPlibs
 
