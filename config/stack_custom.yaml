@@ -76,6 +76,12 @@ esmf:
   enable_pnetcdf: NO
   debug: NO
 
+fms:
+  build: NO
+  version: master
+  repo: noaa-gfdl
+  cmake_opts: "-DGFS_PHYS=ON -DLARGEFILE=ON"
+
 bacio:
   build: YES
   version: v2.4.1
