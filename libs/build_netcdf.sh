@@ -144,6 +144,7 @@ set -x
 # Load netcdf-c before building netcdf-fortran
 set +x
 $MODULES && module load netcdf
+$MODULES && module list
 set -x
 
 if [[ ${STACK_netcdf_shared} =~ [yYtT] ]]; then
@@ -156,7 +157,6 @@ fi
 export CFLAGS+=" -I$prefix/include"
 export CXXFLAGS+=" -I$prefix/include"
 
-echo $LDFLAGS
 cd $curr_dir
 
 version=$f_version
