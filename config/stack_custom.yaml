@@ -186,12 +186,12 @@ wgrib2:
   ipolates: 0
 
 prod_util:
-  build: NO
+  build: YES
   version: v1.2.1
   install_as: 1.2.1
 
 grib_util:
-  build: NO
+  build: YES
   version: v1.2.1
   install_as: 1.2.1
   openmp: ON
