@@ -24,7 +24,7 @@ szip:
 jasper:
   build: YES
   shared: NO
-  version: 2.0.15
+  version: 2.0.22
 
 udunits:
   build: YES
