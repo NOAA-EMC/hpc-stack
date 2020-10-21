@@ -38,18 +38,18 @@ udunits:
 hdf5:
   build: YES
   version: 1.10.6
-  shared: YES
+  shared: NO
   enable_szip: YES
   enable_zlib: YES
 
 pnetcdf:
   build: YES
   version: 1.12.1
-  shared: YES
+  shared: NO
 
 netcdf:
   build: YES
-  shared: YES
+  shared: NO
   enable_pnetcdf: YES
   version_c: 4.7.4
   version_f: 4.5.3
@@ -72,7 +72,7 @@ pio:
 esmf:
   build: YES
   version: 8_1_0_beta_snapshot_27
-  shared: YES
+  shared: NO
   enable_pnetcdf: YES
   debug: NO
 
