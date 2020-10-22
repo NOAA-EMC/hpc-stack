@@ -181,24 +181,24 @@ case $name in
     [[ -z ${STACK_wgrib2_ipolates:-} ]] && ipolates=0   || ipolates=$STACK_wgrib2_ipolates
     [[ -z ${STACK_wgrib2_spectral:-} ]] && spectral=OFF || spectral=$STACK_wgrib2_spectral
     if $NCO_V; then
-      extraCMakeFlags="-DUSE_SPECTRAL=$spectral -DUSE_IPOLATES=$ipolates -DCMAKE_PREFIX_PATH=${PNG_LIBDIR};${PNG_INC};${JASPER_LIBDIR};${JASPER_INC}" 
+      extraCMakeFlags="-DUSE_SPECTRAL=$spectral -DUSE_IPOLATES=$ipolates $SpeCMakeFlags " 
     else
       extraCMakeFlags="-DUSE_SPECTRAL=$spectral -DUSE_IPOLATES=$ipolates"
     fi
     ;;
    g2)
     if $NCO_V; then
-     extraCMakeFlags="-DCMAKE_PREFIX_PATH=${PNG_LIBDIR};${PNG_INC};${JASPER_LIBDIR};${JASPER_INC}"
+     extraCMakeFlags=$SpeCMakeFlags
     fi
     ;;
    g2c)
     if $NCO_V; then
-     extraCMakeFlags="-DCMAKE_PREFIX_PATH=${PNG_LIBDIR};${PNG_INC};${JASPER_LIBDIR};${JASPER_INC}"
+     extraCMakeFlags=$SpeCMakeFlags
     fi
     ;;
    grib_util)
     if $NCO_V; then
-     extraCMakeFlags="-DCMAKE_PREFIX_PATH=${PNG_LIBDIR};${PNG_INC};${JASPER_LIBDIR};${JASPER_INC}"
+     extraCMakeFlags=$SpeCMakeFlags
     fi
     ;;
 esac

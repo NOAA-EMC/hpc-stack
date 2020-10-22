@@ -6,7 +6,7 @@ export HPC_COMPILER="intel/19.1.1.217"
 export HPC_MPI="cray-mpich/8.0.15"
 
 # Build options
-export NCO_V=false
+export NCO_V=true
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log
@@ -65,6 +65,7 @@ if $NCO_V; then
  export NetCDF_HAS_PNETCDF=True
  export NetCDF_PARALLEL=True
  export NetCDF_PATH=/opt/cray/pe/netcdf-hdf5parallel/4.7.4.0/INTEL/19.0
+ export SpeCMakeFlags=""
 fi
 # LMod is coming to WCOSS2
 # LMod has disabled "default" and requires exact module match.

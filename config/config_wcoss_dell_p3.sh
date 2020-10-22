@@ -31,6 +31,7 @@ if $NCO_V; then
  export NetCDF_HAS_PNETCDF=True
  export NetCDF_PARALLEL=True
  export NetCDF_PATH=/usrx/local/dev/packages/ips/18.0.1/impi/18.0.1/netcdf/4.7.4
+ export SpeCMakeFlags="-DCMAKE_PREFIX_PATH=${PNG_LIBDIR};${PNG_INC};${JASPER_LIBDIR};${JASPER_INC}"
 fi
 # WCOSS Dell specific
 # LMod has disabled "default" and requires exact module match.
