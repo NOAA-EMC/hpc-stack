@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="jasper"
 version=${1:-${STACK_jasper_version}}

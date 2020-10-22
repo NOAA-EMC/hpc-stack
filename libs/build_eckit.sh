@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="eckit"
 repo=${1:-${STACK_eckit_repo:-"jcsda"}}

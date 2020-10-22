@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="hdf5"
 version=${1:-${STACK_hdf5_version}}

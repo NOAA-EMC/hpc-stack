@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="jpeg"
 version=${1:-${STACK_jpeg_version}}

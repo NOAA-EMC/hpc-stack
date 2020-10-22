@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="fckit"
 repo=${1:-${STACK_fckit_repo:-"jcsda"}}

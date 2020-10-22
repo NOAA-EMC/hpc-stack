@@ -5,6 +5,7 @@ export HPC_COMPILER="ips/18.0.1.163"
 export HPC_MPI="impi/18.0.1"
 
 # Build options
+export NCO_V=false
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log

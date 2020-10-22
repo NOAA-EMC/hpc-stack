@@ -20,10 +20,10 @@ local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
 
-setenv("nceppost_ROOT", base)
-setenv("nceppost_VERSION", pkgVersion)
-setenv("NCEPPOST_INC", pathJoin(base,"include"))
-setenv("NCEPPOST_LIB", pathJoin(base,"lib/libnceppost.a"))
+setenv("upp_ROOT", base)
+setenv("upp_VERSION", pkgVersion)
+setenv("UPP_INC", pathJoin(base,"include"))
+setenv("UPP_LIB", pathJoin(base,"lib/libnceppost.a"))
 setenv("POST_INC", pathJoin(base,"include"))
 setenv("POST_LIB", pathJoin(base,"lib/libnceppost.a"))
 

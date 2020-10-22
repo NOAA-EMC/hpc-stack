@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh -xe
 
 #
 # CGAL Library used by Atlas
@@ -18,7 +18,7 @@
 #
 #
 
-set -eux
+#set -eux
 
 name="cgal"
 version=${1:-${STACK_cgal_version}}

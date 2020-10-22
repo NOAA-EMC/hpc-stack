@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh -xe
 
 # This Build Lmod
 # As written here, it requires root permission but this could be
@@ -7,7 +7,7 @@
 # usage:
 # build_lmod.sh <prefix>
 
-set -eux
+#set -eux
 
 if [[ $# -lt 1 ]]; then
     mods_path=/opt

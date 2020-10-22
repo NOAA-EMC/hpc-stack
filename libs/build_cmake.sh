@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/sh -xe
 
 # Building cmake from source is sometimes preferable to package installs
 # because it allows you to get the most up-to-date versions and it
 # allows you to place it into a module context so you can experiment
 # with different versions
 
-set -eux
+#set -eux
 
 name="cmake"
 version=${1:-${STACK_cmake_version}}

@@ -3,7 +3,7 @@ cmake:
   version: 3.17.2
 
 jpeg:
-  build: NO
+  build: YES
   version: 9.1.0
 
 zlib:
@@ -27,7 +27,7 @@ jasper:
   version: 2.0.22
 
 udunits:
-  build: YES
+  build: NO
   shared: NO
   version: 2.2.26
 
@@ -39,7 +39,7 @@ hdf5:
   enable_zlib: YES
 
 pnetcdf:
-  build: NO
+  build: YES
   version: 1.12.1
   shared: NO
 
@@ -73,7 +73,7 @@ esmf:
   debug: NO
 
 fms:
-  build: NO
+  build: YES
   version: master
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -DLARGEFILE=ON"
@@ -116,7 +116,7 @@ ip:
   openmp: ON
 
 ip2:
-  build: NO
+  build: YES
   version: v1.1.2
   install_as: 1.1.2
   openmp: ON
@@ -146,6 +146,11 @@ g2:
   version: v3.4.1
   install_as: 3.4.1
 
+g2c:
+  build: YES
+  version: develop
+  install_as: 1.6.2
+
 g2tmpl:
   build: YES
   version: v1.9.1
@@ -156,10 +161,10 @@ crtm:
   version: v2.3.0
   install_as: 2.3.0
 
-nceppost:
+upp:
   build: YES
-  version: dceca26
-  install_as: dceca26
+  version: develop
+  install_as: 10.0.0
   openmp: ON
 
 wrf_io:
@@ -202,15 +207,15 @@ eigen:
   version: 3.3.7
 
 gsl_lite:
-  build: NO
+  build: YES
   version: 0.37.0
 
 gptl:
-  build: NO
+  build: YES
   version: 8.0.2
 
 fftw:
-  build: NO
+  build: YES
   version: 3.3.8
 
 tau2:

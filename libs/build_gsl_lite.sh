@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh -xe
 
 # This is a project to generate C++/Python bindings.
 # Library is header-only, so there is no need to link to Python here.
 
-set -eux
+#set -eux
 
 name="gsl-lite"
 version=${1:-${STACK_gsl_lite_version}}

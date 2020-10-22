@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="ecbuild"
 repo=${1:-${STACK_ecbuild_repo:-"jcsda"}}

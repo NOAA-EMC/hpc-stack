@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="udunits"
 version=${1:-${STACK_udunits_version}}
@@ -11,11 +11,11 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 [[ ${STACK_udunits_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 if $MODULES; then
-    set +x
+#    set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     module list
-    set -x
+#    set -x
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
     if [[ -d $prefix ]]; then
@@ -45,7 +45,10 @@ url=ftp://ftp.unidata.ucar.edu/pub/udunits/$software.tar.gz
 mkdir -p build && cd build
 
 [[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="--disable-shared --enable-static"
+export LD_LIBRARY_PATH=/usr/lib64:$LD_LIBRARY_PATH
+export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
 
+LDFLAGS="-L/usr/lib64/ -lexpat"
 ../configure --prefix=$prefix $shared_flags
 
 make -j${NTHREADS:-4}

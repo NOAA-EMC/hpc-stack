@@ -1,62 +1,58 @@
-gnu:
-  build: NO
-  version: 9.3.0
-
-mpi:
-  build: NO
-  flavor: openmpi
-  version: 4.0.1
-
 cmake:
   build: NO
   version: 3.17.2
 
 jpeg:
-  build: YES
+  build: NO
   version: 9.1.0
 
 zlib:
-  build: YES
+  build: NO
+  shared: NO
   version: 1.2.11
 
 png:
-  build: YES
+  build: NO
+  shared: NO
   version: 1.6.35
 
 szip:
-  build: YES
+  build: NO
+  shared: NO
   version: 2.1.1
 
 jasper:
-  build: YES
-  version: 2.0.22
+  build: NO
+  shared: NO
+  version: 2.0.15
 
 udunits:
-  build: YES
+  build: NO
+  shared: NO
   version: 2.2.26
 
 hdf5:
-  build: YES
+  build: NO
   version: 1.10.6
-  shared: YES
+  shared: NO
   enable_szip: NO
   enable_zlib: YES
 
 pnetcdf:
   build: NO
   version: 1.12.1
-  shared: YES
+  shared: NO
 
 netcdf:
-  build: YES
-  shared: YES
+  build: NO
+  shared: NO
   enable_pnetcdf: NO
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
 
 nccmp:
-  build: YES
+  build: NO
   version: 1.8.7.0
 
 nco:
@@ -64,23 +60,29 @@ nco:
   version: 4.9.3
 
 pio:
-  build: YES
+  build: NO
   version: 2.5.1
   enable_pnetcdf: NO
   enable_gptl: NO
 
 esmf:
-  build: YES
+  build: NO
   version: 8_1_0_beta_snapshot_27
-  shared: YES
+  shared: NO
   enable_pnetcdf: NO
   debug: NO
 
-fms:
+gptl:
   build: NO
-  version: master
-  repo: noaa-gfdl
-  cmake_opts: "-DGFS_PHYS=ON -DLARGEFILE=ON"
+  version: 8.0.2
+
+fftw:
+  build: NO
+  version: 3.3.8
+
+tau2:
+  build: NO
+  version: 3.25.1
 
 bacio:
   build: YES
@@ -150,6 +152,11 @@ g2:
   version: v3.4.1
   install_as: 3.4.1
 
+g2c:
+  build: YES
+  version: develop
+  install_as: 1.6.2
+
 g2tmpl:
   build: YES
   version: v1.9.1
@@ -162,8 +169,8 @@ crtm:
 
 upp:
   build: YES
-  version: dceca26
-  install_as: dceca26
+  version: develop
+  install_as: 10.0.0
   openmp: ON
 
 wrf_io:
@@ -195,52 +202,3 @@ grib_util:
   version: v1.2.1
   install_as: 1.2.1
   openmp: ON
-
-boost:
-  build: YES
-  version: 1.68.0
-  level: headers-only
-
-eigen:
-  build: YES
-  version: 3.3.7
-
-gsl_lite:
-  build: YES
-  version: 0.37.0
-
-gptl:
-  build: NO
-  version: 8.0.2
-
-fftw:
-  build: NO
-  version: 3.3.8
-
-tau2:
-  build: NO
-  version: 3.25.1
-
-cgal:
-  build: NO
-  version: 5.0.2
-
-ecbuild:
-  build: YES
-  version: release-stable
-  repo: jcsda
-
-eckit:
-  build: YES
-  version: release-stable
-  repo: jcsda
-
-fckit:
-  build: YES
-  version: release-stable
-  repo: jcsda
-
-atlas:
-  build: YES
-  version: release-stable
-  repo: jcsda

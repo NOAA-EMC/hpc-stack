@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="fms"
 repo=${1:-${STACK_fms_repo:-"noaa-gfdl"}}

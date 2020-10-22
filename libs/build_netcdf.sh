@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="netcdf"
 c_version=${1:-${STACK_netcdf_version_c}}
@@ -14,7 +14,7 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 [[ ${STACK_netcdf_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 
 if $MODULES; then
-    set +x
+#    set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
@@ -24,7 +24,7 @@ if $MODULES; then
       [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
     fi
     module list
-    set -x
+#    set -x
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$c_version"
     if [[ -d $prefix ]]; then
@@ -147,6 +147,7 @@ $MODULES && module load netcdf
 $MODULES && module list
 set -x
 
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$c_version"
 if [[ ${STACK_netcdf_shared} =~ [yYtT] ]]; then
   export LIBS=$($prefix/bin/nc-config --libs)
   export LDFLAGS+=" -L$prefix/lib"

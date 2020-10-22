@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name=${1:-${STACK_mpi_flavor}}
 version=${2:-${STACK_mpi_version}}

@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="atlas"
 repo=${1:-${STACK_atlas_repo:-"jcsda"}}

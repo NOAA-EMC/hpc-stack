@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh -xe
 
-set -eux
+#set -eux
 
 name="nccmp"
 version=${1:-${STACK_nccmp_version}}

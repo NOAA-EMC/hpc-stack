@@ -11,6 +11,7 @@ export HPC_MPI="impi/2020"
 #export HPC_MPI="openmpi/4.0.2"
 
 # Build options
+export NCO_V=false
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log

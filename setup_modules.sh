@@ -132,7 +132,6 @@ $SUDO cp $HPC_STACK_ROOT/modulefiles/stack/hpc/hpc.lua \
 cd $PREFIX/modulefiles/stack/hpc
 repl=$(echo ${PREFIX} | sed -e "s#/#\\\/#g")
 $SUDO sed -i -e "s/#HPC_OPT#/${repl}/g" $PREFIX/modulefiles/stack/hpc/$HPC_STACK_VERSION.lua
-[[ -f $HPC_STACK_VERSION.lua-e ]] && $SUDO rm -f "$HPC_STACK_VERSION.lua-e"
 
 #===============================================================================
 
