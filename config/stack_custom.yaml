@@ -12,51 +12,51 @@ cmake:
   version: 3.17.2
 
 jpeg:
-  build: NO
+  build: YES
   version: 9.1.0
 
 zlib:
-  build: NO
+  build: YES
   version: 1.2.11
 
 png:
-  build: NO
+  build: YES
   version: 1.6.35
 
 szip:
-  build: NO
+  build: YES
   version: 2.1.1
 
 jasper:
-  build: NO
+  build: YES
   version: 2.0.22
 
 udunits:
-  build: NO
+  build: YES
   version: 2.2.26
 
 hdf5:
-  build: NO
+  build: YES
   version: 1.10.6
-  shared: NO
+  shared: YES
   enable_szip: NO
-  enable_zlib: NO
+  enable_zlib: YES
 
 pnetcdf:
   build: NO
   version: 1.12.1
-  shared: NO
+  shared: YES
 
 netcdf:
-  build: NO
-  shared: NO
+  build: YES
+  shared: YES
   enable_pnetcdf: NO
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
 
 nccmp:
-  build: NO
+  build: YES
   version: 1.8.7.0
 
 nco:
@@ -64,15 +64,15 @@ nco:
   version: 4.9.3
 
 pio:
-  build: NO
+  build: YES
   version: 2.5.1
   enable_pnetcdf: NO
   enable_gptl: NO
 
 esmf:
-  build: NO
+  build: YES
   version: 8_1_0_beta_snapshot_27
-  shared: NO
+  shared: YES
   enable_pnetcdf: NO
   debug: NO
 
@@ -83,38 +83,38 @@ fms:
   cmake_opts: "-DGFS_PHYS=ON -DLARGEFILE=ON"
 
 bacio:
-  build: NO
+  build: YES
   version: v2.4.1
   install_as: 2.4.1
 
 sigio:
-  build: NO
+  build: YES
   version: v2.3.2
   install_as: 2.3.2
 
 sfcio:
-  build: NO
+  build: YES
   version: v1.4.1
   install_as: 1.4.1
 
 gfsio:
-  build: NO
+  build: YES
   version: v1.4.1
   install_as: 1.4.1
 
 w3nco:
-  build: NO
+  build: YES
   version: v2.4.1
   install_as: 2.4.1
 
 sp:
-  build: NO
+  build: YES
   version: v2.3.3
   install_as: 2.3.3
   openmp: ON
 
 ip:
-  build: NO
+  build: YES
   version: v3.3.3
   install_as: 3.3.3
   openmp: ON
@@ -126,59 +126,59 @@ ip2:
   openmp: ON
 
 landsfcutil:
-  build: NO
+  build: YES
   version: v2.4.1
   install_as: 2.4.1
 
 nemsio:
-  build: NO
+  build: YES
   version: v2.5.2
   install_as: 2.5.2
 
 nemsiogfs:
-  build: NO
+  build: YES
   version: v2.5.3
   install_as: 2.5.3
 
 w3emc:
-  build: NO
+  build: YES
   version: v2.7.3
   install_as: 2.7.3
 
 g2:
-  build: NO
+  build: YES
   version: v3.4.1
   install_as: 3.4.1
 
 g2tmpl:
-  build: NO
+  build: YES
   version: v1.9.1
   install_as: 1.9.1
 
 crtm:
-  build: NO
+  build: YES
   version: v2.3.0
   install_as: 2.3.0
 
 nceppost:
-  build: NO
+  build: YES
   version: dceca26
   install_as: dceca26
   openmp: ON
 
 wrf_io:
-  build: NO
+  build: YES
   version: v1.1.1-cmake-v5
   install_as: 1.1.1
   openmp: ON
 
 bufr:
-  build: NO
+  build: YES
   version: bufr_v11.4.0
   install_as: 11.4.0
 
 wgrib2:
-  build: NO
+  build: YES
   version: v2.0.8-cmake-v5
   install_as: 2.0.8
   openmp: OFF
@@ -186,27 +186,27 @@ wgrib2:
   ipolates: 0
 
 prod_util:
-  build: NO
+  build: YES
   version: v1.2.1
   install_as: 1.2.1
 
 grib_util:
-  build: NO
+  build: YES
   version: v1.2.1
   install_as: 1.2.1
   openmp: ON
 
 boost:
-  build: NO
+  build: YES
   version: 1.68.0
   level: headers-only
 
 eigen:
-  build: NO
+  build: YES
   version: 3.3.7
 
 gsl_lite:
-  build: NO
+  build: YES
   version: 0.37.0
 
 gptl:
@@ -234,21 +234,21 @@ json_schema_validator:
   version: 2.1.0
 
 ecbuild:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 eckit:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 fckit:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 atlas:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda

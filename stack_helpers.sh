@@ -38,6 +38,8 @@ function update_modules {
 
 function no_modules {
 
+  echo "=========================="
+  echo "no_modules()"
   # this function defines environment variables that are
   # normally done by the modules.
   # It's mainly intended for use when not using LMod
@@ -71,15 +73,9 @@ function no_modules {
       ;;
     * )
       echo "Unknown compiler option = $compilerName, ABORT!"
-      exit 1
+      local abort=Y
       ;;
   esac
-
-  echo "=========================="
-  echo "C Compiler: $SERIAL_CC"
-  echo "C++ Compiler: $SERIAL_CXX"
-  echo "Fortran Compiler: $SERIAL_FC"
-  echo "=========================="
 
   case $mpiName in
     openmpi | mpich )
@@ -99,14 +95,20 @@ function no_modules {
       ;;
     * )
       echo "Unknown MPI option = $mpiName, ABORT!"
-      exit 1
+      local abort=Y
       ;;
   esac
 
-  echo "=========================="
+  echo "C Compiler: $SERIAL_CC"
+  echo "C++ Compiler: $SERIAL_CXX"
+  echo "Fortran Compiler: $SERIAL_FC"
+  echo
   echo "MPI C Compiler: $MPI_CC"
   echo "MPI C++ Compiler: $MPI_CXX"
   echo "MPI Fortran Compiler: $MPI_FC"
+
+  [[ ${abort} =~ [yYtT] ]] && exit 1
+
   echo "=========================="
 }
 
@@ -182,6 +184,8 @@ function build_nceplib() {
 }
 
 function parse_yaml {
+  echo "=========================="
+  echo "parse_yaml()"
   set +x
   local yamlprefix=$2
   local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
@@ -197,6 +201,7 @@ function parse_yaml {
         printf("export %s%s%s=\"%s\"\n", "'$yamlprefix'",vn, $2, $3);
      }
   }'
+  echo "=========================="
   set -x
 }
 
