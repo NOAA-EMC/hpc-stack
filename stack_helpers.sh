@@ -184,8 +184,6 @@ function build_nceplib() {
 }
 
 function parse_yaml {
-  echo "=========================="
-  echo "parse_yaml()"
   set +x
   local yamlprefix=$2
   local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
@@ -201,7 +199,6 @@ function parse_yaml {
         printf("export %s%s%s=\"%s\"\n", "'$yamlprefix'",vn, $2, $3);
      }
   }'
-  echo "=========================="
   set -x
 }
 
