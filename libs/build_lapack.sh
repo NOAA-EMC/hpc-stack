@@ -6,7 +6,7 @@ name="lapack"
 version=${1:-${STACK_lapack_version}}
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
 
 # manage package dependencies here
 if $MODULES; then

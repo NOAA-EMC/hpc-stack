@@ -7,7 +7,7 @@ local pkgNameVer = myModuleFullName()
 
 local hierA        = hierarchyA(pkgNameVer,1)
 local compNameVer  = hierA[1]
-local compNameVerD = compNameVer:gsub("/","-")
+local compNameVerD = compNameVer
 
 conflict(pkgName)
 conflict("hpc-openmpi","hpc-impi")

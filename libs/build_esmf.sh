@@ -8,11 +8,11 @@ version=${1:-${STACK_esmf_version}}
 software=${name}_$version
 
 # Hyphenated versions used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
+mpi=$(echo $HPC_MPI)
 
-COMPILER=$(echo $compiler | cut -d- -f1)
-MPI=$(echo $mpi | cut -d- -f1)
+COMPILER=$(echo $compiler | cut -d/ -f1)
+MPI=$(echo $mpi | cut -d/ -f1)
 
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO

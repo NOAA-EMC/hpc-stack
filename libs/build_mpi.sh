@@ -21,7 +21,7 @@ software=$name-$version
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
 
 if $MODULES; then
   set +x

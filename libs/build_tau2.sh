@@ -6,8 +6,8 @@ name="tau2"
 version=${1:-${STACK_tau2_version}}
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
+mpi=$(echo $HPC_MPI)
 
 # manage package dependencies here
 if $MODULES; then

@@ -6,8 +6,8 @@ name="pnetcdf"
 version=${1:-${STACK_pnetcdf_version}}
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
+mpi=$(echo $HPC_MPI)
 
 if $MODULES; then
     set +x

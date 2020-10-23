@@ -6,7 +6,7 @@ export HPC_COMPILER="intel/19.1.1.217"
 export HPC_MPI="cray-mpich/8.0.15"
 
 # Build options
-export NCO_V=true
+export NCO_V=false
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log

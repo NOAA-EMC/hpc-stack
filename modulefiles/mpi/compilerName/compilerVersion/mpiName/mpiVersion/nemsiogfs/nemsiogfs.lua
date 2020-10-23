@@ -8,8 +8,8 @@ local pkgNameVer = myModuleFullName()
 local hierA        = hierarchyA(pkgNameVer,2)
 local mpiNameVer   = hierA[1]
 local compNameVer  = hierA[2]
-local mpiNameVerD  = mpiNameVer:gsub("/","-")
-local compNameVerD = compNameVer:gsub("/","-")
+local mpiNameVerD  = mpiNameVer
+local compNameVerD = compNameVer
 
 conflict(pkgName)
 

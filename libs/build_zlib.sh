@@ -6,7 +6,7 @@ name="zlib"
 version=${1:-${STACK_zlib_version}}
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
 
 [[ ${STACK_zlib_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 

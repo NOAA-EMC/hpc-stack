@@ -19,8 +19,8 @@ install_as=${3:-${s_install_as}} #  third column of COMPONENTS
 openmp=${4:-${s_openmp:-"OFF"}}
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi_check=$(echo $HPC_MPI | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
+mpi_check=$(echo $HPC_MPI)
 mpi=''
 
 if $MODULES; then

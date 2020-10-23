@@ -8,8 +8,8 @@ f_version=${2:-${STACK_netcdf_version_f}}
 cxx_version=${3:-${STACK_netcdf_version_cxx}}
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
+mpi=$(echo $HPC_MPI)
 
 [[ ${STACK_netcdf_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 

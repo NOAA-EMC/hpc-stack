@@ -20,7 +20,7 @@ fi
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software=tkdiff-$(echo $version | sed 's/\./-/g')
+software=tkdiff-$(echo $version)
 url="https://sourceforge.net/projects/tkdiff/files/tkdiff/$version/$software.zip"
 [[ -d $software ]] || ($WGET $url; unzip $software.zip)
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0

@@ -6,8 +6,8 @@ name="hdf5"
 version=${1:-${STACK_hdf5_version}}
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
+mpi=$(echo $HPC_MPI)
 
 [[ ${STACK_hdf5_enable_szip:-} =~ [yYtT] ]] && enable_szip=YES || enable_szip=NO
 [[ ${STACK_hdf5_enable_zlib:-} =~ [yYtT] ]] && enable_zlib=YES || enable_zlib=NO
