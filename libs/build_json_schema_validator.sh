@@ -23,7 +23,7 @@ if $MODULES; then
                                    || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
     fi
 else
-    prefix=${json_schema_validator_ROOT:-"/usr/local"}
+    prefix=${JSON_SCHEMA_VALIDATOR_ROOT:-"/usr/local"}
 fi
 
 cd $HPC_STACK_ROOT/${PKGDIR:-"pkg"}
