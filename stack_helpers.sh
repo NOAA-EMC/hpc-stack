@@ -111,6 +111,7 @@ function no_modules {
 }
 
 function set_pkg_root() {
+  set -x
   # export <PKG>_ROOT environment variables
   local prefix=${PREFIX:-${HPC_OPT:-"/usr/local"}}
   for i in $(printenv | grep "STACK_.*_build="); do
@@ -119,15 +120,18 @@ function set_pkg_root() {
     if [[ $build =~ ^(yes|YES|true|TRUE)$ ]]; then
       eval export ${pkg}_ROOT=$prefix
     fi
+  set   +x
   done
 }
 
 function set_no_modules_path() {
+  set -x
   # add $PREFIX to PATH, LD_LIBRARY_PATH and CMAKE_PREFIX_PATH
   local prefix=${PREFIX:-${HPC_OPT:-"/usr/local"}}
   export PATH=$prefix/bin${PATH:+:$PATH}
   export LD_LIBRARY_PATH=$prefix/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
   export CMAKE_PREFIX_PATH=$prefix${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}
+  set +x
 }
 
 function build_lib() {
