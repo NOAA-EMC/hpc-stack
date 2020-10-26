@@ -8,7 +8,7 @@ mpi:
   version: 4.0.1
 
 cmake:
-  build: NO
+  build: YES
   version: 3.17.2
 
 jpeg:
@@ -38,19 +38,19 @@ udunits:
 hdf5:
   build: YES
   version: 1.10.6
-  shared: YES
-  enable_szip: NO
+  shared: NO
+  enable_szip: YES
   enable_zlib: YES
 
 pnetcdf:
-  build: NO
+  build: YES
   version: 1.12.1
-  shared: YES
+  shared: NO
 
 netcdf:
   build: YES
-  shared: YES
-  enable_pnetcdf: NO
+  shared: NO
+  enable_pnetcdf: YES
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
@@ -66,14 +66,14 @@ nco:
 pio:
   build: YES
   version: 2.5.1
-  enable_pnetcdf: NO
+  enable_pnetcdf: YES
   enable_gptl: NO
 
 esmf:
   build: YES
   version: 8_1_0_beta_snapshot_27
-  shared: YES
-  enable_pnetcdf: NO
+  shared: NO
+  enable_pnetcdf: YES
   debug: NO
 
 fms:
@@ -181,7 +181,7 @@ wgrib2:
   build: YES
   version: v2.0.8-cmake-v5
   install_as: 2.0.8
-  openmp: OFF
+  openmp: ON
   spectral: OFF
   ipolates: 0
 
@@ -202,11 +202,11 @@ boost:
   level: headers-only
 
 eigen:
-  build: YES
+  build: NO
   version: 3.3.7
 
 gsl_lite:
-  build: YES
+  build: NO
   version: 0.37.0
 
 gptl:
@@ -226,21 +226,21 @@ cgal:
   version: 5.0.2
 
 ecbuild:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 eckit:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 fckit:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 atlas:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
