@@ -17,5 +17,5 @@ export DOWNLOAD_ONLY=N
 export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
 
-# Load these basic modules for Hera
+# Load these basic modules for Cheyenne
 module load cmake/3.16.4
