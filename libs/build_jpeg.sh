@@ -43,13 +43,12 @@ sourceDir=$PWD
 mkdir -p build && cd build
 
 [[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="-DBUILD_STATIC=ON"
+[[ $MAKE_CHECK =~ [yYtT] ]] && check_flags="-DBUILD_TESTS=ON"
 
 cmake $sourceDir \
   -DCMAKE_INSTALL_PREFIX=$prefix \
-  -DBUILD_TESTS=ON \
   -DBUILD_EXECUTABLES=ON \
-  -DCMAKE_BUILD_TYPE=RELEASE \
-  ${shared_flags}
+  -DCMAKE_BUILD_TYPE=RELEASE ${shared_flags:-} ${check_flags:-}
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make test
