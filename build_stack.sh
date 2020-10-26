@@ -187,6 +187,8 @@ build_lib gptl
 build_lib fftw
 build_lib tau2
 build_lib cgal
+build_lib json
+build_lib json_schema_validator
 
 # JCSDA JEDI dependencies
 

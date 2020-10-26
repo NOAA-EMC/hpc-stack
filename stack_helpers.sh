@@ -38,6 +38,8 @@ function update_modules {
 
 function no_modules {
 
+  echo "=========================="
+  echo "no_modules()"
   # this function defines environment variables that are
   # normally done by the modules.
   # It's mainly intended for use when not using LMod
@@ -71,15 +73,9 @@ function no_modules {
       ;;
     * )
       echo "Unknown compiler option = $compilerName, ABORT!"
-      exit 1
+      local abort=Y
       ;;
   esac
-
-  echo "=========================="
-  echo "C Compiler: $SERIAL_CC"
-  echo "C++ Compiler: $SERIAL_CXX"
-  echo "Fortran Compiler: $SERIAL_FC"
-  echo "=========================="
 
   case $mpiName in
     openmpi | mpich )
@@ -99,35 +95,52 @@ function no_modules {
       ;;
     * )
       echo "Unknown MPI option = $mpiName, ABORT!"
-      exit 1
+      local abort=Y
       ;;
   esac
 
-  echo "=========================="
+  echo "C Compiler: $SERIAL_CC"
+  echo "C++ Compiler: $SERIAL_CXX"
+  echo "Fortran Compiler: $SERIAL_FC"
+  echo
   echo "MPI C Compiler: $MPI_CC"
   echo "MPI C++ Compiler: $MPI_CXX"
   echo "MPI Fortran Compiler: $MPI_FC"
+
+  [[ ${abort:-} =~ [yYtT] ]] && exit 1
+
   echo "=========================="
 }
 
 function set_pkg_root() {
   # export <PKG>_ROOT environment variables
+  echo "=========================="
+  echo "set_pkg_root()"
   local prefix=${PREFIX:-${HPC_OPT:-"/usr/local"}}
   for i in $(printenv | grep "STACK_.*_build="); do
     local pkg=$(echo $i | cut -d= -f1 | tr 'a-z' 'A-Z' | cut -d_ -f2- | rev | cut -d_ -f2- | rev)
     local build=$(echo $i | cut -d= -f2)
     if [[ $build =~ ^(yes|YES|true|TRUE)$ ]]; then
       eval export ${pkg}_ROOT=$prefix
+      local var="${pkg}_ROOT"
+      echo "${pkg}_ROOT = ${!var}"
     fi
   done
+  echo "=========================="
 }
 
 function set_no_modules_path() {
   # add $PREFIX to PATH, LD_LIBRARY_PATH and CMAKE_PREFIX_PATH
+  echo "=========================="
+  echo "set_no_modules_path()"
   local prefix=${PREFIX:-${HPC_OPT:-"/usr/local"}}
   export PATH=$prefix/bin${PATH:+:$PATH}
   export LD_LIBRARY_PATH=$prefix/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
   export CMAKE_PREFIX_PATH=$prefix${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}
+  echo "PATH = ${PATH}"
+  echo "LD_LIBRARY_PATH = ${LD_LIBRARY_PATH}"
+  echo "CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}"
+  echo "=========================="
 }
 
 function build_lib() {
