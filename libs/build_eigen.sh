@@ -9,7 +9,7 @@ if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
-  module load boost-headers
+  module try-load boost-headers
   module list
   set -x
 

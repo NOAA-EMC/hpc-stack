@@ -71,6 +71,8 @@ The following software can optionally be built with the scripts under `libs`. Th
   - [Tau2]()
   - [Boost](https://beta.boost.org/)
   - [Eigen](http://eigen.tuxfamily.org/)
+  - [JSON for C++](https://github.com/nlohmann/json/)
+  - [JSON Schema Validator for C++](https://github.com/pboettch/json-schema-validator)
 
 * UFS Dependencies
   - [ESMF](https://www.earthsystemcog.org/projects/esmf/)
