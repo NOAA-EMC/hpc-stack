@@ -59,6 +59,10 @@ else
     useCmake=NO
 fi
 
+if [[ "${STACK_jpeg_build}" == "YES" ]]; then
+    module load jpeg
+fi
+
 if [[ "$useCmake" == "YES" ]]; then
     cd $sourceDir
     cmake -G "Unix Makefiles" \

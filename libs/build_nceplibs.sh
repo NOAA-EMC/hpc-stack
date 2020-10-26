@@ -103,6 +103,10 @@ if $MODULES; then
       # module load nemsio
       ;;
     grib_util)
+<<<<<<< HEAD
+=======
+     if ! $NCO_V; then
+>>>>>>> 735405a... Fix jpeg build to create static library if requested, use hpc-stack jpeg lib in jasper and g2
       module try-load jpeg
       module try-load jasper
       module try-load zlib
