@@ -4,6 +4,7 @@ cmake:
 
 jpeg:
   build: NO
+  shared: NO
   version: 9.1.0
 
 zlib:
