@@ -59,10 +59,6 @@ else
     useCmake=NO
 fi
 
-# Load jpeg module if created by hpc-stack; requires setting
-# MAKE_POLICY_DEFAULT_CMP0074 to new below so that JPEG_ROOT is searched
-module try-load jpeg
-
 if [[ "$useCmake" == "YES" ]]; then
     cd $sourceDir
     cmake -G "Unix Makefiles" \
