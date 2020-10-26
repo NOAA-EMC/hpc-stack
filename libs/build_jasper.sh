@@ -56,6 +56,10 @@ else
     useCmake=NO
 fi
 
+if [[ "${STACK_jpeg_build}" == "YES" ]]; then
+    module load jpeg
+fi
+
 if [[ "$useCmake" == "YES" ]]; then
     cd $sourceDir
     cmake -G "Unix Makefiles" \
@@ -63,6 +67,7 @@ if [[ "$useCmake" == "YES" ]]; then
       -DCMAKE_INSTALL_PREFIX=$prefix \
       -DCMAKE_BUILD_TYPE=RELEASE \
       -DJAS_ENABLE_DOC=FALSE \
+      -DCMAKE_POLICY_DEFAULT_CMP0074=NEW \
       $shared_flags
     cd $buildDir
 else

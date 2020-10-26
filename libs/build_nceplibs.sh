@@ -41,6 +41,7 @@ if $MODULES; then
       mpi=$mpi_check
       [[ -z $mpi ]] || module load hpc-$HPC_MPI
      if ! $NCO_V; then
+      module try-load jpeg
       module try-load jasper
       module try-load zlib
       module try-load png
@@ -55,6 +56,7 @@ if $MODULES; then
       ;;
     g2)
      if ! $NCO_V; then
+      module try-load jpeg
       module try-load png
       module try-load jasper
       module try-load jpeg
@@ -117,6 +119,7 @@ if $MODULES; then
       ;;
     grib_util)
      if ! $NCO_V; then
+      module try-load jpeg
       module try-load jasper
       module try-load zlib
       module try-load png
