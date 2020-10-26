@@ -222,6 +222,14 @@ cgal:
   build: NO
   version: 5.0.2
 
+json:
+  build: NO
+  version: 3.9.1
+
+json_schema_validator:
+  build: NO
+  version: 2.1.0
+
 ecbuild:
   build: NO
   version: release-stable
