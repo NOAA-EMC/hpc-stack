@@ -3,8 +3,9 @@ cmake:
   version: 3.17.2
 
 jpeg:
-  build: NO
+  build: YES
   version: 9.1.0
+  shared: NO
 
 zlib:
   build: YES
@@ -24,7 +25,7 @@ szip:
 jasper:
   build: YES
   shared: NO
-  version: 2.0.22
+  version: 2.0.15
 
 udunits:
   build: NO
@@ -193,12 +194,12 @@ grib_util:
   openmp: ON
 
 boost:
-  build: YES
+  build: NO
   version: 1.68.0
   level: headers-only
 
 eigen:
-  build: YES
+  build: NO
   version: 3.3.7
 
 gsl_lite:
@@ -222,21 +223,21 @@ cgal:
   version: 5.0.2
 
 ecbuild:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 eckit:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 fckit:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 atlas:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
