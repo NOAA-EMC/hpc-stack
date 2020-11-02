@@ -5,10 +5,10 @@ FROM intel-oneapi-hpckit-dev:ubuntu20 as installer
 LABEL maintainer="Steve Lawrence <steve.lawrence@noaa.gov>"
 
 COPY --from=ufs /opt/intel/ /opt/intel/
-COPY --from=ufs /usr/builder/bin/ /usr/builder/bin/
-COPY --from=ufs /usr/builder/include/ /usr/builder/include/
-COPY --from=ufs /usr/builder/include_4/ /usr/builder/include_4/
-COPY --from=ufs /usr/builder/include_8/ /usr/builder/include_8/
-COPY --from=ufs /usr/builder/include_d/ /usr/builder/include_d/
-COPY --from=ufs /usr/builder/lib/ /usr/builder/lib/
+COPY --from=ufs /home/builder/bin/ /home/builder/bin/
+COPY --from=ufs /home/builder/include/ /home/builder/include/
+COPY --from=ufs /home/builder/include_4/ /home/builder/include_4/
+COPY --from=ufs /home/builder/include_8/ /home/builder/include_8/
+COPY --from=ufs /home/builder/include_d/ /home/builder/include_d/
+COPY --from=ufs /home/builder/lib/ /home/builder/lib/
 COPY --from=ufs /home/builder/ufs-weather-model/build/ufs_model /home/builder/ufs_model

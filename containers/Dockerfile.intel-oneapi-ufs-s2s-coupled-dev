@@ -25,9 +25,9 @@ ENV CMAKE_C_COMPILER=mpiicc \
     CMAKE_CXX_COMPILER=mpiicpc \
     CMAKE_Fortran_COMPILER=mpiifort \
     CMAKE_Platform=linux.intel \
-    CMAKE_PREFIX_PATH=/usr/builder \
-    ESMFMKFILE=/usr/builder/lib/esmf.mk \
-    NETCDF=/usr/builder \
+    CMAKE_PREFIX_PATH=/home/builder \
+    ESMFMKFILE=/home/builder/lib/esmf.mk \
+    NETCDF=/home/builder \
     CMAKE_FLAGS="-DOPENMP=OFF -DPARALLEL_NETCDF=ON -DS2S=ON -DAVX2=OFF" \
     CCPP_SUITES="FV3_GFS_2017_coupled,FV3_GFS_2017_satmedmf_coupled,FV3_GFS_v15p2_coupled"
 
