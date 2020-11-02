@@ -3,12 +3,13 @@ cmake:
   version: 3.17.2
 
 jpeg:
-  build: NO
+  build: YES
   shared: NO
   version: 9.1.0
 
 zlib:
   build: YES
+  shared: NO
   version: 1.2.11
 
 png:
@@ -220,14 +221,6 @@ tau2:
 cgal:
   build: NO
   version: 5.0.2
-
-json:
-  build: YES
-  version: 3.9.1
-
-json_schema_validator:
-  build: YES
-  version: 2.1.0
 
 ecbuild:
   build: YES

@@ -5,6 +5,8 @@ set -eux
 name="jpeg"
 version=${1:-${STACK_jpeg_version}}
 
+[[ ${STACK_jpeg_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
@@ -40,11 +42,13 @@ sourceDir=$PWD
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
+[[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="-DBUILD_STATIC=ON"
+[[ $MAKE_CHECK =~ [yYtT] ]] && check_flags="-DBUILD_TESTS=ON"
+
 cmake $sourceDir \
   -DCMAKE_INSTALL_PREFIX=$prefix \
-  -DBUILD_TESTS=ON \
   -DBUILD_EXECUTABLES=ON \
-  -DCMAKE_BUILD_TYPE=RELEASE
+  -DCMAKE_BUILD_TYPE=RELEASE ${shared_flags:-} ${check_flags:-}
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make test
