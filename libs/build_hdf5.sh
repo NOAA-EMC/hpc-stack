@@ -60,7 +60,7 @@ software=$name-$(echo $version | sed 's/\./_/g')
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-[[ -z $mpi ]] || extra_conf="--enable-parallel --enable-unsupported"
+[[ -z $mpi ]] || extra_conf="--enable-hl --enable-parallel --enable-unsupported"
 
 [[ $enable_shared =~ [yYtT] ]] || shared_flags="--disable-shared --enable-static --enable-static-exec"
 [[ $enable_szip =~ [yYtT] ]] && szip_flags="--with-szip=$SZIP_ROOT"

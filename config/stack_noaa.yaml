@@ -34,18 +34,18 @@ udunits:
 hdf5:
   build: YES
   version: 1.10.6
-  shared: NO
+  shared: YES
   enable_szip: NO
   enable_zlib: YES
 
 pnetcdf:
-  build: YES
+  build: NO
   version: 1.12.1
   shared: NO
 
 netcdf:
   build: YES
-  shared: NO
+  shared: YES
   enable_pnetcdf: NO
   version_c: 4.7.4
   version_f: 4.5.3

@@ -117,6 +117,7 @@ mkdir -p build && cd build
              --enable-cdf5 \
              --disable-dap \
              --enable-netcdf-4 \
+             --enable-parallel4 \
              --disable-doxygen \
              ${shared_flags:-} ${pnetcdf_conf:-} ${extra_conf:-}
 
