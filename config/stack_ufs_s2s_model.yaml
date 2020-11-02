@@ -1,14 +1,5 @@
-gnu:
-  build: NO
-  version: 9.3.0
-
-mpi:
-  build: NO
-  flavor: openmpi
-  version: 4.0.1
-
 cmake:
-  build: YES
+  build: NO
   version: 3.17.2
 
 jpeg:
@@ -17,18 +8,22 @@ jpeg:
 
 zlib:
   build: YES
+  shared: NO
   version: 1.2.11
 
 png:
   build: YES
+  shared: NO
   version: 1.6.35
 
 szip:
   build: YES
+  shared: NO
   version: 2.1.1
 
 jasper:
   build: YES
+  shared: NO
   version: 2.0.15
 
 udunits:
@@ -181,7 +176,7 @@ wgrib2:
   build: YES
   version: v2.0.8-cmake-v5
   install_as: 2.0.8
-  openmp: ON
+  openmp: OFF
   spectral: OFF
   ipolates: 0
 

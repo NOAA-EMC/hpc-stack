@@ -32,7 +32,6 @@ if $MODULES; then
     fi
 else
     prefix=${PIO_ROOT:-"/usr/local"}
-    PNETCDF=${PNETCDF:-"/usr/local"}
 fi
 
 export FC=$MPI_FC
