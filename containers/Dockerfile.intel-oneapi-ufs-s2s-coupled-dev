@@ -2,10 +2,6 @@ FROM intel-oneapi-hpc-stack:ubuntu20
 
 SHELL ["/bin/bash", "-c"]
 
-RUN rm -f /bin/sh && ln -s /bin/bash /bin/sh && \
-    rm -f /usr/bin/gmake && \
-    ln -s /usr/bin/make /usr/bin/gmake
-
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o=Dpkg::Use-Pty=0 \
         csh \
@@ -32,7 +28,8 @@ ENV CMAKE_C_COMPILER=mpiicc \
     CMAKE_FLAGS="-DOPENMP=OFF -DPARALLEL_NETCDF=ON -DS2S=ON -DAVX2=OFF" \
     CCPP_SUITES="FV3_GFS_2017_coupled,FV3_GFS_2017_satmedmf_coupled,FV3_GFS_v15p2_coupled"
 
-RUN cd /home/builder && git clone https://github.com/ufs-community/ufs-weather-model.git && \
+RUN . /etc/profile && \
+    cd /home/builder && git clone https://github.com/ufs-community/ufs-weather-model.git && \
     cd /home/builder/ufs-weather-model && \
     git submodule update --recursive --init && \
     ./build.sh
