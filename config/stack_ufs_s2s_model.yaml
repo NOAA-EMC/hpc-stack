@@ -4,6 +4,7 @@ cmake:
 
 jpeg:
   build: YES
+  shared: NO
   version: 9.1.0
 
 zlib:
@@ -24,10 +25,11 @@ szip:
 jasper:
   build: YES
   shared: NO
-  version: 2.0.15
+  version: 2.0.22
 
 udunits:
   build: YES
+  shared: NO
   version: 2.2.26
 
 hdf5:
@@ -38,14 +40,14 @@ hdf5:
   enable_zlib: YES
 
 pnetcdf:
-  build: YES
+  build: NO
   version: 1.12.1
   shared: NO
 
 netcdf:
   build: YES
   shared: NO
-  enable_pnetcdf: YES
+  enable_pnetcdf: NO
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
@@ -68,7 +70,7 @@ esmf:
   build: YES
   version: 8_1_0_beta_snapshot_27
   shared: NO
-  enable_pnetcdf: YES
+  enable_pnetcdf: NO
   debug: NO
 
 fms:
@@ -197,7 +199,7 @@ boost:
   level: headers-only
 
 eigen:
-  build: NO
+  build: YES
   version: 3.3.7
 
 gsl_lite:
@@ -220,22 +222,30 @@ cgal:
   build: NO
   version: 5.0.2
 
+json:
+  build: YES
+  version: 3.9.1
+
+json_schema_validator:
+  build: YES
+  version: 2.1.0
+
 ecbuild:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 eckit:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 fckit:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 atlas:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda

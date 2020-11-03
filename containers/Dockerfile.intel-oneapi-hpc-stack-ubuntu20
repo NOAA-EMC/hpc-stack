@@ -1,5 +1,10 @@
 FROM intel-oneapi-hpckit-dev:ubuntu20
 
+RUN rm -f /bin/sh && ln -s /bin/bash /bin/sh && \
+    ln -s /usr/bin/make /usr/bin/gmake
+
+SHELL ["/bin/bash", "-c"]
+
 ARG DEBIAN_FRONTEND=noninteractive
 ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
@@ -24,19 +29,23 @@ ENV I_MPI_LIBRARY_KIND='release_mt'
 
 RUN cd /tmp && \
     curl -f -s -S -R -L -O https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4-Linux-x86_64.tar.gz && \
-    mkdir -p /home/builder/cmake && \
-    tar zxf cmake-3.16.4-Linux-x86_64.tar.gz -C /home/builder/cmake --strip-components=1 && \
+    mkdir -p /home/builder/opt/cmake && \
+    tar zxf cmake-3.16.4-Linux-x86_64.tar.gz -C /home/builder/opt/cmake --strip-components=1 && \
     rm cmake-3.16.4-Linux-x86_64.tar.gz && \
-    echo export PATH=/home/builder/cmake/bin:\$PATH >> /etc/bashrc
+    echo export PATH=/home/builder/opt/cmake/bin:\$PATH >> /etc/bash.bashrc && \
+    rm -rf /tmp/*
+
+RUN echo "source /opt/intel/oneapi/setvars.sh -i_mpi_library_kind=release_mt" >> /etc/bash.bashrc && \
+    . /opt/intel/oneapi/setvars.sh -i_mpi_library_kind=release_mt
 
 RUN git clone https://github.com/slawrence87544/hpc-stack.git && \
     cd hpc-stack && \
     git checkout feature/add-ufs-s2s-support && \
-    ./build_stack.sh -p /home/builder -c config/config_linux_ubuntu20_intel_oneapi_beta09.sh -y config/stack_ufs_s2s_model.yaml
+    ./build_stack.sh -p /home/builder/opt -c config/config_linux_ubuntu20_intel_oneapi_beta09.sh -y config/stack_ufs_s2s_model.yaml
 
-RUN echo 'export PATH=/home/builder/bin:$PATH'      >> /etc/bash.bashrc && \
-    echo 'export LD_LIBRARY_PATH=/home/builder/lib:$LD_LIBRARY_PATH' >> /etc/bash.bashrc && \
-    echo 'export CMAKE_PREFIX_PATH=/home/builder'   >> /etc/bash.bashrc && \
+RUN echo 'export PATH=/home/builder/opt/bin:$PATH'      >> /etc/bash.bashrc && \
+    echo 'export LD_LIBRARY_PATH=/home/builder/opt/lib:$LD_LIBRARY_PATH' >> /etc/bash.bashrc && \
+    echo 'export CMAKE_PREFIX_PATH=/home/builder/opt'   >> /etc/bash.bashrc && \
     echo 'export FC=mpiifort' >> /etc/bash.bashrc && \
     echo 'export CC=mpiicc'   >> /etc/bash.bashrc && \
     echo 'export CXX=mpiicpc' >> /etc/bash.bashrc

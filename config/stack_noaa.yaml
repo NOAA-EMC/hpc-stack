@@ -9,6 +9,7 @@ jpeg:
 
 zlib:
   build: YES
+  shared: NO
   version: 1.2.11
 
 png:
