@@ -5,10 +5,12 @@
 # hpc-stack
 
 This repository provides a unified, shell script based build system
-for building the UFS weather model software stack. This is run on NOAA
-HPC systems to consistently and reliably build and install all the
-libraries and tools needed for the NOAA Universal Forecast System
-(UFS) and releated products.
+for building software stack needed for the NOAA [Universal Forecast System
+(UFS)](https://github.com/NOAA-GSD/ufs-weather-model) and related
+products, and applications written for the [Joint Effort for Data
+assimilation Integration
+(JEDI)](https://jointcenterforsatellitedataassimilation-jedi-docs.readthedocs-hosted.com/en/latest/)
+framework.
 
 This is part of the [NCEPLIBS](https://github.com/NOAA-EMC/NCEPLIBS)
 project.
@@ -33,7 +35,7 @@ in the following sections.
 
 ## Step 1: Configure Build
 
-The first step is to chose the **COMPILER** and the **MPI** specify
+The first step is to choose the **COMPILER** and the **MPI** specify
 any other aspects of the build that you would like.  This is normally
 done by editing the file `config/config_custom.sh`.  Here we describe
 some of the parameter settings available.
