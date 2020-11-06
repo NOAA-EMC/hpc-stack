@@ -27,7 +27,7 @@ jasper:
   version: 2.0.22
 
 udunits:
-  build: YES
+  build: NO
   shared: NO
   version: 2.2.26
 
@@ -67,7 +67,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_0_beta_snapshot_27
+  version: 8_1_0_beta_snapshot_36
   shared: NO
   enable_pnetcdf: NO
   debug: NO
@@ -163,7 +163,7 @@ crtm:
 
 upp:
   build: YES
-  version: develop
+  version: upp_v10.0.0
   install_as: 10.0.0
   openmp: ON
 

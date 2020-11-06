@@ -23,6 +23,7 @@ MPI=$(echo $mpi | cut -d/ -f1)
 
 if $MODULES; then
   set +x
+ if ! $NCO_V; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module try-load zlib
@@ -36,7 +37,7 @@ if $MODULES; then
   module try-load udunits
   module list
   set -x
-
+ fi
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version_install"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
@@ -104,6 +105,9 @@ case $MPI in
     export ESMF_COMM="openmpi"
     ;;
   mpich )
+    export ESMF_COMM="mpich3"
+    ;;
+  cray-mpich )
     export ESMF_COMM="mpich3"
     ;;
   impi )

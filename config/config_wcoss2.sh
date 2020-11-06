@@ -38,7 +38,7 @@ module unload cpe-cray cce
 module load cpe-intel 
 module load intel/19.1.1.217
 #module load intel/19.1.1.217/cray-mpich/8.0.15
-module load cmake/3.16.5
+module load cmake
 module load git/2.27.0
 #module load expat/2.2.9-intel
 

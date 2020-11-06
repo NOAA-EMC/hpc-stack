@@ -66,8 +66,8 @@ pio:
   enable_gptl: NO
 
 esmf:
-  build: NO
-  version: 8_1_0_beta_snapshot_27
+  build: YES
+  version: 8_1_0_beta_snapshot_36
   shared: NO
   enable_pnetcdf: NO
   debug: NO
@@ -169,7 +169,7 @@ crtm:
 
 upp:
   build: YES
-  version: develop
+  version: upp_v10.0.0
   install_as: 10.0.0
   openmp: ON
 
