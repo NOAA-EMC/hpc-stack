@@ -5,10 +5,10 @@
 # hpc-stack
 
 This repository provides a unified, shell script based build system
-for building software stack needed for the NOAA [Universal Forecast System
-(UFS)](https://github.com/NOAA-GSD/ufs-weather-model) and related
-products, and applications written for the [Joint Effort for Data
-assimilation Integration
+for building software stack needed for the NOAA [Universal Forecast
+System (UFS)](https://github.com/ufs-community/ufs-weather-model) and
+related products, and applications written for the [Joint Effort for
+Data assimilation Integration
 (JEDI)](https://jointcenterforsatellitedataassimilation-jedi-docs.readthedocs-hosted.com/en/latest/)
 framework.
 
