@@ -29,7 +29,7 @@ ENV CMAKE_C_COMPILER=mpiicc \
     CCPP_SUITES="FV3_GFS_2017_coupled,FV3_GFS_2017_satmedmf_coupled,FV3_GFS_v15p2_coupled"
 
 RUN . /etc/profile && \
-    cd /home/builder && git clone https://github.com/ufs-community/ufs-weather-model.git && \
-    cd /home/builder/ufs-weather-model && \
+    cd /home/builder/opt && git clone https://github.com/ufs-community/ufs-weather-model.git && \
+    cd /home/builder/opt/ufs-weather-model && \
     git submodule update --recursive --init && \
     ./build.sh

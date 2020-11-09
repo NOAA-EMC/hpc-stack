@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
 RUN apt-get update -y && \
-apt-get install -y --no-install-recommends -o=Dpkg::Use-Pty=0 \
+    apt-get install -y --no-install-recommends -o=Dpkg::Use-Pty=0 \
         build-essential \
         ca-certificates \
         curl \
