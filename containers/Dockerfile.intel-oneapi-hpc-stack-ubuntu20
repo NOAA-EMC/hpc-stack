@@ -38,7 +38,10 @@ RUN . /etc/profile && \
     git clone https://github.com/slawrence87544/hpc-stack.git && \
     cd hpc-stack && \
     git checkout feature/add-ufs-s2s-support && \
-    ./build_stack.sh -p /home/builder/opt -c config/config_linux_ubuntu20_intel_oneapi_beta09.sh -y config/stack_ufs_s2s_model.yaml
+    ./build_stack.sh -p /home/builder/opt -c config/config_linux_ubuntu20_intel_oneapi_beta09.sh -y config/stack_ufs_s2s_model.yaml && \
+    cd .. && \
+    rm -rf hpc-stack
+
 
 RUN echo 'export PATH=/home/builder/opt/bin:$PATH'      >> /etc/bash.bashrc && \
     echo 'export LD_LIBRARY_PATH=/home/builder/opt/lib:$LD_LIBRARY_PATH' >> /etc/bash.bashrc && \
