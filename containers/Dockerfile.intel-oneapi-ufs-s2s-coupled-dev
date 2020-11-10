@@ -4,18 +4,8 @@ SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -o=Dpkg::Use-Pty=0 \
-        csh \
-        doxygen \
-        emacs \
         git-flow \
-        graphviz \
-        ksh \
-        lynx \
-        nedit \
-        texinfo \
-        texlive-latex-recommended \
-        tcsh \
-        zsh && \
+        graphviz && \
     rm -rf /var/lib/apt/lists/*
 
 ENV CMAKE_C_COMPILER=mpiicc \

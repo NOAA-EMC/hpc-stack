@@ -3,7 +3,7 @@ cmake:
   version: 3.17.2
 
 jpeg:
-  build: NO
+  build: YES
   shared: NO
   version: 9.1.0
 
