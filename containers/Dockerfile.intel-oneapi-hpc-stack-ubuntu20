@@ -35,9 +35,9 @@ RUN cd /tmp && \
     echo "export PATH=/home/builder/opt/cmake/bin:$PATH" >> /etc/bash.bashrc
 
 RUN . /etc/profile && \
-    git clone https://github.com/slawrence87544/hpc-stack.git && \
+    git clone https://github.com/NOAA-EMC/hpc-stack.git && \
     cd hpc-stack && \
-    git checkout feature/add-ufs-s2s-support && \
+    git checkout develop && \
     ./build_stack.sh -p /home/builder/opt -c config/config_linux_ubuntu20_intel_oneapi_beta09.sh -y config/stack_noaa.yaml && \
     cd .. && \
     rm -rf hpc-stack
