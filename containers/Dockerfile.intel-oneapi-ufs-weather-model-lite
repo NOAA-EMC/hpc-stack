@@ -1,4 +1,4 @@
-FROM intel-oneapi-ufs-s2s-coupled-dev:ubuntu20 as ufs
+FROM intel-oneapi-ufs-weather-model:ubuntu20 as ufs
 
 FROM intel-oneapi-hpckit-dev:ubuntu20 as installer
 
