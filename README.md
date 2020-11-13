@@ -138,6 +138,7 @@ script.
   - [NCEPLIBS-ip](https://github.com/noaa-emc/nceplibs-ip.git)
   - [NCEPLIBS-ip2](https://github.com/noaa-emc/nceplibs-ip2.git)
   - [NCEPLIBS-g2](https://github.com/noaa-emc/nceplibs-g2.git)
+  - [NCEPLIBS-g2c](https://github.com/noaa-emc/nceplibs-g2c.git)
   - [NCEPLIBS-g2tmpl](https://github.com/noaa-emc/nceplibs-g2tmpl.git)
   - [NCEPLIBS-nemsio](https://github.com/noaa-emc/nceplibs-nemsio.git)
   - [NCEPLIBS-nemsiogfs](https://github.com/noaa-emc/nceplibs-nemsiogfs.git)

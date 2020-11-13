@@ -54,6 +54,11 @@ if $MODULES; then
       module try-load png
       module try-load jasper
       ;;
+    g2c)
+      module try-load jpeg
+      module try-load png
+      module try-load jasper
+      ;;
     nemsio)
       mpi=$mpi_check
       [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
