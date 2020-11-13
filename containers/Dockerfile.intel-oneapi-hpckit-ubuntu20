@@ -1,0 +1,29 @@
+# Copyright (c) 2019-2020 Intel Corporation.
+# SPDX-License-Identifier: BSD-3-Clause
+
+# requires oneapi-basekit image, assumes oneapi apt repo is configured
+ARG base_image="intel-oneapi-os-tools:ubuntu20"
+FROM "$base_image"
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+# install Intel(R) oneAPI HPC Toolkit
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends -o=Dpkg::Use-Pty=0 \
+    intel-hpckit-getting-started \
+    intel-oneapi-clck \
+    intel-oneapi-common-licensing \
+    intel-oneapi-common-vars \
+    intel-oneapi-dev-utilities \
+    intel-oneapi-dpcpp-cpp-compiler-pro \
+    intel-oneapi-ifort \
+    intel-oneapi-inspector \
+    intel-oneapi-itac \
+    intel-oneapi-mpi-devel \
+    --
+
+RUN echo "if [ -z \"$INTEL_SH_GUARD\" ]; then" > /etc/profile.d/intel.sh \
+    && echo "    source /opt/intel/oneapi/setvars.sh -i_mpi_library_kind=release_mt" >> /etc/profile.d/intel.sh \
+    && echo "fi" >> /etc/profile.d/intel.sh \
+    && echo "export INTEL_SH_GUARD=1" >> /etc/profile.d/intel.sh \
+    && chmod a+x /etc/profile.d/intel.sh

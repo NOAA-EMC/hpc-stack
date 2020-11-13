@@ -47,7 +47,7 @@ url="https://parallel-netcdf.github.io/Release/$software.tar.gz"
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-[[ ${STACK_pnetcdf_shared} =~ [yYtT] ]] && shared_flags="--enable-shared"
+[[ ${STACK_pnetcdf_shared} =~ [yYtT] ]] && shared_flags="--enable-shared" || shared_flags=""
 
 ../configure --prefix=$prefix $shared_flags
 

@@ -1,0 +1,53 @@
+FROM intel-oneapi-hpckit:ubuntu20
+
+SHELL ["/bin/bash", "-c"]
+
+RUN rm -f /usr/bin/gmake && \
+    ln -s /usr/bin/make /usr/bin/gmake
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
+
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends -o=Dpkg::Use-Pty=0 \
+        build-essential \
+        ca-certificates \
+        curl \
+        git \
+        gnupg \
+        libexpat1-dev \
+        libssl-dev \
+        m4 \
+        pkg-config \
+        python \
+        vim \
+        wget \
+        --
+
+ENV I_MPI_THREAD_SPLIT=1
+ENV I_MPI_LIBRARY_KIND='release_mt'
+
+RUN cd /tmp && \
+    curl -f -s -S -R -L -O https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4-Linux-x86_64.tar.gz && \
+    mkdir -p /home/builder/opt/cmake && \
+    tar zxf cmake-3.16.4-Linux-x86_64.tar.gz -C /home/builder/opt/cmake --strip-components=1 && \
+    rm cmake-3.16.4-Linux-x86_64.tar.gz && \
+    echo "export PATH=/home/builder/opt/cmake/bin:$PATH" >> /etc/bash.bashrc
+
+RUN . /etc/profile && \
+    git clone https://github.com/NOAA-EMC/hpc-stack.git && \
+    cd hpc-stack && \
+    git checkout develop && \
+    ./build_stack.sh -p /home/builder/opt -c config/config_linux_ubuntu20_intel_oneapi_beta09.sh -y config/stack_noaa.yaml && \
+    cd .. && \
+    rm -rf hpc-stack
+
+
+RUN echo 'export PATH=/home/builder/opt/bin:$PATH'      >> /etc/bash.bashrc && \
+    echo 'export LD_LIBRARY_PATH=/home/builder/opt/lib:$LD_LIBRARY_PATH' >> /etc/bash.bashrc && \
+    echo 'export CMAKE_PREFIX_PATH=/home/builder/opt'   >> /etc/bash.bashrc && \
+    echo 'export FC=mpiifort' >> /etc/bash.bashrc && \
+    echo 'export CC=mpiicc'   >> /etc/bash.bashrc && \
+    echo 'export CXX=mpiicpc' >> /etc/bash.bashrc
+
+WORKDIR /home/builder

@@ -1,0 +1,14 @@
+FROM intel-oneapi-ufs-weather-model:ubuntu20 as ufs
+
+FROM intel-oneapi-hpckit-dev:ubuntu20 as installer
+
+LABEL maintainer="Steve Lawrence <steve.lawrence@noaa.gov>"
+
+COPY --from=ufs /opt/intel/ /opt/intel/
+COPY --from=ufs /home/builder/opt/bin/ /home/builder/opt/bin/
+COPY --from=ufs /home/builder/opt/include/ /home/builder/opt/include/
+COPY --from=ufs /home/builder/opt/include_4/ /home/builder/opt/include_4/
+COPY --from=ufs /home/builder/opt/include_8/ /home/builder/opt/include_8/
+COPY --from=ufs /home/builder/opt/include_d/ /home/builder/opt/include_d/
+COPY --from=ufs /home/builder/opt/lib/ /home/builder/opt/lib/
+COPY --from=ufs /home/builder/opt/ufs-weather-model/build/ufs_model /home/builder/opt/ufs_model
