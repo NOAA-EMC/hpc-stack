@@ -68,13 +68,13 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_0_beta_snapshot_27
+  version: 8_1_0_beta_snapshot_36
   shared: NO
   enable_pnetcdf: NO
   debug: NO
 
 fms:
-  build: NO
+  build: YES
   version: master
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -DLARGEFILE=ON"
@@ -117,7 +117,7 @@ ip:
   openmp: ON
 
 ip2:
-  build: NO
+  build: YES
   version: v1.1.2
   install_as: 1.1.2
   openmp: ON
@@ -147,6 +147,11 @@ g2:
   version: v3.4.1
   install_as: 3.4.1
 
+g2c:
+  build: YES
+  version: develop
+  install_as: 1.6.2
+
 g2tmpl:
   build: YES
   version: v1.9.1
@@ -157,10 +162,10 @@ crtm:
   version: v2.3.0
   install_as: 2.3.0
 
-nceppost:
+upp:
   build: YES
-  version: dceca26
-  install_as: dceca26
+  version: upp_v10.0.0
+  install_as: 10.0.0
   openmp: ON
 
 wrf_io:
@@ -203,15 +208,15 @@ eigen:
   version: 3.3.7
 
 gsl_lite:
-  build: NO
+  build: YES
   version: 0.37.0
 
 gptl:
-  build: NO
+  build: YES
   version: 8.0.2
 
 fftw:
-  build: NO
+  build: YES
   version: 3.3.8
 
 tau2:
