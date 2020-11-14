@@ -2,15 +2,16 @@
 
 # Compiler/MPI combination
 export HPC_COMPILER="intel/18.0.5.274"
-export HPC_MPI="impi/2018.0.4"
+export HPC_MPI="impi/2018.4.274"
 #export HPC_COMPILER="gnu/9.2.0"
 #export HPC_MPI="mpich/3.3.2"
 
 # Build options
+export NCO_V=false
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log
-export OVERWRITE=N
+export OVERWRITE=Y
 export NTHREADS=8
 export   MAKE_CHECK=N
 export MAKE_VERBOSE=N

@@ -167,8 +167,8 @@ crtm:
 
 nceppost:
   build: YES
-  version: dceca26
-  install_as: dceca26
+  version: upp_v10.0.0
+  install_as: 10.0.0
   openmp: ON
 
 wrf_io:
