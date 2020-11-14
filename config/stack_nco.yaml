@@ -154,7 +154,7 @@ g2:
 
 g2c:
   build: YES
-  version: develop
+  version: v1.6.2
   install_as: 1.6.2
 
 g2tmpl:
