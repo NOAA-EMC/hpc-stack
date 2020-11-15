@@ -212,7 +212,7 @@ gsl_lite:
   version: 0.37.0
 
 gptl:
-  build: YES
+  build: NO
   version: 8.0.2
 
 fftw:
