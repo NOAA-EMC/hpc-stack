@@ -3,7 +3,8 @@ cmake:
   version: 3.17.2
 
 jpeg:
-  build: NO
+  build: YES
+  shared: NO
   version: 9.1.0
 
 zlib:
@@ -145,6 +146,11 @@ g2:
   build: YES
   version: v3.4.1
   install_as: 3.4.1
+
+g2c:
+  build: YES
+  version: v1.6.2
+  install_as: 1.6.2
 
 g2tmpl:
   build: YES

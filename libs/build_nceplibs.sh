@@ -38,6 +38,7 @@ if $MODULES; then
     wgrib2)
       mpi=$mpi_check
       [[ -z $mpi ]] || module load hpc-$HPC_MPI
+      module try-load jpeg
       module try-load jasper
       module try-load zlib
       module try-load png
@@ -49,6 +50,12 @@ if $MODULES; then
       module load sp
       ;;
     g2)
+      module try-load jpeg
+      module try-load png
+      module try-load jasper
+      ;;
+    g2c)
+      module try-load jpeg
       module try-load png
       module try-load jasper
       ;;
@@ -96,6 +103,7 @@ if $MODULES; then
       # module load nemsio
       ;;
     grib_util)
+      module try-load jpeg
       module try-load jasper
       module try-load zlib
       module try-load png

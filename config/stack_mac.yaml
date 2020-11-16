@@ -32,7 +32,7 @@ jasper:
   version: 2.0.22
 
 udunits:
-  build: YES
+  build: NO
   version: 2.2.26
 
 hdf5:
@@ -149,6 +149,11 @@ g2:
   build: YES
   version: v3.4.1
   install_as: 3.4.1
+
+g2c:
+  build: YES
+  version: v1.6.2
+  install_as: 1.6.2
 
 g2tmpl:
   build: YES
