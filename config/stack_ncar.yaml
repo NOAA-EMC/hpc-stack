@@ -2,11 +2,6 @@ cmake:
   build: NO
   version: 3.17.2
 
-mpi:
-  build: NO
-  flavor: mpich
-  version: 3.3.2
-
 jpeg:
   build: YES
   shared: NO
@@ -33,14 +28,14 @@ jasper:
   version: 2.0.22
 
 udunits:
-  build: NO
+  build: YES
   shared: NO
   version: 2.2.26
 
 hdf5:
   build: YES
   version: 1.10.6
-  shared: YES
+  shared: NO
   enable_szip: NO
   enable_zlib: YES
 
@@ -51,7 +46,7 @@ pnetcdf:
 
 netcdf:
   build: YES
-  shared: YES
+  shared: NO
   enable_pnetcdf: NO
   version_c: 4.7.4
   version_f: 4.5.3
@@ -154,7 +149,7 @@ g2:
 
 g2c:
   build: YES
-  version: v1.6.2
+  version: develop
   install_as: 1.6.2
 
 g2tmpl:
@@ -217,7 +212,7 @@ gsl_lite:
   version: 0.37.0
 
 gptl:
-  build: YES
+  build: NO
   version: 8.0.2
 
 fftw:

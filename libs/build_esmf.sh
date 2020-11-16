@@ -113,6 +113,10 @@ case $MPI in
   impi )
     export ESMF_COMM="intelmpi"
     ;;
+  mpt )
+    export ESMF_COMM="mpt"
+    export ESMF_MPIRUN=mpiexec_mpt
+    ;;
   * )
     export ESMF_COMM="mpiuni"
     export ESMF_MPIRUN=""

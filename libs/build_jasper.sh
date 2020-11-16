@@ -14,6 +14,9 @@ if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
+  # Load jpeg module if created by hpc-stack; requires setting
+  # MAKE_POLICY_DEFAULT_CMP0074 to new below so that JPEG_ROOT is searched
+  module try-load jpeg
   module list
   set -x
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
@@ -63,6 +66,7 @@ if [[ "$useCmake" == "YES" ]]; then
       -DCMAKE_INSTALL_PREFIX=$prefix \
       -DCMAKE_BUILD_TYPE=RELEASE \
       -DJAS_ENABLE_DOC=FALSE \
+      -DCMAKE_POLICY_DEFAULT_CMP0074=NEW \
       $shared_flags
     cd $buildDir
 else
