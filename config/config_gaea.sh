@@ -2,7 +2,7 @@
 
 # Compiler/MPI combination
 export HPC_COMPILER="intel/18.0.6.288"
-export HPC_MPI="impi/2018.0.4"
+export HPC_MPI="cray-mpich/7.7.1
 
 # Build options
 export USE_SUDO=N
