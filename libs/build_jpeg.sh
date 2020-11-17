@@ -42,7 +42,7 @@ sourceDir=$PWD
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-[[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="-DBUILD_STATIC=ON"
+[[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="-DBUILD_STATIC=ON -DCMAKE_SKIP_RPATH=ON"
 [[ $MAKE_CHECK =~ [yYtT] ]] && check_flags="-DBUILD_TESTS=ON"
 
 cmake $sourceDir \

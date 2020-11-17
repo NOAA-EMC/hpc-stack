@@ -76,7 +76,7 @@ software="ESMF_$version"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 export ESMF_DIR=$PWD
 
-export ESMF_OS=$(uname -s)
+#export ESMF_OS=$(uname -s)
 
 # This is going to need a little work to adapt for various combinations
 # of Darwin/Linux with GNU/Clang/Intel etc.
@@ -108,7 +108,8 @@ case $MPI in
     export ESMF_COMM="mpich3"
     ;;
   cray-mpich )
-    export ESMF_COMM="mpich3"
+    export ESMF_COMM="mpi"
+    export ESMF_MPIRUN="${ESMF_DIR}/scripts/mpirun.srun"
     ;;
   impi )
     export ESMF_COMM="intelmpi"
@@ -126,6 +127,7 @@ esac
 HDF5ExtraLibs=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
 HDF5LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "AM_LDFLAGS" | cut -d: -f2)
 
+#export ESMF_COMPILER="intel"
 export ESMF_CXXCOMPILER=$CXX
 export ESMF_CXXLINKER=$CXX
 export ESMF_CXXLINKPATHS="-L$HDF5_ROOT/lib $HDF5LDFLAGS"
