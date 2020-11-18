@@ -75,7 +75,7 @@ software="ESMF_$version"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 export ESMF_DIR=$PWD
 
-export ESMF_OS=$(uname -s)
+#export ESMF_OS=$(uname -s)
 
 # This is going to need a little work to adapt for various combinations
 # of Darwin/Linux with GNU/Clang/Intel etc.
@@ -96,9 +96,6 @@ case $COMPILER in
     ;;
 esac
 
-#  mpiexec --version | grep OpenRTE 2> /dev/null && export ESMF_COMM=openmpi
-#  mpiexec --version | grep Intel   2> /dev/null && export ESMF_COMM=intelmpi
-export ESMF_MPIRUN=mpiexec
 case $MPI in
   openmpi )
     export ESMF_COMM="openmpi"
@@ -106,16 +103,17 @@ case $MPI in
   mpich )
     export ESMF_COMM="mpich3"
     ;;
+  cray-mpich )
+    export ESMF_COMM="mpich"
+    ;;
   impi )
     export ESMF_COMM="intelmpi"
     ;;
   mpt )
     export ESMF_COMM="mpt"
-    export ESMF_MPIRUN=mpiexec_mpt
     ;;
   * )
     export ESMF_COMM="mpiuni"
-    export ESMF_MPIRUN=""
     ;;
 esac
 

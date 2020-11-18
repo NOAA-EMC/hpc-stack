@@ -10,21 +10,21 @@ local compNameVer  = hierA[1]
 local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
-conflict("hpc-cray-mpich","hpc-mpich","hpc-mpt","hpc-openmpi")
+conflict("hpc-impi","hpc-mpich","hpc-mpt","hpc-openmpi")
 
-local mpi = pathJoin("impi",pkgVersion)
+local mpi = pathJoin("cray-mpich",pkgVersion)
 load(mpi)
 prereq(mpi)
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
-local mpath = pathJoin(opt,"modulefiles/mpi",compNameVer,"impi",pkgVersion)
+local mpath = pathJoin(opt,"modulefiles/mpi",compNameVer,"cray-mpich",pkgVersion)
 prepend_path("MODULEPATH", mpath)
 
-setenv("MPI_FC",  "mpiifort")
-setenv("MPI_CC",  "mpiicc")
-setenv("MPI_CXX", "mpiicpc")
+setenv("MPI_FC",  "ftn")
+setenv("MPI_CC",  "cc")
+setenv("MPI_CXX", "CC")
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: library")
-whatis("Description: Intel MPI library and module access")
+whatis("Description: Cray MPICH Library and module access")

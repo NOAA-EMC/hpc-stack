@@ -4,8 +4,8 @@ cmake:
 
 jpeg:
   build: YES
-  version: 9.1.0
   shared: NO
+  version: 9.1.0
 
 zlib:
   build: YES

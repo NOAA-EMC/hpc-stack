@@ -2,7 +2,7 @@
 
 # Compiler/MPI combination
 export HPC_COMPILER="intel/18.0.6.288"
-export HPC_MPI="cray-mpich/7.7.1
+export HPC_MPI="cray-mpich/7.7.11"
 
 # Build options
 export USE_SUDO=N
@@ -29,3 +29,7 @@ export SERIAL_FC=ftn
 export MPI_CC=cc
 export MPI_CXX=CC
 export MPI_FC=ftn
+
+# Load lmod environment
+source /lustre/f2/pdata/esrl/gsd/contrib/lua-5.1.4.9/init/init_lmod.sh
+
