@@ -11,8 +11,8 @@ software=${name}_$version
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
-COMPILER=$(echo $compiler | cut -d- -f1)
-MPI=$(echo $mpi | cut -d- -f1)
+COMPILER=$(echo $HPC_COMPILER | cut -d/ -f1)
+MPI=$(echo $HPC_MPI | cut -d/ -f1)
 
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
@@ -75,8 +75,6 @@ software="ESMF_$version"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 export ESMF_DIR=$PWD
 
-#export ESMF_OS=$(uname -s)
-
 # This is going to need a little work to adapt for various combinations
 # of Darwin/Linux with GNU/Clang/Intel etc.
 case $COMPILER in
@@ -104,7 +102,7 @@ case $MPI in
     export ESMF_COMM="mpich3"
     ;;
   cray-mpich )
-    export ESMF_COMM="mpich"
+    export ESMF_COMM="mpi"
     ;;
   impi )
     export ESMF_COMM="intelmpi"
