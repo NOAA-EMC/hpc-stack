@@ -60,6 +60,10 @@ nco:
   build: NO
   version: 4.9.3
 
+cdo:
+  build: YES
+  version: 1.9.8
+
 pio:
   build: YES
   version: 2.5.1
