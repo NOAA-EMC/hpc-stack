@@ -147,6 +147,11 @@ g2:
   version: v3.4.1
   install_as: 3.4.1
 
+g2c:
+  build: YES
+  version: v1.6.2
+  install_as: 1.6.2
+
 g2tmpl:
   build: YES
   version: v1.9.1

@@ -99,10 +99,10 @@ case $MPI in
     export ESMF_COMM="openmpi"
     ;;
   mpich )
-    export ESMF_COMM="mpich3"
+    export ESMF_COMM=${STACK_esmf_comm:-"mpich3"}
     ;;
   cray-mpich )
-    export ESMF_COMM="mpi"
+    export ESMF_COMM=${STACK_esmf_comm:-"mpi"}
     ;;
   impi )
     export ESMF_COMM="intelmpi"
