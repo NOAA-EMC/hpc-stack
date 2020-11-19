@@ -148,7 +148,7 @@ g2:
   install_as: 3.4.1
 
 g2c:
-  build: YES
+  build: NO
   version: v1.6.2
   install_as: 1.6.2
 
