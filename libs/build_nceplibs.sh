@@ -43,8 +43,8 @@ if $MODULES; then
       module try-load zlib
       module try-load png
       module load netcdf
-      #module load sp  # building with USE_SPECTRAL=OFF
-      #module load ip2 # building with USE_IPOLATES=0
+      module load sp
+      module load ip2
       ;;
     ip2)
       module load sp

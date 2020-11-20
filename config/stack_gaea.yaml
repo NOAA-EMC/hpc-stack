@@ -117,7 +117,7 @@ ip:
   openmp: ON
 
 ip2:
-  build: NO
+  build: YES
   version: v1.1.2
   install_as: 1.1.2
   openmp: ON
@@ -181,11 +181,11 @@ bufr:
 
 wgrib2:
   build: YES
-  version: v2.0.8-cmake-v5
+  version: v2.0.8-cmake-v6
   install_as: 2.0.8
-  openmp: OFF
-  spectral: OFF
-  ipolates: 0
+  openmp: ON
+  spectral: ON
+  ipolates: 3
 
 prod_util:
   build: YES
