@@ -171,6 +171,12 @@ nceppost:
   install_as: dceca26
   openmp: ON
 
+upp:
+  build: YES
+  version: upp_v10.0.0
+  install_as: 10.0.0
+  openmp: ON
+
 wrf_io:
   build: YES
   version: v1.1.1-cmake-v5
