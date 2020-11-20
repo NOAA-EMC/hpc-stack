@@ -151,7 +151,7 @@ build_lib pio
 
 # UFS 3rd party dependencies
 
-#build_lib esmf
+build_lib esmf
 build_lib fms
 
 # NCEPlibs
@@ -182,22 +182,22 @@ build_nceplib grib_util
 
 # JEDI 3rd party dependencies
 
-#build_lib boost
-#build_lib eigen
-#build_lib gsl_lite
-#build_lib gptl
-#build_lib fftw
-#build_lib tau2
-#build_lib cgal
-#build_lib json
-#build_lib json_schema_validator
+build_lib boost
+build_lib eigen
+build_lib gsl_lite
+build_lib gptl
+build_lib fftw
+build_lib tau2
+build_lib cgal
+build_lib json
+build_lib json_schema_validator
 
 # JCSDA JEDI dependencies
 
-#build_lib ecbuild
-#build_lib eckit
-#build_lib fckit
-#build_lib atlas
+build_lib ecbuild
+build_lib eckit
+build_lib fckit
+build_lib atlas
 
 # ==============================================================================
 # optionally clean up
