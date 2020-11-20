@@ -72,7 +72,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_0_beta_snapshot_27
+  version: 8_1_0_beta_snapshot_36
   shared: NO
   enable_pnetcdf: NO
   debug: NO
@@ -193,8 +193,8 @@ wgrib2:
 
 prod_util:
   build: YES
-  version: v1.2.1
-  install_as: 1.2.1
+  version: v1.2.2
+  install_as: 1.2.2
 
 grib_util:
   build: YES
