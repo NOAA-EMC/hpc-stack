@@ -58,16 +58,16 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 case $version in
   1.9.9 )
-    url="https://code.mpimet.mpg.de/attachments/23323/cdo-1.9.9.tar.gz"
+    url="https://code.mpimet.mpg.de/attachments/download/23323/cdo-1.9.9.tar.gz"
   ;;
   1.9.8 )
-    url="https://code.mpimet.mpg.de/attachments/20826/cdo-1.9.8.tar.gz"
+    url="https://code.mpimet.mpg.de/attachments/download/20826/cdo-1.9.8.tar.gz"
   ;;
   1.9.7.1 )
-    url="https://code.mpimet.mpg.de/attachments/20124/cdo-1.9.7.1.tar.gz"
+    url="https://code.mpimet.mpg.de/attachments/download/20124/cdo-1.9.7.1.tar.gz"
   ;;
   1.9.6 )
-    url="https://code.mpimet.mpg.de/attachments/19299/cdo-1.9.6.tar.gz"
+    url="https://code.mpimet.mpg.de/attachments/download/19299/cdo-1.9.6.tar.gz"
   ;;
   * )
     echo "Try using CDO version 1.9.6 and above, ABORT!"
