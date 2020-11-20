@@ -28,7 +28,8 @@ export WGET="wget -nv"
 # define cc, FC and CC for CC, FC and CXX respectively.
 # cray-intel does not imply the native module in this case
 
-module swap PrgEnv-cray/7.0.0 PrgEnv-intel/7.0.0
+module unload cpe-cray cce
+module load cpe-intel intel
 module load cmake/3.16.5-intel
 module load git/2.27.0-intel
 module load expat/2.2.9-intel
