@@ -76,7 +76,7 @@ case $version in
 esac
 
 software=$name-$version
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz && rm -f $software.tar.gz )
+[[ -d $software ]] || ( $WGET $url; tar -xzf $software.tar.gz && rm -f $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
