@@ -147,6 +147,7 @@ build_lib pnetcdf
 build_lib netcdf
 build_lib nccmp
 build_lib nco
+build_lib cdo
 build_lib pio
 
 # UFS 3rd party dependencies
