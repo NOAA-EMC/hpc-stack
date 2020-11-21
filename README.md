@@ -25,12 +25,12 @@ Installers:
 
 Machine | Programmer
 ------------|------------------
-Orion | Hang
-Hera | Kyle
-Jet | Kyle
-WCOSS-Dell | Hang
-cheyenne | Dom
-gaea | Dom
+Orion | Hang-Lei
+Hera | Kyle Gerheiser
+Jet | Kyle Gerheiser
+WCOSS-Dell | Hang-Lei
+cheyenne | Dom Heinzeller
+gaea | Dom Heinzeller
 
 ## Prerequisites:
 
