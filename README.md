@@ -21,6 +21,17 @@ Rahul Mahajan, Kyle Gerheiser, Dusan Jovic, Hang-Lei, Dom Heinzeller
 
 Code Manager: Kyle Gerheiser
 
+Installers:
+
+Machine | Programmer
+------------|------------------
+Orion | Hang
+Hera | Kyle
+Jet | Kyle
+WCOSS-Dell | Hang
+cheyenne | Dom
+gaea | Dom
+
 ## Prerequisites:
 
 The prerequisites of building hpc-stack are:
