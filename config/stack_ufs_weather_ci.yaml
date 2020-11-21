@@ -71,7 +71,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_0_beta_snapshot_27
+  version: 8_1_0_beta_snapshot_36
   shared: YES
   enable_pnetcdf: NO
   debug: NO
@@ -120,7 +120,7 @@ ip:
   openmp: ON
 
 ip2:
-  build: NO
+  build: YES
   version: v1.1.2
   install_as: 1.1.2
   openmp: ON
@@ -171,6 +171,12 @@ nceppost:
   install_as: dceca26
   openmp: ON
 
+upp:
+  build: YES
+  version: upp_v10.0.0
+  install_as: 10.0.0
+  openmp: ON
+
 wrf_io:
   build: YES
   version: v1.1.1-cmake-v5
@@ -184,16 +190,16 @@ bufr:
 
 wgrib2:
   build: YES
-  version: v2.0.8-cmake-v5
+  version: v2.0.8-cmake-v6
   install_as: 2.0.8
-  openmp: OFF
-  spectral: OFF
-  ipolates: 0
+  openmp: ON
+  spectral: ON
+  ipolates: 3
 
 prod_util:
   build: YES
-  version: v1.2.1
-  install_as: 1.2.1
+  version: v1.2.2
+  install_as: 1.2.2
 
 grib_util:
   build: YES

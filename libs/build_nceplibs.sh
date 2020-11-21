@@ -43,8 +43,8 @@ if $MODULES; then
       module try-load zlib
       module try-load png
       module load netcdf
-      #module load sp  # building with USE_SPECTRAL=OFF
-      #module load ip2 # building with USE_IPOLATES=0
+      module load sp
+      module load ip2
       ;;
     ip2)
       module load sp
@@ -80,7 +80,7 @@ if $MODULES; then
       module load sigio
       module load nemsio
       ;;
-    nceppost)
+    nceppost | upp)
       mpi=$mpi_check
       [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
       module load hpc-$HPC_MPI
@@ -155,7 +155,7 @@ export FCFLAGS="$FFLAGS"
 gitURL="https://github.com/noaa-emc/nceplibs-$name"
 extraCMakeFlags=""
 case $name in
-  nceppost)
+  nceppost | upp)
     gitURL="https://github.com/noaa-emc/emc_post"
     extraCMakeFlags="-DBUILD_POSTEXEC=OFF"
     ;;
