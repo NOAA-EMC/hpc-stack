@@ -166,7 +166,7 @@ crtm:
   install_as: 2.3.0
 
 nceppost:
-  build: YES
+  build: NO
   version: dceca26
   install_as: dceca26
   openmp: ON
