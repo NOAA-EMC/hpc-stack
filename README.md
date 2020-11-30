@@ -31,6 +31,7 @@ Jet | Kyle Gerheiser
 WCOSS-Dell | Hang-Lei
 cheyenne | Dom Heinzeller
 gaea | Dom Heinzeller
+WCOSS-Cray | Hang-Lei
 
 ## Prerequisites:
 
