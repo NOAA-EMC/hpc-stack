@@ -377,6 +377,11 @@ setenv("LMOD_EXACT_MATCH", "no")
 setenv("LMOD_EXTENDED_DEFAULT", "yes")
 ```
 
+### Known issues
+
+NetCDF-C++ does not build with LLVM Clang. It can be disabled  by setting
+`disable_cxx: YES` in the stack file under the NetCDF section.
+
 ## Disclaimer
 
 The United States Department of Commerce (DOC) GitHub project code is
