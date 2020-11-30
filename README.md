@@ -377,6 +377,11 @@ setenv("LMOD_EXACT_MATCH", "no")
 setenv("LMOD_EXTENDED_DEFAULT", "yes")
 ```
 
+## Known Issues
+
+- ESMF beta snapshot 27 does not work on macOS. `stack_mac` installs
+  beta 21 instead.
+
 ## Disclaimer
 
 The United States Department of Commerce (DOC) GitHub project code is
