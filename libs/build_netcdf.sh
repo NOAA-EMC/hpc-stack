@@ -175,11 +175,11 @@ VERBOSE=$MAKE_VERBOSE make -j1 #NetCDF-Fortran-4.5.2 & intel/20 have a linker bu
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
 
+$MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+
 if [ $enable_cxx =~ [yYtT] ]; then 
    
   cd $curr_dir
-
-  $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
   set +x
   echo "################################################################################"
