@@ -12,6 +12,7 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 [[ ${STACK_netcdf_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
+[[ ${STACK_netcdf_disable_cxx:-} =~ [yYtT]  ]] && enable_cxx=NO || enable_cxx=YES
 
 if $MODULES; then
     set +x
@@ -174,28 +175,31 @@ VERBOSE=$MAKE_VERBOSE make -j1 #NetCDF-Fortran-4.5.2 & intel/20 have a linker bu
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
 
-cd $curr_dir
+if [ $enable_cxx =~ [yYtT] ]; then 
+   
+  cd $curr_dir
 
-$MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+  $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
-set +x
-echo "################################################################################"
-echo "BUILDING NETCDF-CXX"
-echo "################################################################################"
-set -x
+  set +x
+  echo "################################################################################"
+  echo "BUILDING NETCDF-CXX"
+  echo "################################################################################"
+  set -x
 
-version=$cxx_version
-software=$name-"cxx4"-$version
-[[ -d $software ]] || ( git clone -b "v$version" $gitURLroot/$name-cxx4.git $software )
-[[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-[[ -d build ]] && rm -rf build
-mkdir -p build && cd build
+  version=$cxx_version
+  software=$name-"cxx4"-$version
+  [[ -d $software ]] || ( git clone -b "v$version" $gitURLroot/$name-cxx4.git $software )
+  [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
+  [[ -d build ]] && rm -rf build
+  mkdir -p build && cd build
 
-../configure --prefix=$prefix \
-             ${shared_flags:-}
+  ../configure --prefix=$prefix \
+               ${shared_flags:-}
 
-VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
-[[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+  VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
+  [[ $MAKE_CHECK =~ [yYtT] ]] && make check
+  $SUDO make install
 
-$MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+  $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+fi
