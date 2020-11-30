@@ -379,8 +379,8 @@ setenv("LMOD_EXTENDED_DEFAULT", "yes")
 
 ### Known issues
 
-NetCDF-C++ does not build with LLVM Clang. It can be disabled building by setting
-`disable_cxx` to `YES` in the stack file under the NetCDF section.
+NetCDF-C++ does not build with LLVM Clang. It can be disabled  by setting
+`disable_cxx: YES` in the stack file under the NetCDF section.
 
 ## Disclaimer
 
