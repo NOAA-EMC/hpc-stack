@@ -14,6 +14,8 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 COMPILER=$(echo $HPC_COMPILER | cut -d/ -f1)
 MPI=$(echo $HPC_MPI | cut -d/ -f1)
 
+host=$(uname -s)
+
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 [[ ${STACK_esmf_debug} =~ [yYtT] ]] && enable_debug=YES || enable_debug=NO
@@ -83,12 +85,18 @@ case $COMPILER in
     export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
     export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"
     ;;
-  gnu|gcc )
+  gnu|gcc|clang )
     export ESMF_COMPILER="gfortran"
+    export ESMF_F90COMPILEOPTS="-g -fbacktrace"
+    if [[ "$host" == "Darwin" ]]; then
+      export ESMF_CXXCOMPILEOPTS="-g -Wno-error=format-security"
+    else
+      export ESMF_CXXCOMPILEOPTS="-g"
+    fi
     ;;
-  clang )
-    export ESMF_COMPILER="gfortranclang"
-    ;;
+  #clang )
+  #  export ESMF_COMPILER="gfortranclang"
+  #  ;;
   * )
     echo "Unsupported compiler = $COMPILER, ABORT!"; exit 1
     ;;
@@ -131,8 +139,19 @@ export ESMF_NETCDF_LIBPATH=$NETCDF_ROOT/lib
 export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs"
 export ESMF_NFCONFIG=nf-config
 [[ $enable_pnetcdf =~ [yYtT] ]] && export ESMF_PNETCDF=pnetcdf-config
-[[ $enable_debug =~ [yYtT] ]] && export ESMF_BOPT=g || export ESMF_BOPT=O
-export ESMF_ABI=64
+# Configure optimization level
+if [[ $enable_debug =~ [yYtT] ]]; then
+  export ESMF_BOPT=g
+  export ESMF_OPTLEVEL="0"
+else
+  if [[ "$host" == "Darwin" ]]; then
+    export ESMF_BOPT=O
+    export ESMF_OPTLEVEL="0"
+  else
+    export ESMF_BOPT=O
+    export ESMF_OPTLEVEL="2"
+  fi
+fi
 
 export ESMF_INSTALL_PREFIX=$prefix
 export ESMF_INSTALL_BINDIR=bin
@@ -144,6 +163,7 @@ export ESMF_INSTALL_HEADERDIR=include
 make info
 make -j${NTHREADS:-4}
 $SUDO make install
+[[ $MAKE_CHECK =~ [yYtT] ]] && make check
 [[ $MAKE_CHECK =~ [yYtT] ]] && make installcheck
 
 # generate modulefile from template
