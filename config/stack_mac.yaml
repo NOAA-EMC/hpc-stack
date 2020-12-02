@@ -242,25 +242,25 @@ json:
   version: 3.9.1
 
 json_schema_validator:
-  build: NO
+  build: YES
   version: 2.1.0
 
 ecbuild:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 eckit:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 fckit:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 atlas:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
