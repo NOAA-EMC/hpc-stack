@@ -38,22 +38,23 @@ udunits:
 hdf5:
   build: YES
   version: 1.10.6
-  shared: YES
+  shared: NO
   enable_szip: NO
   enable_zlib: YES
 
 pnetcdf:
   build: NO
   version: 1.12.1
-  shared: YES
+  shared: NO
 
 netcdf:
   build: YES
-  shared: YES
+  shared: NO
   enable_pnetcdf: NO
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
+  disable_cxx: YES
 
 nccmp:
   build: YES
@@ -72,7 +73,7 @@ pio:
 esmf:
   build: YES
   version: 8_1_0_beta_snapshot_21
-  shared: YES
+  shared: NO
   enable_pnetcdf: NO
   debug: NO
 
@@ -241,25 +242,25 @@ json:
   version: 3.9.1
 
 json_schema_validator:
-  build: YES
+  build: NO
   version: 2.1.0
 
 ecbuild:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 eckit:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 fckit:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 atlas:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
