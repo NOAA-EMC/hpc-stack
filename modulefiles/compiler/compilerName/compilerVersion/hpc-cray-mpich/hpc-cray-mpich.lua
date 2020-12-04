@@ -10,7 +10,7 @@ local compNameVer  = hierA[1]
 local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
-conflict("hpc-openmpi","hpc-impi")
+conflict("hpc-impi","hpc-mpich","hpc-mpt","hpc-openmpi")
 
 local mpi = pathJoin("cray-mpich",pkgVersion)
 load(mpi)
@@ -27,4 +27,4 @@ setenv("MPI_CXX", "CC")
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: library")
-whatis("Description: MPICH Library and module access")
+whatis("Description: Cray MPICH Library and module access")

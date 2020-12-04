@@ -9,9 +9,6 @@ local hierA        = hierarchyA(pkgNameVer,1)
 local compNameVer  = hierA[1]
 local compNameVerD = compNameVer:gsub("/","-")
 
---io.stderr:write("compNameVer: ",compNameVer,"\n")
---io.stderr:write("compNameVerD: ",compNameVerD,"\n")
-
 family("mpi")
 
 conflict(pkgName)
