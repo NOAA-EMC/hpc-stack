@@ -12,7 +12,7 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 [[ ${STACK_netcdf_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
-[[ ${STACK_netcdf_disable_cxx:-} =~ [yYtT]  ]] && enable_cxx=NO || enable_cxx=YES
+[[ ${STACK_netcdf_disable_cxx:-} =~ [yYtT] ]] && enable_cxx=NO || enable_cxx=YES
 
 if $MODULES; then
     set +x
@@ -177,7 +177,7 @@ $SUDO make install
 
 $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
-if [ $enable_cxx =~ [yYtT] ]; then 
+if [[ $enable_cxx =~ [yYtT] ]]; then 
    
   cd $curr_dir
 
