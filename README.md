@@ -128,6 +128,7 @@ script.
   - [ParallelIO](https://github.com/NCAR/ParallelIO)
   - [nccmp](https://gitlab.com/remikz/nccmp)
   - [nco](http://nco.sourceforge.net/)
+  - [CDO](https://code.mpimet.mpg.de/projects/cdo)
   - [FFTW](http://www.fftw.org/)
   - [GPTL](https://jmrosinski.github.io/GPTL/)
   - [Tau2]()
