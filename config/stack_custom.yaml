@@ -226,7 +226,7 @@ gsl_lite:
 
 gptl:
   build: NO
-  version: 8.0.2
+ v ersion: 8.0.2
 
 fftw:
   build: NO
@@ -267,3 +267,8 @@ atlas:
   build: YES
   version: release-stable
   repo: jcsda
+
+met: 
+  build: YES
+  version: 3.1
+  install_as: 3.1.0
