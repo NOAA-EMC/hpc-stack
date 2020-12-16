@@ -1,9 +1,16 @@
 #!/bin/bash
 
+# BASH_ENV loads Cray modules each time a new script starts
+# Disable that so LMOD isn't overwritten
+unset BASH_ENV
+
+# Startup LMOD
+source /apps/prod/lmodules/startLmod
+
 # Compiler/MPI combination
 #export HPC_COMPILER="cray-intel/19.1.1.217"  # See IMPORTANT NOTE below
 export HPC_COMPILER="intel/19.1.1.217"
-export HPC_MPI="cray-mpich/8.0.11"
+export HPC_MPI="cray-mpich/8.0.15"
 
 # Build options
 export USE_SUDO=N
@@ -28,11 +35,9 @@ export WGET="wget -nv"
 # define cc, FC and CC for CC, FC and CXX respectively.
 # cray-intel does not imply the native module in this case
 
-module unload cpe-cray cce
-module load cpe-intel intel
-module load cmake/3.16.5-intel
-module load git/2.27.0-intel
-module load expat/2.2.9-intel
+module load cmake/3.16.5
+module load git/2.27.0
+module load cpe-intel
 
 export SERIAL_CC=cc
 export SERIAL_FC=ftn
