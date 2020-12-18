@@ -1,4 +1,4 @@
-#!/bin/bash -l
+#!/bin/bash
 set -eu
 
 cron_dir=${HPC_DOWNLOAD_PATH}/hpc-stack/cron-ci
