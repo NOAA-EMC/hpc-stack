@@ -270,5 +270,4 @@ atlas:
 
 met: 
   build: YES
-  version: 3.1
-  install_as: 3.1.0
+  version: 9.1.1
