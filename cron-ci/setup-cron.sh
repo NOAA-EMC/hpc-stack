@@ -66,8 +66,8 @@ echo "Machine ID: ${HPC_MACHINE_ID}"
 echo ""
 echo "building hpc-stack..."
 echo ""
-echo "hpc-stack hash: ${current_hash}"
 echo "hpc-stack log: ${hpc_log}"
+echo "hpc-stack hash: ${current_hash}"
 echo ""
 
 ./cron-ci/build-hpc-stack.sh >> ${hpc_log} 2>&1
