@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="ips/18.0.1.163"
-export HPC_MPI="impi/18.0.1"
+export HPC_COMPILER=${HPC_COMPILER:-"ips/18.0.1.163"}
+export HPC_MPI=${HPC_MPI:-"impi/18.0.1"}
 
 # Build options
 export USE_SUDO=N
