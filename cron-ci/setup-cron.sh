@@ -62,21 +62,21 @@ if [[ -f "${HPC_HOMEDIR}/prev_hash.txt" ]]; then
 fi
 
 echo `date`
+echo "Machine ID: ${HPC_MACHINE_ID}"
 echo ""
 echo "building hpc-stack..."
+echo ""
+echo "hpc-stack hash: ${current_hash}"
+echo "hpc-stack log: ${hpc_log}"
+echo ""
+
 ./cron-ci/build-hpc-stack.sh >> ${hpc_log} 2>&1
 
 # check if hpc-stack build succeded 
 if grep -qi "build_stack.sh: SUCCESS!" ${hpc_log}; then
     echo "hpc-stack build: PASS"
-    echo "hpc-stack hash: ${current_hash}"
-    echo "hpc-stack log: ${hpc_log}"
-    echo ""
 else
     echo "hpc-stack build: FAIL"
-    echo "hpc-stack hash: ${current_hash}"
-    echo "hpc-stack log: ${hpc_log}"
-    echo ""
     exit 1
 fi
 

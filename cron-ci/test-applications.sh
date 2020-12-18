@@ -8,9 +8,14 @@ if [[ "$TEST_UFS" == true ]]; then
     ufs_logdate=$(date +'%m-%d-%Y-%R')
     ufs_logname=ufs_${ufs_logdate}.log
     ufs_log=${HPC_LOG_PATH}/${ufs_logname}
-    
+
     echo ""
     echo "testing ufs-weather-model..."
+    echo ""
+    echo "UFS hash: ${ufs_hash}"
+    echo "UFS log: ${ufs_log}"
+    echo ""
+    
     ${cron_dir}/test-ufs.sh >> ${ufs_log} 2>&1
 
     ufs-hash=$(git -C ${HPC_DOWNLOAD_PATH}/ufs-weather-model rev-parse HEAD)
@@ -20,9 +25,5 @@ if [[ "$TEST_UFS" == true ]]; then
     else
         echo "UFS regression tests: FAIL"
     fi
-    # Output data
-    echo ""
-    echo "ufs hash: ${ufs_hash}"
-    echo "UFS log: ${ufs_log}"
 fi
 
