@@ -7,7 +7,7 @@ if [[ "$TEST_UFS" == true ]]; then
     # mm-dd-yyy-hh:mm
     ufs_logdate=$(date +'%m-%d-%Y-%R')
     ufs_logname=ufs_${ufs_logdate}.log
-    ufs_log=${LOG_PATH}/${ufs_logname}
+    ufs_log=${HPC_LOG_PATH}/${ufs_logname}
     
     echo ""
     echo "testing ufs-weather-model..."
