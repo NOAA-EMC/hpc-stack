@@ -80,130 +80,165 @@ else
   exit 1
 fi
 
-# ==============================================================================
-
-compilerName=$(echo $HPC_COMPILER | cut -d/ -f1)
-compilerVersion=$(echo $HPC_COMPILER | cut -d/ -f2)
-
-mpiName=$(echo $HPC_MPI | cut -d/ -f1)
-mpiVersion=$(echo $HPC_MPI | cut -d/ -f2)
-
-echo "Compiler: $compilerName/$compilerVersion"
-echo "MPI: $mpiName/$mpiVersion"
-
-# install with root permissions?
-[[ $USE_SUDO =~ [yYtT] ]] && export SUDO="sudo" || export SUDO=""
-
-# ==============================================================================
-
-# create build directory if needed
-pkgdir=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-mkdir -p $pkgdir
-
-# This is for the log files
-logdir=$HPC_STACK_ROOT/${LOGDIR:-"log"}
-mkdir -p $logdir
-
-# ==============================================================================
-
-# start with a clean slate
-if $MODULES; then
-  source $MODULESHOME/init/bash
-  module use $PREFIX/modulefiles/stack
-  module load hpc
-else
-  no_modules
-  set_no_modules_path
-  set_pkg_root
+if [[ ${#HPC_COMPILERS[*]} -ne ${#HPC_MPIS[*]} || ${#HPC_MPIS[*]} -ne ${#BUILD_MPIS[*]} ]]; then
+  echo "HPC_COMPILERS, HPC_MPIS, and BUILD_MPIS array lengths do not match..."
+  echo "Check your config file ${config}"
+  exit 1
 fi
 
-# ==============================================================================
-#----------------------
-# Compiler and MPI
-build_lib gnu
-$MODULES || { [[ ${STACK_gnu_build:-} =~ [yYtT] ]] && export PATH="$PREFIX/bin:$PATH"; }
-build_lib mpi
-$MODULES || { [[ ${STACK_mpi_build:-} =~ [yYtT] ]] && export PATH="$PREFIX/bin:$PATH"; }
+
+if [[ ${#HPC_COMPILERS[*]} -gt 1 && $MODULES != "true" ]]; then
+  echo "Cannot build with multiple compilers/MPI without using modules"
+  exit 1
+fi
+
 
 # ==============================================================================
-#----------------------
-# MPI-independent
-# - should add a check at some point to see if they are already there.
-# this can be done in each script individually
-# it might warrant a --force flag to force rebuild when desired
-build_lib cmake
-build_lib udunits
-build_lib jpeg
-build_lib zlib
-build_lib png
-build_lib szip
-build_lib jasper
 
-#----------------------
-# MPI-dependent
-# These must be rebuilt for each MPI implementation
-build_lib hdf5
-build_lib pnetcdf
-build_lib netcdf
-build_lib nccmp
-build_lib nco
-build_lib cdo
-build_lib pio
 
-# UFS 3rd party dependencies
+for index in ${!HPC_COMPILERS[*]}; do
 
-build_lib esmf
-build_lib fms
+    export HPC_COMPILER=${HPC_COMPILERS[$index]}
+    export HPC_MPI=${HPC_MPIS[$index]}
 
-# NCEPlibs
+    compilerName=$(echo $HPC_COMPILER | cut -d/ -f1)
+    compilerVersion=$(echo $HPC_COMPILER | cut -d/ -f2)
 
-build_nceplib bacio
-build_nceplib sigio
-build_nceplib sfcio
-build_nceplib gfsio
-build_nceplib w3nco
-build_nceplib sp
-build_nceplib ip
-build_nceplib ip2
-build_nceplib landsfcutil
-build_nceplib nemsio
-build_nceplib nemsiogfs
-build_nceplib w3emc
-build_nceplib g2
-build_nceplib g2c
-build_nceplib g2tmpl
-build_nceplib crtm
-build_nceplib nceppost
-build_nceplib upp
-build_nceplib wrf_io
-build_nceplib bufr
-build_nceplib wgrib2
-build_nceplib prod_util
-build_nceplib grib_util
+    mpiName=$(echo $HPC_MPI | cut -d/ -f1)
+    mpiVersion=$(echo $HPC_MPI | cut -d/ -f2)
 
-# JEDI 3rd party dependencies
+    build_mpi=${BUILD_MPIS[$index]}
 
-build_lib boost
-build_lib eigen
-build_lib gsl_lite
-build_lib gptl
-build_lib fftw
-build_lib tau2
-build_lib cgal
-build_lib json
-build_lib json_schema_validator
+    if [[ $build_mpi =~ [yYtT] ]]; then
+      export STACK_mpi_build=true
+      export STACK_mpi_flavor=$mpiName
+      export STACK_mpi_version=$mpiVersion
+    fi
 
-# JCSDA JEDI dependencies
+    echo "Compiler: $compilerName/$compilerVersion"
+    echo "MPI: $mpiName/$mpiVersion"
 
-build_lib ecbuild
-build_lib eckit
-build_lib fckit
-build_lib atlas
+    # install with root permissions?
+    [[ $USE_SUDO =~ [yYtT] ]] && export SUDO="sudo" || export SUDO=""
 
-# ==============================================================================
-# optionally clean up
-[[ $MAKE_CLEAN =~ [yYtT] ]] && \
-    ( $SUDO rm -rf $pkgdir; $SUDO rm -rf $logdir )
+    # ==============================================================================
+
+    # create build directory if needed
+    pkgdir=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+    mkdir -p $pkgdir
+
+    # This is for the log files
+    logdir=$HPC_STACK_ROOT/${LOGDIR:-"log"}
+    mkdir -p $logdir
+
+    # ==============================================================================
+
+    # start with a clean slate
+    if $MODULES; then
+      source $MODULESHOME/init/bash
+      module use $PREFIX/modulefiles/stack
+      module load hpc
+    else
+      no_modules
+      set_no_modules_path
+      set_pkg_root
+    fi
+
+    # ==============================================================================
+    #----------------------
+    # Compiler and MPI
+    build_lib gnu
+    $MODULES || { [[ ${STACK_gnu_build:-} =~ [yYtT] ]] && export PATH="$PREFIX/bin:$PATH"; }
+
+    if [[ $build_mpi =~ [yYtT] ]]; then
+      echo "building MPI..."
+      build_lib mpi
+      $MODULES || { [[ ${STACK_mpi_build:-} =~ [yYtT] ]] && export PATH="$PREFIX/bin:$PATH"; }
+    else
+      echo "not building MPI"
+    fi
+
+    # ==============================================================================
+    #----------------------
+    # MPI-independent
+    # - should add a check at some point to see if they are already there.
+    # this can be done in each script individually
+    # it might warrant a --force flag to force rebuild when desired
+    build_lib cmake
+    build_lib udunits
+    build_lib jpeg
+    build_lib zlib
+    build_lib png
+    build_lib szip
+    build_lib jasper
+
+    #----------------------
+    # MPI-dependent
+    # These must be rebuilt for each MPI implementation
+    build_lib hdf5
+    build_lib pnetcdf
+    build_lib netcdf
+    build_lib nccmp
+    build_lib nco
+    build_lib cdo
+    build_lib pio
+
+    # UFS 3rd party dependencies
+
+    build_lib esmf
+    build_lib fms
+
+    # NCEPlibs
+
+    build_nceplib bacio
+    build_nceplib sigio
+    build_nceplib sfcio
+    build_nceplib gfsio
+    build_nceplib w3nco
+    build_nceplib sp
+    build_nceplib ip
+    build_nceplib ip2
+    build_nceplib landsfcutil
+    build_nceplib nemsio
+    build_nceplib nemsiogfs
+    build_nceplib w3emc
+    build_nceplib g2
+    build_nceplib g2c
+    build_nceplib g2tmpl
+    build_nceplib crtm
+    build_nceplib nceppost
+    build_nceplib upp
+    build_nceplib wrf_io
+    build_nceplib bufr
+    build_nceplib wgrib2
+    build_nceplib prod_util
+    build_nceplib grib_util
+
+    # JEDI 3rd party dependencies
+
+    build_lib boost
+    build_lib eigen
+    build_lib gsl_lite
+    build_lib gptl
+    build_lib fftw
+    build_lib tau2
+    build_lib cgal
+    build_lib json
+    build_lib json_schema_validator
+
+    # JCSDA JEDI dependencies
+
+    build_lib ecbuild
+    build_lib eckit
+    build_lib fckit
+    build_lib atlas
+
+    # ==============================================================================
+    # optionally clean up
+    [[ $MAKE_CLEAN =~ [yYtT] ]] && \
+        ( $SUDO rm -rf $pkgdir; $SUDO rm -rf $logdir )
+
+done
 
 # ==============================================================================
 echo "build_stack.sh: SUCCESS!"

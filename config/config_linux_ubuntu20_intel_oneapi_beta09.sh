@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER=${HPC_COMPILER:-"intel/oneapi-beta09"}
-export HPC_MPI=${HPC_MPI:-"impi/oneapi-beta09"}
+export HPC_COMPILER=("intel/oneapi-beta09")
+export HPC_MPI=("impi/oneapi-beta09")
+export BUILD_MPIS=(NO)
 
 # Build options
 export USE_SUDO=N

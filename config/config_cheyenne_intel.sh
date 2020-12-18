@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="intel/19.1.1"
-export HPC_MPI="mpt/2.22"
+export HPC_COMPILER=("intel/19.1.1")
+export HPC_MPI=("mpt/2.22")
+export BUILD_MPIS=(NO)
 
 # Build options
 export USE_SUDO=N
