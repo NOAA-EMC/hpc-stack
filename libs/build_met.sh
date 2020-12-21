@@ -42,9 +42,6 @@ export F77=$FC
 export FFLAGS="${STACK_FFLAGS:-} ${STACK_met_FFLAGS:-}"
 export CFLAGS="${STACK_CFLAGS:-} ${STACK_met_CFLAGS:-}"
 
-#export MET_PYTHON=/usrx/local/prod/packages/python/3.6.3/
-#export MET_PYTHON_CC=-I/usrx/local/prod/packages/python/3.6.3/include/python3.6m\ -I/usrx/local/prod/packages/python/3.6.3/include/python3.6m
-#export MET_PYTHON_LD=-L/usrx/local/prod/packages/python/3.6.3/lib/\ -lpython3.6m\ -lpthread\ -ldl\ -lutil\ -lm\ -Xlinker\ -export-dynamic
 export MET_NETCDF=${NetCDF_LIBRARIES}
 export MET_HDF5=${HDF5_LIBRARIES}
 export MET_BUFRLIB=${$bufr_ROOT}/lib
@@ -56,8 +53,18 @@ export GRIB2CLIB_NAME=-lg2c
 export LIB_JASPER=${JASPER_LIBRARIES}
 export LIB_LIBPNG=${PNG_LIBRARIES}
 export LIB_Z=${ZLIB_LIBRARIES}
-export SET_D64BIT=TRUE
+#export SET_D64BIT=TRUE
 
 LDFLAGS1="-Wl,--disable-new-dtags"
-LDFLAGS2="-Wl,-rpath,"
+LDFLAGS2="-Wl,-rpath,${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
+LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB},${MET_PYTHON}/lib:${MET_GSL}/lib"
+LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib"
+export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
+export LIBS="${LIBS} -lhdf5_hl -lhdf5 -lz"
+
+export CFLAGS+="-D__64BIT__"
+export CXXFLAGS+="-D__64BIT__"
+
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+curr_dir=$(pwd)
 
