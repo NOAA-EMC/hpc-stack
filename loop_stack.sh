@@ -18,13 +18,11 @@ usage() {
   exit 1
 }
 
-# ==============================================================================
-
-[[ $# -eq 0 ]] && usage
 
 # Defaults:
 export PREFIX="$HOME/opt"
 config="${HPC_STACK_ROOT}/config/config_custom.sh"
+yaml="${HPC_STACK_ROOT}/config/stack_custom.yaml"
 
 while getopts ":p:c:y:h" opt; do
   case $opt in
