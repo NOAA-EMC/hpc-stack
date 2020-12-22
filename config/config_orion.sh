@@ -1,14 +1,11 @@
 #!/bin/bash
 
+export HPC_COMPILERS=("intel/2018.4" "intel/2019.5" "intel/2020" "gcc/8.3.0")
+export HPC_MPIS=("impi/2018.4" "impi/2019.6" "impi/2020" "openmpi/4.0.2")
+
 # Compiler/MPI combination
-#export HPC_COMPILER="intel/2019.5"
-#export HPC_MPI="impi/2019.6"
-#export HPC_COMPILER="intel/2018.4"
-#export HPC_MPI="impi/2018.4"
 export HPC_COMPILER=${HPC_COMPILER:-"intel/2020"}
 export HPC_MPI=${HPC_MPI:-"impi/2020"}
-#export HPC_COMPILER="gcc/8.3.0"
-#export HPC_MPI="openmpi/4.0.2"
 
 # Build options
 export USE_SUDO=N
