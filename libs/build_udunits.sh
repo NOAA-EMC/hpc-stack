@@ -37,19 +37,23 @@ export FCFLAGS="$FFLAGS"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-url=ftp://ftp.unidata.ucar.edu/pub/udunits/$software.tar.gz
-[[ -d $software ]] || ( $WGET $url; tar xvf $software.tar.gz && rm -f $software.tar.gz )
+gitTag="v${version}"
+gitURL=https://github.com/Unidata/UDUNITS-2.git
+
+[[ -d $software ]] || ( git clone -b $gitTag $gitURL $software)
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-[[ $enable_shared =~ [yYtT] ]] && shared_flags="" || shared_flags="--disable-shared --enable-static"
+[[ $enable_shared =~ [yYtT] ]] && shared_flags=ON || shared_flags=OFF
 
-../configure --prefix=$prefix $shared_flags
+cmake .. \
+      -DCMAKE_INSTALL_PREFIX=$prefix \
+      -DBUILD_SHARED_LIBS=$shared_flags
 
 make -j${NTHREADS:-4}
-[[ "$MAKE_CHECK" = "YES" ]] && make check
+[[ "$MAKE_CHECK" = "YES" ]] && make test
 $SUDO make install
 
 # generate modulefile from template
