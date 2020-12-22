@@ -35,7 +35,7 @@ while getopts ":p:c:y:h" opt; do
       config=$OPTARG
       ;;
     y)
-      single_yaml=$OPTARG
+      yaml=$OPTARG
       ;;
     h|\?|:)
       usage
@@ -61,11 +61,6 @@ if [[ -z ${HPC_MPIS+x} ]]; then
     exit 1
 fi
 
-if [[ -z ${single_yaml+x} && -z ${HPC_YAMLS+x} ]]; then
-    echo "HPC_YAMLS must be set in config or -y must be passed to loop_stack.sh"
-    exit 1
-fi
-
 for index in ${!HPC_COMPILERS[*]}; do
     export HPC_COMPILER=${HPC_COMPILERS[$index]}
     export HPC_MPI=${HPC_MPIS[$index]}
@@ -77,12 +72,6 @@ done
 for index in ${!HPC_COMPILERS[*]}; do
     export HPC_COMPILER=${HPC_COMPILERS[$index]}
     export HPC_MPI=${HPC_MPIS[$index]}
-
-    if [[ ! -z ${single_yaml+x} ]]; then
-        yaml=$single_yaml
-    else
-        yaml=${HPC_YAMLS[$index]}
-    fi
   
     ${HPC_STACK_ROOT}/build_stack.sh -p $PREFIX -c $config -y $yaml -m
 done
