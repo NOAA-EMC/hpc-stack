@@ -76,4 +76,48 @@ export CXXFLAGS+="-D__64BIT__"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 curr_dir=$(pwd)
+#export BIN_DIR_PATH=${HPC_STACK_ROOT}/exec
+if [ -z ${BIN_DIR_PATH} ]; then
+    BIN_DIR_PATH=${TEST_BASE}/bin
+else
+    BIN_DIR_PATH=${BIN_DIR_PATH}
+fi
 
+echo "MET Configuration settings..."
+printenv | egrep "^MET_" | sed -r 's/^/export /g'
+echo "LDFLAGS = ${LDFLAGS}"
+
+echo "./configure --prefix=${HPC_STACK_ROOT} --bindir=${BIN_DIR_PATH} BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python"
+./configure --prefix=${HPC_STACK_ROOT} --bindir=${BIN_DIR_PATH} BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python
+
+ret=$?
+if [ $ret != 0 ]; then
+    echo "configure returned with non-zero ($ret) status"
+    exit 1
+fi
+
+echo "make > make.log 2>&1"
+make > make.log 2>&1
+ret=$?
+if [ $ret != 0 ]; then
+    echo "make returned with non-zero ($ret) status"
+    exit 1
+fi
+
+echo "make install > make_install.log 2>&1"
+make install > make_install.log 2>&1
+ret=$?
+if [ $? != 0 ]; then
+    echo "make install returned with non-zero ($ret) status"
+    exit 1
+fi
+
+echo "make test > make_test.log 2>&1"
+make test > make_test.log 2>&1
+ret=$?
+if [ $? != 0 ]; then
+    echo "make test returned with non-zero ($ret) status"
+    exit 1
+fi
+
+echo "Finished compiling at `date`"
