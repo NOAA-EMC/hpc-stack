@@ -4,6 +4,15 @@ set -eux
 
 name="met"
 version=${1:-${STACK_met_version}}
+release_date==${2:-${STACK_met_release_date}}
+
+cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+software=$name\-$version\.$release_date
+pkg_name=$name\-$version
+url="https://dtcenter.org/community-code/model-evaluation-tools-met/download/$software.tar.gz"
+[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
+[[ -d $pkg_name ]] && cd $$pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
+
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -58,7 +67,7 @@ export LIB_Z=${ZLIB_LIBRARIES}
 LDFLAGS1="-Wl,--disable-new-dtags"
 LDFLAGS2="-Wl,-rpath,${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
 LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB},${MET_PYTHON}/lib:${MET_GSL}/lib"
-LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib"
+LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib ${LIB_LIBPNG}"
 export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
 export LIBS="${LIBS} -lhdf5_hl -lhdf5 -lz"
 
