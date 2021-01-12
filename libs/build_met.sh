@@ -7,8 +7,8 @@ version=${1:-${STACK_met_version}}
 release_date==${2:-${STACK_met_release_date}}
 
 cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-software=$name\-$version\.$release_date
-pkg_name=$name\-$version
+software=$name-$version.$release_date
+pkg_name=$name-$version
 url="https://dtcenter.org/community-code/model-evaluation-tools-met/download/$software.tar.gz"
 [[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
 [[ -d $pkg_name ]] && cd $$pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
@@ -36,7 +36,7 @@ if $MODULES; then
     if [[ -d $prefix ]]; then
 	[[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
 	    || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-    
+    fi
 else
 
     prefix=${NETCDF_ROOT:-"/usr/local"}
@@ -120,4 +120,5 @@ if [ $? != 0 ]; then
     exit 1
 fi
 
+export PATH=${BIN_DIR_PATH}:${PATH}
 echo "Finished compiling at `date`"
