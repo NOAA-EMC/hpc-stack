@@ -9,7 +9,7 @@ ufs_logdate=$(date +'%m-%d-%Y-%R')
 ufs_logname=ufs_${ufs_logdate}.log
 ufs_log=${HPC_LOG_PATH}/${ufs_logname}
 
-git clone https://github.com/ufs-community/ufs-weather-model.git > >> ${ufs_log}
+git clone https://github.com/ufs-community/ufs-weather-model.git >> ${ufs_log}
 cd ufs-weather-model
 
 ufs_hash=$(git -rev-parse HEAD)
