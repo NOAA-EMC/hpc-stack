@@ -9,7 +9,7 @@ ufs_logdate=$(date +'%m-%d-%Y-%R')
 ufs_logname=ufs_${ufs_logdate}.log
 ufs_log=${HPC_LOG_PATH}/${ufs_logname}
 
-git clone https://github.com/ufs-community/ufs-weather-model.git >> ${ufs_log}
+git clone https://github.com/ufs-community/ufs-weather-model.git >> ${ufs_log} 2>&1
 cd ufs-weather-model
 
 ufs_hash=$(git rev-parse HEAD)
@@ -21,7 +21,7 @@ echo "UFS log: ${ufs_log}"
 echo "UFS hash: ${ufs_hash}"
 echo ""
 
-git submodule update --init --recursive >> ${ufs_log}
+git submodule update --init --recursive >> ${ufs_log} 2>&1
 
 # change module use to new hpc-stack location
 sed -i "s:module use /.*/stack:module use ${HPC_INSTALL_PATH}/modulefiles/stack:" modulefiles/${HPC_MACHINE_ID}.${RT_COMPILER}/*
