@@ -25,7 +25,7 @@ export HPC_LOG_PATH=${HPC_HOMEDIR}/logs/${today}
 
 # Run ufs-weather-model regression tests?
 export TEST_UFS=true
-export UFS_RT_FLAGS="-f -e"
+export UFS_RT_FLAGS="-e"
 export RT_COMPILER=intel
 
 # Create directories
