@@ -12,7 +12,7 @@ ufs_log=${HPC_LOG_PATH}/${ufs_logname}
 git clone https://github.com/ufs-community/ufs-weather-model.git >> ${ufs_log}
 cd ufs-weather-model
 
-ufs_hash=$(git -rev-parse HEAD)
+ufs_hash=$(git rev-parse HEAD)
 
 echo ""
 echo "testing ufs-weather-model..."
