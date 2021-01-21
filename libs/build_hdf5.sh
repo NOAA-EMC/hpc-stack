@@ -60,9 +60,9 @@ software=$name-$(echo $version | sed 's/\./_/g')
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-[[ -z $mpi ]] || extra_conf="--enable-parallel --enable-unsupported"
+[[ -z $mpi ]] || extra_conf="--enable-parallel --enable-unsupported --enable-build-mode=production"
 
-[[ $enable_shared =~ [yYtT] ]] || shared_flags="--disable-shared --enable-static --enable-static-exec"
+[[ $enable_shared =~ [yYtT] ]] && shared_flags="--enable-shared --enable-static" || shared_flags="--disable-shared --enable-static --enable-static-exec"
 [[ $enable_szip =~ [yYtT] ]] && szip_flags="--with-szlib=$SZIP_ROOT"
 [[ $enable_zlib =~ [yYtT] ]] && zlib_flags="--with-zlib=$ZLIB_ROOT"
 
