@@ -47,7 +47,7 @@ export FCFLAGS="$FFLAGS"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-branch=pio_$(echo $version | sed -e 's/\./_/g')
+branch=pio$(echo $version | sed -e 's/\./_/g')
 [[ -d $software ]] || git clone https://github.com/NCAR/ParallelIO $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 git fetch
