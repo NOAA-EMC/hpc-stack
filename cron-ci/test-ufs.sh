@@ -1,27 +1,5 @@
 #!/bin/bash
-set -eu
-
-cd ${HPC_DOWNLOAD_PATH}
-rm -rf ufs-weather-model
-
-# mm-dd-yyy-hh:mm
-ufs_logdate=$(date +'%m-%d-%Y-%R')
-ufs_logname=ufs_${ufs_logdate}.log
-ufs_log=${HPC_LOG_PATH}/${ufs_logname}
-
-git clone https://github.com/ufs-community/ufs-weather-model.git >> ${ufs_log} 2>&1
-cd ufs-weather-model
-
-ufs_hash=$(git rev-parse HEAD)
-
-echo ""
-echo "testing ufs-weather-model..."
-echo ""
-echo "UFS log: ${ufs_log}"
-echo "UFS hash: ${ufs_hash}"
-echo ""
-
-git submodule update --init --recursive >> ${ufs_log} 2>&1
+set -eux
 
 # change module use to new hpc-stack location
 sed -i "s:module use /.*/stack:module use ${HPC_INSTALL_PATH}/modulefiles/stack:" modulefiles/${HPC_MACHINE_ID}.${RT_COMPILER}/*
@@ -38,4 +16,4 @@ if [[ -f modulefiles/${HPC_MACHINE_ID}.${RT_COMPILER}/fv3_debug ]]; then
 fi
 
 cd tests
-./rt.sh ${UFS_RT_FLAGS} >> ${ufs_log} 2>&1
+./rt.sh ${UFS_RT_FLAGS}
