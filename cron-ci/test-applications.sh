@@ -9,7 +9,7 @@ if [[ "$TEST_UFS" == true ]]; then
     rm -rf ufs-weather-model
 
     # mm-dd-yyy-hh:mm
-    ufs_logdate=$(date +'%m-%d-%Y-%R')
+    ufs_logdate=$(date +'%Y-%m-%d-%R')
     ufs_logname=ufs_${ufs_logdate}.log
     ufs_log=${HPC_LOG_PATH}/${ufs_logname}
 

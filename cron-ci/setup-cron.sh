@@ -20,7 +20,7 @@ export HPC_STACK_FILE=config/stack_noaa.yaml
 # set machine name (hera, jet, orion, etc) so script edits correct ufs modulefiles
 export HPC_MACHINE_ID=
 
-today=$(date +'%m-%d-%Y')
+today=$(date +'%Y-%m-%d')
 export HPC_LOG_PATH=${HPC_HOMEDIR}/logs/${today}
 
 # Run ufs-weather-model regression tests?
@@ -37,7 +37,7 @@ cd $HPC_DOWNLOAD_PATH
 rm -rf hpc-stack
 
 # mm-dd-yyy-hh:mm
-hpc_logdate=$(date +'%m-%d-%Y-%R')
+hpc_logdate=$(date +'%Y-%m-%d-%R')
 hpc_logname=hpc-stack_${hpc_logdate}.log
 hpc_log=${HPC_LOG_PATH}/${hpc_logname}
 
