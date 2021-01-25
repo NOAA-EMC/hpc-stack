@@ -36,7 +36,7 @@ mkdir -p ${HPC_LOG_PATH}
 cd $HPC_DOWNLOAD_PATH
 rm -rf hpc-stack
 
-# mm-dd-yyy-hh:mm
+# yyyy-mm-dd-hh:mm
 hpc_logdate=$(date +'%Y-%m-%d-%R')
 hpc_logname=hpc-stack_${hpc_logdate}.log
 hpc_log=${HPC_LOG_PATH}/${hpc_logname}
