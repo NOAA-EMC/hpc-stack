@@ -8,7 +8,6 @@ set -eux
 name="gsl-lite"
 version=${1:-${STACK_gsl_lite_version}}
 
-exit
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
