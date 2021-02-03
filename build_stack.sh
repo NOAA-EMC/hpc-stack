@@ -138,6 +138,7 @@ build_lib zlib
 build_lib png
 build_lib szip
 build_lib jasper
+build_lib gsl
 
 #----------------------
 # MPI-dependent
