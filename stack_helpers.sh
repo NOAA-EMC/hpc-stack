@@ -29,8 +29,21 @@ function update_modules {
 
   cd $to_dir
   $SUDO mkdir -p $name; cd $name
-  $SUDO cp $tmpl_file $version.lua
 
+  # CMAKE_INSTALL_LIBDIR is used by some projects (i.e. lib, lib64)
+  # Detect this when installing the module so the module variables point to the correct path
+  if [[ ! -f ${HPC_STACK_ROOT}/cmake/libdir_test/cmake_install_libdir.txt ]]; then
+      cmake ${HPC_STACK_ROOT}/cmake/libdir_test
+  fi
+
+  # The test script outputs "cmake_install_libdir.txt" which contains the lib dir value
+  CMAKE_INSTALL_LIBDIR=$(cat ${HPC_STACK_ROOT}/cmake/test_libdir/cmake_install_libdir.txt)
+
+  # Install the module with configure_file, replacing ${CMAKE_INSTALL_LIBDIR} (and potentially other variables)
+  # with the actual value for that system
+  $SUDO cmake -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR} \
+        -DTMPL_FILE=$tmpl_file -DVERSION=$version -P ${HPC_STACK_ROOT}/cmake/configure_module.cmake
+  
   # Make the latest installed version the default
   [[ -e default ]] && $SUDO rm -f default
   $SUDO ln -s $version.lua default
