@@ -203,4 +203,3 @@ if [[ $enable_cxx =~ [yYtT] ]]; then
 
   $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 fi
-

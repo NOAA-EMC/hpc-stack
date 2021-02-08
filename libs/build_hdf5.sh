@@ -79,4 +79,3 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $version \
          || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
-
