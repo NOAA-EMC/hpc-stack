@@ -210,3 +210,7 @@ grib_util:
   version: v1.2.2
   install_as: 1.2.2
   openmp: ON
+
+gsl:
+  build: YES
+  version: 2.6

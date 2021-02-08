@@ -267,3 +267,8 @@ atlas:
   build: YES
   version: release-stable
   repo: jcsda
+
+
+gsl:
+  build: YES
+  version: 2.6
