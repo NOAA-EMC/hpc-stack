@@ -61,6 +61,10 @@ nco:
   build: NO
   version: 4.9.3
 
+cdo:
+  build: YES
+  version: 1.9.8
+
 pio:
   build: YES
   version: 2.5.1
@@ -75,7 +79,7 @@ esmf:
   debug: NO
 
 fms:
-  build: YES
+  build: NO
   version: master
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -DLARGEFILE=ON"
@@ -215,7 +219,7 @@ eigen:
   version: 3.3.7
 
 gsl_lite:
-  build: YES
+i  build: YES
   version: 0.37.0
 
 gptl:
@@ -261,3 +265,4 @@ atlas:
   build: YES
   version: release-stable
   repo: jcsda
+

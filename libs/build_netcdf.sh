@@ -63,7 +63,7 @@ LDFLAGS1="-L$HDF5_ROOT/lib"
 LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
 [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib"
 if [[ ${STACK_netcdf_shared:-} != [yYtT] ]]; then
-  LDFLAGS1+=" -lhdf5 -lhdf5_hl -lz"
+  LDFLAGS1+=" -lhdf5_hl -lhdf5"
   LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
   [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4+=" -lpnetcdf"
 fi
@@ -110,7 +110,7 @@ software=$name-"c"-$version
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-[[ ${STACK_netcdf_shared} =~ [yYtT] ]] && shared_flags="--enable-shared --enable-static" || shared_flags="--disable-shared --enable-static"
+[[ ${STACK_netcdf_shared} =~ [yYtT] ]] || shared_flags="--disable-shared"
 [[ $enable_pnetcdf =~ [yYtT] ]] && pnetcdf_conf="--enable-pnetcdf"
 [[ -z $mpi ]] || extra_conf="--enable-parallel-tests"
 
@@ -119,8 +119,6 @@ mkdir -p build && cd build
              --disable-dap \
              --enable-netcdf-4 \
              --disable-doxygen \
-             --enable-parallel4 \
-             --disable-large-file-tests \
              ${shared_flags:-} ${pnetcdf_conf:-} ${extra_conf:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
@@ -152,10 +150,10 @@ set -x
 
 if [[ ${STACK_netcdf_shared} =~ [yYtT] ]]; then
   export LIBS=$($prefix/bin/nc-config --libs)
-  export LDFLAGS+=" -L$prefix/lib -lnetcdf -lhdf5_hl -lhdf5 -lz"
+  export LDFLAGS+=" -L$prefix/lib"
 else
   export LIBS=$($prefix/bin/nc-config --libs --static)
-  export LDFLAGS+=" -L$prefix/lib -lnetcdf -lhdf5 -lhdf5_hl -lz"
+  export LDFLAGS+=" -L$prefix/lib -lnetcdf"
 fi
 export CFLAGS+=" -I$prefix/include"
 export CXXFLAGS+=" -I$prefix/include"
@@ -179,8 +177,8 @@ $SUDO make install
 
 $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
-if [[ ${enable_cxx} =~ [yYtT] ]]; then 
-
+if [[ $enable_cxx =~ [yYtT] ]]; then 
+   
   cd $curr_dir
 
   set +x
@@ -205,3 +203,4 @@ if [[ ${enable_cxx} =~ [yYtT] ]]; then
 
   $MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 fi
+

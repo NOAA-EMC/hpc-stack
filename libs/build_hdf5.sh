@@ -60,9 +60,9 @@ software=$name-$(echo $version | sed 's/\./_/g')
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-[[ -z $mpi ]] || extra_conf="--enable-parallel --enable-unsupported --enable-build-mode=production"
+[[ -z $mpi ]] || extra_conf="--enable-parallel --enable-unsupported"
 
-[[ $enable_shared =~ [yYtT] ]] && shared_flags="--enable-shared --enable-static" || shared_flags="--disable-shared --enable-static --enable-static-exec"
+[[ $enable_shared =~ [yYtT] ]] || shared_flags="--disable-shared --enable-static --enable-static-exec"
 [[ $enable_szip =~ [yYtT] ]] && szip_flags="--with-szlib=$SZIP_ROOT"
 [[ $enable_zlib =~ [yYtT] ]] && zlib_flags="--with-zlib=$ZLIB_ROOT"
 
@@ -79,3 +79,4 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $version \
          || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+
