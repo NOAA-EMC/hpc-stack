@@ -1,5 +1,5 @@
-#!/bin/bash -l
-# pass -l (treat script as login shell) so lmod module environment is picked up
+#!/bin/bash
+
 set -eux
 
 rm -rf ${HPC_INSTALL_PATH}/*
