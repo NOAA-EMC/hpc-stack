@@ -22,6 +22,7 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
+    module load python/3.6.3
     module load netcdf
     module load hdf5
     module load bufr

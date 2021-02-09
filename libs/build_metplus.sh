@@ -21,9 +21,9 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    module load nco
-    module load grib_util
-    module load met
+    #module load nco
+    #module load grib_util
+    #module load met
     set -x
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
     if [[ -d $prefix ]]; then
