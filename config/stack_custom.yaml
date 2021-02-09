@@ -29,7 +29,7 @@ szip:
 
 jasper:
   build: YES
-  version: 2.0.22
+  version: 2.0.25
 
 udunits:
   build: YES
