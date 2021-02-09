@@ -116,6 +116,12 @@ if $MODULES; then
     prod_util)
       module load w3nco
       ;;
+    ncio)
+      mpi=$mpi_check
+      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
+      module load hpc-$HPC_MPI
+      module load netcdf
+      ;;
   esac
   module list
   set -x

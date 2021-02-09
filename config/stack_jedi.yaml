@@ -1,38 +1,35 @@
-gnu:
-  build: NO
-  version: 9.3.0
-
-mpi:
-  build: NO
-  flavor: openmpi
-  version: 4.0.1
-
 cmake:
-  build: NO
+  build: YES
   version: 3.17.2
 
 jpeg:
   build: YES
+  shared: NO
   version: 9.1.0
 
 zlib:
   build: YES
+  shared: NO
   version: 1.2.11
 
 png:
   build: YES
+  shared: NO
   version: 1.6.35
 
 szip:
   build: YES
+  shared: NO
   version: 2.1.1
 
 jasper:
   build: YES
+  shared: NO
   version: 2.0.22
 
 udunits:
   build: YES
+  shared: NO
   version: 2.2.26
 
 hdf5:
@@ -45,12 +42,13 @@ hdf5:
 pnetcdf:
   build: NO
   version: 1.12.1
-  shared: YES
+  shared: NO
 
 netcdf:
   build: YES
   shared: YES
   enable_pnetcdf: NO
+  disable_cxx: NO
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
@@ -76,7 +74,7 @@ pio:
 esmf:
   build: YES
   version: 8_1_0_beta_snapshot_27
-  shared: YES
+  shared: NO
   enable_pnetcdf: NO
   debug: NO
 
@@ -170,7 +168,7 @@ crtm:
   install_as: 2.3.0
 
 nceppost:
-  build: NO
+  build: YES
   version: dceca26
   install_as: dceca26
   openmp: ON
@@ -226,7 +224,7 @@ eigen:
   version: 3.3.7
 
 gsl_lite:
-  build: YES
+i  build: YES
   version: 0.37.0
 
 gptl:
@@ -272,3 +270,4 @@ atlas:
   build: YES
   version: release-stable
   repo: jcsda
+
