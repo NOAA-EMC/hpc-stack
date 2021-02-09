@@ -19,23 +19,27 @@ export HPC_STACK_FILE=config/stack_noaa.yaml
 
 # set machine name (hera, jet, orion, etc) so script edits correct ufs modulefiles
 export HPC_MACHINE_ID=
-export LOG_PATH=${HPC_HOMEDIR}/logs
+
+today=$(date +'%Y-%m-%d')
+export HPC_LOG_PATH=${HPC_HOMEDIR}/logs/${today}
 
 # Run ufs-weather-model regression tests?
 export TEST_UFS=true
+export UFS_RT_FLAGS="-e"
+export RT_COMPILER=intel
 
 # Create directories
 mkdir -p ${HPC_DOWNLOAD_PATH}
 mkdir -p ${HPC_HOMEDIR}
-mkdir -p ${LOG_PATH}
+mkdir -p ${HPC_LOG_PATH}
 
 cd $HPC_DOWNLOAD_PATH
 rm -rf hpc-stack
 
-# mm-dd-yyy-hh:mm
-hpc_logdate=$(date +'%m-%d-%Y-%R')
+# yyyy-mm-dd-hh:mm
+hpc_logdate=$(date +'%Y-%m-%d-%R')
 hpc_logname=hpc-stack_${hpc_logdate}.log
-hpc_log=${LOG_PATH}/${hpc_logname}
+hpc_log=${HPC_LOG_PATH}/${hpc_logname}
 
 git clone https://github.com/NOAA-EMC/hpc-stack.git > /dev/null 2>&1
 cd hpc-stack
@@ -60,21 +64,21 @@ if [[ -f "${HPC_HOMEDIR}/prev_hash.txt" ]]; then
 fi
 
 echo `date`
+echo "Machine ID: ${HPC_MACHINE_ID}"
 echo ""
 echo "building hpc-stack..."
+echo ""
+echo "hpc-stack log: ${hpc_log}"
+echo "hpc-stack hash: ${current_hash}"
+echo ""
+
 ./cron-ci/build-hpc-stack.sh >> ${hpc_log} 2>&1
 
 # check if hpc-stack build succeded 
 if grep -qi "build_stack.sh: SUCCESS!" ${hpc_log}; then
     echo "hpc-stack build: PASS"
-    echo "hpc-stack hash: ${current_hash}"
-    echo "hpc-stack log: ${hpc_log}"
-    echo ""
 else
     echo "hpc-stack build: FAIL"
-    echo "hpc-stack hash: ${current_hash}"
-    echo "hpc-stack log: ${hpc_log}"
-    echo ""
     exit 1
 fi
 
