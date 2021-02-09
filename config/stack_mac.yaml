@@ -33,7 +33,7 @@ jasper:
 
 udunits:
   build: NO
-  version: 2.2.26
+  version: 2.2.28
 
 hdf5:
   build: YES
