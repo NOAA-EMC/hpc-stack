@@ -29,11 +29,11 @@ szip:
 
 jasper:
   build: YES
-  version: 2.0.22
+  version: 2.0.25
 
 udunits:
   build: NO
-  version: 2.2.26
+  version: 2.2.28
 
 hdf5:
   build: YES
