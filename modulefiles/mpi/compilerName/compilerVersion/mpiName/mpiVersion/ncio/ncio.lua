@@ -12,18 +12,19 @@ local mpiNameVerD  = mpiNameVer:gsub("/","-")
 local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
-
-load("nemsio")
-prereq("nemsio")
+load("netcdf")
+prereq("netcdf")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
 
-setenv("nemsiogfs_ROOT", base)
-setenv("nemsiogfs_VERSION", pkgVersion)
-setenv("NEMSIOGFS_INC", pathJoin(base,"include"))
-setenv("NEMSIOGFS_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libnemsiogfs.a"))
+setenv("ncio_ROOT", base)
+setenv("ncio_VERSION", pkgVersion)
+
+setenv("NCIO_INC", pathJoin(base,"include"))
+setenv("NCIO_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libncio.a"))
+setenv("NCIO_LIBDIR", pathJoin(base, "${CMAKE_INSTALL_LIBDIR}"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)

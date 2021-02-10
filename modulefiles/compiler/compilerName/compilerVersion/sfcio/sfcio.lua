@@ -18,7 +18,7 @@ local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 setenv("sfcio_ROOT", base)
 setenv("sfcio_VERSION", pkgVersion)
 setenv("SFCIO_INC", pathJoin(base,"include"))
-setenv("SFCIO_LIB", pathJoin(base,"lib/libsfcio.a"))
+setenv("SFCIO_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libsfcio.a"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
