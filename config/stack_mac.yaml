@@ -70,7 +70,7 @@ cdo:
 
 pio:
   build: YES
-  version: 2.5.1
+  version: 2.5.2
   enable_pnetcdf: NO
   enable_gptl: NO
 
