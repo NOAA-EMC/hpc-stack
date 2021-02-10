@@ -20,12 +20,13 @@ local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
 setenv("ip2_ROOT", base)
 setenv("ip2_VERSION", pkgVersion)
+
 setenv("IP2_INC4", pathJoin(base,"include_4"))
 setenv("IP2_INC8", pathJoin(base,"include_8"))
 setenv("IP2_INCd", pathJoin(base,"include_d"))
-setenv("IP2_LIB4", pathJoin(base,"lib/libip2_4.a"))
-setenv("IP2_LIB8", pathJoin(base,"lib/libip2_8.a"))
-setenv("IP2_LIBd", pathJoin(base,"lib/libip2_d.a"))
+setenv("IP2_LIB4", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libip2_4.a"))
+setenv("IP2_LIB8", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libip2_8.a"))
+setenv("IP2_LIBd", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libip2_d.a"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
