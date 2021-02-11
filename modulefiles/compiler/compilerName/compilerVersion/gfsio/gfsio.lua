@@ -18,7 +18,7 @@ local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 setenv("gfsio_ROOT", base)
 setenv("gfsio_VERSION", pkgVersion)
 setenv("GFSIO_INC",  pathJoin(base,"include"))
-setenv("GFSIO_LIB",  pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libgfsio.a"))
+setenv("GFSIO_LIB",  pathJoin(base,"lib/libgfsio.a"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
