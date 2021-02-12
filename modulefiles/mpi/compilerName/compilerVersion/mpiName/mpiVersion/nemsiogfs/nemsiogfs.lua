@@ -23,7 +23,7 @@ local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
 setenv("nemsiogfs_ROOT", base)
 setenv("nemsiogfs_VERSION", pkgVersion)
 setenv("NEMSIOGFS_INC", pathJoin(base,"include"))
-setenv("NEMSIOGFS_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libnemsiogfs.a"))
+setenv("NEMSIOGFS_LIB", pathJoin(base,"lib/libnemsiogfs.a"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)

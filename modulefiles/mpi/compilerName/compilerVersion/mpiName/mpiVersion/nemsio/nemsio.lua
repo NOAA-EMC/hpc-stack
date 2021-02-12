@@ -23,7 +23,7 @@ local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
 setenv("nemsio_ROOT", base)
 setenv("nemsio_VERSION", pkgVersion)
 setenv("NEMSIO_INC", pathJoin(base,"include"))
-setenv("NEMSIO_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libnemsio.a"))
+setenv("NEMSIO_LIB", pathJoin(base,"lib/libnemsio.a"))
 prepend_path("PATH", pathJoin(base,"bin"))
 
 whatis("Name: ".. pkgName)

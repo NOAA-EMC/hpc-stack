@@ -18,7 +18,7 @@ local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 setenv("sigio_ROOT", base)
 setenv("sigio_VERSION", pkgVersion)
 setenv("SIGIO_INC", pathJoin(base,"include"))
-setenv("SIGIO_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libsigio.a"))
+setenv("SIGIO_LIB", pathJoin(base,"lib/libsigio.a"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)

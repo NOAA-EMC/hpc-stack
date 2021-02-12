@@ -18,7 +18,7 @@ local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 setenv("g2tmpl_ROOT", base)
 setenv("g2tmpl_VERSION", pkgVersion)
 setenv("G2TMPL_INC", pathJoin(base,"include"))
-setenv("G2TMPL_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libg2tmpl.a"))
+setenv("G2TMPL_LIB", pathJoin(base,"lib/libg2tmpl.a"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
