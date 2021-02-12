@@ -1,5 +1,5 @@
 cmake:
-  build: NO
+  build: YES
   version: 3.17.2
 
 jpeg:
@@ -28,14 +28,14 @@ jasper:
   version: 2.0.25
 
 udunits:
-  build: NO
+  build: YES
   shared: NO
   version: 2.2.28
 
 hdf5:
   build: YES
   version: 1.10.6
-  shared: NO
+  shared: YES
   enable_szip: NO
   enable_zlib: YES
 
@@ -46,8 +46,9 @@ pnetcdf:
 
 netcdf:
   build: YES
-  shared: NO
+  shared: YES
   enable_pnetcdf: NO
+  disable_cxx: NO
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
@@ -152,7 +153,7 @@ g2:
   install_as: 3.4.1
 
 g2c:
-  build: NO
+  build: YES
   version: v1.6.2
   install_as: 1.6.2
 
@@ -214,16 +215,16 @@ ncio:
   install_as: 1.0.0
 
 boost:
-  build: NO
+  build: YES
   version: 1.68.0
   level: headers-only
 
 eigen:
-  build: NO
+  build: YES
   version: 3.3.7
 
 gsl_lite:
-  build: NO
+i  build: YES
   version: 0.37.0
 
 gptl:
@@ -243,29 +244,30 @@ cgal:
   version: 5.0.2
 
 json:
-  build: NO
+  build: YES
   version: 3.9.1
 
 json_schema_validator:
-  build: NO
+  build: YES
   version: 2.1.0
 
 ecbuild:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 eckit:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 fckit:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
 
 atlas:
-  build: NO
+  build: YES
   version: release-stable
   repo: jcsda
+

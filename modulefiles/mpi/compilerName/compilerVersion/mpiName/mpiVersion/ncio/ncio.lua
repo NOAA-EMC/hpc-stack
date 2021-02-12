@@ -12,7 +12,6 @@ local mpiNameVerD  = mpiNameVer:gsub("/","-")
 local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
-
 load("netcdf")
 prereq("netcdf")
 
@@ -20,12 +19,12 @@ local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
 
-prepend_path("PATH", pathJoin(base,"bin"))
-setenv("wgrib2_ROOT", base)
-setenv("wgrib2_VERSION", pkgVersion)
-setenv("WGRIB2_INC", pathJoin(base,"include"))
-setenv("WGRIB_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libwgrib2.a"))
-setenv("WGRIB2_LIBAPI", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libwgrib2_api.a"))
+setenv("ncio_ROOT", base)
+setenv("ncio_VERSION", pkgVersion)
+
+setenv("NCIO_INC", pathJoin(base,"include"))
+setenv("NCIO_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libncio.a"))
+setenv("NCIO_LIBDIR", pathJoin(base, "${CMAKE_INSTALL_LIBDIR}"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)

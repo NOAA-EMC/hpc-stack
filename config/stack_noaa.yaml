@@ -25,12 +25,12 @@ szip:
 jasper:
   build: YES
   shared: NO
-  version: 2.0.22
+  version: 2.0.25
 
 udunits:
   build: YES
   shared: NO
-  version: 2.2.26
+  version: 2.2.28
 
 hdf5:
   build: YES
@@ -66,7 +66,7 @@ cdo:
 
 pio:
   build: YES
-  version: 2.5.1
+  version: 2.5.2
   enable_pnetcdf: NO
   enable_gptl: NO
 
@@ -207,6 +207,11 @@ grib_util:
   version: v1.2.2
   install_as: 1.2.2
   openmp: ON
+
+ncio:
+  build: YES
+  version: develop
+  install_as: 1.0.0
 
 boost:
   build: YES

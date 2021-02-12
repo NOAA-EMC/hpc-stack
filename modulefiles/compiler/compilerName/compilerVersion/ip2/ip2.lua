@@ -20,6 +20,7 @@ local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
 setenv("ip2_ROOT", base)
 setenv("ip2_VERSION", pkgVersion)
+
 setenv("IP2_INC4", pathJoin(base,"include_4"))
 setenv("IP2_INC8", pathJoin(base,"include_8"))
 setenv("IP2_INCd", pathJoin(base,"include_d"))
