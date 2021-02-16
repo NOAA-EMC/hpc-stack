@@ -161,6 +161,7 @@ script.
   - [NCEPLIBS-wgrib2](https://github.com/noaa-emc/nceplibs-wgrib2.git)
   - [NCEPLIBS-prod_util](https://github.com/noaa-emc/nceplibs-prod_util.git)
   - [NCEPLIBS-grib_util](https://github.com/noaa-emc/nceplibs-grib_util.git)
+  - [NCEPLIBS-ncio](https://github.com/noaa-emc/nceplibs-ncio.git)
   - [EMC_crtm](https://github.com/noaa-emc/EMC_crtm.git)
   - [EMC_post](https://github.com/noaa-emc/EMC_post.git)
 

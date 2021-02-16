@@ -56,8 +56,8 @@ export F77=$FC
 export FFLAGS="${STACK_FFLAGS:-} ${STACK_met_FFLAGS:-}"
 export CFLAGS="${STACK_CFLAGS:-} ${STACK_met_CFLAGS:-}"
 
-export MET_NETCDF=${NetCDF_LIBRARIES}
-export MET_HDF5=${HDF5_LIBRARIES}
+export MET_NETCDF=${NetCDF_ROOT}
+export MET_HDF5=${HDF5_ROOT}
 export MET_BUFRLIB=${bufr_ROOT}/lib
 export MET_GRIB2CLIB=${g2c_ROOT}/lib
 export MET_GRIB2CINC=${g2c_ROOT}/include
@@ -65,22 +65,23 @@ export MET_GSL=${GSL_ROOT}
 export BUFRLIB_NAME=-lbufr_4
 export GRIB2CLIB_NAME=-lg2c
 export LIB_JASPER=${JASPER_ROOT}/lib64
-export LIB_LIBPNG=${PNG_ROOT}/lib
+export LIB_LIBPNG=${PNG_ROOT}/lib64
 export LIB_Z=${ZLIB_ROOT}/lib
 #export SET_D64BIT=TRUE
 
 LDFLAGS1="-Wl,--disable-new-dtags"
 LDFLAGS2="-Wl,-rpath,${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
 LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB},${MET_PYTHON}/lib:${MET_GSL}/lib"
-LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib ${LIB_LIBPNG}"
+LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG}"
 export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
 export LIBS="-lhdf5_hl -lhdf5 -lz"
 
 export CFLAGS+="-D__64BIT__"
 export CXXFLAGS+="-D__64BIT__"
 
-cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}
 curr_dir=$(pwd)
+echo "$(pwd)"
 #export BIN_DIR_PATH=${HPC_STACK_ROOT}/exec
 #if [ -z ${BIN_DIR_PATH} ]; then
 #    export BIN_DIR_PATH=${TEST_BASE}/bin
@@ -127,5 +128,6 @@ if [ $? != 0 ]; then
     exit 1
 fi
 
-export PATH=${BIN_DIR_PATH}:${PATH}
+#export PATH=${BIN_DIR_PATH}:${PATH}
+export PATH=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}:${PATH}
 echo "Finished compiling at `date`"

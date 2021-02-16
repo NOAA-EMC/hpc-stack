@@ -28,6 +28,6 @@ module load cmake/3.16.2
 
 # Load for MET
 module load python/3.6.3
-export MET_PYTHON=/usrx/local/prod/packages/python/3.6.3/
+export MET_PYTHON=/usrx/local/prod/packages/python/3.6.3
 export MET_PYTHON_CC=-I${MET_PYTHON}/include/python3.6m
 export MET_PYTHON_LD=-L${MET_PYTHON}/lib/\ -lpython3.6m\ -lpthread\ -ldl\ -lutil\ -lm\ -Xlinker\ -export-dynamic

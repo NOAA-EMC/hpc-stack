@@ -183,6 +183,7 @@ build_nceplib bufr
 build_nceplib wgrib2
 build_nceplib prod_util
 build_nceplib grib_util
+build_nceplib ncio
 
 # JEDI 3rd party dependencies
 
