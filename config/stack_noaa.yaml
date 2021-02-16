@@ -266,7 +266,7 @@ atlas:
   repo: jcsda
 
 gsl:
-  build: YES
+  build: NO
   version: 2.6
 
 met:

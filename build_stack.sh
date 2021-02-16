@@ -67,6 +67,7 @@ source "${HPC_STACK_ROOT}/stack_helpers.sh"
 # Source the config file
 if [[ -e $config ]]; then
   source $config
+  echo "INFO: CONFIG FILE: $config"
 else
   echo "ERROR: CONFIG FILE $config DOES NOT EXIST, ABORT!"
   exit 1
@@ -75,6 +76,7 @@ fi
 # Source the yaml to determine software and version
 if [[ -e $yaml ]]; then
   eval $(parse_yaml $yaml "STACK_")
+  echo "INFO: YAML FILE: $yaml"
 else
   echo "ERROR: YAML FILE $yaml DOES NOT EXIST, ABORT!"
   exit 1
@@ -200,6 +202,11 @@ build_lib ecbuild
 build_lib eckit
 build_lib fckit
 build_lib atlas
+
+# MET and METplus
+
+build_lib met
+build_lib metplus
 
 # ==============================================================================
 # optionally clean up

@@ -10,17 +10,19 @@ software="v"$version
 pkg_name=$name-$version
 url="https://github.com/dtcenter/METplus/archive/$software.tar.gz"
 [[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
-[[ -d $pkg_name ]] && cd $$pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
+[[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 if $MODULES; then
 
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
+    [[ -z $mpi ]] || module load hpc-$HPC_MPI
     #module load nco
     #module load grib_util
     #module load met
