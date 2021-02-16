@@ -2,7 +2,7 @@
 
 set -eux
 
-name="metplus"
+name="METplus"
 version=${1:-${STACK_metplus_version}}
 
 cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
@@ -34,7 +34,7 @@ if $MODULES; then
     fi	
 else
 
-    prefix=${NETCDF_ROOT:-"/usr/local"}
+    prefix=${METplus_ROOT:-"/usr/local"}
 
 fi
 

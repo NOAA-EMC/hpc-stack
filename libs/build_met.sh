@@ -43,7 +43,7 @@ if $MODULES; then
     fi
 else
 
-    prefix=${NETCDF_ROOT:-"/usr/local"}
+    prefix=${MET_ROOT:-"/usr/local"}
 
 fi
 if [[ ! -z $mpi ]]; then
@@ -97,7 +97,7 @@ printenv | egrep "^MET_" | sed -r 's/^/export /g'
 echo "LDFLAGS = ${LDFLAGS}"
 
 echo "./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python"
-./configure --prefix=${HPC_STACK_ROOT} BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python
+./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python
 
 ret=$?
 if [ $ret != 0 ]; then
