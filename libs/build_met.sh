@@ -26,7 +26,6 @@ if $MODULES; then
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
-    #module load python/3.6.3
     module load hdf5
     module load netcdf
     module load bufr
@@ -37,7 +36,7 @@ if $MODULES; then
     module load gsl
     module list
     set -x
-    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
     if [[ -d $prefix ]]; then
 	[[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
 	    || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -47,10 +46,15 @@ else
     prefix=${NETCDF_ROOT:-"/usr/local"}
 
 fi
-
-export FC=$SERIAL_FC
-export CC=$SERIAL_CC
-export CXX=$SERIAL_CXX
+if [[ ! -z $mpi ]]; then
+    export FC=$MPI_FC
+    export CC=$MPI_CC
+    export CXX=$MPI_CXX
+else
+    export FC=$SERIAL_FC
+    export CC=$SERIAL_CC
+    export CXX=$SERIAL_CXX
+fi
 
 export F77=$FC
 export FFLAGS="${STACK_FFLAGS:-} ${STACK_met_FFLAGS:-}"
@@ -67,14 +71,19 @@ export GRIB2CLIB_NAME=-lg2c
 export LIB_JASPER=${JASPER_ROOT}/lib64
 export LIB_LIBPNG=${PNG_ROOT}/lib64
 export LIB_Z=${ZLIB_ROOT}/lib
-#export SET_D64BIT=TRUE
 
 LDFLAGS1="-Wl,--disable-new-dtags"
 LDFLAGS2="-Wl,-rpath,${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
-LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB},${MET_PYTHON}/lib:${MET_GSL}/lib"
-LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG}"
-export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
-export LIBS="-lhdf5_hl -lhdf5 -lz"
+LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB}:${MET_PYTHON}/lib:${MET_GSL}/lib"
+LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG} -L${LIB_Z}"
+LDFLAGS5="-L${I_MPI_ROOT}/lib64"
+if [[ -z $mpi ]]; then
+  export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
+else
+  export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-} ${LDFLAGS5:-}"
+fi
+  export LIBS="-lhdf5_hl -lhdf5 -lz"
+
 
 export CFLAGS+="-D__64BIT__"
 export CXXFLAGS+="-D__64BIT__"
@@ -82,20 +91,12 @@ export CXXFLAGS+="-D__64BIT__"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}
 curr_dir=$(pwd)
 echo "$(pwd)"
-#export BIN_DIR_PATH=${HPC_STACK_ROOT}/exec
-#if [ -z ${BIN_DIR_PATH} ]; then
-#    export BIN_DIR_PATH=${TEST_BASE}/bin
-#else
-#    export BIN_DIR_PATH=${BIN_DIR_PATH}
-#fi
 
 echo "MET Configuration settings..."
 printenv | egrep "^MET_" | sed -r 's/^/export /g'
 echo "LDFLAGS = ${LDFLAGS}"
 
-#echo "./configure --prefix=${HPC_STACK_ROOT} --bindir=${BIN_DIR_PATH} BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python"
-#./configure --prefix=${HPC_STACK_ROOT} --bindir=${BIN_DIR_PATH} BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python
-echo "./configure --prefix=${HPC_STACK_ROOT} BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python"
+echo "./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python"
 ./configure --prefix=${HPC_STACK_ROOT} BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python
 
 ret=$?
@@ -128,6 +129,5 @@ if [ $? != 0 ]; then
     exit 1
 fi
 
-#export PATH=${BIN_DIR_PATH}:${PATH}
 export PATH=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}:${PATH}
 echo "Finished compiling at `date`"
