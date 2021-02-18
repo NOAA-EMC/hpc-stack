@@ -8,6 +8,7 @@ version=${1:-${STACK_metplus_version}}
 cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 software="v"$version
 pkg_name=$name-$version
+met_version=${1:-${STACK_metplus_met_version}}
 url="https://github.com/dtcenter/METplus/archive/$software.tar.gz"
 [[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
@@ -18,26 +19,27 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 if $MODULES; then
-
-    set +x
-    source $MODULESHOME/init/bash
-    module load hpc-$HPC_COMPILER
-    [[ -z $mpi ]] || module load hpc-$HPC_MPI
-    #module load nco
-    #module load grib_util
-    #module load met
-    set -x
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
-    if [[ -d $prefix ]]; then
-	[[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-	    || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
-    fi	
+    mkdir -p $prefix
+    met_prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi"
 else
-
-    prefix=${METplus_ROOT:-"/usr/local"}
-
+    prefix=${MET_ROOT:-"/usr/local"}
+    met_prefix=$prefix
 fi
 
-cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+# Install is simply copying over the unpacked package to the install location
+cp -r ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}/* $prefix
+cd $prefix
 curr_dir=$(pwd)
 export PATH=${curr_dir}/ush:${PATH}
+
+
+# Update the path to the MET tools for the users
+cd ${curr_dir}/parm/metplus_config
+cat metplus_system.conf | \
+  sed "s%MET_INSTALL_DIR = /path/to%MET_INSTALL_DIR = $met_prefix/met/$met_version%g" \
+  > metplus_system_new.conf
+mv metplus_system_new.conf metplus_system.conf
+
+
+
