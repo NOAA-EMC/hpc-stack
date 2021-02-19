@@ -46,6 +46,9 @@ else
     prefix=${MET_ROOT:-"/usr/local"}
 
 fi
+
+export MET_BASE=$prefix/share/met
+
 if [[ ! -z $mpi ]]; then
     export FC=$MPI_FC
     export CC=$MPI_CC
