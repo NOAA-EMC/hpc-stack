@@ -47,6 +47,11 @@ export MPI_CC=$SERIAL_CC
 export MPI_FC=$SERIAL_FC
 export MPI_CXX=$SERIAL_CXX
 
+# Define the ESMF_COMM variable for WCOSS2
+# This is necessary to be done here rather than
+# stack_noaa.yaml, to keep one YAML file for NOAA.
+export STACK_esmf_comm="mpich3"
+
 # LMod is coming to WCOSS2
 # LMod has disabled "default" and requires exact module match.
 # https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html
