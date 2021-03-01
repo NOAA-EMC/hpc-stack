@@ -13,5 +13,8 @@ A description of package including GitHub repo.
 **What applications at NOAA will be using this package or library?**
 A list of groups or applications which will use this pacakge or library.
 
+**Is there already a package or library in hpc-stack that provides this, or related, functionality?**
+List any other related pacakges already in hpc-stack, as far as you know.
+
 **Additional context**
 Add any other context or screenshots about the package or library here.
