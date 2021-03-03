@@ -250,6 +250,10 @@ json_schema_validator:
   build: NO
   version: 2.1.0
 
+pybind11:
+  build: YES
+  version: 2.5.0
+
 ecbuild:
   build: NO
   version: release-stable

@@ -193,6 +193,7 @@ build_lib tau2
 build_lib cgal
 build_lib json
 build_lib json_schema_validator
+build_lib pybind11
 
 # JCSDA JEDI dependencies
 
