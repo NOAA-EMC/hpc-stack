@@ -21,7 +21,7 @@ if $MODULES; then
                                    || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
     fi
 else
-    prefix="/usr/local"
+    prefix=${PYBIND11_ROOT:-"/usr/local"}
 fi
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
