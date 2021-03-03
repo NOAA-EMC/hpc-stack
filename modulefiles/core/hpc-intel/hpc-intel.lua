@@ -13,7 +13,6 @@ conflict("hpc-gnu", "hpc-gcc")
 local compiler = pathJoin("intel",pkgVersion)
 load(compiler)
 prereq(compiler)
-try_load("mkl")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 local mpath = pathJoin(opt,"modulefiles/compiler","intel",pkgVersion)
