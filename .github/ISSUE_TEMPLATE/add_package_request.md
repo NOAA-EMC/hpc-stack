@@ -19,10 +19,9 @@ List any other related pacakges already in hpc-stack, as far as you know.
 **Additional context**
 Add any other context or screenshots about the package or library here.
 
-**Checklist**
+**Will This Package be Needed in WCOSS Systems?**
 
-
-WCOSS Software request checklist
+**WCOSS Software request checklist**
 
 
 General questions:
