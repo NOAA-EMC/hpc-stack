@@ -25,9 +25,9 @@ function update_modules {
   esac
 
   [[ -e $tmpl_file ]] || ( echo "ERROR: $tmpl_file NOT FOUND! ABORT!"; exit 1 )
-  [[ -d $to_dir ]] || ( echo "ERROR: $mod_dir MODULE DIRECTORY NOT FOUND! ABORT!"; exit 1 )
+  [[ -d $to_dir ]] || ( mkdir -p $to_dir )
 
-  cd $to_dir
+  cd $to_dir || ( echo "ERROR: $to_dir MODULE DIRECTORY NOT FOUND! ABORT!"; exit 1 )
   $SUDO mkdir -p $name; cd $name
 
   if [[ $name != "cmake" || $name != "mpi" || $name != "gnu" ]]; then
@@ -56,7 +56,7 @@ EOF
   else
       $SUDO cp $tmpl_file $version.lua
   fi
-  
+
   # Make the latest installed version the default
   [[ -e default ]] && $SUDO rm -f default
   $SUDO ln -s $version.lua default
@@ -180,7 +180,7 @@ function build_lib() {
       [[ -f $logdir/$1.log ]] && ( logDate=$(date -r $logdir/$1.log +%F_%H%M); mv -f $logdir/$1.log $logdir/$1.log.$logDate )
       ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$logdir/$1.log"
       local ret=${PIPESTATUS[0]}
-      if [[ $ret > 0 ]]; then
+      if [[ $ret -gt 0 ]]; then
           echo "BUILD FAIL!  Lib: $1 Error:$ret"
           [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit $ret
       fi
@@ -200,7 +200,7 @@ function build_nceplib() {
       [[ -f $logdir/$1.log ]] && ( logDate=$(date -r $logdir/$1.log +%F_%H%M); mv -f $logdir/$1.log $logdir/$1.log.$logDate )
       ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$logdir/$1.log"
       local ret=${PIPESTATUS[0]}
-      if [[ $ret > 0 ]]; then
+      if [[ $ret -gt 0 ]]; then
           echo "BUILD FAIL!  NCEPlib: $1 Error:$ret"
           [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit $ret
       fi
