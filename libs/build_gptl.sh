@@ -34,7 +34,8 @@ export CXX=$MPI_CXX
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=GPTL
-[[ -d $software ]] || git clone -b v$version https://github.com/jmrosinski/$software
+gitURL="https://github.com/jmrosinski/$software"
+[[ -d $software ]] || git clone -b v$version $gitURL
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 autoreconf -i

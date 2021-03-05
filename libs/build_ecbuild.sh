@@ -24,7 +24,8 @@ fi
 
 software=$name-$repo-$version
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-[[ -d $software ]] || git clone https://github.com/$repo/$name.git $software
+gitURL="https://github.com/$repo/$name.git"
+[[ -d $software ]] || git clone $gitURL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 git fetch --tags
 git checkout $version
