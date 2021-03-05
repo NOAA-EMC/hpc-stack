@@ -27,8 +27,8 @@ fi
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-gitURL="https://github.com/pybind/pybind11"
-[[ -d $software ]] || ( git clone -b "v$version" $gitURL $software )
+URL="https://github.com/pybind/pybind11"
+[[ -d $software ]] || ( git clone -b "v$version" $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -40,6 +40,5 @@ cmake -DCMAKE_INSTALL_PREFIX=$prefix \
 VERBOSE=$MAKE_VERBOSE $SUDO make -j${NTHREADS:-4} install
 
 # generate modulefile from template
-$MODULES && update_modules core $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
-
+$MODULES && update_modules core $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

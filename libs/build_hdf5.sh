@@ -49,12 +49,12 @@ export CFLAGS="${STACK_CFLAGS:-} ${STACK_hdf5_CFLAGS:-} -fPIC -w"
 export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_hdf5_CXXFLAGS:-} -fPIC -w"
 export FCFLAGS="$FFLAGS"
 
-gitURL="https://github.com/HDFGroup/hdf5.git"
+URL="https://github.com/HDFGroup/hdf5.git"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$(echo $version | sed 's/\./_/g')
-[[ -d $software ]] || ( git clone -b $software $gitURL $software )
+[[ -d $software ]] || ( git clone -b $software $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -77,5 +77,5 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

@@ -38,8 +38,8 @@ export FCFLAGS="${FFLAGS}"
 
 software=$name-$repo-$version
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-gitURL="https://github.com/$repo/$name.git"
-[[ -d $software ]] || git clone $gitURL $software
+URL="https://github.com/$repo/$name.git"
+[[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 git fetch --tags
 git checkout $version
@@ -58,5 +58,5 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules mpi $name $repo-$version \
-         || echo $name $repo-$version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules mpi $name $repo-$version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

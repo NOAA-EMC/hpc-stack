@@ -159,15 +159,15 @@ export CXXFLAGS="${STACK_CXXFLAGS:-} $cxxflags -fPIC -w"
 export FCFLAGS="$FFLAGS"
 
 # Set properties based on library name
-gitURL="https://github.com/noaa-emc/nceplibs-$name"
+URL="https://github.com/noaa-emc/nceplibs-$name"
 extraCMakeFlags=""
 case $name in
   nceppost | upp)
-    gitURL="https://github.com/noaa-emc/emc_post"
+    URL="https://github.com/noaa-emc/emc_post"
     extraCMakeFlags="-DBUILD_POSTEXEC=OFF"
     ;;
   crtm)
-    gitURL="https://github.com/noaa-emc/emc_crtm"
+    URL="https://github.com/noaa-emc/emc_crtm"
     ;;
   wgrib2)
     [[ -z ${STACK_wgrib2_ipolates:-} ]] && ipolates=0   || ipolates=$STACK_wgrib2_ipolates
@@ -179,9 +179,9 @@ esac
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-#[[ -d $software ]] || ( git clone --recursive -b $version $gitURL $software )
+#[[ -d $software ]] || ( git clone --recursive -b $version $URL $software )
 if [[ ! -d $software ]]; then
-  git clone $gitURL $software
+  git clone $URL $software
   cd $software
   git checkout $version
   git submodule update --init --recursive
@@ -205,5 +205,5 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $install_as \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $install_as
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

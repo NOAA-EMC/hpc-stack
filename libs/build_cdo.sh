@@ -67,16 +67,16 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 case $version in
   1.9.9 )
-    url="https://code.mpimet.mpg.de/attachments/download/23323/cdo-1.9.9.tar.gz"
+    URL="https://code.mpimet.mpg.de/attachments/download/23323/cdo-1.9.9.tar.gz"
   ;;
   1.9.8 )
-    url="https://code.mpimet.mpg.de/attachments/download/20826/cdo-1.9.8.tar.gz"
+    URL="https://code.mpimet.mpg.de/attachments/download/20826/cdo-1.9.8.tar.gz"
   ;;
   1.9.7.1 )
-    url="https://code.mpimet.mpg.de/attachments/download/20124/cdo-1.9.7.1.tar.gz"
+    URL="https://code.mpimet.mpg.de/attachments/download/20124/cdo-1.9.7.1.tar.gz"
   ;;
   1.9.6 )
-    url="https://code.mpimet.mpg.de/attachments/download/19299/cdo-1.9.6.tar.gz"
+    URL="https://code.mpimet.mpg.de/attachments/download/19299/cdo-1.9.6.tar.gz"
   ;;
   * )
     echo "Try using CDO version 1.9.6 and above, ABORT!"
@@ -85,7 +85,7 @@ case $version in
 esac
 
 software=$name-$version
-[[ -d $software ]] || ( $WGET $url; tar -xzf $software.tar.gz && rm -f $software.tar.gz )
+[[ -d $software ]] || ( $WGET $URL; tar -xzf $software.tar.gz && rm -f $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -101,5 +101,5 @@ $SUDO make install
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

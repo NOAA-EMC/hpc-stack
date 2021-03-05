@@ -52,8 +52,8 @@ if [[ "$version" = "2.5.1" ]]; then
 else
   branch=pio$(echo $version | sed -e 's/\./_/g')
 fi
-gitURL=" https://github.com/NCAR/ParallelIO"
-[[ -d $software ]] || git clone $gitURL $software
+URL=" https://github.com/NCAR/ParallelIO"
+[[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 git fetch
 git checkout $branch
@@ -85,5 +85,5 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules mpi $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules mpi $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

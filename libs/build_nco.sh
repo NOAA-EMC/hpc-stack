@@ -63,12 +63,12 @@ export FCFLAGS=$FFLAGS
 #LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
 #export LDFLAGS="$LDFLAGS1 $LDFLAGS2 $LDFLAGS3 $LDFLAGS4 $LDFLAGS5"
 
-gitURL="https://github.com/nco/nco.git"
+URL="https://github.com/nco/nco.git"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-[[ -d $software ]] || ( git clone -b $version $gitURL $software )
+[[ -d $software ]] || ( git clone -b $version $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -96,5 +96,5 @@ $SUDO make install
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
