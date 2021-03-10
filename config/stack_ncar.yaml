@@ -61,7 +61,7 @@ nco:
   version: 4.9.3
 
 cdo:
-  build: YES
+  build: NO
   version: 1.9.8
 
 pio:
