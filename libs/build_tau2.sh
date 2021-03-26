@@ -43,7 +43,8 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=tau2
 [[ -d $PDTOOLKIT_ROOT ]] || ( echo "$software requires pdtoolkit, ABORT!"; exit 1 )
-[[ -d $software ]] || git clone https://github.com/UO-OACISS/tau2
+URL="https://github.com/UO-OACISS/tau2"
+[[ -d $software ]] || git clone $URL
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -57,5 +58,5 @@ $SUDO ./configure -prefix=$prefix -c++=$CXX -cc=$CC -fortran=$FC -mpi -ompt -bfd
 $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules mpi $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules mpi $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

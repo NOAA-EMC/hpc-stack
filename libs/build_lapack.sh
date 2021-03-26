@@ -38,8 +38,8 @@ export FCFLAGS="$FFLAGS"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-url="http://www.netlib.org/lapack/$software.tgz"
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tgz )
+URL="http://www.netlib.org/lapack/$software.tgz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tgz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -54,5 +54,5 @@ VERBOSE="$MAKE_VERBOSE" make -j${NTHREADS:-4}
 VERBOSE="$MAKE_VERBOSE" $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules compiler $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules compiler $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

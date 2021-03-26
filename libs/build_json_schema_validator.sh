@@ -29,8 +29,8 @@ fi
 cd $HPC_STACK_ROOT/${PKGDIR:-"pkg"}
 
 software="$name-$version"
-gitURL="https://github.com/pboettch/json-schema-validator"
-[[ -d $software ]] || ( git clone -b "$version" $gitURL $software )
+URL="https://github.com/pboettch/json-schema-validator"
+[[ -d $software ]] || ( git clone -b "$version" $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -47,7 +47,5 @@ cmake .. \
 $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules core $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
-
-exit 0
+$MODULES && update_modules core $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

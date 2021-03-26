@@ -9,15 +9,15 @@ mm=$(echo $version | cut -d. -f-2)
 patch=$(echo $version | cut -d. -f3)
 
 case "$name" in
-    openmpi ) url="https://download.open-mpi.org/release/open-mpi/v$mm/openmpi-$version.tar.gz" ;;
-    mpich   ) url="http://www.mpich.org/static/downloads/$version/mpich-$version.tar.gz" ;;
+    openmpi ) URL="https://download.open-mpi.org/release/open-mpi/v$mm/openmpi-$version.tar.gz" ;;
+    mpich   ) URL="http://www.mpich.org/static/downloads/$version/mpich-$version.tar.gz" ;;
     *       ) echo "Invalid MPI implementation = $name, ABORT!"; exit 1 ;;
 esac
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz; rm -f $software.tar.gz )
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz; rm -f $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 # Hyphenated version used for install prefix
@@ -86,5 +86,5 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules compiler $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules compiler $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

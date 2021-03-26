@@ -24,10 +24,10 @@ fi
 
 cd $HPC_STACK_ROOT/${PKGDIR:-"pkg"}
 
-gitURL="https://gitlab.com/libeigen/eigen.git"
+URL="https://gitlab.com/libeigen/eigen.git"
 
 software=$name-$version
-[[ -d $software ]] || ( git clone -b $version $gitURL $software )
+[[ -d $software ]] || ( git clone -b $version $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -38,5 +38,5 @@ cmake .. -DCMAKE_INSTALL_PREFIX=$prefix
 $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules core $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules core $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

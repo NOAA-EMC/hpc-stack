@@ -78,10 +78,10 @@ esmf:
   debug: NO
 
 fms:
-  build: NO
-  version: master
+  build: YES
+  version: 2020.04.03
   repo: noaa-gfdl
-  cmake_opts: "-DGFS_PHYS=ON -DLARGEFILE=ON"
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
 bacio:
   build: YES
@@ -249,6 +249,10 @@ json:
 json_schema_validator:
   build: NO
   version: 2.1.0
+
+pybind11:
+  build: YES
+  version: 2.5.0
 
 ecbuild:
   build: NO
