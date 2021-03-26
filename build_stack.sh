@@ -145,62 +145,62 @@ build_lib jasper
 build_lib hdf5
 build_lib pnetcdf
 build_lib netcdf
-#build_lib nccmp
-#build_lib nco
-#build_lib cdo
-#build_lib pio
-#
-## UFS 3rd party dependencies
-#
-#build_lib esmf
+build_lib nccmp
+build_lib nco
+build_lib cdo
+build_lib pio
+
+# UFS 3rd party dependencies
+
+build_lib esmf
 build_lib fms
 
 # NCEPlibs
 
-#build_nceplib bacio
-#build_nceplib sigio
-#build_nceplib sfcio
-#build_nceplib gfsio
-#build_nceplib w3nco
-#build_nceplib sp
-#build_nceplib ip
-#build_nceplib ip2
-#build_nceplib landsfcutil
-#build_nceplib nemsio
-#build_nceplib nemsiogfs
-#build_nceplib w3emc
-#build_nceplib g2
-#build_nceplib g2c
-#build_nceplib g2tmpl
-#build_nceplib crtm
-#build_nceplib nceppost
-#build_nceplib upp
-#build_nceplib wrf_io
-#build_nceplib bufr
-#build_nceplib wgrib2
-#build_nceplib prod_util
-#build_nceplib grib_util
-#build_nceplib ncio
-#
-## JEDI 3rd party dependencies
-#
-#build_lib boost
-#build_lib eigen
-#build_lib gsl_lite
-#build_lib gptl
-#build_lib fftw
-#build_lib tau2
-#build_lib cgal
-#build_lib json
-#build_lib json_schema_validator
-#build_lib pybind11
-#
-## JCSDA JEDI dependencies
-#
-#build_lib ecbuild
-#build_lib eckit
-#build_lib fckit
-#build_lib atlas
+build_nceplib bacio
+build_nceplib sigio
+build_nceplib sfcio
+build_nceplib gfsio
+build_nceplib w3nco
+build_nceplib sp
+build_nceplib ip
+build_nceplib ip2
+build_nceplib landsfcutil
+build_nceplib nemsio
+build_nceplib nemsiogfs
+build_nceplib w3emc
+build_nceplib g2
+build_nceplib g2c
+build_nceplib g2tmpl
+build_nceplib crtm
+build_nceplib nceppost
+build_nceplib upp
+build_nceplib wrf_io
+build_nceplib bufr
+build_nceplib wgrib2
+build_nceplib prod_util
+build_nceplib grib_util
+build_nceplib ncio
+
+# JEDI 3rd party dependencies
+
+build_lib boost
+build_lib eigen
+build_lib gsl_lite
+build_lib gptl
+build_lib fftw
+build_lib tau2
+build_lib cgal
+build_lib json
+build_lib json_schema_validator
+build_lib pybind11
+
+# JCSDA JEDI dependencies
+
+build_lib ecbuild
+build_lib eckit
+build_lib fckit
+build_lib atlas
 
 # ==============================================================================
 # optionally clean up
