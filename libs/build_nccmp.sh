@@ -9,8 +9,8 @@ software=$name-$version
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-url="https://gitlab.com/remikz/nccmp/-/archive/$version/${software}.tar.gz"
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz && rm -f $software.tar.gz )
+URL="https://gitlab.com/remikz/nccmp/-/archive/$version/${software}.tar.gz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz && rm -f $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 # Hyphenated version used for install prefix
@@ -87,5 +87,5 @@ $SUDO make install
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

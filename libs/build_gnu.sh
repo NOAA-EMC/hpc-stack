@@ -9,8 +9,8 @@ software="gcc-$version"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-url="https://mirrors.tripadvisor.com/gnu/gcc/$software/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz; rm -f $software.tar.gz )
+URL="https://mirrors.tripadvisor.com/gnu/gcc/$software/$software.tar.gz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz; rm -f $software.tar.gz )
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 contrib/download_prerequisites
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
@@ -39,5 +39,5 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 $SUDO make install-strip
 
 # generate modulefile from template
-$MODULES && update_modules core $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules core $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

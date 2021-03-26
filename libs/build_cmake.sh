@@ -25,8 +25,8 @@ fi
 
 software=$name-$version
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-url="https://cmake.org/files/v${version%.*}/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
+URL="https://cmake.org/files/v${version%.*}/$software.tar.gz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
@@ -39,5 +39,5 @@ $SUDO make -j${NTHREADS:-4}
 $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules core $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules core $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

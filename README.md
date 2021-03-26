@@ -109,7 +109,7 @@ script.
 
 * Compilers and MPI libraries
   - [GNU/GCC](https://gcc.gnu.org/)
-  - Intel/IPS
+  - [Intel](https://intel.com)
   - [OpenMPI](https://www.open-mpi.org/)
   - [MPICH](https://www.mpich.org/)
   - `hpc-` Meta-modules for all the above as well as Intel and IMPI
@@ -134,6 +134,7 @@ script.
   - [Tau2]()
   - [Boost](https://beta.boost.org/)
   - [Eigen](http://eigen.tuxfamily.org/)
+  - [GSL-Lite](http://github.com/gsl-lite/gsl-lite)
   - [JSON for C++](https://github.com/nlohmann/json/)
   - [JSON Schema Validator for C++](https://github.com/pboettch/json-schema-validator)
   - [pybind11](https://github.com/pybind/pybind11)
@@ -163,6 +164,7 @@ script.
   - [NCEPLIBS-prod_util](https://github.com/noaa-emc/nceplibs-prod_util.git)
   - [NCEPLIBS-grib_util](https://github.com/noaa-emc/nceplibs-grib_util.git)
   - [NCEPLIBS-ncio](https://github.com/noaa-emc/nceplibs-ncio.git)
+  - [NCEPLIBS-wrf_io](https://github.com/noaa-emc/nceplibs-wrf_io.git)
   - [EMC_crtm](https://github.com/noaa-emc/EMC_crtm.git)
   - [EMC_post](https://github.com/noaa-emc/EMC_post.git)
 
