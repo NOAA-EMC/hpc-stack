@@ -20,7 +20,7 @@ if $MODULES; then
   module list
   set -x
 
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$repo-$version"
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -49,14 +49,12 @@ mkdir -p build && cd build
 
 CMAKE_OPTS=${STACK_fms_cmake_opts:-""}
 
-cmake .. \
-      -DCMAKE_INSTALL_PREFIX=$prefix \
-      -D32BIT=ON -D64BIT=ON ${CMAKE_OPTS}
+cmake .. -DCMAKE_INSTALL_PREFIX=$prefix ${CMAKE_OPTS}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 #[[ $MAKE_CHECK =~ [yYtT] ]] && make check # make check is not implemented in cmake builds
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules mpi $name $repo-$version
+$MODULES && update_modules mpi $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
