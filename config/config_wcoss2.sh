@@ -51,6 +51,7 @@ export MPI_CXX=$SERIAL_CXX
 # This is necessary to be done here rather than
 # stack_noaa.yaml, to keep one YAML file for NOAA.
 export STACK_esmf_comm="mpich3"
+export STACK_esmf_os="Linux"
 
 # LMod is coming to WCOSS2
 # LMod has disabled "default" and requires exact module match.
