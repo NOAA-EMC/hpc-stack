@@ -82,16 +82,16 @@ export ESMF_DIR=$PWD
 case $COMPILER in
   intel|ips )
     export ESMF_COMPILER="intel"
-    export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
-    export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"
+    export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise ${FCFLAGS}"
+    export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise ${CXXFLAGS}"
     ;;
   gnu|gcc|clang )
     export ESMF_COMPILER="gfortran"
-    export ESMF_F90COMPILEOPTS="-g -fbacktrace"
+    export ESMF_F90COMPILEOPTS="-g -fbacktrace ${FCFLAGS}"
     if [[ "$host" == "Darwin" ]]; then
-      export ESMF_CXXCOMPILEOPTS="-g -Wno-error=format-security"
+      export ESMF_CXXCOMPILEOPTS="-g -Wno-error=format-security ${CXXFLAGS}"
     else
-      export ESMF_CXXCOMPILEOPTS="-g"
+      export ESMF_CXXCOMPILEOPTS="-g ${CXXFLAGS}"
     fi
     ;;
   #clang )

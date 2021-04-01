@@ -167,15 +167,15 @@ crtm:
   install_as: 2.3.0
 
 nceppost:
-  build: YES
+  build: NO
   version: dceca26
   install_as: dceca26
   openmp: ON
 
 upp:
   build: YES
-  version: upp_v10.0.0
-  install_as: 10.0.0
+  version: upp_v10.0.5
+  install_as: 10.0.5
   openmp: ON
 
 wrf_io:
@@ -241,6 +241,18 @@ tau2:
 cgal:
   build: NO
   version: 5.0.2
+
+json:
+  build: YES
+  version: 3.9.1
+
+json_schema_validator:
+  build: YES
+  version: 2.1.0
+
+pybind11:
+  build: YES
+  version: 2.5.0
 
 ecbuild:
   build: YES
