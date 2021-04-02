@@ -72,7 +72,7 @@ NETCDF_LIBS="-lnetcdf"
 
 export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS} ${AM_LDFLAGS:-}"
 export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS} ${HDF5_LIBS} ${EXTRA_LIBS:-}"
-export CPPFLAGS="${NETCDF_ROOT}/include"
+export CPPFLAGS="-I${NETCDF_ROOT}/include"
 
 # Enable header pad comparison, if netcdf-c src directory exists!
 [[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && netcdf_src="$PWD/netcdf-c-$NETCDF_VERSION"
