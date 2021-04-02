@@ -73,11 +73,15 @@ NETCDF_LIBS="-lnetcdf"
 export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS} ${AM_LDFLAGS:-}"
 export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS} ${HDF5_LIBS} ${EXTRA_LIBS:-}"
 
+# Enable header pad comparison, if netcdf-c src directory exists!
+[[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && netcdf_src="$PWD/netcdf-c-$NETCDF_VERSION"
+[[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && extra_confs="--with-netcdf=$netcdf_src"
+
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-../configure --prefix=$prefix --with-netcdf=${NETCDF_ROOT}
+../configure --prefix=$prefix ${extra_confs:-}
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
