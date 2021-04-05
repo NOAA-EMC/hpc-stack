@@ -178,8 +178,8 @@ nceppost:
 
 upp:
   build: YES
-  version: upp_v10.0.0
-  install_as: 10.0.0
+  version: upp_v10.0.5
+  install_as: 10.0.5
   openmp: ON
 
 wrf_io:

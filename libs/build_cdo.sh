@@ -54,14 +54,23 @@ export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_cdo_CXXFLAGS:-} -fPIC"
 export F77=$FC
 export FCFLAGS=$FFLAGS
 
-LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
-LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+HDF5_LDFLAGS="-L$HDF5_ROOT/lib"
+HDF5_LIBS="-lhdf5_hl -lhdf5"
+
+AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+
 if [[ ! -z $mpi ]]; then
-  [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+    if [[ $enable_pnetcdf =~ [yYtT] ]]; then
+	PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
+	PNETCDF_LIBS="-lpnetcdf"
+    fi
 fi
-LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
-export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-} ${LDFLAGS5:-}"
+NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
+NETCDF_LIBS="-lnetcdf"
+
+export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS:-} ${AM_LDFLAGS:-}"
+export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS:-} ${HDF5_LIBS:-} ${EXTRA_LIBS:-}"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
