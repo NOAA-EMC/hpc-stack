@@ -2,6 +2,11 @@ cmake:
   build: NO
   version: 3.17.2
 
+mpi:
+  build: YES
+  flavor: mpich
+  version: 3.4.1
+
 jpeg:
   build: YES
   shared: NO
@@ -165,12 +170,6 @@ crtm:
   build: YES
   version: v2.3.0
   install_as: 2.3.0
-
-nceppost:
-  build: NO
-  version: dceca26
-  install_as: dceca26
-  openmp: ON
 
 upp:
   build: YES

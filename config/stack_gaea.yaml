@@ -166,12 +166,6 @@ crtm:
   version: v2.3.0
   install_as: 2.3.0
 
-nceppost:
-  build: NO
-  version: dceca26
-  install_as: dceca26
-  openmp: ON
-
 upp:
   build: YES
   version: upp_v10.0.5
