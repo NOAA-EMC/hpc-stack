@@ -2,11 +2,6 @@ cmake:
   build: NO
   version: 3.17.2
 
-mpi:
-  build: YES
-  flavor: mpich
-  version: 3.4.1
-
 jpeg:
   build: YES
   shared: NO
