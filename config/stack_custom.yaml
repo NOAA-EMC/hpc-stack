@@ -4,8 +4,8 @@ gnu:
 
 mpi:
   build: NO
-  flavor: openmpi
-  version: 4.0.1
+  flavor: mpich
+  version: 3.4.1
 
 cmake:
   build: NO
@@ -75,7 +75,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_0_beta_snapshot_27
+  version: 8_1_0_beta_snapshot_47
   shared: YES
   enable_pnetcdf: NO
   debug: NO
