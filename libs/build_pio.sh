@@ -1,4 +1,4 @@
-#!/bin/bash
+fet!/bin/bash
 
 set -eux
 
@@ -55,7 +55,7 @@ fi
 URL=" https://github.com/NCAR/ParallelIO"
 [[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-git fetch
+
 git checkout $branch
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d build ]] && rm -rf build
