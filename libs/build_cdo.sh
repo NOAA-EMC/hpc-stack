@@ -34,7 +34,7 @@ if $MODULES; then
   fi
 else
   prefix=${CDO_ROOT:-"/usr/local"}
-  enable_pnetcdf=$(nc-config --has-pnetcdf)
+  [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] || enable_pnetcdf=$(nc-config --has-pnetcdf)
 fi
 
 if [[ ! -z $mpi ]]; then
@@ -53,24 +53,6 @@ export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_cdo_CXXFLAGS:-} -fPIC"
 
 export F77=$FC
 export FCFLAGS=$FFLAGS
-
-HDF5_LDFLAGS="-L$HDF5_ROOT/lib"
-HDF5_LIBS="-lhdf5_hl -lhdf5"
-
-AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
-
-if [[ ! -z $mpi ]]; then
-    if [[ $enable_pnetcdf =~ [yYtT] ]]; then
-	PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
-	PNETCDF_LIBS="-lpnetcdf"
-    fi
-fi
-NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
-NETCDF_LIBS="-lnetcdf"
-
-export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS:-} ${AM_LDFLAGS:-}"
-export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS:-} ${HDF5_LIBS:-} ${EXTRA_LIBS:-}"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
@@ -99,6 +81,24 @@ software=$name-$version
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
+
+HDF5_LDFLAGS="-L$HDF5_ROOT/lib"
+HDF5_LIBS="-lhdf5_hl -lhdf5"
+
+AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+
+if [[ ! -z $mpi ]]; then
+    if [[ $enable_pnetcdf =~ [yYtT] ]]; then
+	PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
+	PNETCDF_LIBS="-lpnetcdf"
+    fi
+fi
+NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
+NETCDF_LIBS="-lnetcdf"
+
+export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS:-} ${AM_LDFLAGS:-}"
+export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS:-} ${HDF5_LIBS:-} ${EXTRA_LIBS:-}"
 
 ../configure --prefix=$prefix \
              --with-hdf5=$HDF5_ROOT \
