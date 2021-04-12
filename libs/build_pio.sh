@@ -52,7 +52,9 @@ if [[ "$version" = "2.5.1" ]]; then
 else
   branch=pio$(echo $version | sed -e 's/\./_/g')
 fi
-[[ -f $software.tar.gz ]] || $WGET https://github.com/NCAR/ParallelIO/releases/download/$branch/${software}.tar.gz
+
+URL="https://github.com/NCAR/ParallelIO/releases/download/$branch/${software}.tar.gz"
+[[ -f $software.tar.gz ]] || $WGET $URL
 
 tar -xf ${software}.tar.gz
 
@@ -102,4 +104,4 @@ VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template
 $MODULES && update_modules mpi $name $version
-echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
