@@ -65,8 +65,8 @@ cdo:
   version: 1.9.8
 
 pio:
-  build: NO
-  version: 2.5.1
+  build: YES
+  version: 2.5.2
   enable_pnetcdf: NO
   enable_gptl: NO
 
