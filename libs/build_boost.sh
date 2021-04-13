@@ -8,8 +8,8 @@ level=${2:-${STACK_boost_level:-"full"}}
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 software=$name\_$(echo $version | sed 's/\./_/g')
-url="https://dl.bintray.com/boostorg/release/$version/source/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
+URL="https://dl.bintray.com/boostorg/release/$version/source/$software.tar.gz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
@@ -24,8 +24,8 @@ if [[ $level = "headers-only" ]]; then
   $SUDO cp -R boost $prefix/include
 
   # generate modulefile from template
-  $MODULES && update_modules core "boost-headers" $version \
-           || echo "boost-headers" $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+  $MODULES && update_modules core "boost-headers" $version
+	echo $name-headers $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
   exit 0
 fi
@@ -97,5 +97,5 @@ rm -f $HOME/user-config.jam
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

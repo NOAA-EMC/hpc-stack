@@ -54,29 +54,38 @@ export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_cdo_CXXFLAGS:-} -fPIC"
 export F77=$FC
 export FCFLAGS=$FFLAGS
 
-LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
-LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+HDF5_LDFLAGS="-L$HDF5_ROOT/lib"
+HDF5_LIBS="-lhdf5_hl -lhdf5"
+
+AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+
 if [[ ! -z $mpi ]]; then
-  [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+    if [[ $enable_pnetcdf =~ [yYtT] ]]; then
+	PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
+	PNETCDF_LIBS="-lpnetcdf"
+    fi
 fi
-LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
-export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-} ${LDFLAGS5:-}"
+NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
+NETCDF_LIBS="-lnetcdf"
+
+export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS:-} ${AM_LDFLAGS:-}"
+export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS:-} ${HDF5_LIBS:-} ${EXTRA_LIBS:-}"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 case $version in
   1.9.9 )
-    url="https://code.mpimet.mpg.de/attachments/download/23323/cdo-1.9.9.tar.gz"
+    URL="https://code.mpimet.mpg.de/attachments/download/23323/cdo-1.9.9.tar.gz"
   ;;
   1.9.8 )
-    url="https://code.mpimet.mpg.de/attachments/download/20826/cdo-1.9.8.tar.gz"
+    URL="https://code.mpimet.mpg.de/attachments/download/20826/cdo-1.9.8.tar.gz"
   ;;
   1.9.7.1 )
-    url="https://code.mpimet.mpg.de/attachments/download/20124/cdo-1.9.7.1.tar.gz"
+    URL="https://code.mpimet.mpg.de/attachments/download/20124/cdo-1.9.7.1.tar.gz"
   ;;
   1.9.6 )
-    url="https://code.mpimet.mpg.de/attachments/download/19299/cdo-1.9.6.tar.gz"
+    URL="https://code.mpimet.mpg.de/attachments/download/19299/cdo-1.9.6.tar.gz"
   ;;
   * )
     echo "Try using CDO version 1.9.6 and above, ABORT!"
@@ -85,7 +94,7 @@ case $version in
 esac
 
 software=$name-$version
-[[ -d $software ]] || ( $WGET $url; tar -xzf $software.tar.gz && rm -f $software.tar.gz )
+[[ -d $software ]] || ( $WGET $URL; tar -xzf $software.tar.gz && rm -f $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -101,5 +110,5 @@ $SUDO make install
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

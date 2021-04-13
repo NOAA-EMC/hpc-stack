@@ -65,14 +65,14 @@ export CFLAGS="${STACK_CFLAGS:-} ${STACK_esmf_CFLAGS:-} -fPIC"
 export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_esmf_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
-gitURL="https://github.com/esmf-org/esmf"
+URL="https://github.com/esmf-org/esmf"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software="ESMF_$version"
 # ESMF does not support out of source builds; clean out the clone
 [[ -d $software ]] && ( echo "$software exists, cleaning ..."; rm -rf $software )
-[[ -d $software ]] || ( git clone -b $software $gitURL $software )
+[[ -d $software ]] || ( git clone -b $software $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 export ESMF_DIR=$PWD
@@ -82,16 +82,16 @@ export ESMF_DIR=$PWD
 case $COMPILER in
   intel|ips )
     export ESMF_COMPILER="intel"
-    export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
-    export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"
+    export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise ${FCFLAGS}"
+    export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise ${CXXFLAGS}"
     ;;
   gnu|gcc|clang )
     export ESMF_COMPILER="gfortran"
-    export ESMF_F90COMPILEOPTS="-g -fbacktrace"
+    export ESMF_F90COMPILEOPTS="-g -fbacktrace ${FCFLAGS}"
     if [[ "$host" == "Darwin" ]]; then
-      export ESMF_CXXCOMPILEOPTS="-g -Wno-error=format-security"
+      export ESMF_CXXCOMPILEOPTS="-g -Wno-error=format-security ${CXXFLAGS}"
     else
-      export ESMF_CXXCOMPILEOPTS="-g"
+      export ESMF_CXXCOMPILEOPTS="-g ${CXXFLAGS}"
     fi
     ;;
   #clang )
@@ -168,5 +168,5 @@ $SUDO make install
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version_install \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $version_install
+echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

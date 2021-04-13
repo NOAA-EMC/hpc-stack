@@ -44,8 +44,8 @@ fi
 cd $HPC_STACK_ROOT/${PKGDIR:-"pkg"}
 
 software="CGAL-"$version
-url="https://github.com/CGAL/cgal/releases/download/releases%2FCGAL-$version/$software-library.tar.xz"
-[[ -d $software ]] || ( $WGET $url; tar -xf $software-library.tar.xz )
+URL="https://github.com/CGAL/cgal/releases/download/releases%2FCGAL-$version/$software-library.tar.xz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software-library.tar.xz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
@@ -53,5 +53,5 @@ cmake . -DCMAKE_INSTALL_PREFIX=$prefix
 $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules core $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules core $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

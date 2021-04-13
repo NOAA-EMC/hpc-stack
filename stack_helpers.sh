@@ -144,7 +144,8 @@ function set_pkg_root() {
   echo "set_pkg_root()"
   local prefix=${PREFIX:-${HPC_OPT:-"/usr/local"}}
   for i in $(printenv | grep "STACK_.*_build="); do
-    local pkg=$(echo $i | cut -d= -f1 | tr 'a-z' 'A-Z' | cut -d_ -f2- | rev | cut -d_ -f2- | rev)
+    local pkg_name=$(echo $i | cut -d= -f1 | cut -d_ -f2- | rev | cut -d_ -f2- | rev)
+    local pkg=$(echo $pkg_name | tr 'a-z' 'A-Z')
     local build=$(echo $i | cut -d= -f2)
     if [[ $build =~ ^(yes|YES|true|TRUE)$ ]]; then
       eval export ${pkg}_ROOT=$prefix
@@ -228,6 +229,24 @@ function parse_yaml {
   set -x
 }
 
+function build_info() {
+  echo "=========================="
+  echo "build_info()"
+  for i in $(printenv | grep "STACK_.*_build="); do
+    local pkg_name=$(echo $i | cut -d= -f1 | cut -d_ -f2- | rev | cut -d_ -f2- | rev)
+    local pkg=$(echo $pkg_name | tr 'a-z' 'A-Z')
+    local build=$(echo $i | cut -d= -f2)
+    if [[ $build =~ ^(yes|YES|true|TRUE)$ ]]; then
+      local ver="STACK_${pkg_name}_version"
+      set +u
+      local stack_ver=${!ver}
+      set -u
+      echo "build: $pkg_name | version: $stack_ver"
+    fi
+  done
+  echo "=========================="
+}
+
 export -f update_modules
 export -f no_modules
 export -f set_pkg_root
@@ -235,3 +254,4 @@ export -f set_no_modules_path
 export -f build_lib
 export -f build_nceplib
 export -f parse_yaml
+export -f build_info

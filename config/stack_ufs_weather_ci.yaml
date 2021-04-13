@@ -81,10 +81,10 @@ esmf:
   debug: NO
 
 fms:
-  build: NO
-  version: master
+  build: YES
+  version: 2020.04.03
   repo: noaa-gfdl
-  cmake_opts: "-DGFS_PHYS=ON -DLARGEFILE=ON"
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
 bacio:
   build: YES
@@ -177,8 +177,8 @@ nceppost:
 
 upp:
   build: YES
-  version: upp_v10.0.0
-  install_as: 10.0.0
+  version: upp_v10.0.5
+  install_as: 10.0.5
   openmp: ON
 
 wrf_io:
