@@ -67,7 +67,6 @@ source "${HPC_STACK_ROOT}/stack_helpers.sh"
 # Source the config file
 if [[ -e $config ]]; then
   source $config
-  echo "INFO: CONFIG FILE: $config"
 else
   echo "ERROR: CONFIG FILE $config DOES NOT EXIST, ABORT!"
   exit 1
