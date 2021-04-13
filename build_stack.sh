@@ -75,7 +75,6 @@ fi
 # Source the yaml to determine software and version
 if [[ -e $yaml ]]; then
   eval $(parse_yaml $yaml "STACK_")
-  echo "INFO: YAML FILE: $yaml"
 else
   echo "ERROR: YAML FILE $yaml DOES NOT EXIST, ABORT!"
   exit 1
