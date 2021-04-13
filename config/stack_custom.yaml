@@ -231,7 +231,7 @@ gsl_lite:
 
 gptl:
   build: NO
- v ersion: 8.0.2
+  version: 8.0.2
 
 fftw:
   build: NO
