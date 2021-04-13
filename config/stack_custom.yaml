@@ -229,6 +229,10 @@ gsl_lite:
   build: YES
   version: 0.37.0
 
+gsl:
+  build: YES
+  version: 2.6
+
 gptl:
   build: NO
   version: 8.0.2
@@ -276,10 +280,6 @@ atlas:
   build: YES
   version: release-stable
   repo: jcsda
-
-gsl:
-  build: YES
-  version: 2.6
 
 met:
   build: YES
