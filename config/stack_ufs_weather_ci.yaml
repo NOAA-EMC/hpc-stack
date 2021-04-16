@@ -205,7 +205,12 @@ grib_util:
   install_as: 1.2.2
   openmp: ON
 
+gsl:
+  build: NO
+  version: 2.6
+
 ncio:
   build: YES
   version: develop
   install_as: 1.0.0
+

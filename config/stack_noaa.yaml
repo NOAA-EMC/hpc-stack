@@ -28,7 +28,7 @@ jasper:
   version: 2.0.25
 
 udunits:
-  build: YES
+  build: NO
   shared: NO
   version: 2.2.28
 
@@ -137,12 +137,12 @@ nemsio:
   install_as: 2.5.2
 
 nemsiogfs:
-  build: YES
+  build: NO
   version: v2.5.3
   install_as: 2.5.3
 
 w3emc:
-  build: YES
+  build: NO
   version: v2.7.3
   install_as: 2.7.3
 
@@ -157,12 +157,12 @@ g2c:
   install_as: 1.6.2
 
 g2tmpl:
-  build: YES
+  build: NO
   version: v1.9.1
   install_as: 1.9.1
 
 crtm:
-  build: YES
+  build: NO
   version: v2.3.0
   install_as: 2.3.0
 
@@ -173,7 +173,7 @@ upp:
   openmp: ON
 
 wrf_io:
-  build: YES
+  build: NO
   version: v1.1.1-cmake-v5
   install_as: 1.1.1
   openmp: ON
@@ -192,7 +192,7 @@ wgrib2:
   ipolates: 3
 
 prod_util:
-  build: YES
+  build: NO
   version: v1.2.2
   install_as: 1.2.2
 
@@ -202,18 +202,13 @@ grib_util:
   install_as: 1.2.2
   openmp: ON
 
-ncio:
-  build: YES
-  version: develop
-  install_as: 1.0.0
-
 boost:
-  build: YES
+  build: NO
   version: 1.68.0
   level: headers-only
 
 eigen:
-  build: YES
+  build: NO
   version: 3.3.7
 
 gsl_lite:
@@ -237,11 +232,11 @@ cgal:
   version: 5.0.2
 
 json:
-  build: YES
+  build: NO
   version: 3.9.1
 
 json_schema_validator:
-  build: YES
+  build: NO
   version: 2.1.0
 
 pybind11:
@@ -249,21 +244,36 @@ pybind11:
   version: 2.5.0
 
 ecbuild:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 eckit:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 fckit:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 atlas:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
+
+gsl:
+  build: YES
+  version: 2.6
+
+met:
+  build: YES
+  version: 9.1.1
+  release_date: 20201118
+
+metplus:
+  build: YES
+  version: 3.1.1
+  met_version: 9.1.1
+

@@ -142,6 +142,7 @@ build_lib zlib
 build_lib png
 build_lib szip
 build_lib jasper
+build_lib gsl
 
 #----------------------
 # MPI-dependent
@@ -205,6 +206,11 @@ build_lib ecbuild
 build_lib eckit
 build_lib fckit
 build_lib atlas
+
+# MET and METplus
+
+build_lib met
+build_lib metplus
 
 # ==============================================================================
 # optionally clean up
