@@ -212,7 +212,7 @@ grib_util:
   openmp: ON
 
 gsl:
-  build: YES
+  build: NO
   version: 2.6
 
 ncio:

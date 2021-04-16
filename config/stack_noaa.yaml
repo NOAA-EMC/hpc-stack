@@ -71,7 +71,7 @@ pio:
   enable_gptl: NO
 
 esmf:
-  build: NO
+  build: YES
   version: 8_1_0_beta_snapshot_27
   shared: NO
   enable_pnetcdf: NO
@@ -89,17 +89,17 @@ bacio:
   install_as: 2.4.1
 
 sigio:
-  build: NO
+  build: YES
   version: v2.3.2
   install_as: 2.3.2
 
 sfcio:
-  build: NO
+  build: YES
   version: v1.4.1
   install_as: 1.4.1
 
 gfsio:
-  build: NO
+  build: YES
   version: v1.4.1
   install_as: 1.4.1
 
@@ -127,12 +127,12 @@ ip2:
   openmp: ON
 
 landsfcutil:
-  build: NO
+  build: YES
   version: v2.4.1
   install_as: 2.4.1
 
 nemsio:
-  build: NO
+  build: YES
   version: v2.5.2
   install_as: 2.5.2
 

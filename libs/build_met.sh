@@ -1,18 +1,10 @@
-#!/bin/bash                                                                                                                              
+#!/bin/bash    
 
 set -eux
 
 name="met"
 version=${1:-${STACK_met_version}}
 release_date=${2:-${STACK_met_release_date}}
-
-cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-software=$name-$version.$release_date
-pkg_name=$name-$version
-url="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
-[[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
-
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -21,19 +13,18 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 export LMOD_EXACT_MATCH="no"
 
 if $MODULES; then
-    
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
-    module load hdf5
-    module load netcdf
     module load bufr
-    module load g2c
     module load zlib
     module load jasper
     module load png
+    module load g2c
     module load gsl
+    module load hdf5
+    module load netcdf
     module list
     set -x
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
@@ -91,16 +82,27 @@ fi
 export CFLAGS+="-D__64BIT__"
 export CXXFLAGS+="-D__64BIT__"
 
+cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+software=$name-$version.$release_date
+pkg_name=$name-$version
+url="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.gz"
+[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
+[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+[[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
+
+set +x
+
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}
 curr_dir=$(pwd)
-echo "$(pwd)"
 
 echo "MET Configuration settings..."
 printenv | egrep "^MET_" | sed -r 's/^/export /g'
 echo "LDFLAGS = ${LDFLAGS}"
 
-echo "./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python"
+#echo "./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python"
 ./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python
+
+set -x
 
 ret=$?
 if [ $ret != 0 ]; then
@@ -117,7 +119,7 @@ if [ $ret != 0 ]; then
 fi
 
 echo "make install > make_install.log 2>&1"
-make install > make_install.log 2>&1
+$SUDO make install > make_install.log 2>&1
 ret=$?
 if [ $? != 0 ]; then
     echo "make install returned with non-zero ($ret) status"
@@ -125,6 +127,7 @@ if [ $? != 0 ]; then
 fi
 
 echo "make test > make_test.log 2>&1"
+[[ $MAKE_CHECK =~ [yYtT] ]] && make check
 make test > make_test.log 2>&1
 ret=$?
 if [ $? != 0 ]; then
