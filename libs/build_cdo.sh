@@ -34,7 +34,6 @@ if $MODULES; then
   fi
 else
   prefix=${CDO_ROOT:-"/usr/local"}
-  [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] || enable_pnetcdf=$(nc-config --has-pnetcdf)
 fi
 
 if [[ ! -z $mpi ]]; then
@@ -87,6 +86,8 @@ HDF5_LIBS="-lhdf5_hl -lhdf5"
 
 AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
 EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+
+enable_pnetcdf=$(nc-config --has-pnetcdf)
 
 if [[ ! -z $mpi ]]; then
     if [[ $enable_pnetcdf =~ [yYtT] ]]; then
