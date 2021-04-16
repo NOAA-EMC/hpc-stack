@@ -69,13 +69,13 @@ cdo:
 
 pio:
   build: YES
-  version: 2.5.2
+  version: 2.5.3
   enable_pnetcdf: NO
   enable_gptl: NO
 
 esmf:
   build: YES
-  version: 8_1_0_beta_snapshot_27
+  version: 8_1_0
   shared: YES
   enable_pnetcdf: NO
   debug: NO
@@ -168,12 +168,6 @@ crtm:
   build: YES
   version: v2.3.0
   install_as: 2.3.0
-
-nceppost:
-  build: NO
-  version: dceca26
-  install_as: dceca26
-  openmp: ON
 
 upp:
   build: YES

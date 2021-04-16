@@ -74,7 +74,7 @@ else
 fi
 
 make -j${NTHREADS:-4}
-[[ $MAKE_CHECK =~ [yYtT] ]] && make check
+[[ $MAKE_CHECK =~ [yYtT] ]] && make test
 $SUDO make install
 
 # generate modulefile from template
