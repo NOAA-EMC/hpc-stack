@@ -206,6 +206,9 @@ build_lib eckit
 build_lib fckit
 build_lib atlas
 
+# Other
+build_lib madis
+
 # ==============================================================================
 # optionally clean up
 [[ $MAKE_CLEAN =~ [yYtT] ]] && \
