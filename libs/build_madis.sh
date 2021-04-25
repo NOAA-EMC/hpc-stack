@@ -9,8 +9,6 @@ version=${1:-${STACK_madis_version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
-[[ ${STACK_madis_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
-
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -96,7 +94,9 @@ export NETCDF_INC="${NETCDF_ROOT}/include"
 
 make -j${NTHREADS:-4}
 
-# `make` builds in predefined paths bin/ include/ lib/ doc/ share/
+# `make` builds and installs in predefined paths hard-wired in makefile
+# ../bin/ ../include/ ../lib/
+# ../doc/ ../share/ and ../static/ are already populated prior to build
 # move them to $prefix
 cd ..
 $SUDO mv -r bin     $prefix/
@@ -104,7 +104,9 @@ $SUDO mv -r include $prefix/
 $SUDO mv -r lib     $prefix/
 $SUDO mv -r doc     $prefix/
 $SUDO mv -r share   $prefix/
+$SUDO mv -r static  $prefix/
 
 # generate modulefile from template
-$MODULES && update_modules compiler $name $version
+[[ -z $mpi ]] && modpath=compiler || modpath=mpi
+$MODULES && update_modules $modpath $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
