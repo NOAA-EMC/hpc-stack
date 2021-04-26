@@ -61,7 +61,7 @@ if [[ ! -z $mpi ]]; then
 fi
 
 NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
-NETCDF_LIBS="-lnetcdf"
+NETCDF_LIBS="-lnetcdf -lnetcdff"
 
 export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS} ${AM_LDFLAGS:-}"
 export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS} ${HDF5_LIBS} ${EXTRA_LIBS:-}"
@@ -71,10 +71,10 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
 URL="https://madis-data.ncep.noaa.gov/source/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $URL )
-mkdir -p $software && cd $software
-tar -xf ../$software.tar.gz && rm -f ../$software.tar.gz
+[[ -f $software.tar.gz ]] || ( $WGET $URL )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+rm -rf $software && mkdir -p $software && cd $software
+tar -xf ../$software.tar.gz
 
 # cd into src/ directory where the makefile is
 cd src
@@ -92,19 +92,20 @@ sed -i -e 's/LDFLAGS=/#LDFLAGS/g'       makefile
 export NETCDF_LIB=$LIBS
 export NETCDF_INC="${NETCDF_ROOT}/include"
 
-make -j${NTHREADS:-4}
+# make in MADIS does not support parallel build
+VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-1}
 
 # `make` builds and installs in predefined paths hard-wired in makefile
 # ../bin/ ../include/ ../lib/
-# ../doc/ ../share/ and ../static/ are already populated prior to build
+# ../doc/ and ../static/ are already populated prior to build
 # move them to $prefix
 cd ..
-$SUDO mv -r bin     $prefix/
-$SUDO mv -r include $prefix/
-$SUDO mv -r lib     $prefix/
-$SUDO mv -r doc     $prefix/
-$SUDO mv -r share   $prefix/
-$SUDO mv -r static  $prefix/
+$SUDO mkdir -p   $prefix/
+$SUDO mv bin     $prefix/
+$SUDO mv include $prefix/
+$SUDO mv lib     $prefix/
+$SUDO mv doc     $prefix/
+$SUDO mv static  $prefix/
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
