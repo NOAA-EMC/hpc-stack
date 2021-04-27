@@ -7,8 +7,10 @@ version=${1:-${STACK_boost_version}}
 level=${2:-${STACK_boost_level:-"full"}}
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
 software=$name\_$(echo $version | sed 's/\./_/g')
-URL="https://dl.bintray.com/boostorg/release/$version/source/$software.tar.gz"
+URL="https://boostorg.jfrog.io/artifactory/main/release/$version/source/$software.tar.gz"
+
 [[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
