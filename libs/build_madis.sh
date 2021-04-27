@@ -93,7 +93,7 @@ export NETCDF_LIB=$LIBS
 export NETCDF_INC="${NETCDF_ROOT}/include"
 
 # make in MADIS does not support parallel build
-VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-1}
+VERBOSE=$MAKE_VERBOSE make #-j${NTHREADS:-4}
 
 # `make` builds and installs in predefined paths hard-wired in makefile
 # ../bin/ ../include/ ../lib/
