@@ -100,12 +100,17 @@ VERBOSE=$MAKE_VERBOSE make #-j${NTHREADS:-4}
 # ../doc/ and ../static/ are already populated prior to build
 # move them to $prefix
 cd ..
-$SUDO mkdir -p   $prefix/
-$SUDO mv bin     $prefix/
-$SUDO mv include $prefix/
-$SUDO mv lib     $prefix/
-$SUDO mv doc     $prefix/
-$SUDO mv static  $prefix/
+$SUDO mkdir -p     $prefix/bin
+$SUDO mkdir -p     $prefix/include
+$SUDO mkdir -p     $prefix/lib
+$SUDO mkdir -p     $prefix/doc
+$SUDO mkdir -p     $prefix/static
+
+$SUDO mv bin/*     $prefix/bin/
+$SUDO mv include/* $prefix/include/
+$SUDO mv lib/*     $prefix/lib/
+$SUDO mv doc/*     $prefix/doc/
+$SUDO mv static/*  $prefix/static/
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
