@@ -43,7 +43,7 @@ include(GNUInstallDirs)
 file(WRITE "cmake_install_libdir.txt" ${CMAKE_INSTALL_LIBDIR})
 EOF
 
-        cmake ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test
+        cmake -S ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test -B ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test
     fi
 
     # The test script outputs "cmake_install_libdir.txt" which contains the lib dir value
