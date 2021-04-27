@@ -44,6 +44,12 @@ URL="https://github.com/$repo/$name.git"
 
 git checkout $version
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+
+# Patch if requested
+if [[ ! -z "${STACK_fms_PATCH+x}" ]]; then
+  patch -p0 < ${HPC_STACK_ROOT}/patches/${STACK_fms_PATCH}
+fi
+
 [[ -d build ]] && $SUDO rm -rf build
 mkdir -p build && cd build
 
