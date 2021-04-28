@@ -9,7 +9,8 @@ mpi:
 
 cmake:
   build: NO
-  version: 3.17.2
+  bootstrap: NO
+  version: 3.20.1
 
 jpeg:
   build: YES
