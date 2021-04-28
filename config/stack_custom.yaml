@@ -270,3 +270,7 @@ atlas:
   build: YES
   version: release-stable
   repo: jcsda
+
+madis:
+  build: YES
+  version: 4.3
