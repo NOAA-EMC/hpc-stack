@@ -138,6 +138,7 @@ script.
   - [JSON for C++](https://github.com/nlohmann/json/)
   - [JSON Schema Validator for C++](https://github.com/pboettch/json-schema-validator)
   - [pybind11](https://github.com/pybind/pybind11)
+  - [MADIS](https://madis-data.ncep.noaa.gov)
 
 * UFS Dependencies
   - [ESMF](https://www.earthsystemcog.org/projects/esmf/)

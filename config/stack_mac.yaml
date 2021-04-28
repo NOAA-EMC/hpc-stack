@@ -77,7 +77,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_0
+  version: 8_1_1
   shared: NO
   enable_pnetcdf: NO
   debug: NO
@@ -185,8 +185,8 @@ wrf_io:
 
 bufr:
   build: YES
-  version: bufr_v11.4.0
-  install_as: 11.4.0
+  version: bufr_v11.5.0
+  install_as: 11.5.0
 
 wgrib2:
   build: YES
@@ -272,3 +272,7 @@ atlas:
   build: YES
   version: release-stable
   repo: jcsda
+
+madis:
+  build: YES
+  version: 4.3
