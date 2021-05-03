@@ -247,6 +247,19 @@ function build_info() {
   echo "=========================="
 }
 
+function compilermpi_info() {
+  local compiler=$HPC_COMPILER
+  local mpi=$HPC_MPI
+  local compilerName=$(echo $compiler | cut -d/ -f1)
+  local compilerVersion=$(echo $compiler | cut -d/ -f2)
+
+  local mpiName=$(echo $mpi | cut -d/ -f1)
+  local mpiVersion=$(echo $mpi | cut -d/ -f2)
+
+  echo "Compiler: $compilerName/$compilerVersion"
+  echo "MPI: $mpiName/$mpiVersion"
+}
+
 export -f update_modules
 export -f no_modules
 export -f set_pkg_root
@@ -255,3 +268,4 @@ export -f build_lib
 export -f build_nceplib
 export -f parse_yaml
 export -f build_info
+export -f compilermpi_info
