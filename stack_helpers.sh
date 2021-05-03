@@ -248,8 +248,8 @@ function build_info() {
 }
 
 function compilermpi_info() {
-  local compiler=$1
-  local mpi=$2
+  local compiler=$HPC_COMPILER
+  local mpi=$HPC_MPI
   local compilerName=$(echo $compiler | cut -d/ -f1)
   local compilerVersion=$(echo $compiler | cut -d/ -f2)
 
