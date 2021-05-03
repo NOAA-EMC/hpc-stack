@@ -3,7 +3,7 @@
 # the compiler/MPI combination
 #
 # sample usage:
-# build_stack.sh -p "prefix" -c "config.sh" -y "stack.yaml" -m
+# build_stack.sh -p "prefix" -c "config.sh" -y "stack.yaml" -l "library" -m
 # build_stack.sh -h
 
 set -eu
@@ -15,12 +15,13 @@ export HPC_STACK_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 
 usage() {
   set +x
   echo
-  echo "Usage: $0 -p <prefix> | -c <config> | -y <yaml> -m -h"
+  echo "Usage: $0 -p <prefix> | -c <config> | -y <yaml> | -l <library> -m -h"
   echo
   echo "  -p  installation prefix <prefix>    DEFAULT: $HOME/opt"
   echo "  -c  use configuration file <config> DEFAULT: config/config_custom.sh"
   echo "  -y  use yaml file <yaml>            DEFAULT: config/stack_custom.yaml"
   echo "  -m  use modules                     DEFAULT: NO"
+  echo "  -l  library to install <library>    DEFAULT: ALL"
   echo "  -h  display this message and quit"
   echo
   exit 1
@@ -29,6 +30,7 @@ usage() {
 # ==============================================================================
 
 # Defaults:
+library=""
 export PREFIX="$HOME/opt"
 config="${HPC_STACK_ROOT}/config/config_custom.sh"
 yaml="${HPC_STACK_ROOT}/config/stack_custom.yaml"
@@ -44,6 +46,9 @@ while getopts ":p:c:y:mh" opt; do
       ;;
     y)
       yaml=$OPTARG
+      ;;
+    l)
+      library=$OPTARG
       ;;
     m)
       export MODULES=true
@@ -104,6 +109,14 @@ fi
 # Echo compiler, mpi and build information
 compilermpi_info
 build_info
+
+# ==============================================================================
+# Is this a single library build or the entire stack?
+if [ -n "${library:-""}" ]; then
+  build_lib $library
+  echo "build_stack.sh: SUCCESS!"
+  exit 0
+fi
 
 # ==============================================================================
 #----------------------
