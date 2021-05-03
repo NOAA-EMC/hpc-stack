@@ -37,8 +37,6 @@ usage() {
 
 #===============================================================================
 
-[[ $# -eq 0 ]] && usage
-
 # Defaults:
 PREFIX="$HOME/opt"
 config="${HPC_STACK_ROOT}/config/config_custom.sh"
@@ -57,6 +55,10 @@ while getopts ":p:c:h" opt; do
   esac
 done
 
+# ==============================================================================
+# Source helper functions
+source "${HPC_STACK_ROOT}/stack_helpers.sh"
+
 #===============================================================================
 
 # Source the config file
@@ -68,16 +70,10 @@ else
 fi
 
 #===============================================================================
+# Echo compiler, mpi and build information
+compilermpi_info
 
-compilerName=$(echo $HPC_COMPILER | cut -d/ -f1)
-compilerVersion=$(echo $HPC_COMPILER | cut -d/ -f2)
-
-mpiName=$(echo $HPC_MPI | cut -d/ -f1)
-mpiVersion=$(echo $HPC_MPI | cut -d/ -f2)
-
-echo "Compiler: $compilerName/$compilerVersion"
-echo "MPI: $mpiName/$mpiVersion"
-
+#===============================================================================
 # install with root permissions?
 [[ $USE_SUDO =~ [yYtT] ]] && SUDO="sudo" || SUDO=""
 

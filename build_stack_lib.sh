@@ -1,10 +1,10 @@
 #!/bin/bash
-# The purpose of this script is to build the software stack using
-# the compiler/MPI combination
+# The purpose of this script is to build a single library in the
+# software stack using the compiler/MPI combination
 #
 # sample usage:
-# build_stack.sh -p "prefix" -c "config.sh" -y "stack.yaml" -m
-# build_stack.sh -h
+# build_stack_lib.sh -p "prefix" -c "config.sh" -y "stack.yaml" -m -l "library_name"
+# build_stack_lib.sh -h
 
 set -eu
 
@@ -12,11 +12,13 @@ set -eu
 export HPC_STACK_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # ==============================================================================
+
 usage() {
   set +x
   echo
-  echo "Usage: $0 -p <prefix> | -c <config> | -y <yaml> -m -h"
+  echo "Usage: $0 -l <library> | -p <prefix> | -c <config> | -y <yaml> -m -h"
   echo
+  echo "  -l  library to install <library>    DEFAULT: NONE, REQUIRED"
   echo "  -p  installation prefix <prefix>    DEFAULT: $HOME/opt"
   echo "  -c  use configuration file <config> DEFAULT: config/config_custom.sh"
   echo "  -y  use yaml file <yaml>            DEFAULT: config/stack_custom.yaml"
@@ -27,15 +29,18 @@ usage() {
 }
 
 # ==============================================================================
-
 # Defaults:
+unset LIBRARY
 export PREFIX="$HOME/opt"
 config="${HPC_STACK_ROOT}/config/config_custom.sh"
 yaml="${HPC_STACK_ROOT}/config/stack_custom.yaml"
 export MODULES=false
 
-while getopts ":p:c:y:mh" opt; do
+while getopts ":l:p:c:y:mh" opt; do
   case $opt in
+    l)
+      LIBRARY=$OPTARG
+      ;;
     p)
       export PREFIX=$OPTARG
       ;;
@@ -53,6 +58,15 @@ while getopts ":p:c:y:mh" opt; do
       ;;
   esac
 done
+
+# Make sure required arguments are provided
+shift "$(( OPTIND - 1 ))"
+set +u
+if [ -z "$LIBRARY" ]; then
+  echo 'Missing -l <library' >&2
+  usage
+fi
+set -u
 
 # ==============================================================================
 # Source helper functions
@@ -103,95 +117,10 @@ fi
 # ==============================================================================
 # Echo compiler, mpi and build information
 compilermpi_info
-build_info
-
+echo "build: $LIBRARY | version: ${STACK_\${LIBRARY}_version}"
 # ==============================================================================
-#----------------------
-# Compiler and MPI
-build_lib gnu
-$MODULES || { [[ ${STACK_gnu_build:-} =~ [yYtT] ]] && export PATH="$PREFIX/bin:$PATH"; }
-build_lib mpi
-$MODULES || { [[ ${STACK_mpi_build:-} =~ [yYtT] ]] && export PATH="$PREFIX/bin:$PATH"; }
-
-# ==============================================================================
-#----------------------
-# MPI-independent
-# - should add a check at some point to see if they are already there.
-# this can be done in each script individually
-# it might warrant a --force flag to force rebuild when desired
-build_lib cmake
-build_lib udunits
-build_lib jpeg
-build_lib zlib
-build_lib png
-build_lib szip
-build_lib jasper
-
-#----------------------
-# MPI-dependent
-# These must be rebuilt for each MPI implementation
-build_lib hdf5
-build_lib pnetcdf
-build_lib netcdf
-build_lib nccmp
-build_lib nco
-build_lib cdo
-build_lib pio
-
-# UFS 3rd party dependencies
-
-build_lib esmf
-build_lib fms
-
-# NCEPlibs
-
-build_nceplib bacio
-build_nceplib sigio
-build_nceplib sfcio
-build_nceplib gfsio
-build_nceplib w3nco
-build_nceplib sp
-build_nceplib ip
-build_nceplib ip2
-build_nceplib landsfcutil
-build_nceplib nemsio
-build_nceplib nemsiogfs
-build_nceplib w3emc
-build_nceplib g2
-build_nceplib g2c
-build_nceplib g2tmpl
-build_nceplib crtm
-build_nceplib nceppost
-build_nceplib upp
-build_nceplib wrf_io
-build_nceplib bufr
-build_nceplib wgrib2
-build_nceplib prod_util
-build_nceplib grib_util
-build_nceplib ncio
-
-# JEDI 3rd party dependencies
-
-build_lib boost
-build_lib eigen
-build_lib gsl_lite
-build_lib gptl
-build_lib fftw
-build_lib tau2
-build_lib cgal
-build_lib json
-build_lib json_schema_validator
-build_lib pybind11
-
-# JCSDA JEDI dependencies
-
-build_lib ecbuild
-build_lib eckit
-build_lib fckit
-build_lib atlas
-
-# Other
-build_lib madis
+# Build desired library
+build_lib $LIBRARY
 
 # ==============================================================================
 # optionally clean up
@@ -199,4 +128,4 @@ build_lib madis
     ( $SUDO rm -rf $pkgdir; $SUDO rm -rf $logdir )
 
 # ==============================================================================
-echo "build_stack.sh: SUCCESS!"
+echo "build_stack_lib.sh: SUCCESS!"
