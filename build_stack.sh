@@ -36,7 +36,7 @@ config="${HPC_STACK_ROOT}/config/config_custom.sh"
 yaml="${HPC_STACK_ROOT}/config/stack_custom.yaml"
 export MODULES=false
 
-while getopts ":p:c:y:mh" opt; do
+while getopts ":p:c:y:l:mh" opt; do
   case $opt in
     p)
       export PREFIX=$OPTARG
