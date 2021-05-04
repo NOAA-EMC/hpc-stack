@@ -8,7 +8,7 @@ mpi:
   version: 4.0.1
 
 cmake:
-  build: YES
+  build: NO
   bootstrap: YES
   version: 3.20.1
 
