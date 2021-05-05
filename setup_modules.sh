@@ -70,8 +70,12 @@ else
 fi
 
 #===============================================================================
-# Echo compiler, mpi and build information
+# Echo compiler and mpi information
 compilermpi_info
+compilerName=$(echo $HPC_COMPILER | cut -d/ -f1)
+compilerVersion=$(echo $HPC_COMPILER | cut -d/ -f2)
+mpiName=$(echo $HPC_MPI | cut -d/ -f1)
+mpiVersion=$(echo $HPC_MPI | cut -d/ -f2)
 
 #===============================================================================
 # install with root permissions?
