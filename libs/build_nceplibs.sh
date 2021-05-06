@@ -35,6 +35,11 @@ if $MODULES; then
       [[ -z $mpi ]] || module load hpc-$HPC_MPI
       module load netcdf
       ;;
+    gsiwrfio)
+      mpi=$mpi_check
+      [[ -z $mpi ]] || module load hpc-$HPC_MPI
+      module load netcdf
+      ;;
     wgrib2)
       mpi=$mpi_check
       [[ -z $mpi ]] || module load hpc-$HPC_MPI
@@ -168,6 +173,9 @@ case $name in
     ;;
   crtm)
     URL="https://github.com/noaa-emc/emc_crtm"
+    ;;
+  gsiwrfio)
+    URL="https://github.com/comgsi/gsiwrfio"
     ;;
   wgrib2)
     [[ -z ${STACK_wgrib2_ipolates:-} ]] && ipolates=0   || ipolates=$STACK_wgrib2_ipolates
