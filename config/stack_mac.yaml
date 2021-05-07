@@ -3,7 +3,7 @@ gnu:
   version: 9.3.0
 
 mpi:
-  build: NO
+  build: YES
   flavor: mpich
   version: 3.3.1
 

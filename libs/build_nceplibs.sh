@@ -212,6 +212,7 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 [[ $USE_SUDO =~ [yYtT] ]] && sudo -- bash -c "export PATH=$PATH; make install" \
                           || make install
+
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 pythonVersion="$(python --version | cut -d " " -f2 | cut -d. -f1-2)"
