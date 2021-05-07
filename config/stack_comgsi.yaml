@@ -166,7 +166,7 @@ g2tmpl:
   install_as: 1.9.1
 
 crtm:
-  build: NO
+  build: YES
   version: v2.3.0
   install_as: 2.3.0
 
