@@ -20,26 +20,41 @@ openmp=${4:-${s_openmp:-"OFF"}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi_check=$(echo $HPC_MPI | sed 's/\//-/g')
-python_check=$(echo $HPC_PYTHON | sed 's/\//-/g')
-mpi=''
-python=''
+mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+python=$(echo $HPC_PYTHON | sed 's/\//-/g')
 
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
 
+  case $name in
+    # The following require MPI
+    nemsio | nemsiogfs | ncio | nceppost | upp | w3emc)
+      module load hpc-$HPC_MPI
+      using_mpi=YES
+      ;;
+    # The following can use MPI (if available)
+    wrf_io | wgrib2)
+      if [[ ! -z $mpi ]]; then
+        module load hpc-$HPC_MPI
+        using_mpi=YES
+      else
+        using_mpi=NO
+      fi
+      ;;
+    # The rest don't need MPI at all
+    *)
+      using_mpi=NO
+      ;;
+  esac
+
   # Load dependencies
   case $name in
     wrf_io)
-      mpi=$mpi_check
-      [[ -z $mpi ]] || module load hpc-$HPC_MPI
       module load netcdf
       ;;
     wgrib2)
-      mpi=$mpi_check
-      [[ -z $mpi ]] || module load hpc-$HPC_MPI
       module try-load jpeg
       module try-load jasper
       module try-load zlib
@@ -62,30 +77,18 @@ if $MODULES; then
       module try-load jasper
       ;;
     nemsio)
-      mpi=$mpi_check
-      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
-      module load hpc-$HPC_MPI
       module load bacio
       module load w3nco
       ;;
     nemsiogfs)
-      mpi=$mpi_check
-      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
-      module load hpc-$HPC_MPI
       module load nemsio
       ;;
     w3emc)
-      mpi=$mpi_check
-      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
-      module load hpc-$HPC_MPI
       module load netcdf
       module load sigio
       module load nemsio
       ;;
     nceppost | upp)
-      mpi=$mpi_check
-      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
-      module load hpc-$HPC_MPI
       module try-load png
       module try-load jasper
       module load netcdf
@@ -119,9 +122,6 @@ if $MODULES; then
       module load w3nco
       ;;
     ncio)
-      mpi=$mpi_check
-      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
-      module load hpc-$HPC_MPI
       module load netcdf
       ;;
     bufr)
@@ -142,12 +142,30 @@ if $MODULES; then
   fi
 
 else
-    nameUpper=$(echo $name | tr [a-z] [A-Z])
-    eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
-    [[ ! -z $mpi_check ]] && mpi=$mpi_check
+
+  nameUpper=$(echo $name | tr [a-z] [A-Z])
+  eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
+  case $name in
+    # The following require MPI
+    nemsio | nemsiogfs | ncio | nceppost | upp | w3emc)
+      using_mpi=YES
+      ;;
+    # The following can use MPI (if available)
+    wrf_io | wgrib2)
+      if [[ ! -z $mpi ]]; then
+        using_mpi=YES
+      else
+        using_mpi=NO
+      fi
+      ;;
+    *)
+      using_mpi=NO
+      ;;
+  esac
+
 fi
 
-if [[ ! -z $mpi ]]; then
+if [[ $using_mpi =~ [yYtT] ]]; then
   export FC=$MPI_FC
   export CC=$MPI_CC
   export CXX=$MPI_CXX
@@ -214,7 +232,7 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
                           || make install
 
 # generate modulefile from template
-[[ -z $mpi ]] && modpath=compiler || modpath=mpi
+[[ $using_mpi =~ [yYtT] ]] && modpath=mpi || modpath=compiler
 pythonVersion="$(python --version | cut -d " " -f2 | cut -d. -f1-2)"
 $MODULES && update_modules $modpath $name $install_as $python_version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
