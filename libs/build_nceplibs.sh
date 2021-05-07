@@ -126,8 +126,6 @@ if $MODULES; then
       ;;
     bufr)
       if [[ ${STACK_bufr_python:-} =~ [yYtT] ]]; then
-        python=$python_check
-        [[ -z $python ]] && ( echo "$name with python_API requires PYTHON, ABORT!"; exit 1 )
         module load hpc-$HPC_PYTHON
       fi
       ;;
