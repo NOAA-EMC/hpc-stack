@@ -5,6 +5,7 @@ function update_modules {
   local modpath=$1
   local name=$2
   local version=$3
+  local python_version=$4
   case $modpath in
     core )
       local tmpl_file=$HPC_STACK_ROOT/modulefiles/core/$name/$name.lua
@@ -30,31 +31,30 @@ function update_modules {
   cd $to_dir || ( echo "ERROR: $to_dir MODULE DIRECTORY NOT FOUND! ABORT!"; exit 1 )
   $SUDO mkdir -p $name; cd $name
 
-  if [[ $name != "cmake" || $name != "mpi" || $name != "gnu" ]]; then
-    # CMAKE_INSTALL_LIBDIR is used by some projects (i.e. lib, lib64)
-    # Detect this when installing the module so the module variables point to the correct path
-    if [[ ! -f ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test/cmake_install_libdir.txt ]]; then
-        mkdir -p ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test
-
-        cat <<'EOF' > ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test/CMakeLists.txt
+  # CMAKE_INSTALL_LIBDIR is used by some projects (i.e. lib, lib64)
+  # Detect this when installing the module so the module variables point to the correct path
+  local testdir=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test
+  if [[ ! -f $testdir/cmake_install_libdir.txt ]]; then
+    mkdir -p $testdir
+    cat >> $testdir/CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.0)
 project(test_install_dir LANGUAGES C)
 include(GNUInstallDirs)
-file(WRITE "cmake_install_libdir.txt" ${CMAKE_INSTALL_LIBDIR})
+file(WRITE "cmake_install_libdir.txt" \${CMAKE_INSTALL_LIBDIR})
 EOF
+    cmake -S $testdir -B $testdir
+  fi
 
-        cmake -S ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test -B ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test
-    fi
-
-    # The test script outputs "cmake_install_libdir.txt" which contains the lib dir value
-    CMAKE_INSTALL_LIBDIR=$(cat ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test/cmake_install_libdir.txt)
-
+  if [[ $name != "cmake" || $name != "mpi" || $name != "gnu" ]]; then
+    CMAKE_INSTALL_LIBDIR=$(cat $testdir/cmake_install_libdir.txt)
+    CMAKE_OPTS="-DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}"
+    CMAKE_OPTS+=" -DTMPL_FILE=$tmpl_file -DVERSION=$version"
+    [[ -n "$4" ]] && CMAKE_OPTS+=" -DPYTHON_VERSION=$python_version"
     # Install the module with configure_file, replacing ${CMAKE_INSTALL_LIBDIR} (and potentially other variables)
     # with the actual value for that system
-    $SUDO cmake -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR} \
-          -DTMPL_FILE=$tmpl_file -DVERSION=$version -P ${HPC_STACK_ROOT}/cmake/configure_module.cmake
+    $SUDO cmake $CMAKE_OPTS -P ${HPC_STACK_ROOT}/cmake/configure_module.cmake
   else
-      $SUDO cp $tmpl_file $version.lua
+    $SUDO cp $tmpl_file $version.lua
   fi
 
   # Make the latest installed version the default
@@ -163,6 +163,7 @@ function set_no_modules_path() {
   local prefix=${PREFIX:-${HPC_OPT:-"/usr/local"}}
   export PATH=$prefix/bin${PATH:+:$PATH}
   export LD_LIBRARY_PATH=$prefix/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+  export LD_LIBRARY_PATH=$prefix/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
   export CMAKE_PREFIX_PATH=$prefix${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}
   echo "PATH = ${PATH}"
   echo "LD_LIBRARY_PATH = ${LD_LIBRARY_PATH}"

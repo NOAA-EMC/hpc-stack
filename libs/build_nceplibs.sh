@@ -21,7 +21,9 @@ openmp=${4:-${s_openmp:-"OFF"}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi_check=$(echo $HPC_MPI | sed 's/\//-/g')
+python_check=$(echo $HPC_PYTHON | sed 's/\//-/g')
 mpi=''
+python=''
 
 if $MODULES; then
   set +x
@@ -122,6 +124,13 @@ if $MODULES; then
       module load hpc-$HPC_MPI
       module load netcdf
       ;;
+    bufr)
+      if [[ ${STACK_bufr_python:-} =~ [yYtT] ]]; then
+        python=$python_check
+        [[ -z $python ]] && ( echo "$name with python_API requires PYTHON, ABORT!"; exit 1 )
+        module load hpc-$HPC_PYTHON
+      fi
+      ;;
   esac
   module list
   set -x
@@ -174,6 +183,9 @@ case $name in
     [[ -z ${STACK_wgrib2_spectral:-} ]] && spectral=OFF || spectral=$STACK_wgrib2_spectral
     extraCMakeFlags="-DUSE_SPECTRAL=$spectral -DUSE_IPOLATES=$ipolates"
     ;;
+  bufr)
+    [[ ${STACK_bufr_python:-} =~ [yYtT] ]] && extraCMakeFlags="-DENABLE_PYTHON=ON"
+    ;;
 esac
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
@@ -194,16 +206,14 @@ mkdir -p build && cd build
 
 cmake .. \
   -DCMAKE_INSTALL_PREFIX=$prefix \
-  -DENABLE_TESTS=OFF \
-  ${extraCMakeFlags:-} \
-  -DOPENMP=${openmp}
+  -DENABLE_TESTS=OFF -DOPENMP=${openmp} ${extraCMakeFlags:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 [[ $USE_SUDO =~ [yYtT] ]] && sudo -- bash -c "export PATH=$PATH; make install" \
                           || make install
-
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $install_as
+pythonVersion="$(python --version | cut -d " " -f2 | cut -d. -f1-2)"
+$MODULES && update_modules $modpath $name $install_as $python_version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

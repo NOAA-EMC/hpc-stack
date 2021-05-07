@@ -13,31 +13,31 @@ cmake:
   version: 3.20.1
 
 jpeg:
-  build: YES
+  build: NO
   version: 9.1.0
 
 zlib:
-  build: YES
+  build: NO
   version: 1.2.11
 
 png:
-  build: YES
+  build: NO
   version: 1.6.35
 
 szip:
-  build: YES
+  build: NO
   version: 2.1.1
 
 jasper:
-  build: YES
+  build: NO
   version: 2.0.25
 
 udunits:
-  build: YES
+  build: NO
   version: 2.2.28
 
 hdf5:
-  build: YES
+  build: NO
   version: 1.10.6
   shared: YES
   enable_szip: NO
@@ -49,7 +49,7 @@ pnetcdf:
   shared: YES
 
 netcdf:
-  build: YES
+  build: NO
   shared: YES
   enable_pnetcdf: NO
   version_c: 4.7.4
@@ -57,7 +57,7 @@ netcdf:
   version_cxx: 4.3.1
 
 nccmp:
-  build: YES
+  build: NO
   version: 1.8.7.0
 
 nco:
@@ -65,119 +65,119 @@ nco:
   version: 4.9.3
 
 cdo:
-  build: YES
+  build: NO
   version: 1.9.8
 
 pio:
-  build: YES
+  build: NO
   version: 2.5.3
   enable_pnetcdf: NO
   enable_gptl: NO
 
 esmf:
-  build: YES
+  build: NO
   version: 8_1_1
   shared: YES
   enable_pnetcdf: NO
   debug: NO
 
 fms:
-  build: YES
+  build: NO
   version: 2020.04.03
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
 bacio:
-  build: YES
+  build: NO
   version: v2.4.1
   install_as: 2.4.1
 
 sigio:
-  build: YES
+  build: NO
   version: v2.3.2
   install_as: 2.3.2
 
 sfcio:
-  build: YES
+  build: NO
   version: v1.4.1
   install_as: 1.4.1
 
 gfsio:
-  build: YES
+  build: NO
   version: v1.4.1
   install_as: 1.4.1
 
 w3nco:
-  build: YES
+  build: NO
   version: v2.4.1
   install_as: 2.4.1
 
 sp:
-  build: YES
+  build: NO
   version: v2.3.3
   install_as: 2.3.3
   openmp: ON
 
 ip:
-  build: YES
+  build: NO
   version: v3.3.3
   install_as: 3.3.3
   openmp: ON
 
 ip2:
-  build: YES
+  build: NO
   version: v1.1.2
   install_as: 1.1.2
   openmp: ON
 
 landsfcutil:
-  build: YES
+  build: NO
   version: v2.4.1
   install_as: 2.4.1
 
 nemsio:
-  build: YES
+  build: NO
   version: v2.5.2
   install_as: 2.5.2
 
 nemsiogfs:
-  build: YES
+  build: NO
   version: v2.5.3
   install_as: 2.5.3
 
 w3emc:
-  build: YES
+  build: NO
   version: v2.7.3
   install_as: 2.7.3
 
 g2:
-  build: YES
+  build: NO
   version: v3.4.1
   install_as: 3.4.1
 
 g2c:
-  build: YES
+  build: NO
   version: v1.6.2
   install_as: 1.6.2
 
 g2tmpl:
-  build: YES
+  build: NO
   version: v1.9.1
   install_as: 1.9.1
 
 crtm:
-  build: YES
+  build: NO
   version: v2.3.0
   install_as: 2.3.0
 
 upp:
-  build: YES
+  build: NO
   version: upp_v10.0.5
   install_as: 10.0.5
   openmp: ON
 
 wrf_io:
-  build: YES
+  build: NO
   version: v1.1.1-cmake-v5
   install_as: 1.1.1
   openmp: ON
@@ -186,9 +186,10 @@ bufr:
   build: YES
   version: bufr_v11.5.0
   install_as: 11.5.0
+  python: YES
 
 wgrib2:
-  build: YES
+  build: NO
   version: v2.0.8-cmake-v6
   install_as: 2.0.8
   openmp: ON
@@ -196,32 +197,32 @@ wgrib2:
   ipolates: 3
 
 prod_util:
-  build: YES
+  build: NO
   version: v1.2.2
   install_as: 1.2.2
 
 grib_util:
-  build: YES
+  build: NO
   version: v1.2.2
   install_as: 1.2.2
   openmp: ON
 
 ncio:
-  build: YES
+  build: NO
   version: develop
   install_as: 1.0.0
 
 boost:
-  build: YES
+  build: NO
   version: 1.68.0
   level: headers-only
 
 eigen:
-  build: YES
+  build: NO
   version: 3.3.7
 
 gsl_lite:
-  build: YES
+  build: NO
   version: 0.37.0
 
 gptl:
@@ -241,37 +242,37 @@ cgal:
   version: 5.0.2
 
 json:
-  build: YES
+  build: NO
   version: 3.9.1
 
 json_schema_validator:
-  build: YES
+  build: NO
   version: 2.1.0
 
 pybind11:
-  build: YES
+  build: NO
   version: 2.5.0
 
 ecbuild:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 eckit:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 fckit:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 atlas:
-  build: YES
+  build: NO
   version: release-stable
   repo: jcsda
 
 madis:
-  build: YES
+  build: NO
   version: 4.3
