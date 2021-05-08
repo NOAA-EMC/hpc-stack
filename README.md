@@ -389,9 +389,6 @@ setenv("LMOD_EXTENDED_DEFAULT", "yes")
 
 ## Known Issues
 
-- ESMF beta snapshot 27 does not work on macOS. `stack_mac` installs
-  beta 21 instead.
-
 - NetCDF-C++ does not build with LLVM Clang. It can be disabled by setting
 `disable_cxx: YES` in the stack file under the NetCDF section.
 
