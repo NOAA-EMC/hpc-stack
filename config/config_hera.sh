@@ -18,4 +18,5 @@ export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
 
 # Load these basic modules for Hera
+module purge
 module load cmake/3.16.1
