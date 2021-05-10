@@ -90,6 +90,7 @@ $SUDO mkdir -p $PREFIX/modulefiles/core
 $SUDO mkdir -p $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion
 $SUDO mkdir -p $PREFIX/modulefiles/mpi/$compilerName/$compilerVersion/$mpiName/$mpiVersion
 
+$SUDO mkdir -p $PREFIX/modulefiles/core/hpc-$pythonName
 $SUDO mkdir -p $PREFIX/modulefiles/core/hpc-$compilerName
 $SUDO mkdir -p $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName
 

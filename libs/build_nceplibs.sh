@@ -39,13 +39,7 @@ if $MODULES; then
       if [[ ! -z $mpi ]]; then
         module load hpc-$HPC_MPI
         using_mpi=YES
-      else
-        using_mpi=NO
       fi
-      ;;
-    # The rest don't need MPI at all
-    *)
-      using_mpi=NO
       ;;
   esac
 
@@ -125,15 +119,22 @@ if $MODULES; then
       module load netcdf
       ;;
     bufr)
-      if [[ ${STACK_bufr_python:-} =~ [yYtT] ]]; then
-        module load hpc-$HPC_PYTHON
+      if [[ ! -z $python ]]; then
+        if [[ ${STACK_bufr_python:-} =~ [yYtT] ]]; then
+          module load hpc-$HPC_PYTHON
+          using_python=YES
+        fi
       fi
       ;;
   esac
   module list
   set -x
 
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
+  if [[ ${using_mpi:-} =~ [yYtT] ]]; then
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
+  else
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$install_as"
+  fi
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -150,20 +151,13 @@ else
       ;;
     # The following can use MPI (if available)
     wrf_io | wgrib2)
-      if [[ ! -z $mpi ]]; then
-        using_mpi=YES
-      else
-        using_mpi=NO
-      fi
-      ;;
-    *)
-      using_mpi=NO
+      [[ ! -z $mpi ]] && using_mpi=YES
       ;;
   esac
 
 fi
 
-if [[ $using_mpi =~ [yYtT] ]]; then
+if [[ ${using_mpi:-} =~ [yYtT] ]]; then
   export FC=$MPI_FC
   export CC=$MPI_CC
   export CXX=$MPI_CXX
@@ -200,7 +194,9 @@ case $name in
     extraCMakeFlags="-DUSE_SPECTRAL=$spectral -DUSE_IPOLATES=$ipolates"
     ;;
   bufr)
-    [[ ${STACK_bufr_python:-} =~ [yYtT] ]] && extraCMakeFlags="-DENABLE_PYTHON=ON"
+    if [[ ${using_python:-} =~ [yYtT] ]]; then
+      extraCMakeFlags="-DENABLE_PYTHON=ON"
+    fi
     ;;
 esac
 
@@ -230,7 +226,7 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
                           || make install
 
 # generate modulefile from template
-[[ $using_mpi =~ [yYtT] ]] && modpath=mpi || modpath=compiler
-pythonVersion="$(python --version | cut -d " " -f2 | cut -d. -f1-2)"
-$MODULES && update_modules $modpath $name $install_as $python_version
+[[ ${using_mpi:-} =~ [yYtT] ]] && modpath=mpi || modpath=compiler
+[[ ${using_python:-} =~ [yYtT] ]] && py_version="$(python3 --version | cut -d " " -f2 | cut -d. -f1-2)"
+$MODULES && update_modules $modpath $name $install_as ${py_version:-}
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

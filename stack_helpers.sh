@@ -178,35 +178,36 @@ function build_lib() {
   set +u
   local stack_build=${!var}
   set -u
+
+  # Determine if $1 is a NCEPLib
+  case $1 in
+    bacio | sigio | sfcio | gfsio | nemsio | ncio | wrf_io | \
+    sp | ip | ip2 | \
+    landsfcutil | nemsiogfs | \
+    w3nco | w3emc | \
+    g2 | g2c | g2tmpl | wgrib2 | \
+    crtm | nceppost | upp | bufr | \
+    prod_util | grib_util )
+      is_nceplib=YES
+      ;;
+    *)
+      is_nceplib=NO
+      ;;
+  esac
+
   if [[ ${stack_build} =~ [yYtT] ]]; then
       [[ -f $logdir/$1.log ]] && ( logDate=$(date -r $logdir/$1.log +%F_%H%M); mv -f $logdir/$1.log $logdir/$1.log.$logDate )
-      ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$logdir/$1.log"
+      if [[ ${is_nceplib:-} =~ [yYtT] ]]; then
+        ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$logdir/$1.log"
+      else
+        ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$logdir/$1.log"
+      fi
       local ret=${PIPESTATUS[0]}
       if [[ $ret -gt 0 ]]; then
           echo "BUILD FAIL!  Lib: $1 Error:$ret"
           [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit $ret
       fi
       echo "BUILD SUCCESS! Lib: $1"
-  fi
-  set -x
-}
-
-function build_nceplib() {
-  # Args: lib name
-  set +x
-  local var="STACK_${1}_build"
-  set +u
-  local stack_build=${!var}
-  set -u
-  if [[ ${stack_build} =~ [yYtT] ]]; then
-      [[ -f $logdir/$1.log ]] && ( logDate=$(date -r $logdir/$1.log +%F_%H%M); mv -f $logdir/$1.log $logdir/$1.log.$logDate )
-      ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$logdir/$1.log"
-      local ret=${PIPESTATUS[0]}
-      if [[ $ret -gt 0 ]]; then
-          echo "BUILD FAIL!  NCEPlib: $1 Error:$ret"
-          [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit $ret
-      fi
-      echo "BUILD SUCCESS! NCEPlib: $1"
   fi
   set -x
 }
@@ -266,7 +267,6 @@ export -f no_modules
 export -f set_pkg_root
 export -f set_no_modules_path
 export -f build_lib
-export -f build_nceplib
 export -f parse_yaml
 export -f build_info
 export -f compilermpi_info
