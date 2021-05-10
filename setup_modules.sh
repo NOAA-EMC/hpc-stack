@@ -76,6 +76,8 @@ compilerName=$(echo $HPC_COMPILER | cut -d/ -f1)
 compilerVersion=$(echo $HPC_COMPILER | cut -d/ -f2)
 mpiName=$(echo $HPC_MPI | cut -d/ -f1)
 mpiVersion=$(echo $HPC_MPI | cut -d/ -f2)
+pythonName=$(echo $HPC_PYTHON | cut -d/ -f1)
+pythonVersion=$(echo $HPC_PYTHON | cut -d/ -f2)
 
 #===============================================================================
 # install with root permissions?
@@ -88,14 +90,26 @@ $SUDO mkdir -p $PREFIX/modulefiles/core
 $SUDO mkdir -p $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion
 $SUDO mkdir -p $PREFIX/modulefiles/mpi/$compilerName/$compilerVersion/$mpiName/$mpiVersion
 
+$SUDO mkdir -p $PREFIX/modulefiles/core/hpc-$pythonName
 $SUDO mkdir -p $PREFIX/modulefiles/core/hpc-$compilerName
 $SUDO mkdir -p $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName
 
 $SUDO mkdir -p $PREFIX/modulefiles/stack/hpc
 
 #===============================================================================
-# Are the hpc-$compilerName.lua, hpc-$mpiName.lua or hpc/stack.lua modulefiles present at $PREFIX?
+# Are the hpc-$pythonName.lua, hpc-$compilerName.lua, hpc-$mpiName.lua or hpc/stack.lua modulefiles present at $PREFIX?
 # If yes, query the user to ask to over-write
+
+if [[ -f $PREFIX/modulefiles/core/hpc-$pythonName/$pythonVersion.lua ]]; then
+  echo "WARNING: $PREFIX/modulefiles/core/hpc-$pythonName/$pythonVersion.lua exists!"
+  echo "Do you wish to over-write? [yes|YES|no|NO]: (DEFAULT: NO)  "
+  read response
+else
+  response="YES"
+fi
+[[ $response =~ [yYtT] ]] && overwritePythonModulefile=YES
+unset response
+
 if [[ -f $PREFIX/modulefiles/core/hpc-$compilerName/$compilerVersion.lua ]]; then
   echo "WARNING: $PREFIX/modulefiles/core/hpc-$compilerName/$compilerVersion.lua exists!"
   echo "Do you wish to over-write? [yes|YES|no|NO]: (DEFAULT: NO)  "
@@ -127,7 +141,23 @@ fi
 unset response
 
 #===============================================================================
-# Query the user if using native compiler and MPI, if overwriting (or writing for first time)
+# Query the user if using native python, compiler and MPI, if overwriting (or writing for first time)
+if [[ ${overwritePythonModulefile:-} =~ [yYtT] ]]; then
+  $SUDO cp $HPC_STACK_ROOT/modulefiles/core/hpc-$pythonName/hpc-$pythonName.lua \
+           $PREFIX/modulefiles/core/hpc-$pythonName/$pythonVersion.lua
+  echo "Are you using native python $pythonName [yes|YES|no|NO]: (DEFAULT: NO)  "
+  read response
+  if [[ $response =~ [yYtT] ]]; then
+    echo -e "==========================\n USING NATIVE PYTHON"
+    cd $PREFIX/modulefiles/core/hpc-$pythonName
+    $SUDO sed -i -e '/load(python)/d' $pythonVersion.lua
+    $SUDO sed -i -e '/prereq(python)/d' $pythonVersion.lua
+    [[ -f $pythonVersion.lua-e ]] && $SUDO rm -f "$pythonVersion.lua-e" # Stupid macOS does not understand -i, and creates a backup with -e (-e is the next sed option)
+    echo
+  fi
+  unset response
+fi
+
 if [[ ${overwriteCompilerModulefile:-} =~ [yYtT] ]]; then
   $SUDO cp $HPC_STACK_ROOT/modulefiles/core/hpc-$compilerName/hpc-$compilerName.lua \
            $PREFIX/modulefiles/core/hpc-$compilerName/$compilerVersion.lua

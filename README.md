@@ -23,15 +23,15 @@ Code Manager: Kyle Gerheiser
 
 Installers:
 
-Machine | Programmer
+Machine     | Programmer
 ------------|------------------
-Orion | Hang-Lei
-Hera | Kyle Gerheiser
-Jet | Kyle Gerheiser
-WCOSS-Dell | Hang-Lei
-cheyenne | Dom Heinzeller
-gaea | Dom Heinzeller
-WCOSS-Cray | Hang-Lei
+Hera        | Kyle Gerheiser
+Jet         | Kyle Gerheiser
+Orion       | Hang-Lei
+WCOSS-Dell  | Hang-Lei
+WCOSS-Cray  | Hang-Lei
+Cheyenne    | Dom Heinzeller
+Gaea        | Dom Heinzeller
 
 ## Prerequisites:
 
@@ -47,8 +47,8 @@ in the following sections.
 
 ## Step 1: Configure Build
 
-The first step is to choose the **COMPILER** and the **MPI** specify
-any other aspects of the build that you would like.  This is normally
+The first step is to choose the **COMPILER**, **MPI**, and **PYTHON** and
+specify any other aspects of the build that you would like.  This is normally
 done by editing the file `config/config_custom.sh`.  Here we describe
 some of the parameter settings available.
 
@@ -60,6 +60,10 @@ some of the parameter settings available.
 - **HPC_MPI:** is the MPI library you wish to use for this build.  The
     format is the same as for `HPC_COMPILER`, for example:
     `HPC_MPI=impi/2020`.
+
+- **HPC_PYTHON:** is the Python Interpretor you wish to use for this build.  The
+    format is the same as for `HPC_COMPILER`, for example:
+    `HPC_PYTHON=python/3.7.5`.
 
 - **USE_SUDO:** If `PREFIX` is set to a value that requires root
     permission to write to, such as `/opt/modules`, then this flag
@@ -181,7 +185,7 @@ script.
   packages that may already have been built from other compiler/MPI
   combinations.
 
-## Step 2: Set Up Compiler, MPI, and Module System
+## Step 2: Set Up Compiler, MPI, Python, and Module System
 
 This step is only required if using LMod modules for managing the
 software stack.  If LMod is not desired or used, the user can skip
@@ -384,9 +388,6 @@ setenv("LMOD_EXTENDED_DEFAULT", "yes")
 ```
 
 ## Known Issues
-
-- ESMF beta snapshot 27 does not work on macOS. `stack_mac` installs
-  beta 21 instead.
 
 - NetCDF-C++ does not build with LLVM Clang. It can be disabled by setting
 `disable_cxx: YES` in the stack file under the NetCDF section.

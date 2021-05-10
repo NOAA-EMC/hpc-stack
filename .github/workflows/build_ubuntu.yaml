@@ -24,6 +24,13 @@ jobs:
         sudo apt-get update
         sudo apt-get install libmpich-dev
 
+    - name: Install dependencies
+      run: |
+        sudo apt-get install python3-pip python3-dev python3-numpy
+        sudo python3 -m pip install -U pip setuptools
+        sudo python3 -m pip install -U numpy
+        sudo python3 -m pip install -U netCDF4
+
     - name: Get sources
       uses: actions/checkout@v2
       with:
@@ -39,8 +46,10 @@ jobs:
           mpi_ver=$( mpiexec --version | grep OpenRTE | awk '{ print $3 }' )
         fi
         gnu_ver=$( gcc -dumpfullversion -dumpversion )
+        python_ver=$( python3 --version | cut -d " " -f2 | cut -d. -f1-2 )
         export HPC_COMPILER="gnu/${gnu_ver}"
         export HPC_MPI="${{ matrix.mpi }}/${mpi_ver}"
+        export HPC_PYTHON="python/${python_ver}"
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y config/stack_custom.yaml
 
     - name: Upload logs

@@ -15,6 +15,10 @@ jobs:
 
     - name: Update brew packages
       run: |
+        brew update
+        pip3 install setuptools
+        pip3 install numpy
+        pip3 install netCDF4
         sudo ln -sf /usr/local/opt/openssl/lib/libcrypto.dylib /usr/local/lib/
         sudo ln -sf /usr/local/opt/openssl/lib/libssl.dylib    /usr/local/lib/
 
@@ -40,8 +44,10 @@ jobs:
         export SERIAL_CXX=${CXX}
         export SERIAL_FC=${FC}
         gcc_ver=$( ${CC} -dumpfullversion -dumpversion )
+        python_ver=$( python3 --version | cut -d " " -f2 | cut -d. -f1-2 )
         export HPC_COMPILER="${{ matrix.compiler }}/${gcc_ver}"
         export HPC_MPI="${{ matrix.mpi }}/${mpi_ver}"
+        export HPC_PYTHON="python/${python_ver}"
         ./build_stack.sh -p $prefix -c config/config_mac.sh -y config/stack_mac.yaml
 
     - name: Upload logs
