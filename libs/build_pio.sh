@@ -77,7 +77,7 @@ mkdir -p build && cd build
 
 cmake ..\
   -DCMAKE_INSTALL_PREFIX=$prefix \
-  -DNetCDF_PATH=${NETCDF:-} \
+  -DNetCDF_PATH=${NETCDF_ROOT:-} \
   -DHDF5_PATH=${HDF5_ROOT:-} \
   -DCMAKE_VERBOSE_MAKEFILE=1 \
   $CMAKE_FLAGS
