@@ -25,5 +25,6 @@ export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
 
 # Load these basic modules for Orion
+module purge
 module load cmake
 module load git

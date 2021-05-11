@@ -35,6 +35,7 @@ export WGET="wget -nv"
 # define cc, FC and CC for CC, FC and CXX respectively.
 # cray-intel does not imply the native module in this case
 
+#module purge
 module load cmake/3.16.5
 module load git/2.27.0
 module load cpe-intel
