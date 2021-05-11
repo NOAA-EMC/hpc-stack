@@ -31,7 +31,10 @@ setenv("BUFR_LIB8_DA", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}","libbufr_8_DA.a")
 setenv("BUFR_LIBd_DA", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}","libbufr_d_DA.a"))
 
 prepend_path("PATH", pathJoin(base,"bin"))
-prepend_path("PYTHONPATH", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}","python${PYTHON_VERSION}/site-packages"))
+local pydir = pathJoin(base,"${CMAKE_INSTALL_LIBDIR}","python${PYTHON_VERSION}/site-packages")
+if (isDir(pydir)) then
+  prepend_path("PYTHONPATH", pydir)
+end
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)

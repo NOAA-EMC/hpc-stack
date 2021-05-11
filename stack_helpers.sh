@@ -5,7 +5,7 @@ function update_modules {
   local modpath=$1
   local name=$2
   local version=$3
-  local python_version=$4
+  local py_version=${4:-}
   case $modpath in
     core )
       local tmpl_file=$HPC_STACK_ROOT/modulefiles/core/$name/$name.lua
@@ -49,7 +49,7 @@ EOF
     CMAKE_INSTALL_LIBDIR=$(cat $testdir/cmake_install_libdir.txt)
     CMAKE_OPTS="-DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}"
     CMAKE_OPTS+=" -DTMPL_FILE=$tmpl_file -DVERSION=$version"
-    [[ -n "$4" ]] && CMAKE_OPTS+=" -DPYTHON_VERSION=$python_version"
+    [[ -n "${py_version:-}" ]] && CMAKE_OPTS+=" -DPYTHON_VERSION=$py_version"
     # Install the module with configure_file, replacing ${CMAKE_INSTALL_LIBDIR} (and potentially other variables)
     # with the actual value for that system
     $SUDO cmake $CMAKE_OPTS -P ${HPC_STACK_ROOT}/cmake/configure_module.cmake
