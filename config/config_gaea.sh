@@ -37,4 +37,3 @@ source /lustre/f2/pdata/esrl/gsd/contrib/lua-5.1.4.9/init/init_lmod.sh
 # Load Python environment - after loading lmod
 module use /lustre/f2/pdata/esrl/gsd/contrib/modulefiles
 module load miniconda3/4.8.3
-conda activate ufs-weather-model

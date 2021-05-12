@@ -34,7 +34,6 @@ module load cmake/3.18.2
 # Load Python environment
 module use /glade/p/ral/jntp/tools/miniconda3/4.8.3/modulefiles
 module load miniconda3/4.8.3
-conda activate ufs-weather-model
 
 # Build FMS with AVX2 flags
 export STACK_fms_CFLAGS="-march=core-avx2"
