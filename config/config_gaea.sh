@@ -3,7 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="intel/18.0.6.288"
 export HPC_MPI="cray-mpich/7.7.11"
-export HPC_PYTHON="python/3.8.3"
+export HPC_PYTHON="miniconda3/4.8.3"
 
 # Build options
 export USE_SUDO=N
@@ -34,6 +34,5 @@ export MPI_FC=ftn
 # Load lmod environment
 source /lustre/f2/pdata/esrl/gsd/contrib/lua-5.1.4.9/init/init_lmod.sh
 
-# Load Python environment - after loading lmod
+# Load Python module environment - after loading lmod
 module use /lustre/f2/pdata/esrl/gsd/contrib/modulefiles
-module load miniconda3/4.8.3
