@@ -3,6 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="gnu/9.1.0"
 export HPC_MPI="mpt/2.22"
+export HPC_PYTHON="python/3.8.3"
 
 # Build options
 export USE_SUDO=N
@@ -29,6 +30,11 @@ module load ncarenv/1.3
 
 # Load these basic modules for Cheyenne
 module load cmake/3.18.2
+
+# Load Python environment
+module use /glade/p/ral/jntp/tools/miniconda3/4.8.3/modulefiles
+module load miniconda3/4.8.3
+conda activate ufs-weather-model
 
 # Build FMS with AVX2 flags
 export STACK_fms_CFLAGS="-march=core-avx2"
