@@ -56,7 +56,7 @@ netcdf:
 
 nccmp:
   build: YES
-  version: 1.8.7.0
+  version: 1.8.9.0
 
 nco:
   build: NO
@@ -220,7 +220,7 @@ eigen:
   version: 3.3.7
 
 gsl_lite:
-i  build: YES
+  build: YES
   version: 0.37.0
 
 gptl:
