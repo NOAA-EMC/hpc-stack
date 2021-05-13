@@ -246,25 +246,25 @@ json_schema_validator:
   version: 2.1.0
 
 pybind11:
-  build: YES
+  build: NO
   version: 2.5.0
 
 ecbuild:
   build: NO
-  version: release-stable
-  repo: jcsda
+  version: 3.6.1
+  repo: ecmwf
 
 eckit:
   build: NO
-  version: release-stable
-  repo: jcsda
+  version: 1.16.0
+  repo: ecmwf
 
 fckit:
   build: NO
-  version: release-stable
-  repo: jcsda
+  version: 0.9.2
+  repo: ecmwf
 
 atlas:
   build: NO
-  version: release-stable
-  repo: jcsda
+  version: 0.24.1
+  repo: ecmwf

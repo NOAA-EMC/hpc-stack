@@ -5,7 +5,7 @@ gnu:
 mpi:
   build: YES
   flavor: mpich
-  version: 3.3.1
+  version: 3.3.2
 
 cmake:
   build: NO
@@ -39,18 +39,18 @@ udunits:
 hdf5:
   build: YES
   version: 1.10.6
-  shared: NO
+  shared: YES
   enable_szip: NO
   enable_zlib: YES
 
 pnetcdf:
   build: NO
   version: 1.12.1
-  shared: NO
+  shared: YES
 
 netcdf:
   build: YES
-  shared: NO
+  shared: YES
   enable_pnetcdf: NO
   version_c: 4.7.4
   version_f: 4.5.3
@@ -78,7 +78,7 @@ pio:
 esmf:
   build: YES
   version: 8_1_1
-  shared: NO
+  shared: YES
   enable_pnetcdf: NO
   debug: NO
 
@@ -187,6 +187,7 @@ bufr:
   build: YES
   version: bufr_v11.5.0
   install_as: 11.5.0
+  python: YES
 
 wgrib2:
   build: YES
@@ -255,23 +256,23 @@ pybind11:
 
 ecbuild:
   build: YES
-  version: release-stable
-  repo: jcsda
+  version: 3.6.1
+  repo: ecmwf
 
 eckit:
   build: YES
-  version: release-stable
-  repo: jcsda
+  version: 1.16.0
+  repo: ecmwf
 
 fckit:
   build: YES
-  version: release-stable
-  repo: jcsda
+  version: 0.9.2
+  repo: ecmwf
 
 atlas:
   build: YES
-  version: release-stable
-  repo: jcsda
+  version: 0.24.1
+  repo: ecmwf
 
 madis:
   build: YES

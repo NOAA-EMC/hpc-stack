@@ -55,6 +55,7 @@ netcdf:
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
+  disable_cxx: YES
 
 nccmp:
   build: YES
@@ -186,6 +187,7 @@ bufr:
   build: YES
   version: bufr_v11.5.0
   install_as: 11.5.0
+  python: YES
 
 wgrib2:
   build: YES
@@ -254,23 +256,23 @@ pybind11:
 
 ecbuild:
   build: YES
-  version: release-stable
-  repo: jcsda
+  version: 3.6.1
+  repo: ecmwf
 
 eckit:
   build: YES
-  version: release-stable
-  repo: jcsda
+  version: 1.16.0
+  repo: ecmwf
 
 fckit:
   build: YES
-  version: release-stable
-  repo: jcsda
+  version: 0.9.2
+  repo: ecmwf
 
 atlas:
   build: YES
-  version: release-stable
-  repo: jcsda
+  version: 0.24.1
+  repo: ecmwf
 
 madis:
   build: YES

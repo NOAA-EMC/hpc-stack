@@ -61,7 +61,7 @@ if [[ ! -z $mpi ]]; then
 fi
 
 NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
-NETCDF_LIBS="-lnetcdf -lnetcdff"
+NETCDF_LIBS="-lnetcdff -lnetcdf"
 
 export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS} ${AM_LDFLAGS:-}"
 export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS} ${HDF5_LIBS} ${EXTRA_LIBS:-}"

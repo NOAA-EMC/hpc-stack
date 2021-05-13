@@ -3,6 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="ips/18.0.1.163"
 export HPC_MPI="impi/18.0.1"
+export HPC_PYTHON="python/3.6.3"
 
 # Build options
 export USE_SUDO=N
@@ -18,10 +19,12 @@ export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
 
 # WCOSS Dell specific
-# LMod has disabled "default" and requires exact module match.
+# LMod has disabled "default"
 # https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html
-export LMOD_EXACT_MATCH="no"
 export LMOD_EXTENDED_DEFAULT="yes"
 
 # Load these basic modules
+module purge
 module load cmake/3.16.2
+module use -a /usrx/local/dev/modulefiles
+module load git/2.14.3

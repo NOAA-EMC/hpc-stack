@@ -53,53 +53,38 @@ else
   branch=pio$(echo $version | sed -e 's/\./_/g')
 fi
 
-URL="https://github.com/NCAR/ParallelIO/releases/download/$branch/${software}.tar.gz"
-[[ -f $software.tar.gz ]] || $WGET $URL
-
-tar -xf ${software}.tar.gz
-
-
+URL=https://github.com/NCAR/ParallelIO
+[[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
+
+git checkout $branch
+
+# These repositories are used internally by PIO. Download them so DOWNLOAD_ONLY option works.
+[[ -d CMake_Fortran_utils ]] || git clone https://github.com/CESM-Development/CMake_Fortran_utils
+[[ -d genf90 ]] || git clone https://github.com/PARALLELIO/genf90.git
+CMAKE_FLAGS="-DUSER_CMAKE_MODULE_PATH=`pwd`/CMake_Fortran_utils -DGENF90_PATH=`pwd`/genf90"
 
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-# e.g. -L$ZLIB_ROOT/lib
-AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-# e.g. -lz -ldl -lm
-EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
 
-export HDF5_LDFLAGS="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
-export HDF5_LIBS="-lhdf5_hl -lhdf5"
-export NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
+[[ $enable_pnetcdf =~ [yYtT] ]] && CMAKE_FLAGS+=" -DWITH_PNETCDF=ON -DPnetCDF_PATH=$PNETCDF" \
+                                || CMAKE_FLAGS+=" -DWITH_PNETCDF=OFF"
+[[ $enable_gptl =~ [yYtT] ]] && CMAKE_FLAGS+=" -DPIO_ENABLE_TIMING=ON" \
+                             || CMAKE_FLAGS+=" -DPIO_ENABLE_TIMING=OFF"
 
-export CPPFLAGS="-I$NETCDF_ROOT/include"
 
-if [[ $enable_pnetcdf =~ [yYtT] ]]; then
-    PNETCDF_LDFLAGS="-L$PNETCDF_LIBRARIES"
-    PNETCDF_FLAGS=""
-else
-    PNETCDF_LDFLAGS=""
-    PNETCDF_FLAGS="--disable-pnetcdf"
-fi
+cmake ..\
+  -DCMAKE_INSTALL_PREFIX=$prefix \
+  -DNetCDF_PATH=${NETCDF_ROOT:-} \
+  -DHDF5_PATH=${HDF5_ROOT:-} \
+  -DCMAKE_VERBOSE_MAKEFILE=1 \
+  $CMAKE_FLAGS
 
-if [[ $enable_gptl =~ [yYtT] ]]; then
-    TIMING_FLAGS="--enable-timing"
-else
-    TIMING_FLAGS=""
-fi
-
-export LDFLAGS="$PNETCDF_LDFLAGS $NETCDF_LDFLAGS $HDF5_LDFLAGS $AM_LDFLAGS"
-export LIBS="$HDF5_LIBS $EXTRA_LIBS"
-
-../configure --prefix=$prefix \
-             --enable-fortran \
-             $TIMING_FLAGS $PNETCDF_FLAGS
-             
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
-[[ $MAKE_CHECK =~ [yYtT] ]] && make check
+[[ $MAKE_CHECK =~ [yYtT] ]] && make test
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template

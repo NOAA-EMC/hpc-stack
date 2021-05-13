@@ -158,31 +158,31 @@ build_lib fms
 
 # NCEPlibs
 
-build_nceplib bacio
-build_nceplib sigio
-build_nceplib sfcio
-build_nceplib gfsio
-build_nceplib w3nco
-build_nceplib sp
-build_nceplib ip
-build_nceplib ip2
-build_nceplib landsfcutil
-build_nceplib nemsio
-build_nceplib nemsiogfs
-build_nceplib w3emc
-build_nceplib g2
-build_nceplib g2c
-build_nceplib g2tmpl
-build_nceplib crtm
-build_nceplib nceppost
-build_nceplib upp
-build_nceplib gsiwrfio
-build_nceplib wrf_io
-build_nceplib bufr
-build_nceplib wgrib2
-build_nceplib prod_util
-build_nceplib grib_util
-build_nceplib ncio
+build_lib bacio
+build_lib sigio
+build_lib sfcio
+build_lib gfsio
+build_lib w3nco
+build_lib sp
+build_lib ip
+build_lib ip2
+build_lib landsfcutil
+build_lib nemsio
+build_lib nemsiogfs
+build_lib w3emc
+build_lib g2
+build_lib g2c
+build_lib g2tmpl
+build_lib crtm
+build_lib nceppost
+build_lib upp
+build_lib wrf_io
+build_lib bufr
+build_lib wgrib2
+build_lib prod_util
+build_lib grib_util
+build_lib ncio
+build_lib gsiwrfio
 
 # JEDI 3rd party dependencies
 

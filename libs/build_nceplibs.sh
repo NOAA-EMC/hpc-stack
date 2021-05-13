@@ -20,29 +20,35 @@ openmp=${4:-${s_openmp:-"OFF"}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi_check=$(echo $HPC_MPI | sed 's/\//-/g')
-mpi=''
+mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+python=$(echo $HPC_PYTHON | sed 's/\//-/g')
 
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
 
+  case $name in
+    # The following require MPI
+    nemsio | nemsiogfs | ncio | nceppost | upp | w3emc)
+      module load hpc-$HPC_MPI
+      using_mpi=YES
+      ;;
+    # The following can use MPI (if available)
+    wrf_io | gsiwrfio | wgrib2)
+      if [[ ! -z $mpi ]]; then
+        module load hpc-$HPC_MPI
+        using_mpi=YES
+      fi
+      ;;
+  esac
+
   # Load dependencies
   case $name in
-    wrf_io)
-      mpi=$mpi_check
-      [[ -z $mpi ]] || module load hpc-$HPC_MPI
-      module load netcdf
-      ;;
-    gsiwrfio)
-      mpi=$mpi_check
-      [[ -z $mpi ]] || module load hpc-$HPC_MPI
+    wrf_io | gsiwrfio )
       module load netcdf
       ;;
     wgrib2)
-      mpi=$mpi_check
-      [[ -z $mpi ]] || module load hpc-$HPC_MPI
       module try-load jpeg
       module try-load jasper
       module try-load zlib
@@ -65,30 +71,18 @@ if $MODULES; then
       module try-load jasper
       ;;
     nemsio)
-      mpi=$mpi_check
-      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
-      module load hpc-$HPC_MPI
       module load bacio
       module load w3nco
       ;;
     nemsiogfs)
-      mpi=$mpi_check
-      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
-      module load hpc-$HPC_MPI
       module load nemsio
       ;;
     w3emc)
-      mpi=$mpi_check
-      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
-      module load hpc-$HPC_MPI
       module load netcdf
       module load sigio
       module load nemsio
       ;;
     nceppost | upp)
-      mpi=$mpi_check
-      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
-      module load hpc-$HPC_MPI
       module try-load png
       module try-load jasper
       module load netcdf
@@ -122,28 +116,48 @@ if $MODULES; then
       module load w3nco
       ;;
     ncio)
-      mpi=$mpi_check
-      [[ -z $mpi ]] && ( echo "$name requires MPI, ABORT!"; exit 1 )
-      module load hpc-$HPC_MPI
       module load netcdf
+      ;;
+    bufr)
+      if [[ ! -z $python ]]; then
+        if [[ ${STACK_bufr_python:-} =~ [yYtT] ]]; then
+          module load hpc-$HPC_PYTHON
+          using_python=YES
+        fi
+      fi
       ;;
   esac
   module list
   set -x
 
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
+  if [[ ${using_mpi:-} =~ [yYtT] ]]; then
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
+  else
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$install_as"
+  fi
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
 
 else
-    nameUpper=$(echo $name | tr [a-z] [A-Z])
-    eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
-    [[ ! -z $mpi_check ]] && mpi=$mpi_check
+
+  nameUpper=$(echo $name | tr [a-z] [A-Z])
+  eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
+  case $name in
+    # The following require MPI
+    nemsio | nemsiogfs | ncio | nceppost | upp | w3emc)
+      using_mpi=YES
+      ;;
+    # The following can use MPI (if available)
+    wrf_io | gsiwrfio | wgrib2)
+      [[ ! -z $mpi ]] && using_mpi=YES
+      ;;
+  esac
+
 fi
 
-if [[ ! -z $mpi ]]; then
+if [[ ${using_mpi:-} =~ [yYtT] ]]; then
   export FC=$MPI_FC
   export CC=$MPI_CC
   export CXX=$MPI_CXX
@@ -182,6 +196,11 @@ case $name in
     [[ -z ${STACK_wgrib2_spectral:-} ]] && spectral=OFF || spectral=$STACK_wgrib2_spectral
     extraCMakeFlags="-DUSE_SPECTRAL=$spectral -DUSE_IPOLATES=$ipolates"
     ;;
+  bufr)
+    if [[ ${using_python:-} =~ [yYtT] ]]; then
+      extraCMakeFlags="-DENABLE_PYTHON=ON"
+    fi
+    ;;
 esac
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
@@ -202,9 +221,7 @@ mkdir -p build && cd build
 
 cmake .. \
   -DCMAKE_INSTALL_PREFIX=$prefix \
-  -DENABLE_TESTS=OFF \
-  ${extraCMakeFlags:-} \
-  -DOPENMP=${openmp}
+  -DENABLE_TESTS=OFF -DOPENMP=${openmp} ${extraCMakeFlags:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
@@ -212,6 +229,7 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
                           || make install
 
 # generate modulefile from template
-[[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $install_as
+[[ ${using_mpi:-} =~ [yYtT] ]] && modpath=mpi || modpath=compiler
+[[ ${using_python:-} =~ [yYtT] ]] && py_version="$(python3 --version | cut -d " " -f2 | cut -d. -f1-2)"
+$MODULES && update_modules $modpath $name $install_as ${py_version:-}
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

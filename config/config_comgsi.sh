@@ -3,6 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="intel/18.0.5"
 export HPC_MPI="impi/2018.4.274"
+export HPC_PYTHON=${HPC_PYTHON:-"python/3.9.4"}
 
 # Build options
 export USE_SUDO=N
