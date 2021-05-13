@@ -181,7 +181,7 @@ function build_lib() {
 
   # Determine if $1 is a NCEPLib
   case $1 in
-    bacio | sigio | sfcio | gfsio | nemsio | ncio | wrf_io | \
+    bacio | sigio | sfcio | gfsio | nemsio | ncio | wrf_io | gsiwrfio | \
     sp | ip | ip2 | \
     landsfcutil | nemsiogfs | \
     w3nco | w3emc | \

@@ -35,7 +35,7 @@ if $MODULES; then
       using_mpi=YES
       ;;
     # The following can use MPI (if available)
-    wrf_io | wgrib2)
+    wrf_io | gsiwrfio | wgrib2)
       if [[ ! -z $mpi ]]; then
         module load hpc-$HPC_MPI
         using_mpi=YES
@@ -45,7 +45,7 @@ if $MODULES; then
 
   # Load dependencies
   case $name in
-    wrf_io)
+    wrf_io | gsiwrfio )
       module load netcdf
       ;;
     wgrib2)
@@ -150,7 +150,7 @@ else
       using_mpi=YES
       ;;
     # The following can use MPI (if available)
-    wrf_io | wgrib2)
+    wrf_io | gsiwrfio | wgrib2)
       [[ ! -z $mpi ]] && using_mpi=YES
       ;;
   esac
@@ -187,6 +187,9 @@ case $name in
     ;;
   crtm)
     URL="https://github.com/noaa-emc/emc_crtm"
+    ;;
+  gsiwrfio)
+    URL="https://github.com/comgsi/gsiwrfio"
     ;;
   wgrib2)
     [[ -z ${STACK_wgrib2_ipolates:-} ]] && ipolates=0   || ipolates=$STACK_wgrib2_ipolates
