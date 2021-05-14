@@ -8,7 +8,7 @@ local pkgNameVer = myModuleFullName()
 family("MetaPython")
 
 conflict(pkgName)
-conflict("hpc-conda")
+conflict("hpc-miniconda3")
 conflict("hpc-intelpython")
 
 local python = pathJoin("python",pkgVersion)

@@ -8,18 +8,18 @@ local pkgNameVer = myModuleFullName()
 family("MetaPython")
 
 conflict(pkgName)
+conflict("hpc-miniconda3")
 conflict("hpc-python")
-conflict("hpc-intelpython")
 
-local python = pathJoin("miniconda3",pkgVersion)
+local python = pathJoin("intelpython",pkgVersion)
 load(python)
 prereq(python)
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
-local mpath = pathJoin(opt,"modulefiles/core","miniconda3",pkgVersion)
+local mpath = pathJoin(opt,"modulefiles/core","intelpython",pkgVersion)
 prepend_path("MODULEPATH", mpath)
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: Python")
-whatis("Description: Miniconda3 Family and module access")
+whatis("Description: IntelPython Family and module access")
