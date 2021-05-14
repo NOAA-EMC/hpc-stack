@@ -13,7 +13,8 @@ URL="https://boostorg.jfrog.io/artifactory/main/release/$version/source/$softwar
 
 [[ -d $software ]] || $WGET $URL
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
-rm -rf $software && tar -xf $software.tar.gz
+[[ -d $software ]] || tar -xf $software.tar.gz
+[[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
 ########################################################################
 # The headers-only option
