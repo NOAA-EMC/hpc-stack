@@ -3,6 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="intel/18.0.5.274"
 export HPC_MPI="impi/2018.0.4"
+export HPC_PYTHON="miniconda3/4.5.12"
 
 # Build options
 export USE_SUDO=N
@@ -19,4 +20,5 @@ export WGET="wget -nv"
 
 # Load these basic modules for Hera
 module purge
+module use /contrib/miniconda3/modulefiles
 module load cmake/3.16.1

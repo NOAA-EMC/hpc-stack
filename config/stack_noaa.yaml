@@ -183,6 +183,7 @@ bufr:
   build: YES
   version: bufr_v11.5.0
   install_as: 11.5.0
+  python: NO
 
 wgrib2:
   build: YES
