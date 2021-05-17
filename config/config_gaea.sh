@@ -3,13 +3,13 @@
 # Compiler/MPI combination
 export HPC_COMPILER="intel/18.0.6.288"
 export HPC_MPI="cray-mpich/7.7.11"
-export HPC_PYTHON="miniconda3/4.8.3"
+export HPC_PYTHON=python/dummy.lua
 
 # Build options
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log
-export OVERWRITE=N
+export OVERWRITE=Y
 export NTHREADS=8
 export   MAKE_CHECK=N
 export MAKE_VERBOSE=N
@@ -33,6 +33,3 @@ export MPI_FC=ftn
 
 # Load lmod environment
 source /lustre/f2/pdata/esrl/gsd/contrib/lua-5.1.4.9/init/init_lmod.sh
-
-# Load Python module environment - after loading lmod
-module use /lustre/f2/pdata/esrl/gsd/contrib/modulefiles
