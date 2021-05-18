@@ -11,8 +11,9 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 software=$name\_$(echo $version | sed 's/\./_/g')
 URL="https://boostorg.jfrog.io/artifactory/main/release/$version/source/$software.tar.gz"
 
-[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
+[[ -d $software ]] || $WGET $URL
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+[[ -d $software ]] || tar -xf $software.tar.gz
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
 ########################################################################
@@ -27,7 +28,7 @@ if [[ $level = "headers-only" ]]; then
 
   # generate modulefile from template
   $MODULES && update_modules core "boost-headers" $version
-	echo $name-headers $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+  echo $name-headers $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
   exit 0
 fi

@@ -8,7 +8,7 @@ local pkgNameVer = myModuleFullName()
 family("python")
 
 conflict(pkgName)
-conflict("conda")
+conflict("python")
 conflict("intelpython")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
@@ -24,4 +24,4 @@ prepend_path("PYTHONPATH", pathJoin(base,"lib/python@PYTHON_VERSION@/site-packag
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: Python")
-whatis("Description: Python Family")
+whatis("Description: Miniconda3 Family")

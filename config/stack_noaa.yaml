@@ -55,7 +55,7 @@ netcdf:
 
 nccmp:
   build: YES
-  version: 1.8.7.0
+  version: 1.8.9.0
 
 nco:
   build: NO
@@ -183,6 +183,7 @@ bufr:
   build: YES
   version: bufr_v11.5.0
   install_as: 11.5.0
+  python: NO
 
 wgrib2:
   build: YES

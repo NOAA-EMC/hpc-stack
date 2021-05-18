@@ -100,7 +100,7 @@ $SUDO mkdir -p $PREFIX/modulefiles/stack/hpc
 # Are the hpc-$pythonName.lua, hpc-$compilerName.lua, hpc-$mpiName.lua or hpc/stack.lua modulefiles present at $PREFIX?
 # If yes, query the user to ask to over-write
 
-if [[ -f $PREFIX/modulefiles/core/hpc-$pythonName/$pythonVersion.lua ]]; then
+if [[ -f $PREFIX/modulefiles/core/hpc-$pythonName/$pythonVersion.lua && ! $OVERWRITE =~ [yYtT] ]]; then
   echo "WARNING: $PREFIX/modulefiles/core/hpc-$pythonName/$pythonVersion.lua exists!"
   echo "Do you wish to over-write? [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
@@ -110,7 +110,7 @@ fi
 [[ $response =~ [yYtT] ]] && overwritePythonModulefile=YES
 unset response
 
-if [[ -f $PREFIX/modulefiles/core/hpc-$compilerName/$compilerVersion.lua ]]; then
+if [[ -f $PREFIX/modulefiles/core/hpc-$compilerName/$compilerVersion.lua && ! $OVERWRITE =~ [yYtT]  ]]; then
   echo "WARNING: $PREFIX/modulefiles/core/hpc-$compilerName/$compilerVersion.lua exists!"
   echo "Do you wish to over-write? [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
@@ -120,7 +120,7 @@ fi
 [[ $response =~ [yYtT] ]] && overwriteCompilerModulefile=YES
 unset response
 
-if [[ -f $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName/$mpiVersion.lua ]]; then
+if [[ -f $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName/$mpiVersion.lua && ! $OVERWRITE =~ [yYtT] ]]; then
   echo "WARNING: $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName/$mpiVersion.lua exists!"
   echo "Do you wish to over-write? [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
@@ -130,7 +130,7 @@ fi
 [[ $response =~ [yYtT] ]] && overwriteMPIModulefile=YES
 unset response
 
-if [[ -f $PREFIX/modulefiles/stack/hpc/$HPC_STACK_VERSION.lua ]]; then
+if [[ -f $PREFIX/modulefiles/stack/hpc/$HPC_STACK_VERSION.lua && ! $OVERWRITE =~ [yYtT] ]]; then
   echo "WARNING: $PREFIX/modulefiles/stack/hpc/$HPC_STACK_VERSION.lua exists!"
   echo "Do you wish to over-write? [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
@@ -145,7 +145,7 @@ unset response
 if [[ ${overwritePythonModulefile:-} =~ [yYtT] ]]; then
   $SUDO cp $HPC_STACK_ROOT/modulefiles/core/hpc-$pythonName/hpc-$pythonName.lua \
            $PREFIX/modulefiles/core/hpc-$pythonName/$pythonVersion.lua
-  echo "Are you using native python $pythonName [yes|YES|no|NO]: (DEFAULT: NO)  "
+  echo "Are you using native python '$pythonName' [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
   if [[ $response =~ [yYtT] ]]; then
     echo -e "==========================\n USING NATIVE PYTHON"
@@ -161,7 +161,7 @@ fi
 if [[ ${overwriteCompilerModulefile:-} =~ [yYtT] ]]; then
   $SUDO cp $HPC_STACK_ROOT/modulefiles/core/hpc-$compilerName/hpc-$compilerName.lua \
            $PREFIX/modulefiles/core/hpc-$compilerName/$compilerVersion.lua
-  echo "Are you using native compiler $compilerName [yes|YES|no|NO]: (DEFAULT: NO)  "
+  echo "Are you using native compiler '$compilerName' [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
   if [[ $response =~ [yYtT] ]]; then
     echo -e "==========================\n USING NATIVE COMPILER"
@@ -177,7 +177,7 @@ fi
 if [[ ${overwriteMPIModulefile:-} =~ [yYtT] ]]; then
   $SUDO cp $HPC_STACK_ROOT/modulefiles/compiler/compilerName/compilerVersion/hpc-$mpiName/hpc-$mpiName.lua \
            $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName/$mpiVersion.lua
-  echo "Are you using native MPI $mpiName [yes|YES|no|NO]: (DEFAULT: NO)  "
+  echo "Are you using native MPI '$mpiName' [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
   if [[ $response =~ [yYtT] ]]; then
     echo -e "===========================\n USING NATIVE MPI"
@@ -204,6 +204,6 @@ fi
 #===============================================================================
 
 echo "setup_modules.sh: SUCCESS!"
-echo "To proceed run: build_stack.sh -p $PREFIX -c $config -y <stack.yaml>"
+echo "To proceed run: ./build_stack.sh -p $PREFIX -c $config -y <stack.yaml>"
 
 exit 0

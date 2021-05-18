@@ -3,6 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="gnu/10.1.0"
 export HPC_MPI="mpt/2.22"
+export HPC_PYTHON="python/dummy"
 
 # Build options
 export USE_SUDO=N
@@ -33,6 +34,7 @@ module load cmake/3.18.2
 # gfortran-10 compatibility flags for incompatible software
 export STACK_esmf_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
 export STACK_pnetcdf_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
+export STACK_madis_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
 
 # Build FMS with AVX2 flags
 export STACK_fms_CFLAGS="-march=core-avx2"

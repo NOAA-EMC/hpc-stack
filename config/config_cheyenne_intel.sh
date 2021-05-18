@@ -3,6 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="intel/19.1.1"
 export HPC_MPI="mpt/2.22"
+export HPC_PYTHON="python/dummy"
 
 # Build options
 export USE_SUDO=N
