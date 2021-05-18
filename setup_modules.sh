@@ -100,7 +100,7 @@ $SUDO mkdir -p $PREFIX/modulefiles/stack/hpc
 # Are the hpc-$pythonName.lua, hpc-$compilerName.lua, hpc-$mpiName.lua or hpc/stack.lua modulefiles present at $PREFIX?
 # If yes, query the user to ask to over-write
 
-if [[ -f $PREFIX/modulefiles/core/hpc-$pythonName/$pythonVersion.lua ]]; then
+if [[ -f $PREFIX/modulefiles/core/hpc-$pythonName/$pythonVersion.lua && ! $OVERWRITE =~ [yYtT] ]]; then
   echo "WARNING: $PREFIX/modulefiles/core/hpc-$pythonName/$pythonVersion.lua exists!"
   echo "Do you wish to over-write? [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
@@ -110,7 +110,7 @@ fi
 [[ $response =~ [yYtT] ]] && overwritePythonModulefile=YES
 unset response
 
-if [[ -f $PREFIX/modulefiles/core/hpc-$compilerName/$compilerVersion.lua ]]; then
+if [[ -f $PREFIX/modulefiles/core/hpc-$compilerName/$compilerVersion.lua && ! $OVERWRITE =~ [yYtT]  ]]; then
   echo "WARNING: $PREFIX/modulefiles/core/hpc-$compilerName/$compilerVersion.lua exists!"
   echo "Do you wish to over-write? [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
@@ -120,7 +120,7 @@ fi
 [[ $response =~ [yYtT] ]] && overwriteCompilerModulefile=YES
 unset response
 
-if [[ -f $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName/$mpiVersion.lua ]]; then
+if [[ -f $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName/$mpiVersion.lua && ! $OVERWRITE =~ [yYtT] ]]; then
   echo "WARNING: $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion/hpc-$mpiName/$mpiVersion.lua exists!"
   echo "Do you wish to over-write? [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
@@ -130,7 +130,7 @@ fi
 [[ $response =~ [yYtT] ]] && overwriteMPIModulefile=YES
 unset response
 
-if [[ -f $PREFIX/modulefiles/stack/hpc/$HPC_STACK_VERSION.lua ]]; then
+if [[ -f $PREFIX/modulefiles/stack/hpc/$HPC_STACK_VERSION.lua && ! $OVERWRITE =~ [yYtT] ]]; then
   echo "WARNING: $PREFIX/modulefiles/stack/hpc/$HPC_STACK_VERSION.lua exists!"
   echo "Do you wish to over-write? [yes|YES|no|NO]: (DEFAULT: NO)  "
   read response
