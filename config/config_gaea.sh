@@ -3,7 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="intel/18.0.6.288"
 export HPC_MPI="cray-mpich/7.7.11"
-export HPC_PYTHON=python/dummy.lua
+export HPC_PYTHON="cray-python/3.7.3.2"
 
 # Build options
 export USE_SUDO=N

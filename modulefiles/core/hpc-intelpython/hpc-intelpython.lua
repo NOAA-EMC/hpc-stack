@@ -10,6 +10,7 @@ family("MetaPython")
 conflict(pkgName)
 conflict("hpc-miniconda3")
 conflict("hpc-python")
+conflict("hpc-cray-python")
 
 local python = pathJoin("intelpython",pkgVersion)
 load(python)
