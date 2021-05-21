@@ -177,7 +177,6 @@ wrf_io:
   build: YES
   version: v1.2.0
   install_as: 1.2.0
-
   openmp: ON
 
 bufr:
