@@ -149,8 +149,8 @@ w3emc:
 
 g2:
   build: YES
-  version: v3.4.1
-  install_as: 3.4.1
+  version: v3.4.2
+  install_as: 3.4.2
 
 g2c:
   build: YES
@@ -175,8 +175,8 @@ upp:
 
 wrf_io:
   build: YES
-  version: v1.1.1-cmake-v5
-  install_as: 1.1.1
+  version: v1.2.0
+  install_as: 1.2.0
   openmp: ON
 
 bufr:
