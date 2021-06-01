@@ -24,8 +24,7 @@ if $MODULES; then
   module load hpc-$HPC_PYTHON
   module list
   set -x
-  install_as=${name}_${version}
-  prefix="${PREFIX:-"/opt/modules"}/$python/$name/$install_as"
+  prefix="${PREFIX:-"/opt/modules"}/$python/$name/$version"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -56,7 +55,7 @@ if (( $(echo "$python_version >= 3.9" | bc -l) )); then
 fi
 
 # Create a new virtual env.
-python3 -m venv $upgrade_deps $prefix
+python3 -m venv --prompt $name $upgrade_deps $prefix
 
 # Activate newly created virtual env.
 set +x
@@ -73,5 +72,5 @@ pip install --no-cache-dir -r $rqmts_file
 pip list
 
 # generate modulefile from template
-$MODULES && update_modules python $name $install_as $python_version
+$MODULES && update_modules python $name $version $python_version
 echo $name $version $rqmts_file >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
