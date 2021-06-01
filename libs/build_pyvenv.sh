@@ -24,7 +24,8 @@ if $MODULES; then
   module load hpc-$HPC_PYTHON
   module list
   set -x
-  prefix="${PREFIX:-"/opt/modules"}/$python/$name/$version"
+  install_as=${name}_${version}
+  prefix="${PREFIX:-"/opt/modules"}/$python/$name/$install_as"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -72,5 +73,5 @@ pip install --no-cache-dir -r $rqmts_file
 pip list
 
 # generate modulefile from template
-$MODULES && update_modules python $name $version
-echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules python $name $install_as $python_version
+echo $name $version $rqmts_file >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
