@@ -102,7 +102,7 @@ some of the parameter settings available.
 - **MAKE_VERBOSE:** Print out extra information to the log files during the build
 
 The next step is to choose what components of the stack you wish to
-build.  This is done by editing the file `config/stack_custom.yaml`
+build.  This is done by editing the file `stack/stack_custom.yaml`
 which defines the software packages to be built along with their
 version, options and compiler flags along with other package specific
 options.
@@ -270,7 +270,7 @@ default is to use `$HOME/opt` and `config/config_custom.sh`
 respectively.  `<yaml>` represents a user configurable yaml file
 containing a list of packages that need to be built in the stack along
 with their versions and package options. The default value of `<yaml>`
-is `config/stack_custom.yaml`.
+is `stack/stack_custom.yaml`.
 
 ## Additional Notes:
 

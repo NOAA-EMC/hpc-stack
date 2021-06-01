@@ -48,7 +48,7 @@ jobs:
         export HPC_COMPILER="${{ matrix.compiler }}/${gcc_ver}"
         export HPC_MPI="${{ matrix.mpi }}/${mpi_ver}"
         export HPC_PYTHON="python/${python_ver}"
-        ./build_stack.sh -p $prefix -c config/config_mac.sh -y config/stack_mac.yaml
+        ./build_stack.sh -p $prefix -c config/config_mac.sh -y stack/stack_mac.yaml
 
     - name: Upload logs
       if: ${{ always() }}

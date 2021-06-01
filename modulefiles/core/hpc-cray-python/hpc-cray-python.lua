@@ -17,7 +17,7 @@ load(python)
 prereq(python)
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules" or "/opt"
-local mpath = pathJoin(opt,"modulefiles","cray-python",pkgVersion)
+local mpath = pathJoin(opt,"modulefiles/python","cray-python",pkgVersion)
 prepend_path("MODULEPATH", mpath)
 
 whatis("Name: ".. pkgName)

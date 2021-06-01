@@ -17,7 +17,7 @@ load(python)
 prereq(python)
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
-local mpath = pathJoin(opt,"modulefiles/core","miniconda3",pkgVersion)
+local mpath = pathJoin(opt,"modulefiles/python","miniconda3",pkgVersion)
 prepend_path("MODULEPATH", mpath)
 
 whatis("Name: ".. pkgName)
