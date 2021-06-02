@@ -86,6 +86,7 @@ pythonVersion=$(echo $HPC_PYTHON | cut -d/ -f2)
 #===============================================================================
 # Deploy directory structure for modulefiles
 
+$SUDO mkdir -p $PREFIX/modulefiles/python
 $SUDO mkdir -p $PREFIX/modulefiles/core
 $SUDO mkdir -p $PREFIX/modulefiles/compiler/$compilerName/$compilerVersion
 $SUDO mkdir -p $PREFIX/modulefiles/mpi/$compilerName/$compilerVersion/$mpiName/$mpiVersion

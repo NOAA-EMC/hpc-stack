@@ -15,7 +15,7 @@ export HPC_DOWNLOAD_PATH=
 # I put these in the HPC_HOMEDIR
 export HPC_CONFIG=${HPC_HOMEDIR}/
 # hpc-stack yaml file to build with, use stack_noaa by default
-export HPC_STACK_FILE=config/stack_noaa.yaml
+export HPC_STACK_FILE=stack/stack_noaa.yaml
 
 # set machine name (hera, jet, orion, etc) so script edits correct ufs modulefiles
 export HPC_MACHINE_ID=
@@ -74,7 +74,7 @@ echo ""
 
 ./cron-ci/build-hpc-stack.sh >> ${hpc_log} 2>&1
 
-# check if hpc-stack build succeded 
+# check if hpc-stack build succeded
 if grep -qi "build_stack.sh: SUCCESS!" ${hpc_log}; then
     echo "hpc-stack build: PASS"
 else

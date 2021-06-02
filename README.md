@@ -102,7 +102,7 @@ some of the parameter settings available.
 - **MAKE_VERBOSE:** Print out extra information to the log files during the build
 
 The next step is to choose what components of the stack you wish to
-build.  This is done by editing the file `config/stack_custom.yaml`
+build.  This is done by editing the file `stack/stack_custom.yaml`
 which defines the software packages to be built along with their
 version, options and compiler flags along with other package specific
 options.
@@ -174,10 +174,13 @@ script.
   - [EMC_post](https://github.com/noaa-emc/EMC_post.git)
 
 * JEDI Dependencies
-  - [ecbuild](https://github.com/jcsda/ecbuild.git)
-  - [eckit](https://github.com/jcsda/eckit.git)
-  - [fckit](https://github.com/jcsda/fckit.git)
-  - [atlas](https://github.com/jcsda/atlas.git)
+  - [ecbuild](https://github.com/ecmwf/ecbuild.git)
+  - [eckit](https://github.com/ecmwf/eckit.git)
+  - [fckit](https://github.com/ecmwf/fckit.git)
+  - [atlas](https://github.com/ecmwf/atlas.git)
+
+* Python Virtual Environments
+  - [r2d2](https://github.com/jcsda-internal/r2d2.git)
 
 **IMPORTANT: Steps 1, 2, and 3 need to be repeated for each
   compiler/MPI combination that you wish to install.** The new
@@ -270,7 +273,7 @@ default is to use `$HOME/opt` and `config/config_custom.sh`
 respectively.  `<yaml>` represents a user configurable yaml file
 containing a list of packages that need to be built in the stack along
 with their versions and package options. The default value of `<yaml>`
-is `config/stack_custom.yaml`.
+is `stack/stack_custom.yaml`.
 
 ## Additional Notes:
 
@@ -303,9 +306,11 @@ template
 2. define a new section in the `yaml` file for that library/package in
 config directory
 
-3. Add a call to the new build script in `build_stack.sh`
+3. if the package is a python virtual environment, add a `requirements.txt` file listing the python packages required to install the package in `pyvenv/package_name.txt`
 
-4. Create a new module template at the appropriate place in the
+4. Add a call to the new build script in `build_stack.sh`
+
+5. Create a new module template at the appropriate place in the
 modulefiles directory, using exising files as a template
 
 ### Configuring for a new HPC

@@ -7,6 +7,10 @@ function update_modules {
   local version=$3
   local py_version=${4:-}
   case $modpath in
+    python )
+      local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/$name/$name.lua
+      local to_dir=$prefix/modulefiles/python/$HPC_PYTHON
+      ;;
     core )
       local tmpl_file=$HPC_STACK_ROOT/modulefiles/core/$name/$name.lua
       local to_dir=$prefix/modulefiles/core
@@ -179,28 +183,27 @@ function build_lib() {
   local stack_build=${!var}
   set -u
 
-  # Determine if $1 is a NCEPLib
-  case $1 in
-    bacio | sigio | sfcio | gfsio | nemsio | ncio | wrf_io | \
-    sp | ip | ip2 | \
-    landsfcutil | nemsiogfs | \
-    w3nco | w3emc | \
-    g2 | g2c | g2tmpl | wgrib2 | \
-    crtm | nceppost | upp | bufr | \
-    prod_util | grib_util )
-      is_nceplib=YES
-      ;;
-    *)
-      is_nceplib=NO
-      ;;
-  esac
+  # Determine if $1 is an NCEPlib
+  local var="STACK_${1}_is_nceplib"
+  set +u
+  local is_nceplib=${!var}
+  set -u
+
+  # Determine if $1 is a python virtual environment
+  local var="STACK_${1}_is_pyvenv"
+  set +u
+  local is_pyvenv=${!var}
+  set -u
 
   if [[ ${stack_build} =~ [yYtT] ]]; then
-      [[ -f $logdir/$1.log ]] && ( logDate=$(date -r $logdir/$1.log +%F_%H%M); mv -f $logdir/$1.log $logdir/$1.log.$logDate )
+      local log="$logdir/$1.log"
+      [[ -f $log ]] && ( logDate=$(date -r $log +%F_%H%M); mv -f $log $log.$logDate )
       if [[ ${is_nceplib:-} =~ [yYtT] ]]; then
-        ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$logdir/$1.log"
+        ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$log"
+      elif [[ ${is_pyvenv:-} =~ [yYtT] ]]; then
+        ${HPC_STACK_ROOT}/libs/build_pyvenv.sh "$1" 2>&1 | tee "$log"
       else
-        ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$logdir/$1.log"
+        ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$log"
       fi
       local ret=${PIPESTATUS[0]}
       if [[ $ret -gt 0 ]]; then

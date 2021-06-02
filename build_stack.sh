@@ -33,7 +33,7 @@ usage() {
 library=""
 export PREFIX="$HOME/opt"
 config="${HPC_STACK_ROOT}/config/config_custom.sh"
-yaml="${HPC_STACK_ROOT}/config/stack_custom.yaml"
+yaml="${HPC_STACK_ROOT}/stack/stack_custom.yaml"
 export MODULES=false
 
 while getopts ":p:c:y:l:mh" opt; do
@@ -151,11 +151,6 @@ build_lib nco
 build_lib cdo
 build_lib pio
 
-# UFS 3rd party dependencies
-
-build_lib esmf
-build_lib fms
-
 # NCEPlibs
 
 build_lib bacio
@@ -183,6 +178,14 @@ build_lib prod_util
 build_lib grib_util
 build_lib ncio
 
+# Other
+
+build_lib madis
+
+# Python virtual environments
+
+build_lib r2d2
+
 # JEDI 3rd party dependencies
 
 build_lib boost
@@ -196,15 +199,17 @@ build_lib json
 build_lib json_schema_validator
 build_lib pybind11
 
-# JCSDA JEDI dependencies
+# JEDI dependencies
 
 build_lib ecbuild
 build_lib eckit
 build_lib fckit
 build_lib atlas
 
-# Other
-build_lib madis
+# UFS 3rd party dependencies
+
+build_lib esmf
+build_lib fms
 
 # ==============================================================================
 # optionally clean up
