@@ -20,4 +20,4 @@ export WGET="wget -nv"
 
 # gfortran-10 needs the following
 #export STACK_esmf_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
-export STACK_madis_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
+#export STACK_madis_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
