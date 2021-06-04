@@ -19,5 +19,5 @@ export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
 
 # gfortran-10 needs the following
-#export STACK_mpi_FFLAGS="-fallow-argument-mismatch"
 #export STACK_esmf_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
+#export STACK_madis_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
