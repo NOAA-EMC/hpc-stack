@@ -25,7 +25,7 @@ if $MODULES; then
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
 else
-  prefix=${CMAKEMODULES_ROOT:-"/usr/local"}
+  prefix=${YAFYAML_ROOT:-"/usr/local"}
 fi
 
 software=$name-$repo-$id

@@ -24,8 +24,8 @@ if $MODULES; then
   module load ecbuild
   module load gftl-shared
   module load yafyaml
-  module load esmf
   module load netcdf
+  module load esmf
   module list
 
   set -x
@@ -36,7 +36,7 @@ if $MODULES; then
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
 else
-  prefix=${CMAKEMODULES_ROOT:-"/usr/local"}
+  prefix=${MAPL_ROOT:-"/usr/local"}
 fi
 
 if [[ ! -z $mpi ]]; then
