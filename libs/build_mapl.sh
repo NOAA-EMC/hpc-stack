@@ -39,15 +39,9 @@ else
   prefix=${MAPL_ROOT:-"/usr/local"}
 fi
 
-if [[ ! -z $mpi ]]; then
-  export FC=$MPI_FC
-  export CC=$MPI_CC
-  export CXX=$MPI_CXX
-else
-  export FC=$SERIAL_FC
-  export CC=$SERIAL_CC
-  export CXX=$SERIAL_CXX
-fi
+export FC=$MPI_FC
+export CC=$MPI_CC
+export CXX=$MPI_CXX
 
 software=$name-$version_install
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
@@ -66,7 +60,7 @@ CMAKE_OPTS=${STACK_mapl_cmake_opts:-""}
 
 cmake .. \
       -DCMAKE_INSTALL_PREFIX=$prefix \
-      -DCMAKE_MODULE_PATH=$CMAKE_MODULE_PATH \
+      -DCMAKE_MODULE_PATH="${CMAKEMODULES_ROOT}/Modules;${ESMA_CMAKE_ROOT}" \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_WITH_FLAP=OFF \
       -DBUILD_WITH_PFLOGGER=OFF \
@@ -77,6 +71,6 @@ cmake .. \
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 
 # generate modulefile from template
-[[ -z $mpi ]] && modpath=compiler || modpath=mpi
+modpath=mpi
 $MODULES && update_modules $modpath $name $version_install
 echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
