@@ -37,6 +37,7 @@ if $MODULES; then
   fi
 else
   prefix=${MAPL_ROOT:-"/usr/local"}
+  export ESMFMKFILE=$ESMF_ROOT/lib/esmf.mk
 fi
 
 export FC=$MPI_FC
