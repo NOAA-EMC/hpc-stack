@@ -22,6 +22,8 @@ if $MODULES; then
   module load esma_cmake
   module load cmakemodules
   module load ecbuild
+  # module exports ecbuild_ROOT, but when building without modules ECBUILD_ROOT is set
+  export ECBUILD_ROOT=$ecbuild_ROOT
   module load gftl-shared
   module load yafyaml
   module load netcdf
@@ -61,13 +63,12 @@ CMAKE_OPTS=${STACK_mapl_cmake_opts:-""}
 
 cmake .. \
       -DCMAKE_INSTALL_PREFIX=$prefix \
-      -DCMAKE_MODULE_PATH="${CMAKEMODULES_ROOT}/Modules;${ESMA_CMAKE_ROOT}" \
+      -DCMAKE_MODULE_PATH="${ESMA_CMAKE_ROOT};${CMAKEMODULES_ROOT}/Modules;${ECBUILD_ROOT}/share/ecbuild/cmake" \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_WITH_FLAP=OFF \
       -DBUILD_WITH_PFLOGGER=OFF \
       -DESMA_USE_GFE_NAMESPACE=ON \
       -DBUILD_SHARED_MAPL=OFF \
-      -DNetCDF_Fortran_EXTRA_LIBRARIES="`nc-config --libs`" \
       ${CMAKE_OPTS}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
