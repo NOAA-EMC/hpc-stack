@@ -11,9 +11,7 @@ local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,"core",pkgName,pkgVersion)
 
-prepend_path("CMAKE_MODULE_PATH", base, ";")
-
-setenv("esma_cmake_ROOT", base)
+setenv("ESMA_CMAKE_ROOT", base)
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
