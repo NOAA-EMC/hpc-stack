@@ -18,9 +18,6 @@ local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
 
 setenv("MAPL_ROOT", base)
-prepend_path("CMAKE_MODULE_PATH", pathJoin(base, "share/MAPL/cmake"), ";")
-
-setenv("I_MPI_FABRICS", "shm:ofa")
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
