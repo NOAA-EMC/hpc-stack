@@ -67,6 +67,7 @@ cmake .. \
       -DBUILD_WITH_PFLOGGER=OFF \
       -DESMA_USE_GFE_NAMESPACE=ON \
       -DBUILD_SHARED_MAPL=OFF \
+      -DNetCDF_Fortran_EXTRA_LIBRARIES="`nc-config --libs`" \
       ${CMAKE_OPTS}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
