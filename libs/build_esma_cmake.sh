@@ -3,7 +3,7 @@
 set -eux
 
 name="esma_cmake"
-repo=${1:-${STACK_esma_cmake_repo:-"GEOS-ESM"}}
+repo="GEOS-ESM"
 version=${2:-${STACK_esma_cmake_version:-"main"}}
 id=${version//\//-}
 
@@ -13,7 +13,7 @@ if $MODULES; then
   module list
   set -x
 
-  prefix="${PREFIX:-"/opt/modules"}/core/$name/$repo-$id"
+  prefix="${PREFIX:-"/opt/modules"}/core/$name/$id"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -22,7 +22,7 @@ else
   prefix=${ESMA_CMAKE_ROOT:-"/usr/local"}
 fi
 
-software=$name-$repo-$id
+software=$name-$id
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] || git clone $URL $software
@@ -36,5 +36,5 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 mkdir -p $prefix && cp -r $software/* $prefix
 
 # generate modulefile from template
-$MODULES && update_modules core $name $repo-$id
-echo $name $repo-$id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules core $name $id
+echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

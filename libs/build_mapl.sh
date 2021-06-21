@@ -3,14 +3,13 @@
 set -eux
 
 name="mapl"
-repo=${1:-${STACK_mapl_repo:-"GEOS-ESM"}}
+repo="GEOS-ESM"
 version=${2:-${STACK_mapl_version:-"main"}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 id=${version//\//-}
-version_install=$repo-$id
 
 if $MODULES; then
   set +x
@@ -32,7 +31,7 @@ if $MODULES; then
 
   set -x
 
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version_install"
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$id"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -46,7 +45,7 @@ export FC=$MPI_FC
 export CC=$MPI_CC
 export CXX=$MPI_CXX
 
-software=$name-$version_install
+software=$name-$id
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] || git clone $URL $software
@@ -75,5 +74,5 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 
 # generate modulefile from template
 modpath=mpi
-$MODULES && update_modules $modpath $name $version_install
-echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $id
+echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
