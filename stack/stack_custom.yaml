@@ -315,7 +315,7 @@ esma_cmake:
 cmakemodules:
   build: YES
   repo: NOAA-EMC
-  version: develop
+  version: v1.2.0
 
 gftl_shared:
   build: YES
