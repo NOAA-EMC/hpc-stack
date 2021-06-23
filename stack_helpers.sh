@@ -8,7 +8,7 @@ function update_modules {
   local py_version=${4:-}
   case $modpath in
     python )
-      local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/$name/$name.lua
+      local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/pyvenv/pyvenv.lua
       local to_dir=$prefix/modulefiles/python/$HPC_PYTHON
       ;;
     core )

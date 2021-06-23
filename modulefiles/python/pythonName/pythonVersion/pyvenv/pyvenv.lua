@@ -30,7 +30,7 @@ end
 --prepend_path("PATH", pathJoin(base,"bin"))
 --prepend_path("PYTHONPATH", pathJoin(base,"lib/python@PYTHON_VERSION@/site-packages"))
 
-whatis("Name: ".. pkgName)
+whatis("Name: " .. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: Software")
-whatis("Description: R2D2 Python Virtual Environment")
+whatis("Description: " .. pkgName .. " Python Virtual Environment")
