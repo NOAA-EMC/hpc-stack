@@ -12,11 +12,26 @@ jobs:
 
     steps:
 
-    - name: Install dependencies (OpenMPI)
+    - name: cache-mpi
       if: matrix.mpi == 'openmpi'
+      id: cache-mpi
+      uses: actions/cache@v2
+      with:
+        path: ~/mpi
+        key: openmpi-4.1.1
+
+    - name: build-openmpi
+      if: steps.cache-mpi.outputs.cache-hit != 'true'
       run: |
-        sudo apt-get update
-        sudo apt-get install openmpi-bin libopenmpi-dev
+        echo "$HOME/mpi/bin" >> $GITHUB_PATH
+        if [[ ${{ matrix.mpi }} == "openmpi" ]]; then
+          wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.1.tar.gz &> /dev/null
+          tar -xzf openmpi-4.1.1.tar.gz
+          cd openmpi-4.1.1
+          ./configure --prefix=$HOME/mpi --enable-mpi-fortran --enable-mpi-cxx
+          make -j2
+          make install
+        fi
 
     - name: Install dependencies (MPICH)
       if: matrix.mpi == 'mpich'
