@@ -330,4 +330,4 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
-  version: v2.7.1
+  version: v2.7.2
