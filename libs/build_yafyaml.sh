@@ -40,7 +40,7 @@ git checkout $version
 
 [[ -d build ]] && $SUDO rm -rf build
 mkdir -p build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_PREFIX_PATH=$CMAKE_PREFIX_PATH ..
+cmake -DCMAKE_INSTALL_PREFIX=$prefix ..
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 
 # generate modulefile from template
