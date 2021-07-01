@@ -20,7 +20,7 @@ export WGET="wget -nv"
 
 # Load these basic modules for Hera
 module purge
-module load cmake/3.16.1
+module load cmake/3.20.1
 
 # To find miniconda3/3.7.3
 module use /scratch1/NCEPDEV/nems/emc.nemspara/soft/modulefiles
