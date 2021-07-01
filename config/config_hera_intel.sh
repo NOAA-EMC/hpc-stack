@@ -3,13 +3,13 @@
 # Compiler/MPI combination
 export HPC_COMPILER="intel/18.0.5.274"
 export HPC_MPI="impi/2018.0.4"
-export HPC_PYTHON="intelpython/3.6.8"
+export HPC_PYTHON="miniconda3/3.7.3"
 
 # Build options
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log
-export OVERWRITE=N
+export OVERWRITE=Y
 export NTHREADS=8
 export   MAKE_CHECK=N
 export MAKE_VERBOSE=N
@@ -21,3 +21,7 @@ export WGET="wget -nv"
 # Load these basic modules for Hera
 module purge
 module load cmake/3.16.1
+
+# To find miniconda3/3.7.3
+module use /scratch1/NCEPDEV/nems/emc.nemspara/soft/modulefiles
+
