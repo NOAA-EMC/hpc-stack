@@ -210,6 +210,11 @@ build_lib atlas
 
 build_lib esmf
 build_lib fms
+build_lib cmakemodules
+build_lib esma_cmake
+build_lib gftl_shared
+build_lib yafyaml
+build_lib mapl
 
 # ==============================================================================
 # optionally clean up

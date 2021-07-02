@@ -1,0 +1,69 @@
+name: Build Intel
+on: [push, pull_request]
+
+# Use custom shell with -l so .bash_profile is sourced which loads intel/oneapi/setvars.sh
+# without having to do it in manually every step
+defaults:
+  run:
+    shell: bash -le {0}
+
+jobs:
+  build:
+    env:
+      VERBOSE: 1
+    runs-on: ubuntu-20.04
+
+    steps:
+
+    # See https://software.intel.com/content/www/us/en/develop/articles/oneapi-repo-instructions.html
+    - name: Install intel
+      run: |
+        cd /tmp
+        wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+        sudo apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+        rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+        echo "deb https://apt.repos.intel.com/oneapi all main" | sudo tee /etc/apt/sources.list.d/oneAPI.list
+        sudo apt-get update
+        sudo apt-get install intel-oneapi-dev-utilities intel-oneapi-mpi-devel intel-oneapi-openmp intel-oneapi-compiler-fortran intel-oneapi-compiler-dpcpp-cpp-and-cpp-classic
+        echo "source /opt/intel/oneapi/setvars.sh" >> ~/.bash_profile
+
+    - name: Install LMod
+      run: |
+            sudo apt-get install lua5.3 lua-posix-dev liblua5.3-dev tcl tcl-dev
+            wget https://github.com/TACC/Lmod/archive/refs/tags/8.5.7.tar.gz
+            tar -xf 8.5.7.tar.gz
+            cd Lmod-8.5.7
+            ./configure
+            make
+            sudo make install
+            echo "source /usr/local/lmod/lmod/init/bash" >> ~/.bash_profile
+
+    - name: Install dependencies
+      run: |
+        sudo python3 -m pip install -U pip setuptools
+        sudo python3 -m pip install -U numpy
+        sudo python3 -m pip install -U netCDF4
+
+    - name: Get sources
+      uses: actions/checkout@v2
+      with:
+        path: hpc-stack
+
+    - name: Build
+      run: |
+        cd hpc-stack
+        prefix=$GITHUB_WORKSPACE/install
+        intel_ver=$( gcc -dumpfullversion -dumpversion )
+        python_ver=$( python3 --version | cut -d " " -f2 | cut -d. -f1-2 )
+        export HPC_COMPILER="intel/2021"
+        export HPC_MPI="impi/2021"
+        export HPC_PYTHON="python/${python_ver}"
+        yes | ./setup_modules.sh -c config/config_custom.sh -p $prefix
+        ./build_stack.sh -p $prefix -c config/config_custom.sh -y stack/stack_custom.yaml -m
+
+    - name: Upload logs
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: intel-log
+        path: intel/log

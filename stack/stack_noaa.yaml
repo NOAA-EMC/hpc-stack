@@ -297,6 +297,31 @@ madis:
   build: YES
   version: 4.3
 
+esma_cmake:
+  build: YES
+  repo: GEOS-ESM
+  version: v3.4.3
+
+cmakemodules:
+  build: YES
+  repo: NOAA-EMC
+  version: v1.2.0
+
+gftl_shared:
+  build: YES
+  repo: Goddard-Fortran-Ecosystem
+  version: v1.3.0
+
+yafyaml:
+  build: YES
+  repo: Goddard-Fortran-Ecosystem
+  version: v0.5.1
+
+mapl:
+  build: YES
+  repo: GEOS-ESM
+  version: v2.7.3
+
 r2d2:
   build: YES
   version: 1.0.0
