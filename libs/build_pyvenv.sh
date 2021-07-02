@@ -34,6 +34,11 @@ else
   eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
 fi
 
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
+software=${name}-${version}
+mkdir -p $software
+
 # Determine python version; 3.x
 python_version=$(python3 -c 'import sys;print(sys.version_info[0],".",sys.version_info[1],sep="")')
 
@@ -47,6 +52,12 @@ fi
 # Check for requirements file
 rqmts_file=${HPC_STACK_ROOT}/pyvenv/$rqmts
 [[ ! -f $rqmts_file ]] && ( echo "Unable to find requirements file: $rqmts \nABORT!"; exit 1 )
+
+# Download the requirements of the virtual environment
+if [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]]; then
+  pip download -r $rqmts_file -d $software
+  exit 0
+fi
 
 # for python >= v3.9, upgrade dependencies (pip, setuptools) in place with '--upgrade-deps'
 upgrade_deps=""
@@ -66,7 +77,8 @@ set -x
 pip install --upgrade pip
 
 # Install packages from $rqmt_file
-pip install --no-cache-dir -r $rqmts_file
+[[ -z "$(ls -A $software)" ]] || pip_args="--no-index --find-links $software"
+pip install --no-cache-dir -r $rqmts_file ${pip_args:-}
 
 # List installed packages
 pip list
