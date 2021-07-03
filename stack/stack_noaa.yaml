@@ -321,3 +321,21 @@ mapl:
   build: YES
   repo: GEOS-ESM
   version: v2.7.3
+
+r2d2:
+  build: NO
+  version: 1.0.0
+  requirements: r2d2.txt
+  is_pyvenv: YES
+
+hofx:
+  build: NO
+  version: 1.0.0
+  requirements: hofx.txt
+  is_pyvenv: YES
+
+ufswm:
+  build: YES
+  version: 1.0.0
+  requirements: ufswm.txt
+  is_pyvenv: YES

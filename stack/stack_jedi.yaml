@@ -293,3 +293,9 @@ atlas:
   build: YES
   version: 0.24.1
   repo: ecmwf
+
+r2d2:
+  build: YES
+  version: 1.0.0
+  requirements: r2d2.txt
+  is_pyvenv: YES
