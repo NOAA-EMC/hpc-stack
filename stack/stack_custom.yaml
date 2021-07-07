@@ -337,6 +337,7 @@ sqlite:
 proj:
   build: YES
   version: 7.1.0
+  cmake_opts: "-DENABLE_CURL=OFF"
 
 r2d2:
   build: NO
