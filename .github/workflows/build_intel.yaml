@@ -40,6 +40,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        sudo apt-get install curl
         sudo python3 -m pip install -U pip setuptools
         sudo python3 -m pip install -U numpy
         sudo python3 -m pip install -U netCDF4
