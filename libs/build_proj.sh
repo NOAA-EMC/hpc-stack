@@ -43,6 +43,8 @@ URL="https://download.osgeo.org/proj/$software.tar.gz"
 
 CMAKE_OPTS=${STACK_proj_cmake_opts:-""}
 
+[[ $MAKE_CHECK =~ [yYtT] ]] || CMAKE_OPTS+=" -DBUILD_TESTING=OFF"
+
 LIB_DIR=${SQLITE_ROOT:-} cmake -H. -Bbuild -DCMAKE_INSTALL_PREFIX=$prefix $CMAKE_OPTS
 cd build
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
