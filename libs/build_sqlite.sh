@@ -22,6 +22,10 @@ else
   prefix=${SQLITE_ROOT:-"/usr/local"}
 fi
 
+export CC=$SERIAL_CC
+
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_hdf5_CFLAGS:-} -fPIC -w"
+
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software="sqlite-autoconf-${version:0:1}${version:2:2}0${version:5:1}00"

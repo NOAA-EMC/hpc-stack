@@ -30,6 +30,12 @@ else
   prefix=${PROJ_ROOT:-"/usr/local"}
 fi
 
+export CC=$SERIAL_CC
+export CXX=$SERIAL_CXX
+
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_hdf5_CFLAGS:-} -fPIC -w"
+export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_hdf5_CXXFLAGS:-} -fPIC -w"
+
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
