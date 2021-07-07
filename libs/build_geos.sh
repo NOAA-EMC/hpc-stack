@@ -15,7 +15,6 @@ if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
-  [[ -z $HPC_MPI ]] || module load hpc-$HPC_MPI
   module try-load cmake
   module list
   set -x
