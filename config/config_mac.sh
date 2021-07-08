@@ -3,7 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="clang/12.0.5"
 export HPC_MPI="mpich/3.3.2"
-export HPC_PYTHON="python/3.9.5"
+export HPC_PYTHON="python/3.9.6"
 
 # Build options
 export USE_SUDO=N

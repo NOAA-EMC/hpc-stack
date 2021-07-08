@@ -322,6 +322,19 @@ mapl:
   repo: GEOS-ESM
   version: v2.7.3
 
+geos:
+  build: NO
+  version: 3.8.1
+
+sqlite:
+  build: NO
+  version: 3.32.3
+
+proj:
+  build: NO
+  version: 7.1.0
+  cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
+
 r2d2:
   build: NO
   version: 1.0.0
