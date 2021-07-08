@@ -139,6 +139,9 @@ build_lib zlib
 build_lib png
 build_lib szip
 build_lib jasper
+build_lib sqlite
+build_lib proj
+build_lib geos
 
 #----------------------
 # MPI-dependent
