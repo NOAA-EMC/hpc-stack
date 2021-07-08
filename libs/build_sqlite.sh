@@ -12,6 +12,12 @@ version=${1:-${STACK_sqlite_version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
 if $MODULES; then
+  set +x
+  source $MODULESHOME/init/bash
+  module load hpc-$HPC_COMPILER
+  module list
+  set -x
+
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
