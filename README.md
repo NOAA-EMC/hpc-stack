@@ -33,6 +33,10 @@ WCOSS-Cray  | Hang-Lei
 Cheyenne    | Dom Heinzeller
 Gaea        | Dom Heinzeller
 
+## Contributors
+
+Mark Potts, Steve Lawrence, Ed Hartnett, Guoqing Ge, Raffaele Montuoro, David Huber
+
 ## Prerequisites:
 
 The prerequisites of building hpc-stack are:
@@ -143,6 +147,9 @@ script.
   - [JSON Schema Validator for C++](https://github.com/pboettch/json-schema-validator)
   - [pybind11](https://github.com/pybind/pybind11)
   - [MADIS](https://madis-data.ncep.noaa.gov)
+  - [SQLite](https://www.sqlite.org)
+  - [PROJ](https://proj.org)
+  - [GEOS](https://www.osgeo.org/projects/geos)
 
 * UFS Dependencies
   - [ESMF](https://www.earthsystemcog.org/projects/esmf/)
@@ -179,7 +186,8 @@ script.
   - [fckit](https://github.com/ecmwf/fckit.git)
   - [atlas](https://github.com/ecmwf/atlas.git)
 
-* Python Virtual Environments
+* Python and Virtual Environments
+  - [Miniconda3](https://docs.conda.io/en/latest/)
   - [r2d2](https://github.com/jcsda-internal/r2d2.git)
 
 **IMPORTANT: Steps 1, 2, and 3 need to be repeated for each
@@ -312,6 +320,8 @@ config directory
 
 5. Create a new module template at the appropriate place in the
 modulefiles directory, using exising files as a template
+
+6. Update `README.md` to include the name of the new library or package
 
 ### Configuring for a new HPC
 

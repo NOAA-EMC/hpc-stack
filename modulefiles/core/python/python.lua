@@ -13,7 +13,7 @@ conflict("intelpython")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
-local mpath = pathJoin(opt,"modulefiles/core",pkgName,pkgVersion)
+local mpath = pathJoin(opt,"modulefiles/python",pkgName,pkgVersion)
 prepend_path("MODULEPATH", mpath)
 
 local base = pathJoin(opt,pkgName,pkgVersion)
