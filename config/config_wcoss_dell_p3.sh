@@ -28,3 +28,7 @@ module purge
 module load cmake/3.16.2
 module use -a /usrx/local/dev/modulefiles
 module load git/2.14.3
+
+# Build FMS with AVX2 flags
+export STACK_fms_CFLAGS="-march=core-avx2"
+export STACK_fms_FFLAGS="-march=core-avx2"
