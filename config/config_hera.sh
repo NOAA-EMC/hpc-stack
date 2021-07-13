@@ -22,3 +22,7 @@ export WGET="wget -nv"
 module purge
 module load cmake/3.20.1
 module use /contrib/miniconda3/modulefiles
+
+# Build FMS with AVX2 flags
+export STACK_fms_CFLAGS="-march=core-avx2"
+export STACK_fms_FFLAGS="-march=core-avx2"
