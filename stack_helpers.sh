@@ -201,7 +201,14 @@ function build_lib() {
       if [[ ${is_nceplib:-} =~ [yYtT] ]]; then
         ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$log"
       elif [[ ${is_pyvenv:-} =~ [yYtT] ]]; then
-        ${HPC_STACK_ROOT}/libs/build_pyvenv.sh "$1" 2>&1 | tee "$log"
+        if [[ "$VENVTYPE" == "pyvenv" ]]; then
+          ${HPC_STACK_ROOT}/libs/build_pyvenv.sh "$1" 2>&1 | tee "$log"
+        elif [[ "$VENVTYPE" == "condaenv" ]]; then
+          ${HPC_STACK_ROOT}/libs/build_condaenv.sh "$1" 2>&1 | tee "$log"
+        else
+          echo "BUILD FAIL!  Lib: $1 Error: Unknown VENVTYPE = $VENVTYPE"
+          [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit 999
+        fi
       else
         ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$log"
       fi

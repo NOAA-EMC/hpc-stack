@@ -18,6 +18,7 @@ export   MAKE_CLEAN=N
 export DOWNLOAD_ONLY=N
 export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
+export VENVTYPE="condaenv"  # Conda Env. OR Python Virtual Env.
 
 # gfortran-10 needs the following
 #export STACK_esmf_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"

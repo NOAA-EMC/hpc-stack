@@ -26,9 +26,9 @@ local funcs = "conda __conda_activate __conda_hashr __conda_reactivate __add_sys
 
 -- Line #: What does it do?
 -- 1: source conda.sh from the installation path
--- 2: export conda functions
+-- 2: export conda functions silently(> dev/null)
 local load_cmd = "source " .. pathJoin(base, "etc/profile.d/conda.sh") .. "; \
-export -f " .. funcs
+export -f " .. funcs .. " > /dev/null"
 
 -- Line #: What does it do?
 -- 1: deactivate all conda envs
@@ -40,8 +40,9 @@ export -f " .. funcs
 local unload_cmd="for i in $(seq ${CONDA_SHLVL:=0}); do conda deactivate; done; \
 unset -f " .. funcs .. "; \
 prefix=" .. base .. "; \
-export PATH=$(echo ${PATH} | tr ':' '\n'  | grep . | grep -v $prefix | tr '\n' ':' | sed 's/:$//'); \
-unset $(env | grep CONDA | grep -ev 'CONDA_ENVS_PATH|CONDA_PKGS_PATH' | cut -d= -f1)"
+export PATH=$(echo $PATH | tr ':' '\\n' | grep . | grep -v $prefix | tr '\\n' ':' | sed 's/:$//'); \
+unset $(env | grep -o \"[^=]*CONDA[^=]*\" | grep -v 'CONDA_ENVS_PATH\\|CONDA_PKGS_DIRS'); \
+unset prefix"
 
 -- source conda on load, deactivate on unload
 if (mode() == "load") then
