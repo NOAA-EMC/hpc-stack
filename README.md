@@ -105,6 +105,8 @@ some of the parameter settings available.
 
 - **MAKE_VERBOSE:** Print out extra information to the log files during the build
 
+- **VENVTYPE:** Set the type of python environment to build.  Value depends on whether using `pip` or `conda`.  Set `VENVTYPE=pyvenv` when using `pip` and `VENVTYPE=condaenv` when using `Miniconda` for creating virtual environments. Default is `pyvenv`
+
 The next step is to choose what components of the stack you wish to
 build.  This is done by editing the file `stack/stack_custom.yaml`
 which defines the software packages to be built along with their
@@ -314,7 +316,7 @@ template
 2. define a new section in the `yaml` file for that library/package in
 config directory
 
-3. if the package is a python virtual environment, add a `requirements.txt` file listing the python packages required to install the package in `pyvenv/package_name.txt`
+3. if the package is a python virtual environment, add a `requirements.txt` or `environment.yml` file containing the listing the python packages required to install the package.  These files should be named and placed in `pyvenv/package_name.txt` and `pyvenv/package_name.yml`.  `VENVTYPE=pyvenv` will use the `pyvenv/package_name.txt` and `VENVTYPE=condaenv` will use `pyvenv/package_name.yml`
 
 4. Add a call to the new build script in `build_stack.sh`
 

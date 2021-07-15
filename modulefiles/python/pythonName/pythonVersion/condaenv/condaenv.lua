@@ -21,7 +21,7 @@ if (mode() == "load") then
   execute{cmd=load_cmd, modeA={"load"}}
 else
   if (mode() == "unload") then
-    local unload_cmd = "conda deactivate " .. pkgName
+    local unload_cmd = "conda deactivate"
     execute{cmd=unload_cmd, modeA={"unload"}}
   end
 end

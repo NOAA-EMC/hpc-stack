@@ -14,7 +14,11 @@ var="STACK_${name}_requirements"
 set +u
 stack_rqmts=${!var}
 set -u
-rqmts=${stack_rqmts:-"requirements.txt"}
+rqmts=${stack_rqmts:-"$name.txt"}
+
+# Check for requirements file
+rqmts_file=${HPC_STACK_ROOT}/pyvenv/$rqmts
+[[ ! -f $rqmts_file ]] && ( echo "Unable to find requirements file: $rqmts \nABORT!"; exit 1 )
 
 python=$(echo $HPC_PYTHON | sed 's/\//-/g')
 
@@ -48,10 +52,6 @@ if (( $(echo "$min_python_version >= $python_version" | bc -l) )); then
   echo "Must have python version ($python_version) >= ${min_python_version}. ABORT!"
   exit 1
 fi
-
-# Check for requirements file
-rqmts_file=${HPC_STACK_ROOT}/pyvenv/$rqmts
-[[ ! -f $rqmts_file ]] && ( echo "Unable to find requirements file: $rqmts \nABORT!"; exit 1 )
 
 # Download the requirements of the virtual environment
 if [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]]; then

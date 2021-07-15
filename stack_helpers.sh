@@ -8,7 +8,11 @@ function update_modules {
   local py_version=${4:-}
   case $modpath in
     python )
-      local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/pyvenv/pyvenv.lua
+      if [[ "${VENVTYPE:-"pyvenv"}" == "pyvenv" ]]; then
+        local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/pyvenv/pyvenv.lua
+      elif [[ "${VENVTYPE:-"pyvenv"}" == "condaenv" ]]; then
+        local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/condaenv/condaenv.lua
+      fi
       local to_dir=$prefix/modulefiles/python/$HPC_PYTHON
       ;;
     core )
@@ -201,7 +205,11 @@ function build_lib() {
       if [[ ${is_nceplib:-} =~ [yYtT] ]]; then
         ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$log"
       elif [[ ${is_pyvenv:-} =~ [yYtT] ]]; then
-        ${HPC_STACK_ROOT}/libs/build_pyvenv.sh "$1" 2>&1 | tee "$log"
+        if [[ "${VENVTYPE:-"pyvenv"}" == "pyvenv" ]]; then
+          ${HPC_STACK_ROOT}/libs/build_pyvenv.sh "$1" 2>&1 | tee "$log"
+        elif [[ "${VENVTYPE:-"pyvenv"}" == "condaenv" ]]; then
+          ${HPC_STACK_ROOT}/libs/build_condaenv.sh "$1" 2>&1 | tee "$log"
+        fi
       else
         ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$log"
       fi
