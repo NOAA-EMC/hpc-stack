@@ -339,14 +339,16 @@ proj:
   version: 7.1.0
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
+miniconda3:
+  build: NO
+  version: 4.7.12
+
 r2d2:
   build: NO
   version: 1.0.0
-  requirements: r2d2.txt
   is_pyvenv: YES
 
 ufswm:
   build: NO
   version: 1.0.0
-  requirements: ufswm.txt
   is_pyvenv: YES

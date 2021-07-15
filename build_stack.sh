@@ -185,8 +185,9 @@ build_lib ncio
 
 build_lib madis
 
-# Python virtual environments
+# Python and associate virtual environments
 
+build_lib miniconda3
 build_lib r2d2
 
 # JEDI 3rd party dependencies

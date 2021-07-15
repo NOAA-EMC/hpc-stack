@@ -14,11 +14,11 @@ var="STACK_${name}_requirements"
 set +u
 stack_rqmts=${!var}
 set -u
-rqmts=${stack_rqmts:-"$name.txt"}
+rqmts=${stack_rqmts:-"$name.yml"}
 
-# Check for requirements file
+# Check for conda environment file
 rqmts_file=${HPC_STACK_ROOT}/pyvenv/$rqmts
-[[ ! -f $rqmts_file ]] && ( echo "Unable to find requirements file: $rqmts \nABORT!"; exit 1 )
+[[ ! -f $rqmts_file ]] && ( echo "Unable to find environment file: $rqmts \nABORT!"; exit 1 )
 
 python=$(echo $HPC_PYTHON | sed 's/\//-/g')
 
@@ -30,7 +30,7 @@ if $MODULES; then
   set -x
   prefix="${PREFIX:-"/opt/modules"}/$python/$name/$version"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
+    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
 else
@@ -43,6 +43,12 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 software=${name}-${version}
 mkdir -p $software
 
+# Activate conda's base environment to get a few details such as python_version
+set +x
+echo "executing ... conda activate base"
+conda activate base
+set -x
+
 # Determine python version; 3.x
 python_version=$(python3 -c 'import sys;print(sys.version_info[0],".",sys.version_info[1],sep="")')
 
@@ -53,35 +59,25 @@ if (( $(echo "$min_python_version >= $python_version" | bc -l) )); then
   exit 1
 fi
 
-# Download the requirements of the virtual environment
-if [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]]; then
-  pip download -r $rqmts_file -d $software
-  exit 0
-fi
-
-# for python >= v3.9, upgrade dependencies (pip, setuptools) in place with '--upgrade-deps'
-upgrade_deps=""
-if (( $(echo "$python_version >= 3.9" | bc -l) )); then
-  upgrade_deps="--upgrade-deps"
-fi
-
-# Create a new virtual env.
-python3 -m venv --prompt $name $upgrade_deps $prefix
-
-# Activate newly created virtual env.
+# Deactivate base environment before building new conda environment
 set +x
-source $prefix/bin/activate
+echo "executing ... conda deactivate"
+conda deactivate
 set -x
 
-# Upgrade pip
-pip install --upgrade pip
+# Create the conda environment
+set +x
+echo "executing ... conda env create -q --file $rqmts_file"
+conda env create -q --file $rqmts_file
+set -x
 
-# Install packages from $rqmt_file
-[[ -z "$(ls -A $software)" ]] || pip_args="--no-index --find-links $software"
-pip install --no-cache-dir -r $rqmts_file ${pip_args:-}
-
-# List installed packages
-pip list
+# Activate conda environment and get list
+set +x
+echo "executing ... conda activate $name"
+conda activate $name
+echo "executing ... conda env list"
+conda env list
+set -x
 
 # generate modulefile from template
 $MODULES && update_modules python $name $version $python_version

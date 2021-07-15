@@ -33,6 +33,10 @@ WCOSS-Cray  | Hang-Lei
 Cheyenne    | Dom Heinzeller
 Gaea        | Dom Heinzeller
 
+## Contributors
+
+Mark Potts, Steve Lawrence, Ed Hartnett, Guoqing Ge, Raffaele Montuoro, David Huber
+
 ## Prerequisites:
 
 The prerequisites of building hpc-stack are:
@@ -101,6 +105,8 @@ some of the parameter settings available.
 
 - **MAKE_VERBOSE:** Print out extra information to the log files during the build
 
+- **VENVTYPE:** Set the type of python environment to build.  Value depends on whether using `pip` or `conda`.  Set `VENVTYPE=pyvenv` when using `pip` and `VENVTYPE=condaenv` when using `Miniconda` for creating virtual environments. Default is `pyvenv`
+
 The next step is to choose what components of the stack you wish to
 build.  This is done by editing the file `stack/stack_custom.yaml`
 which defines the software packages to be built along with their
@@ -143,6 +149,9 @@ script.
   - [JSON Schema Validator for C++](https://github.com/pboettch/json-schema-validator)
   - [pybind11](https://github.com/pybind/pybind11)
   - [MADIS](https://madis-data.ncep.noaa.gov)
+  - [SQLite](https://www.sqlite.org)
+  - [PROJ](https://proj.org)
+  - [GEOS](https://www.osgeo.org/projects/geos)
 
 * UFS Dependencies
   - [ESMF](https://www.earthsystemcog.org/projects/esmf/)
@@ -179,7 +188,8 @@ script.
   - [fckit](https://github.com/ecmwf/fckit.git)
   - [atlas](https://github.com/ecmwf/atlas.git)
 
-* Python Virtual Environments
+* Python and Virtual Environments
+  - [Miniconda3](https://docs.conda.io/en/latest/)
   - [r2d2](https://github.com/jcsda-internal/r2d2.git)
 
 **IMPORTANT: Steps 1, 2, and 3 need to be repeated for each
@@ -306,12 +316,14 @@ template
 2. define a new section in the `yaml` file for that library/package in
 config directory
 
-3. if the package is a python virtual environment, add a `requirements.txt` file listing the python packages required to install the package in `pyvenv/package_name.txt`
+3. if the package is a python virtual environment, add a `requirements.txt` or `environment.yml` file containing the listing the python packages required to install the package.  These files should be named and placed in `pyvenv/package_name.txt` and `pyvenv/package_name.yml`.  `VENVTYPE=pyvenv` will use the `pyvenv/package_name.txt` and `VENVTYPE=condaenv` will use `pyvenv/package_name.yml`
 
 4. Add a call to the new build script in `build_stack.sh`
 
 5. Create a new module template at the appropriate place in the
 modulefiles directory, using exising files as a template
+
+6. Update `README.md` to include the name of the new library or package
 
 ### Configuring for a new HPC
 
