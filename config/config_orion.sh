@@ -1,14 +1,8 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-#export HPC_COMPILER="intel/2019.5"
-#export HPC_MPI="impi/2019.6"
-#export HPC_COMPILER="intel/2018.4"
-#export HPC_MPI="impi/2018.4"
-export HPC_COMPILER="intel/2020"
-export HPC_MPI="impi/2020"
-#export HPC_COMPILER="gcc/8.3.0"
-#export HPC_MPI="openmpi/4.0.2"
+export HPC_COMPILER="intel/2018.4"
+export HPC_MPI="impi/2018.4"
 export HPC_PYTHON="python/3.7.5"
 
 # Build options
@@ -28,3 +22,7 @@ export WGET="wget -nv"
 module purge
 module load cmake
 module load git
+
+# Build FMS with AVX2 flags
+export STACK_fms_CFLAGS="-march=core-avx2"
+export STACK_fms_FFLAGS="-march=core-avx2"
