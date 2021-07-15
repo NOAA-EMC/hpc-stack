@@ -4,8 +4,8 @@ gnu:
 
 mpi:
   build: YES
-  flavor: openmpi
-  version: 4.1.1
+  flavor: mpich
+  version: 3.3.2
 
 cmake:
   build: NO
