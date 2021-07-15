@@ -44,6 +44,7 @@ URL="https://repo.anaconda.com/miniconda/$installer"
 $SUDO bash $software/$installer -b -p $prefix -s
 set +x
 echo "sourcing conda.sh"
+PS1=
 source $prefix/etc/profile.d/conda.sh
 echo "setting conda default threads to 4"
 conda config --system --set default_threads 4
