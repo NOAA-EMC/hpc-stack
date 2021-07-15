@@ -8,7 +8,11 @@ function update_modules {
   local py_version=${4:-}
   case $modpath in
     python )
-      local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/pyvenv/pyvenv.lua
+      if [[ "$VENVTYPE" == "pyvenv" ]]; then
+        local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/pyvenv/pyvenv.lua
+      elif [[ "$VENVTYPE" == "condaenv" ]]; then
+        local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/condaenv/condaenv.lua
+      fi
       local to_dir=$prefix/modulefiles/python/$HPC_PYTHON
       ;;
     core )
