@@ -340,11 +340,11 @@ proj:
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
 miniconda3:
-  build: YES
+  build: NO
   version: 4.7.12
 
 r2d2:
-  build: YES
+  build: NO
   version: 1.0.0
   is_pyvenv: YES
 

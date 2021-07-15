@@ -105,7 +105,7 @@ some of the parameter settings available.
 
 - **MAKE_VERBOSE:** Print out extra information to the log files during the build
 
-- **VENVTYPE:** Set the type of python environment to build.  Value depends on whether using `pip` or `conda`.  Set `VENVTYPE=pyvenv` when using `pip` and `VENVTYPE=condaenv` when using `Miniconda` for creating virtual environments.
+- **VENVTYPE:** Set the type of python environment to build.  Value depends on whether using `pip` or `conda`.  Set `VENVTYPE=pyvenv` when using `pip` and `VENVTYPE=condaenv` when using `Miniconda` for creating virtual environments. Default is `pyvenv`
 
 The next step is to choose what components of the stack you wish to
 build.  This is done by editing the file `stack/stack_custom.yaml`

@@ -17,6 +17,7 @@ export   MAKE_CLEAN=N
 export DOWNLOAD_ONLY=N
 export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
+export VENVTYPE="condaenv"
 
 # Load these basic modules for S4
 module purge
