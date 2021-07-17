@@ -189,9 +189,7 @@ case $name in
     URL="https://github.com/noaa-emc/emc_crtm"
     ;;
   wgrib2)
-    [[ -z ${STACK_wgrib2_ipolates:-} ]] && ipolates=0   || ipolates=$STACK_wgrib2_ipolates
-    [[ -z ${STACK_wgrib2_spectral:-} ]] && spectral=OFF || spectral=$STACK_wgrib2_spectral
-    extraCMakeFlags="-DUSE_SPECTRAL=$spectral -DUSE_IPOLATES=$ipolates"
+    extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
     ;;
   bufr)
     if [[ ${using_python:-} =~ [yYtT] ]]; then
