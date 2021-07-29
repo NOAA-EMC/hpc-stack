@@ -39,9 +39,9 @@ export CFLAGS="${STACK_CFLAGS:-} ${STACK_jasper_CFLAGS:-} -fPIC"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-#gitURL="https://github.com/mdadams/jasper"
-gitURL="https://github.com/jasper-software/jasper"
-[[ -d $software ]] || ( git clone -b "version-$version" $gitURL $software )
+#URL="https://github.com/mdadams/jasper"
+URL="https://github.com/jasper-software/jasper"
+[[ -d $software ]] || ( git clone -b "version-$version" $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 sourceDir=$PWD
@@ -74,9 +74,9 @@ else
 fi
 
 make -j${NTHREADS:-4}
-[[ $MAKE_CHECK =~ [yYtT] ]] && make check
+[[ $MAKE_CHECK =~ [yYtT] ]] && make test
 $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules compiler $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules compiler $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

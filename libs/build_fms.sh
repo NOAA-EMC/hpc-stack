@@ -20,7 +20,7 @@ if $MODULES; then
   module list
   set -x
 
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$repo-$version"
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -38,24 +38,29 @@ export FCFLAGS="${FFLAGS}"
 
 software=$name-$repo-$version
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-[[ -d $software ]] || git clone https://github.com/$repo/$name.git $software
+URL="https://github.com/$repo/$name.git"
+[[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-git fetch --tags
+
 git checkout $version
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+
+# Patch if requested
+if [[ ! -z "${STACK_fms_PATCH+x}" ]]; then
+  patch -p0 < ${HPC_STACK_ROOT}/patches/${STACK_fms_PATCH}
+fi
+
 [[ -d build ]] && $SUDO rm -rf build
 mkdir -p build && cd build
 
 CMAKE_OPTS=${STACK_fms_cmake_opts:-""}
 
-cmake .. \
-      -DCMAKE_INSTALL_PREFIX=$prefix \
-      -D32BIT=ON -D64BIT=ON ${CMAKE_OPTS}
+cmake .. -DCMAKE_INSTALL_PREFIX=$prefix ${CMAKE_OPTS}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 #[[ $MAKE_CHECK =~ [yYtT] ]] && make check # make check is not implemented in cmake builds
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules mpi $name $repo-$version \
-         || echo $name $repo-$version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules mpi $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

@@ -8,7 +8,6 @@ set -eux
 name="gsl-lite"
 version=${1:-${STACK_gsl_lite_version}}
 
-exit
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
@@ -31,10 +30,10 @@ fi
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-gitURL="https://github.com/$name/$name"
+URL="https://github.com/$name/$name"
 software=$name-$version
 
-[[ -d $software ]] || ( git clone -b "v$version" $gitURL $software )
+[[ -d $software ]] || ( git clone -b "v$version" $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
@@ -49,5 +48,5 @@ VERBOSE=$MAKE_VERBOSE make -j$NTHREADS
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules core $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules core $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

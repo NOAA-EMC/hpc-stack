@@ -47,38 +47,46 @@ export FCFLAGS="$FFLAGS"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-branch=pio_$(echo $version | sed -e 's/\./_/g')
-[[ -d $software ]] || git clone https://github.com/NCAR/ParallelIO $software
+if [[ "$version" = "2.5.1" ]]; then
+  branch=pio_$(echo $version | sed -e 's/\./_/g')
+else
+  branch=pio$(echo $version | sed -e 's/\./_/g')
+fi
+
+URL=https://github.com/NCAR/ParallelIO
+[[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-git fetch
+
 git checkout $branch
+
+# These repositories are used internally by PIO. Download them so DOWNLOAD_ONLY option works.
+[[ -d CMake_Fortran_utils ]] || git clone https://github.com/CESM-Development/CMake_Fortran_utils
+[[ -d genf90 ]] || git clone https://github.com/PARALLELIO/genf90.git
+CMAKE_FLAGS="-DUSER_CMAKE_MODULE_PATH=`pwd`/CMake_Fortran_utils -DGENF90_PATH=`pwd`/genf90"
+
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-# These flags (e.g.) set the following that were used for HDF5 library:
-#LDFLAGS2='-L$ZLIB_ROOT/lib -L$SZIP_ROOT/lib'
-#LDFLAGS3=' -lsz -lz -ldl -lm '
-LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
-export LDFLAGS="$LDFLAGS2 $LDFLAGS3"
 
 [[ $enable_pnetcdf =~ [yYtT] ]] && CMAKE_FLAGS+=" -DWITH_PNETCDF=ON -DPnetCDF_PATH=$PNETCDF" \
                                 || CMAKE_FLAGS+=" -DWITH_PNETCDF=OFF"
 [[ $enable_gptl =~ [yYtT] ]] && CMAKE_FLAGS+=" -DPIO_ENABLE_TIMING=ON" \
                              || CMAKE_FLAGS+=" -DPIO_ENABLE_TIMING=OFF"
 
+
 cmake ..\
   -DCMAKE_INSTALL_PREFIX=$prefix \
-  -DNetCDF_PATH=${NETCDF:-} \
+  -DNetCDF_PATH=${NETCDF_ROOT:-} \
   -DHDF5_PATH=${HDF5_ROOT:-} \
   -DCMAKE_VERBOSE_MAKEFILE=1 \
   $CMAKE_FLAGS
 
+
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
-[[ $MAKE_CHECK =~ [yYtT] ]] && make check
+[[ $MAKE_CHECK =~ [yYtT] ]] && make test
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules mpi $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules mpi $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

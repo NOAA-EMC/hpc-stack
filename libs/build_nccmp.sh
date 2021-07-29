@@ -9,8 +9,8 @@ software=$name-$version
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-url="https://gitlab.com/remikz/nccmp/-/archive/$version/${software}.tar.gz"
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz && rm -f $software.tar.gz )
+URL="https://gitlab.com/remikz/nccmp/-/archive/$version/${software}.tar.gz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz && rm -f $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 # Hyphenated version used for install prefix
@@ -53,14 +53,26 @@ else
 fi
 
 export CFLAGS="${STACK_CFLAGS:-} ${STACK_nccmp_CFLAGS:-} -fPIC"
-LDFLAGS1="-L$HDF5_ROOT/lib -lhdf5_hl -lhdf5"
-LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+
+HDF5_LDFLAGS="-L$HDF5_ROOT/lib"
+HDF5_LIBS="-lhdf5_hl -lhdf5"
+
+AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+
 if [[ ! -z $mpi ]]; then
-  [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib -lpnetcdf"
+  if [[ $enable_pnetcdf =~ [yYtT] ]]; then
+    PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
+    PNETCDF_LIBS="-lpnetcdf"
+  fi
 fi
-LDFLAGS5="-L$NETCDF_ROOT/lib -lnetcdf"
-export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-} ${LDFLAGS5:-}"
+
+NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
+NETCDF_LIBS="-lnetcdf"
+
+export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS} ${AM_LDFLAGS:-}"
+export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS} ${HDF5_LIBS} ${EXTRA_LIBS:-}"
+export CPPFLAGS="-I${NETCDF_ROOT}/include"
 
 # Enable header pad comparison, if netcdf-c src directory exists!
 [[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && netcdf_src="$PWD/netcdf-c-$NETCDF_VERSION"
@@ -70,16 +82,7 @@ export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-} ${LDFLAG
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-#../configure --prefix=$prefix $extra_confs
-cmake .. \
-  -DBUILD_TESTS=OFF \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_EXE_LINKER_FLAGS="$LDFLAGS" \
-  -DCMAKE_INSTALL_PREFIX=$prefix \
-  -DCMAKE_VERBOSE_MAKEFILE=ON \
-  -DNETCDF_INC_DIR=$NETCDF_ROOT/include \
-  -DNETCDF_LIB_PATH=$NETCDF_ROOT/lib/libnetcdf.a \
-  -DWITH_NETCDF=${netcdf_src:-}
+../configure --prefix=$prefix ${extra_confs:-}
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
@@ -87,5 +90,5 @@ $SUDO make install
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

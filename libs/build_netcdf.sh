@@ -12,6 +12,7 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 [[ ${STACK_netcdf_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
+[[ ${STACK_netcdf_disable_cxx:-} =~ [yYtT] ]] && enable_cxx=NO || enable_cxx=YES
 
 if $MODULES; then
     set +x
@@ -53,7 +54,7 @@ export CFLAGS="${STACK_CFLAGS:-} ${STACK_netcdf_CFLAGS:-} -fPIC"
 export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_netcdf_CXXFLAGS:-} -fPIC -std=c++11"
 export FCFLAGS="$FFLAGS"
 
-gitURLroot="https://github.com/Unidata"
+URLroot="https://github.com/Unidata"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 curr_dir=$(pwd)
@@ -80,15 +81,15 @@ if [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]]; then
 
     version=$c_version
     software=$name-"c"-$version
-    [[ -d $software ]] || ( git clone -b "v$version" $gitURLroot/$name-c.git $software )
+    [[ -d $software ]] || ( git clone -b "v$version" $URLroot/$name-c.git $software )
 
     version=$f_version
     software=$name-"fortran"-$version
-    [[ -d $software ]] || ( git clone -b "v$version" $gitURLroot/$name-fortran.git $software )
+    [[ -d $software ]] || ( git clone -b "v$version" $URLroot/$name-fortran.git $software )
 
     version=$cxx_version
     software=$name-"cxx4"-$version
-    [[ -d $software ]] || ( git clone -b "v$version" $gitURLroot/$name-cxx4.git $software )
+    [[ -d $software ]] || ( git clone -b "v$version" $URLroot/$name-cxx4.git $software )
 
     exit 0
 
@@ -104,7 +105,8 @@ set -x
 
 version=$c_version
 software=$name-"c"-$version
-[[ -d $software ]] || ( git clone -b "v$version" $gitURLroot/$name-c.git $software )
+URL="$URLroot/$name-c.git"
+[[ -d $software ]] || ( git clone -b "v$version" $URL $software )
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
@@ -124,14 +126,10 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
 
-$MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
-
-##################################################
-
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $c_version \
-         || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $c_version
+echo netcdf-c $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
 ##################################################
 
@@ -161,7 +159,8 @@ cd $curr_dir
 
 version=$f_version
 software=$name-"fortran"-$version
-[[ -d $software ]] || ( git clone -b "v$version" $gitURLroot/$name-fortran.git $software )
+URL="$URLroot/$name-fortran.git"
+[[ -d $software ]] || ( git clone -b "v$version" $URL $software )
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
@@ -174,28 +173,32 @@ VERBOSE=$MAKE_VERBOSE make -j1 #NetCDF-Fortran-4.5.2 & intel/20 have a linker bu
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
 
-cd $curr_dir
+echo netcdf-fortran $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 
-$MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+if [[ $enable_cxx =~ [yYtT] ]]; then
 
-set +x
-echo "################################################################################"
-echo "BUILDING NETCDF-CXX"
-echo "################################################################################"
-set -x
+  cd $curr_dir
 
-version=$cxx_version
-software=$name-"cxx4"-$version
-[[ -d $software ]] || ( git clone -b "v$version" $gitURLroot/$name-cxx4.git $software )
-[[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-[[ -d build ]] && rm -rf build
-mkdir -p build && cd build
+  set +x
+  echo "################################################################################"
+  echo "BUILDING NETCDF-CXX"
+  echo "################################################################################"
+  set -x
 
-../configure --prefix=$prefix \
-             ${shared_flags:-}
+  version=$cxx_version
+  software=$name-"cxx4"-$version
+	URL="$URLroot/$name-cxx4.git"
+  [[ -d $software ]] || ( git clone -b "v$version" $URL $software )
+  [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
+  [[ -d build ]] && rm -rf build
+  mkdir -p build && cd build
 
-VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
-[[ $MAKE_CHECK =~ [yYtT] ]] && make check
-$SUDO make install
+  ../configure --prefix=$prefix \
+               ${shared_flags:-}
 
-$MODULES || echo $software >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+  VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
+  [[ $MAKE_CHECK =~ [yYtT] ]] && make check
+  $SUDO make install
+
+  echo netcdf-cxx $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+fi

@@ -14,6 +14,8 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 COMPILER=$(echo $HPC_COMPILER | cut -d/ -f1)
 MPI=$(echo $HPC_MPI | cut -d/ -f1)
 
+host=$(uname -s)
+
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 [[ ${STACK_esmf_debug} =~ [yYtT] ]] && enable_debug=YES || enable_debug=NO
@@ -63,16 +65,19 @@ export CFLAGS="${STACK_CFLAGS:-} ${STACK_esmf_CFLAGS:-} -fPIC"
 export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_esmf_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
-gitURL="https://github.com/esmf-org/esmf"
+URL="https://github.com/esmf-org/esmf"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software="ESMF_$version"
-# ESMF does not support out of source builds; clean out the clone
-[[ -d $software ]] && ( echo "$software exists, cleaning ..."; rm -rf $software )
-[[ -d $software ]] || ( git clone -b $software $gitURL $software )
+
+[[ -d $software ]] || ( git clone -b $software $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
+
+# ESMF does not support out of source builds; clean out the clone
+git reset --hard $software && git clean -fx
+
 export ESMF_DIR=$PWD
 
 # This is going to need a little work to adapt for various combinations
@@ -80,15 +85,21 @@ export ESMF_DIR=$PWD
 case $COMPILER in
   intel|ips )
     export ESMF_COMPILER="intel"
-    export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise"
-    export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise"
+    export ESMF_F90COMPILEOPTS="-g -traceback -fp-model precise ${FCFLAGS}"
+    export ESMF_CXXCOMPILEOPTS="-g -traceback -fp-model precise ${CXXFLAGS}"
     ;;
-  gnu|gcc )
+  gnu|gcc|clang )
     export ESMF_COMPILER="gfortran"
+    export ESMF_F90COMPILEOPTS="-g -fbacktrace ${FCFLAGS}"
+    if [[ "$host" == "Darwin" ]]; then
+      export ESMF_CXXCOMPILEOPTS="-g -Wno-error=format-security ${CXXFLAGS}"
+    else
+      export ESMF_CXXCOMPILEOPTS="-g ${CXXFLAGS}"
+    fi
     ;;
-  clang )
-    export ESMF_COMPILER="gfortranclang"
-    ;;
+  #clang )
+  #  export ESMF_COMPILER="gfortranclang"
+  #  ;;
   * )
     echo "Unsupported compiler = $COMPILER, ABORT!"; exit 1
     ;;
@@ -131,8 +142,19 @@ export ESMF_NETCDF_LIBPATH=$NETCDF_ROOT/lib
 export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs"
 export ESMF_NFCONFIG=nf-config
 [[ $enable_pnetcdf =~ [yYtT] ]] && export ESMF_PNETCDF=pnetcdf-config
-[[ $enable_debug =~ [yYtT] ]] && export ESMF_BOPT=g || export ESMF_BOPT=O
-export ESMF_ABI=64
+# Configure optimization level
+if [[ $enable_debug =~ [yYtT] ]]; then
+  export ESMF_BOPT=g
+  export ESMF_OPTLEVEL="0"
+else
+  if [[ "$host" == "Darwin" ]]; then
+    export ESMF_BOPT=O
+    export ESMF_OPTLEVEL="0"
+  else
+    export ESMF_BOPT=O
+    export ESMF_OPTLEVEL="2"
+  fi
+fi
 
 export ESMF_INSTALL_PREFIX=$prefix
 export ESMF_INSTALL_BINDIR=bin
@@ -144,9 +166,10 @@ export ESMF_INSTALL_HEADERDIR=include
 make info
 make -j${NTHREADS:-4}
 $SUDO make install
+[[ $MAKE_CHECK =~ [yYtT] ]] && make check
 [[ $MAKE_CHECK =~ [yYtT] ]] && make installcheck
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version_install \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $version_install
+echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

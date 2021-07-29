@@ -21,6 +21,22 @@ Rahul Mahajan, Kyle Gerheiser, Dusan Jovic, Hang-Lei, Dom Heinzeller
 
 Code Manager: Kyle Gerheiser
 
+Installers:
+
+Machine     | Programmer
+------------|------------------
+Hera        | Kyle Gerheiser
+Jet         | Kyle Gerheiser
+Orion       | Hang-Lei
+WCOSS-Dell  | Hang-Lei
+WCOSS-Cray  | Hang-Lei
+Cheyenne    | Dom Heinzeller
+Gaea        | Dom Heinzeller
+
+## Contributors
+
+Mark Potts, Steve Lawrence, Ed Hartnett, Guoqing Ge, Raffaele Montuoro, David Huber
+
 ## Prerequisites:
 
 The prerequisites of building hpc-stack are:
@@ -35,8 +51,8 @@ in the following sections.
 
 ## Step 1: Configure Build
 
-The first step is to choose the **COMPILER** and the **MPI** specify
-any other aspects of the build that you would like.  This is normally
+The first step is to choose the **COMPILER**, **MPI**, and **PYTHON** and
+specify any other aspects of the build that you would like.  This is normally
 done by editing the file `config/config_custom.sh`.  Here we describe
 some of the parameter settings available.
 
@@ -48,6 +64,10 @@ some of the parameter settings available.
 - **HPC_MPI:** is the MPI library you wish to use for this build.  The
     format is the same as for `HPC_COMPILER`, for example:
     `HPC_MPI=impi/2020`.
+
+- **HPC_PYTHON:** is the Python Interpretor you wish to use for this build.  The
+    format is the same as for `HPC_COMPILER`, for example:
+    `HPC_PYTHON=python/3.7.5`.
 
 - **USE_SUDO:** If `PREFIX` is set to a value that requires root
     permission to write to, such as `/opt/modules`, then this flag
@@ -85,8 +105,10 @@ some of the parameter settings available.
 
 - **MAKE_VERBOSE:** Print out extra information to the log files during the build
 
+- **VENVTYPE:** Set the type of python environment to build.  Value depends on whether using `pip` or `conda`.  Set `VENVTYPE=pyvenv` when using `pip` and `VENVTYPE=condaenv` when using `Miniconda` for creating virtual environments. Default is `pyvenv`
+
 The next step is to choose what components of the stack you wish to
-build.  This is done by editing the file `config/stack_custom.yaml`
+build.  This is done by editing the file `stack/stack_custom.yaml`
 which defines the software packages to be built along with their
 version, options and compiler flags along with other package specific
 options.
@@ -97,7 +119,7 @@ script.
 
 * Compilers and MPI libraries
   - [GNU/GCC](https://gcc.gnu.org/)
-  - Intel/IPS
+  - [Intel](https://intel.com)
   - [OpenMPI](https://www.open-mpi.org/)
   - [MPICH](https://www.mpich.org/)
   - `hpc-` Meta-modules for all the above as well as Intel and IMPI
@@ -116,13 +138,20 @@ script.
   - [ParallelIO](https://github.com/NCAR/ParallelIO)
   - [nccmp](https://gitlab.com/remikz/nccmp)
   - [nco](http://nco.sourceforge.net/)
+  - [CDO](https://code.mpimet.mpg.de/projects/cdo)
   - [FFTW](http://www.fftw.org/)
   - [GPTL](https://jmrosinski.github.io/GPTL/)
   - [Tau2]()
   - [Boost](https://beta.boost.org/)
   - [Eigen](http://eigen.tuxfamily.org/)
+  - [GSL-Lite](http://github.com/gsl-lite/gsl-lite)
   - [JSON for C++](https://github.com/nlohmann/json/)
   - [JSON Schema Validator for C++](https://github.com/pboettch/json-schema-validator)
+  - [pybind11](https://github.com/pybind/pybind11)
+  - [MADIS](https://madis-data.ncep.noaa.gov)
+  - [SQLite](https://www.sqlite.org)
+  - [PROJ](https://proj.org)
+  - [GEOS](https://www.osgeo.org/projects/geos)
 
 * UFS Dependencies
   - [ESMF](https://www.earthsystemcog.org/projects/esmf/)
@@ -148,14 +177,20 @@ script.
   - [NCEPLIBS-wgrib2](https://github.com/noaa-emc/nceplibs-wgrib2.git)
   - [NCEPLIBS-prod_util](https://github.com/noaa-emc/nceplibs-prod_util.git)
   - [NCEPLIBS-grib_util](https://github.com/noaa-emc/nceplibs-grib_util.git)
+  - [NCEPLIBS-ncio](https://github.com/noaa-emc/nceplibs-ncio.git)
+  - [NCEPLIBS-wrf_io](https://github.com/noaa-emc/nceplibs-wrf_io.git)
   - [EMC_crtm](https://github.com/noaa-emc/EMC_crtm.git)
   - [EMC_post](https://github.com/noaa-emc/EMC_post.git)
 
 * JEDI Dependencies
-  - [ecbuild](https://github.com/jcsda/ecbuild.git)
-  - [eckit](https://github.com/jcsda/eckit.git)
-  - [fckit](https://github.com/jcsda/fckit.git)
-  - [atlas](https://github.com/jcsda/atlas.git)
+  - [ecbuild](https://github.com/ecmwf/ecbuild.git)
+  - [eckit](https://github.com/ecmwf/eckit.git)
+  - [fckit](https://github.com/ecmwf/fckit.git)
+  - [atlas](https://github.com/ecmwf/atlas.git)
+
+* Python and Virtual Environments
+  - [Miniconda3](https://docs.conda.io/en/latest/)
+  - [r2d2](https://github.com/jcsda-internal/r2d2.git)
 
 **IMPORTANT: Steps 1, 2, and 3 need to be repeated for each
   compiler/MPI combination that you wish to install.** The new
@@ -163,7 +198,7 @@ script.
   packages that may already have been built from other compiler/MPI
   combinations.
 
-## Step 2: Set Up Compiler, MPI, and Module System
+## Step 2: Set Up Compiler, MPI, Python, and Module System
 
 This step is only required if using LMod modules for managing the
 software stack.  If LMod is not desired or used, the user can skip
@@ -248,7 +283,7 @@ default is to use `$HOME/opt` and `config/config_custom.sh`
 respectively.  `<yaml>` represents a user configurable yaml file
 containing a list of packages that need to be built in the stack along
 with their versions and package options. The default value of `<yaml>`
-is `config/stack_custom.yaml`.
+is `stack/stack_custom.yaml`.
 
 ## Additional Notes:
 
@@ -281,10 +316,14 @@ template
 2. define a new section in the `yaml` file for that library/package in
 config directory
 
-3. Add a call to the new build script in `build_stack.sh`
+3. if the package is a python virtual environment, add a `requirements.txt` or `environment.yml` file containing the listing the python packages required to install the package.  These files should be named and placed in `pyvenv/package_name.txt` and `pyvenv/package_name.yml`.  `VENVTYPE=pyvenv` will use the `pyvenv/package_name.txt` and `VENVTYPE=condaenv` will use `pyvenv/package_name.yml`
 
-4. Create a new module template at the appropriate place in the
+4. Add a call to the new build script in `build_stack.sh`
+
+5. Create a new module template at the appropriate place in the
 modulefiles directory, using exising files as a template
+
+6. Update `README.md` to include the name of the new library or package
 
 ### Configuring for a new HPC
 
@@ -364,6 +403,14 @@ export CMAKE_PREFIX_PATH="$PREFIX"
 setenv("LMOD_EXACT_MATCH", "no")
 setenv("LMOD_EXTENDED_DEFAULT", "yes")
 ```
+
+## Known Issues
+
+- NetCDF-C++ does not build with LLVM Clang. It can be disabled by setting
+`disable_cxx: YES` in the stack file under the NetCDF section.
+
+- Json-schema-validator does not build with LLVM Clang. It can be disabled
+in the stack file in the json-schema-validator-section.
 
 ## Disclaimer
 

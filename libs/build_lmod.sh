@@ -52,3 +52,4 @@ mkdir -p build && cd build
 ../configure --prefix=$mods_path
 sudo make install
 
+echo LMod $lua_version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

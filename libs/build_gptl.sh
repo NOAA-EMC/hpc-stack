@@ -34,7 +34,8 @@ export CXX=$MPI_CXX
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=GPTL
-[[ -d $software ]] || git clone -b v$version https://github.com/jmrosinski/$software
+URL="https://github.com/jmrosinski/$software"
+[[ -d $software ]] || git clone -b v$version $URL
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 autoreconf -i
@@ -46,5 +47,5 @@ VERBOSE=$MAKE_VERBOSE make
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules mpi $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules mpi $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

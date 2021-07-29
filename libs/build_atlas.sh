@@ -41,9 +41,10 @@ export FFLAGS="${STACK_FFLAGS:-} ${STACK_atlas_FFLAGS:-} -fPIC"
 
 software=$name-$repo-$version
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-[[ -d $software ]] || git clone https://github.com/$repo/$name.git $software
+URL="https://github.com/$repo/$name.git"
+[[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-git fetch --tags
+
 git checkout $version
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d build ]] && $SUDO rm -rf build
@@ -55,5 +56,5 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules mpi $name $repo-$version \
-         || echo $name $repo-$version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules mpi $name $repo-$version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
