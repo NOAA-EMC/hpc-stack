@@ -279,6 +279,35 @@ function compilermpi_info() {
   echo "MPI: $mpiName/$mpiVersion"
 }
 
+function initialize_prefix() {
+  local hierarchy=$1
+  local name=$2
+  local version=$3
+  case $hierarchy in
+    python)
+      local python=$(echo $HPC_PYTHON | sed 's/\//-/g')
+      prefix="${PREFIX:-"/opt/modules"}/$python/$name/$version"
+      ;;
+    core)
+      prefix=${PREFIX:-"/opt/modules"}/core/$name/$version
+      ;;
+    compiler)
+      local compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+      prefix=${PREFIX:-"/opt/modules"}/$compiler/$name/$version
+      ;;
+    mpi)
+      local compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+      local mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+      prefix=${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version
+      ;;
+    *)
+      echo "ERROR: INVALID INSTALLATION HIERARCHY, ABORT!"
+      exit 1
+      ;;
+  esac
+  export prefix
+}
+
 export -f update_modules
 export -f no_modules
 export -f set_pkg_root
@@ -287,3 +316,4 @@ export -f build_lib
 export -f parse_yaml
 export -f build_info
 export -f compilermpi_info
+export -f initialize_prefix

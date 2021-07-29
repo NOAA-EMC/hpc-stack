@@ -10,6 +10,14 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
 [[ ${STACK_jasper_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
+[[ ${STACK_jasper_overwrite:-} =~ [yYtT] ]] && OVERWRITE=YES || OVERWRITE=${STACK_OVERWRITE}
+
+if $MODULES; then
+  initialize_prefix compiler $name $version
+else
+  prefix=${JASPER_ROOT:-"/usr/local"}
+fi
+
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -19,13 +27,10 @@ if $MODULES; then
   module try-load jpeg
   module list
   set -x
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
   if [[ -d $prefix ]]; then
       [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
                                  || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
   fi
-else
-    prefix=${JASPER_ROOT:-"/usr/local"}
 fi
 
 export FC=$SERIAL_FC
