@@ -1,11 +1,13 @@
 ---
 name: Install request
 about: Request an installation of package in the stack on HPC's
-title: ''
-labels: ''
-assignees: ''
+title: '[INSTALL] <title>'
+labels: 'install'
+assignees: 'Hang-Lei-NOAA, kgerheiser, climbfuji'
 
 ---
+
+Note: Please search to see if an issue already exists for the software you are requesting to be installed.
 
 **Which software in the stack would you like installed?**
 Please provide the name of the software you would like installed on the HPCs.  Ensure the software exists in the list of supported software.  If new software needs to be added to the stack, use the [add_package_request.md](./add_package_request.md) template.
