@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="intel/19.1.1"
+export HPC_COMPILER="intel/2021.2"
 export HPC_MPI="mpt/2.22"
 export HPC_PYTHON="python/dummy"
 
@@ -23,7 +23,7 @@ module unuse /glade/u/apps/ch/modulefiles/default/compilers
 module use   /glade/p/ral/jntp/GMTB/tools/compiler_mpi_modules/compilers
 export MODULEPATH_ROOT=/glade/p/ral/jntp/GMTB/tools/compiler_mpi_modules
 
-module load intel/19.1.1
+module load intel/2021.2
 module load mpt/2.22
 module load ncarcompilers/0.5.0
 module load ncarenv/1.3
