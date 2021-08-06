@@ -10,7 +10,6 @@ dependencies:
   - jmespath
   - numpy
   - pandas
-  - pip
   - python-dateutil
   - pytz
   - PyYAML
@@ -21,6 +20,7 @@ dependencies:
   - xarray
   - netcdf4
   - h5py
+  - pip
   - pip:
     - git+https://github.com/jcsda-internal/solo.git
     - git+https://github.com/jcsda-internal/r2d2.git
