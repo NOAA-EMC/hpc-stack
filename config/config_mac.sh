@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="clang/12.0.5"
-export HPC_MPI="mpich/3.3.2"
+export HPC_COMPILER="gnu/10.3.0"
+export HPC_MPI="openmpi/4.1.1"
 export HPC_PYTHON="python/3.9.6"
 
 # Build options
@@ -19,5 +19,5 @@ export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
 
 # gfortran-10 needs the following
-#export STACK_esmf_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
-#export STACK_madis_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
+export STACK_esmf_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
+export STACK_madis_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
