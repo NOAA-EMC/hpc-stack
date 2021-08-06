@@ -171,8 +171,8 @@ g2:
 
 g2c:
   build: NO
-  version: v1.6.2
-  install_as: 1.6.2
+  version: v1.6.4
+  install_as: 1.6.4
   is_nceplib: YES
 
 g2tmpl:
