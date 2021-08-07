@@ -4,13 +4,11 @@
 # Disable that so LMOD isn't overwritten
 unset BASH_ENV
 
-# Startup LMOD
-source /apps/prod/lmodules/startLmod
-
 # Compiler/MPI combination
 #export HPC_COMPILER="cray-intel/19.1.1.217"  # See IMPORTANT NOTE below
-export HPC_COMPILER="intel/19.1.1.217"
-export HPC_MPI="cray-mpich/8.0.15"
+export HPC_COMPILER="intel/19.1.3.304"
+export HPC_MPI="cray-mpich/8.1.7"
+export HPC_PYTHON="python/3.8.6"
 
 # Build options
 export USE_SUDO=N
@@ -36,9 +34,11 @@ export WGET="wget -nv"
 # cray-intel does not imply the native module in this case
 
 #module purge
-module load cmake/3.16.5
-module load git/2.27.0
-module load cpe-intel
+module load PrgEnv-intel/8.1.0
+module load cmake/3.20.2
+module load git/2.29.0
+module load intel/19.1.3.304
+module load craype/2.7.8
 
 export SERIAL_CC=cc
 export SERIAL_FC=ftn
@@ -51,8 +51,8 @@ export MPI_CXX=$SERIAL_CXX
 # Define the ESMF_COMM variable for WCOSS2
 # This is necessary to be done here rather than
 # stack_noaa.yaml, to keep one YAML file for NOAA.
-export STACK_esmf_comm="mpich3"
-export STACK_esmf_os="Linux"
+#export STACK_esmf_comm="mpich3"
+#export STACK_esmf_os="Linux"
 
 # LMod is coming to WCOSS2
 # LMod has disabled "default" and requires exact module match.

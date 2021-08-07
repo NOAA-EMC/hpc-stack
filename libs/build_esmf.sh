@@ -113,7 +113,8 @@ case $MPI in
     export ESMF_COMM=${STACK_esmf_comm:-"mpich3"}
     ;;
   cray-mpich )
-    export ESMF_COMM=${STACK_esmf_comm:-"mpi"}
+    export ESMF_OS="Linux"
+    export ESMF_COMM=${STACK_esmf_comm:-"mpich3"}
     ;;
   impi )
     export ESMF_COMM="intelmpi"
