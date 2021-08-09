@@ -33,7 +33,6 @@ export WGET="wget -nv"
 # define cc, FC and CC for CC, FC and CXX respectively.
 # cray-intel does not imply the native module in this case
 
-#module purge
 module load PrgEnv-intel/8.1.0
 module load cmake/3.20.2
 module load git/2.29.0
@@ -52,14 +51,6 @@ export MPI_CXX=$SERIAL_CXX
 # This is necessary to be done here rather than
 # stack_noaa.yaml, to keep one YAML file for NOAA.
 export STACK_esmf_comm="mpich3"
-#export STACK_esmf_os="Linux"
 #FMS to build with AVX:
 export STACK_fms_CFLAGS="-march=core-avx2"
 export STACK_fms_FFLAGS="-march=core-avx2"
-
-# LMod is coming to WCOSS2
-# LMod has disabled "default" and requires exact module match.
-# https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html
-#module load lmod/8.3
-#export LMOD_EXACT_MATCH="no"
-#export LMOD_EXTENDED_DEFAULT="yes"
