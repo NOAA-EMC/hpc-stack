@@ -51,6 +51,7 @@ export MPI_CXX=$SERIAL_CXX
 # This is necessary to be done here rather than
 # stack_noaa.yaml, to keep one YAML file for NOAA.
 export STACK_esmf_comm="mpich3"
+export STACK_esmf_os="Linux"
 #FMS to build with AVX:
 export STACK_fms_CFLAGS="-march=core-avx2"
 export STACK_fms_FFLAGS="-march=core-avx2"
