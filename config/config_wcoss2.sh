@@ -53,6 +53,9 @@ export MPI_CXX=$SERIAL_CXX
 # stack_noaa.yaml, to keep one YAML file for NOAA.
 #export STACK_esmf_comm="mpich3"
 #export STACK_esmf_os="Linux"
+FMS to build with AVX:
+export STACK_fms_CFLAGS="-march=core-avx2"
+export STACK_fms_FFLAGS="-march=core-avx2"
 
 # LMod is coming to WCOSS2
 # LMod has disabled "default" and requires exact module match.
