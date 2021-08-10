@@ -212,6 +212,7 @@ wgrib2:
   build: YES
   version: 2.0.8
   lib: YES
+  ipolates: 3
 
 prod_util:
   build: YES
