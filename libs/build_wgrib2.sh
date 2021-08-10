@@ -40,24 +40,21 @@ URL="https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz.v${version}"
 
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
-case $COMPILER in
-  intel|ips )
-    export COMP_SYS=intel_linux
-    ;;
-  gnu|gcc|clang )
-    if [[ "$host" == "Darwin" ]]; then
-    
-    else
-    
+# The Jasper inside of wgrib2 does not build with Clang on macOS
+# Implicit function declaration error and no way to pass flags to suppress it.
+host=$(uname -s)
+if [[ "$host" == "Darwin" ]]; then
+    if [[ `$CC --version` == *"clang"* ]]; then
+        echo "Warning: The Jasper contained in wgrib2 does not build with Clang on macOS"
+        export STACK_wgrib2_jasper=0
     fi
-    ;;
-  clang )
-    
-    ;;
-  * )
-    echo "Unsupported compiler = $COMPILER, ABORT!"; exit 1
-    ;;
-esac
+fi
+
+COMPILER=$(echo $HPC_COMPILER | cut -d/ -f1)
+if [[ "$COMPILER" == "intel" || "$COMPILER" == "ips" ]]; then
+    export COMP_SYS=intel_linux
+fi
+
 
 # Wgrib2 uses an in-source build. Clean before starting.
 make clean
@@ -82,15 +79,15 @@ sed -i'' -e "s:^USE_AEC=.*:USE_AEC=${STACK_wgrib2_aec:-1}:" makefile
 make
 
 # Wgrib2 does not provide a 'make install'
-$SUDO mkdir -p $prefix
-$SUDO mkdir -p $prefix/lib
-$SUDO mkdir -p $prefix/bin
-$SUDO mkdir -p $prefix/include
+$SUDO mkdir -p ${prefix}
+$SUDO mkdir -p ${prefix}/lib
+$SUDO mkdir -p ${prefix}/bin
+$SUDO mkdir -p ${prefix}/include
 
 $SUDO cp wgrib2/wgrib2 $prefix/bin
 
 # Build wgrib2 library with all settings off
-if [[ "${STACK_wgrib2_lib:-n}" =~ [yYtT] ]]; then
+if [[ ${STACK_wgbrib2_lib:-n} =~ [yYtT] ]]; then
     make clean
     make deep-clean
 
@@ -108,11 +105,10 @@ if [[ "${STACK_wgrib2_lib:-n}" =~ [yYtT] ]]; then
     sed -i'' -e "s:^USE_PNG=.*:USE_PNG=0:" makefile
     sed -i'' -e "s:^USE_AEC=.*:USE_AEC=0:" makefile
 
-    #VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} lib
     make lib
 
-    $SUDO cp lib/libwgrib2.a lib/libwgrib2_api.a $prefix/lib
-    $SUDO cp lib/*.mod $prefix/include
+    $SUDO cp lib/libwgrib2.a lib/libwgrib2_api.a ${prefix}/lib
+    $SUDO cp lib/*.mod ${prefix}/include
 fi
 
 # generate modulefile from template
