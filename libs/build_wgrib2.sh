@@ -40,6 +40,25 @@ URL="https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz.v${version}"
 
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
+case $COMPILER in
+  intel|ips )
+    export COMP_SYS=intel_linux
+    ;;
+  gnu|gcc|clang )
+    if [[ "$host" == "Darwin" ]]; then
+    
+    else
+    
+    fi
+    ;;
+  clang )
+    
+    ;;
+  * )
+    echo "Unsupported compiler = $COMPILER, ABORT!"; exit 1
+    ;;
+esac
+
 # Wgrib2 uses an in-source build. Clean before starting.
 make clean
 make deep-clean
