@@ -59,7 +59,8 @@ sed -i'' -e "s:^USE_G2CLIB=.*:USE_G2CLIB=${STACK_wgrib2_g2clib:-0}:" makefile
 sed -i'' -e "s:^USE_PNG=.*:USE_PNG=${STACK_wgrib2_png:-1}:" makefile
 sed -i'' -e "s:^USE_AEC=.*:USE_AEC=${STACK_wgrib2_aec:-1}:" makefile
 
-VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
+#VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
+make
 
 # Wgrib2 does not provide a 'make install'
 $SUDO mkdir -p $prefix
@@ -88,7 +89,8 @@ if [[ "${STACK_wgrib2_lib:-n}" =~ [yYtT] ]]; then
     sed -i'' -e "s:^USE_PNG=.*:USE_PNG=0:" makefile
     sed -i'' -e "s:^USE_AEC=.*:USE_AEC=0:" makefile
 
-    VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} lib
+    #VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} lib
+    make lib
 
     $SUDO cp lib/libwgrib2.a lib/libwgrib2_api.a $prefix/lib
     $SUDO cp lib/*.mod $prefix/include

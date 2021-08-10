@@ -59,7 +59,7 @@ jobs:
         export HPC_MPI="impi/2021"
         export HPC_PYTHON="python/${python_ver}"
         yes | ./setup_modules.sh -c config/config_custom.sh -p $prefix
-        ./build_stack.sh -p $prefix -c config/config_custom.sh -y stack/stack_custom.yaml -m
+        ./build_stack.sh -p $prefix -c config/config_custom.sh -y stack/stack_noaa.yaml -m
 
     - name: Upload logs
       if: ${{ always() }}
