@@ -60,19 +60,19 @@ make clean
 make deep-clean
 
 # Edit makefile with options or defaults
-sed -i .backup "s:^USE_NETCDF3=.*:USE_NETCDF3=${STACK_wgrib2_netcdf3:-1}:" makefile
-sed -i .backup "s:^USE_NETCDF4=.*:USE_NETCDF4=${STACK_wgrib2_netcdf4:-0}:" makefile
-sed -i .backup "s:^USE_REGEX=.*:USE_REGEX=${STACK_wgrib2_negex:-1}:" makefile
-sed -i .backup "s:^USE_TIGGE=.*:USE_TIGGE=${STACK_wgrib2_tigge:-1}:" makefile
-sed -i .backup "s:^USE_IPOLATES=.*:USE_IPOLATES=${STACK_wgrib2_ipolates:-3}:" makefile
-sed -i .backup "s:^USE_SPECTRAL=.*:USE_SPECTRAL=${STACK_wgrib2_spectral:-0}:" makefile
-sed -i .backup "s:^USE_UDF=.*:USE_AEC=${STACK_wgrib2_udf:-0}:" makefile
-sed -i .backup "s:^USE_JASPER=.*:USE_JASPER=${STACK_wgrib2_jasper:-1}:" makefile
-sed -i .backup "s:^USE_OPENMP=.*:USE_OPENMP=${STACK_wgrib2_openmp:-1}:" makefile
-sed -i .backup "s:^MAKE_FTN_API=.*:MAKE_FTN_API=${STACK_wgrib2_ftn_api:-1}:" makefile
-sed -i .backup "s:^USE_G2CLIB=.*:USE_G2CLIB=${STACK_wgrib2_g2clib:-0}:" makefile
-sed -i .backup "s:^USE_PNG=.*:USE_PNG=${STACK_wgrib2_png:-1}:" makefile
-sed -i .backup "s:^USE_AEC=.*:USE_AEC=${STACK_wgrib2_aec:-1}:" makefile
+sed -i ".backup" -e "s:^USE_NETCDF3=.*:USE_NETCDF3=${STACK_wgrib2_netcdf3:-1}:" makefile
+sed -i ".backup" -e "s:^USE_NETCDF4=.*:USE_NETCDF4=${STACK_wgrib2_netcdf4:-0}:" makefile
+sed -i ".backup" -e "s:^USE_REGEX=.*:USE_REGEX=${STACK_wgrib2_negex:-1}:" makefile
+sed -i ".backup" -e "s:^USE_TIGGE=.*:USE_TIGGE=${STACK_wgrib2_tigge:-1}:" makefile
+sed -i ".backup" -e "s:^USE_IPOLATES=.*:USE_IPOLATES=${STACK_wgrib2_ipolates:-3}:" makefile
+sed -i ".backup" -e "s:^USE_SPECTRAL=.*:USE_SPECTRAL=${STACK_wgrib2_spectral:-0}:" makefile
+sed -i ".backup" -e "s:^USE_UDF=.*:USE_AEC=${STACK_wgrib2_udf:-0}:" makefile
+sed -i ".backup" -e "s:^USE_JASPER=.*:USE_JASPER=${STACK_wgrib2_jasper:-1}:" makefile
+sed -i ".backup" -e "s:^USE_OPENMP=.*:USE_OPENMP=${STACK_wgrib2_openmp:-1}:" makefile
+sed -i ".backup" -e "s:^MAKE_FTN_API=.*:MAKE_FTN_API=${STACK_wgrib2_ftn_api:-1}:" makefile
+sed -i ".backup" -e "s:^USE_G2CLIB=.*:USE_G2CLIB=${STACK_wgrib2_g2clib:-0}:" makefile
+sed -i ".backup" -e "s:^USE_PNG=.*:USE_PNG=${STACK_wgrib2_png:-1}:" makefile
+sed -i ".backup" -e "s:^USE_AEC=.*:USE_AEC=${STACK_wgrib2_aec:-1}:" makefile
 
 make
 
@@ -89,19 +89,19 @@ if [[ ${STACK_wgrib2_lib:-n} =~ [yYtT] ]]; then
     make clean
     make deep-clean
 
-    sed -i .backup "s:^USE_NETCDF3=.*:USE_NETCDF3=0:" makefile
-    sed -i .backup "s:^USE_NETCDF4=.*:USE_NETCDF4=0:" makefile
-    sed -i .backup "s:^USE_REGEX=.*:USE_REGEX=1:" makefile
-    sed -i .backup "s:^USE_TIGGE=.*:USE_TIGGE=1:" makefile
-    sed -i .backup "s:^USE_IPOLATES=.*:USE_IPOLATES=0:" makefile
-    sed -i .backup "s:^USE_SPECTRAL=.*:USE_SPECTRAL=0:" makefile
-    sed -i .backup "s:^USE_UDF=.*:USE_AEC=0:" makefile
-    sed -i .backup "s:^USE_JASPER=.*:USE_JASPER=0:" makefile
-    sed -i .backup "s:^USE_OPENMP=.*:USE_OPENMP=0:" makefile
-    sed -i .backup "s:^MAKE_FTN_API=.*:MAKE_FTN_API=1:" makefile
-    sed -i .backup "s:^USE_G2CLIB=.*:USE_G2CLIB=0:" makefile
-    sed -i .backup "s:^USE_PNG=.*:USE_PNG=0:" makefile
-    sed -i .backup "s:^USE_AEC=.*:USE_AEC=0:" makefile
+    sed -i ".backup" -e "s:^USE_NETCDF3=.*:USE_NETCDF3=0:" makefile
+    sed -i ".backup" -e "s:^USE_NETCDF4=.*:USE_NETCDF4=0:" makefile
+    sed -i ".backup" -e "s:^USE_REGEX=.*:USE_REGEX=1:" makefile
+    sed -i ".backup" -e "s:^USE_TIGGE=.*:USE_TIGGE=1:" makefile
+    sed -i ".backup" -e "s:^USE_IPOLATES=.*:USE_IPOLATES=0:" makefile
+    sed -i ".backup" -e "s:^USE_SPECTRAL=.*:USE_SPECTRAL=0:" makefile
+    sed -i ".backup" -e "s:^USE_UDF=.*:USE_AEC=0:" makefile
+    sed -i ".backup" -e "s:^USE_JASPER=.*:USE_JASPER=0:" makefile
+    sed -i ".backup" -e "s:^USE_OPENMP=.*:USE_OPENMP=0:" makefile
+    sed -i ".backup" -e "s:^MAKE_FTN_API=.*:MAKE_FTN_API=1:" makefile
+    sed -i ".backup" -e "s:^USE_G2CLIB=.*:USE_G2CLIB=0:" makefile
+    sed -i ".backup" -e "s:^USE_PNG=.*:USE_PNG=0:" makefile
+    sed -i ".backup" -e "s:^USE_AEC=.*:USE_AEC=0:" makefile
 
     make lib
 
@@ -113,7 +113,7 @@ fi
 rm -rf cmake
 mkdir -p cmake
 cp -r ${HPC_STACK_ROOT}/cmake/wgrib2 ./cmake
-sed -i .backup -e "s:@WGRIB2_VERSION@:${version}:" ./cmake/wgrib2/wgrib2-config-version.cmake
+sed -i ".backup" -e "s:@WGRIB2_VERSION@:${version}:" ./cmake/wgrib2/wgrib2-config-version.cmake
 rm ./cmake/wgrib2/wgrib2-config-version.cmake.backup
 $SUDO cp -r cmake ${prefix}/lib
 
