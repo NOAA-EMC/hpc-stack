@@ -9,6 +9,7 @@ software=$name-$version
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+install_as=${STACK_wgrib2_install_as:-${version}}
 
 if $MODULES; then
     set +x
@@ -16,7 +17,7 @@ if $MODULES; then
     module load hpc-$HPC_COMPILER
     module list
     set -x
-    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$install_as"
     if [[ -d $prefix ]]; then
         [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
             || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -120,5 +121,5 @@ $SUDO cp -r cmake ${prefix}/lib
 
 # generate modulefile from template
 modpath=compiler
-$MODULES && update_modules $modpath $name $version
+$MODULES && update_modules $modpath $name $install_as
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
