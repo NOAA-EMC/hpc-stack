@@ -55,7 +55,6 @@ if [[ $($CC --version | grep Intel) ]]; then
     export COMP_SYS=intel_linux
 fi
 
-
 # Wgrib2 uses an in-source build. Clean before starting.
 make clean
 make deep-clean
@@ -79,9 +78,7 @@ make
 
 # Wgrib2 does not provide a 'make install'
 $SUDO mkdir -p ${prefix}
-$SUDO mkdir -p ${prefix}/lib
 $SUDO mkdir -p ${prefix}/bin
-$SUDO mkdir -p ${prefix}/include
 
 $SUDO cp wgrib2/wgrib2 $prefix/bin
 
@@ -89,6 +86,9 @@ $SUDO cp wgrib2/wgrib2 $prefix/bin
 if [[ ${STACK_wgrib2_lib:-n} =~ [yYtT] ]]; then
     make clean
     make deep-clean
+
+    $SUDO mkdir -p ${prefix}/lib
+    $SUDO mkdir -p ${prefix}/include
 
     sed -i'.backup' "s:^USE_NETCDF3=.*:USE_NETCDF3=0:" makefile
     sed -i'.backup' "s:^USE_NETCDF4=.*:USE_NETCDF4=0:" makefile
@@ -106,18 +106,17 @@ if [[ ${STACK_wgrib2_lib:-n} =~ [yYtT] ]]; then
 
     make lib
 
-    $SUDO cp lib/libwgrib2.a ${prefix}/lib
+    $SUDO cp lib/libwgrib2.a lib/libwgrib2_api.a ${prefix}/lib
     $SUDO cp lib/wgrib2api.mod ${prefix}/include
+
+    # Stage CMake package config, fill-in the version, and install
+    rm -rf cmake
+    mkdir cmake
+    cp -r ${HPC_STACK_ROOT}/cmake/wgrib2 ./cmake
+    sed -i'.backup' -e "s:@WGRIB2_VERSION@:${version}:" ./cmake/wgrib2/wgrib2-config-version.cmake
+    rm ./cmake/wgrib2/wgrib2-config-version.cmake.backup
+    $SUDO cp -r cmake ${prefix}/lib
 fi
-
-# Stage CMake package config, fill-in the version, and install
-rm -rf cmake
-mkdir -p cmake
-cp -r ${HPC_STACK_ROOT}/cmake/wgrib2 ./cmake
-sed -i'.backup' -e "s:@WGRIB2_VERSION@:${version}:" ./cmake/wgrib2/wgrib2-config-version.cmake
-rm ./cmake/wgrib2/wgrib2-config-version.cmake.backup
-$SUDO cp -r cmake ${prefix}/lib
-
 
 # generate modulefile from template
 modpath=compiler
