@@ -105,9 +105,16 @@ if [[ ${STACK_wgrib2_lib:-n} =~ [yYtT] ]]; then
 
     make lib
 
-    $SUDO cp lib/libwgrib2.a lib/libwgrib2_api.a ${prefix}/lib
-    $SUDO cp lib/*.mod ${prefix}/include
+    $SUDO cp lib/libwgrib2.a ${prefix}/lib
+    $SUDO cp lib/wgrib2api.mod ${prefix}/include
 fi
+
+# Stage CMake package config, fill-in the version, and install
+mkdir -p cmake
+cp -r ${HPC_STACK_ROOT}/cmake/wgrib2 ./cmake
+sed -i'' -e "s:@WGRIB2_VERSION@:${version}:" ./cmake/wgrib2/wgrib2-config-version.cmake
+$SUDO cp -r cmake ${prefix}/lib
+
 
 # generate modulefile from template
 modpath=compiler
