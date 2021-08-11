@@ -75,7 +75,6 @@ sed -i'' -e "s:^USE_G2CLIB=.*:USE_G2CLIB=${STACK_wgrib2_g2clib:-0}:" makefile
 sed -i'' -e "s:^USE_PNG=.*:USE_PNG=${STACK_wgrib2_png:-1}:" makefile
 sed -i'' -e "s:^USE_AEC=.*:USE_AEC=${STACK_wgrib2_aec:-1}:" makefile
 
-#VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 make
 
 # Wgrib2 does not provide a 'make install'
@@ -87,7 +86,7 @@ $SUDO mkdir -p ${prefix}/include
 $SUDO cp wgrib2/wgrib2 $prefix/bin
 
 # Build wgrib2 library with all settings off
-if [[ ${STACK_wgbrib2_lib:-n} =~ [yYtT] ]]; then
+if [[ ${STACK_wgrib2_lib:-n} =~ [yYtT] ]]; then
     make clean
     make deep-clean
 
