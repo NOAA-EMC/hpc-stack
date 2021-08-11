@@ -50,8 +50,7 @@ if [[ "$host" == "Darwin" ]]; then
     fi
 fi
 
-COMPILER=$(echo $HPC_COMPILER | cut -d/ -f1)
-if [[ "$COMPILER" == "intel" || "$COMPILER" == "ips" ]]; then
+if [[ $($CC --version | grep Intel) ]]; then
     export COMP_SYS=intel_linux
 fi
 
