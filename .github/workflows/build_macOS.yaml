@@ -7,7 +7,6 @@ jobs:
       VERBOSE: 1
     runs-on: macos-10.15
     strategy:
-      fail-fast: false
       matrix:
         mpi: ['mpich']
         compiler: ['clang', 'gcc']
