@@ -206,11 +206,10 @@ bufr:
 
 wgrib2:
   build: YES
-  version: v2.0.8-cmake-v6
+  version: 2.0.8
   install_as: 2.0.8
-  openmp: ON
-  cmake_opts: "-DUSE_SPECTRAL=ON -DUSE_IPOLATES=3 -DUSE_NETCDF4=ON"
-  is_nceplib: YES
+  lib: YES
+  ipolates: 3
 
 prod_util:
   build: YES
