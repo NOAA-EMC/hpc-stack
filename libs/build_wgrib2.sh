@@ -106,7 +106,7 @@ if [[ ${STACK_wgrib2_lib:-n} =~ [yYtT] ]]; then
 
     make lib
 
-    $SUDO cp lib/libwgrib2.a lib/libwgrib2_api.a ${prefix}/lib
+    $SUDO cp lib/libwgrib2.a ${prefix}/lib
     $SUDO cp lib/wgrib2api.mod ${prefix}/include
 
     # Stage CMake package config, fill-in the version, and install

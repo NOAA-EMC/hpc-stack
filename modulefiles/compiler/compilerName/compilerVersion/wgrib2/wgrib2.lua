@@ -20,7 +20,6 @@ setenv("wgrib2_ROOT", base)
 setenv("wgrib2_VERSION", pkgVersion)
 setenv("WGRIB2_INC", pathJoin(base,"include"))
 setenv("WGRIB2_LIB", pathJoin(base,"lib","libwgrib2.a"))
-setenv("WGRIB2_LIBAPI", pathJoin(base,"lib","libwgrib2_api.a"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
