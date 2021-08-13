@@ -70,11 +70,14 @@ URL="https://github.com/esmf-org/esmf"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software="ESMF_$version"
-# ESMF does not support out of source builds; clean out the clone
-[[ -d $software ]] && ( echo "$software exists, cleaning ..."; rm -rf $software )
+
 [[ -d $software ]] || ( git clone -b $software $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
+
+# ESMF does not support out of source builds; clean out the clone
+git reset --hard $software && git clean -fx
+
 export ESMF_DIR=$PWD
 
 # This is going to need a little work to adapt for various combinations
@@ -110,6 +113,7 @@ case $MPI in
     export ESMF_COMM=${STACK_esmf_comm:-"mpich3"}
     ;;
   cray-mpich )
+    export ESMF_OS=${STACK_esmf_os:-"Unicos"}
     export ESMF_COMM=${STACK_esmf_comm:-"mpi"}
     ;;
   impi )

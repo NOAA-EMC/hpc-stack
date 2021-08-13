@@ -48,6 +48,9 @@ export CFLAGS="${STACK_CFLAGS:-} ${STACK_mpi_CFLAGS:-} -fPIC"
 export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_mpi_CXXFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
 
+# Determine if this is GNU Fortran 10+
+[[ `$FC --version` =~ GNU\ Fortran.*\ 1[0-9]\.[0-9]+ ]] && FC_GFORTRAN_10=1
+
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
@@ -63,16 +66,28 @@ host=$(uname -s)
 case "$name" in
   openmpi )
     extra_conf="--enable-mpi-fortran --enable-mpi-cxx"
-    # On a Mac, use the sed hack to disable -flat_namespace
     if [[ "$host" == "Darwin" ]]; then
+      # On a Mac, use the sed hack to disable -flat_namespace
       sed -i '.bak' -e's/-Wl,-flat_namespace//g' ../configure
-      extra_conf+=" --with-wrapper-ldflags=-Wl,-commons,use_dylibs"
+      # On a Mac, use Open MPI internal versions of hwloc and libevent
+      # see: https://www.open-mpi.org/faq/?category=building#libevent-or-hwloc-errors-when-linking-fortran
+      openmpi_conf="--with-hwloc=internal --with-libevent=internal"
+      extra_conf+=" $openmpi_conf --with-wrapper-ldflags=-Wl,-commons,use_dylibs"
     fi
     ;;
   mpich )
     extra_conf="--enable-fortran --enable-cxx"
     # On a Mac, use the control to disable -flat_namespace
     [[ "$host" == "Darwin" ]] && extra_conf+=" --enable-two-level-namespace"
+    # gfortran-10+ compatibility flags
+    if [[ -n ${FC_GFORTRAN_10:-} ]]; then
+      # Use these flags to build MPICH itself, but don't add to WRAPPER_FCFLAGS
+      export MPICHLIB_FCFLAGS+=" -fallow-argument-mismatch -fallow-invalid-boz"
+      export MPICHLIB_FFLAGS=${MPICHLIB_FCFLAGS}
+      # Disable check for mismatched args flags in confdb/aclocal_f77.ac
+      export pac_cv_prog_f77_mismatched_args=yes
+    fi
+    [[ -n ${HWLOC_ROOT:-} ]] && extra_conf+=" --with-hwloc-prefix=${HWLOC_ROOT}"
     ;;
   * )
     echo "Invalid option for MPI = $software, ABORT!"

@@ -23,7 +23,7 @@ setenv("ncio_ROOT", base)
 setenv("ncio_VERSION", pkgVersion)
 
 setenv("NCIO_INC", pathJoin(base,"include"))
-setenv("NCIO_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}/libncio.a"))
+setenv("NCIO_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}","libncio.a"))
 setenv("NCIO_LIBDIR", pathJoin(base, "${CMAKE_INSTALL_LIBDIR}"))
 
 whatis("Name: ".. pkgName)
