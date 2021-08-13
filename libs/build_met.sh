@@ -10,13 +10,12 @@ release_date=${2:-${STACK_met_release_date}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
-export LMOD_EXACT_MATCH="no"
-
 if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
+    module load hpc-$HPC_PYTHON
     module load bufr
     module load zlib
     module load jasper

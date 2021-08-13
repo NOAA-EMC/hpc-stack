@@ -5,7 +5,16 @@ function update_modules {
   local modpath=$1
   local name=$2
   local version=$3
+  local py_version=${4:-}
   case $modpath in
+    python )
+      if [[ "${VENVTYPE:-"pyvenv"}" == "pyvenv" ]]; then
+        local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/pyvenv/pyvenv.lua
+      elif [[ "${VENVTYPE:-"pyvenv"}" == "condaenv" ]]; then
+        local tmpl_file=$HPC_STACK_ROOT/modulefiles/python/pythonName/pythonVersion/condaenv/condaenv.lua
+      fi
+      local to_dir=$prefix/modulefiles/python/$HPC_PYTHON
+      ;;
     core )
       local tmpl_file=$HPC_STACK_ROOT/modulefiles/core/$name/$name.lua
       local to_dir=$prefix/modulefiles/core
@@ -30,31 +39,30 @@ function update_modules {
   cd $to_dir || ( echo "ERROR: $to_dir MODULE DIRECTORY NOT FOUND! ABORT!"; exit 1 )
   $SUDO mkdir -p $name; cd $name
 
-  if [[ $name != "cmake" || $name != "mpi" || $name != "gnu" ]]; then
-    # CMAKE_INSTALL_LIBDIR is used by some projects (i.e. lib, lib64)
-    # Detect this when installing the module so the module variables point to the correct path
-    if [[ ! -f ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test/cmake_install_libdir.txt ]]; then
-        mkdir -p ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test
-
-        cat <<'EOF' > ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test/CMakeLists.txt
+  # CMAKE_INSTALL_LIBDIR is used by some projects (i.e. lib, lib64)
+  # Detect this when installing the module so the module variables point to the correct path
+  local testdir=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test
+  if [[ ! -f $testdir/cmake_install_libdir.txt ]]; then
+    mkdir -p $testdir
+    cat >> $testdir/CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.0)
 project(test_install_dir LANGUAGES C)
 include(GNUInstallDirs)
-file(WRITE "cmake_install_libdir.txt" ${CMAKE_INSTALL_LIBDIR})
+file(WRITE "cmake_install_libdir.txt" \${CMAKE_INSTALL_LIBDIR})
 EOF
+    cmake -S $testdir -B $testdir
+  fi
 
-        cmake ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test
-    fi
-
-    # The test script outputs "cmake_install_libdir.txt" which contains the lib dir value
-    CMAKE_INSTALL_LIBDIR=$(cat ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/libdir_test/cmake_install_libdir.txt)
-
+  if [[ $name != "cmake" || $name != "mpi" || $name != "gnu" ]]; then
+    CMAKE_INSTALL_LIBDIR=$(cat $testdir/cmake_install_libdir.txt)
+    CMAKE_OPTS="-DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}"
+    CMAKE_OPTS+=" -DTMPL_FILE=$tmpl_file -DVERSION=$version"
+    [[ -n "${py_version:-}" ]] && CMAKE_OPTS+=" -DPYTHON_VERSION=$py_version"
     # Install the module with configure_file, replacing ${CMAKE_INSTALL_LIBDIR} (and potentially other variables)
     # with the actual value for that system
-    $SUDO cmake -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR} \
-          -DTMPL_FILE=$tmpl_file -DVERSION=$version -P ${HPC_STACK_ROOT}/cmake/configure_module.cmake
+    $SUDO cmake $CMAKE_OPTS -P ${HPC_STACK_ROOT}/cmake/configure_module.cmake
   else
-      $SUDO cp $tmpl_file $version.lua
+    $SUDO cp $tmpl_file $version.lua
   fi
 
   # Make the latest installed version the default
@@ -163,6 +171,7 @@ function set_no_modules_path() {
   local prefix=${PREFIX:-${HPC_OPT:-"/usr/local"}}
   export PATH=$prefix/bin${PATH:+:$PATH}
   export LD_LIBRARY_PATH=$prefix/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+  export LD_LIBRARY_PATH=$prefix/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
   export CMAKE_PREFIX_PATH=$prefix${CMAKE_PREFIX_PATH:+:$CMAKE_PREFIX_PATH}
   echo "PATH = ${PATH}"
   echo "LD_LIBRARY_PATH = ${LD_LIBRARY_PATH}"
@@ -177,35 +186,39 @@ function build_lib() {
   set +u
   local stack_build=${!var}
   set -u
+
+  # Determine if $1 is an NCEPlib
+  local var="STACK_${1}_is_nceplib"
+  set +u
+  local is_nceplib=${!var}
+  set -u
+
+  # Determine if $1 is a python virtual environment
+  local var="STACK_${1}_is_pyvenv"
+  set +u
+  local is_pyvenv=${!var}
+  set -u
+
   if [[ ${stack_build} =~ [yYtT] ]]; then
-      [[ -f $logdir/$1.log ]] && ( logDate=$(date -r $logdir/$1.log +%F_%H%M); mv -f $logdir/$1.log $logdir/$1.log.$logDate )
-      ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$logdir/$1.log"
+      local log="$logdir/$1.log"
+      [[ -f $log ]] && ( logDate=$(date -r $log +%F_%H%M); mv -f $log $log.$logDate )
+      if [[ ${is_nceplib:-} =~ [yYtT] ]]; then
+        ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$log"
+      elif [[ ${is_pyvenv:-} =~ [yYtT] ]]; then
+        if [[ "${VENVTYPE:-"pyvenv"}" == "pyvenv" ]]; then
+          ${HPC_STACK_ROOT}/libs/build_pyvenv.sh "$1" 2>&1 | tee "$log"
+        elif [[ "${VENVTYPE:-"pyvenv"}" == "condaenv" ]]; then
+          ${HPC_STACK_ROOT}/libs/build_condaenv.sh "$1" 2>&1 | tee "$log"
+        fi
+      else
+        ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$log"
+      fi
       local ret=${PIPESTATUS[0]}
       if [[ $ret -gt 0 ]]; then
           echo "BUILD FAIL!  Lib: $1 Error:$ret"
           [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit $ret
       fi
       echo "BUILD SUCCESS! Lib: $1"
-  fi
-  set -x
-}
-
-function build_nceplib() {
-  # Args: lib name
-  set +x
-  local var="STACK_${1}_build"
-  set +u
-  local stack_build=${!var}
-  set -u
-  if [[ ${stack_build} =~ [yYtT] ]]; then
-      [[ -f $logdir/$1.log ]] && ( logDate=$(date -r $logdir/$1.log +%F_%H%M); mv -f $logdir/$1.log $logdir/$1.log.$logDate )
-      ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$logdir/$1.log"
-      local ret=${PIPESTATUS[0]}
-      if [[ $ret -gt 0 ]]; then
-          echo "BUILD FAIL!  NCEPlib: $1 Error:$ret"
-          [[ ${STACK_EXIT_ON_FAIL} =~ [yYtT] ]] && exit $ret
-      fi
-      echo "BUILD SUCCESS! NCEPlib: $1"
   fi
   set -x
 }
@@ -247,11 +260,30 @@ function build_info() {
   echo "=========================="
 }
 
+function compilermpi_info() {
+  local python=$HPC_PYTHON
+  local compiler=$HPC_COMPILER
+  local mpi=$HPC_MPI
+
+  local pythonName=$(echo $HPC_PYTHON | cut -d/ -f1)
+  local pythonVersion=$(echo $HPC_PYTHON | cut -d/ -f2)
+
+  local compilerName=$(echo $compiler | cut -d/ -f1)
+  local compilerVersion=$(echo $compiler | cut -d/ -f2)
+
+  local mpiName=$(echo $mpi | cut -d/ -f1)
+  local mpiVersion=$(echo $mpi | cut -d/ -f2)
+
+  echo "Python: $pythonName/$pythonVersion"
+  echo "Compiler: $compilerName/$compilerVersion"
+  echo "MPI: $mpiName/$mpiVersion"
+}
+
 export -f update_modules
 export -f no_modules
 export -f set_pkg_root
 export -f set_no_modules_path
 export -f build_lib
-export -f build_nceplib
 export -f parse_yaml
 export -f build_info
+export -f compilermpi_info

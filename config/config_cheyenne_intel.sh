@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="intel/19.1.1"
+export HPC_COMPILER="intel/2021.2"
 export HPC_MPI="mpt/2.22"
+export HPC_PYTHON="python/dummy"
 
 # Build options
 export USE_SUDO=N
@@ -22,10 +23,14 @@ module unuse /glade/u/apps/ch/modulefiles/default/compilers
 module use   /glade/p/ral/jntp/GMTB/tools/compiler_mpi_modules/compilers
 export MODULEPATH_ROOT=/glade/p/ral/jntp/GMTB/tools/compiler_mpi_modules
 
-module load intel/19.1.1
+module load intel/2021.2
 module load mpt/2.22
 module load ncarcompilers/0.5.0
 module load ncarenv/1.3
 
 # Load these basic modules for Cheyenne
 module load cmake/3.18.2
+
+# Build FMS with AVX2 flags
+export STACK_fms_CFLAGS="-march=core-avx2"
+export STACK_fms_FFLAGS="-march=core-avx2"

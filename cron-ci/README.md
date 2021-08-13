@@ -23,12 +23,12 @@ Set these variables in `setup-cron.sh`
 
 * HPC_CONFIG - Custom config so compiler/MPI and other options can be set
 
-* HPC_STACK_FILE - The yaml file that specifies which libraries and versions to build. Default to config/stack_noaa.yaml
+* HPC_STACK_FILE - The yaml file that specifies which libraries and versions to build. Default to stack/stack_noaa.yaml
 
 * LOG_PATH - The path to write logs to. Defaults to HPC_HOMEDIR/logs.
 
 * HPC_MACHINE_ID - Name of machine (hera, orion, gaea, etc).
-This is used to edit the correct modules in ufs-weather-model/machine.compiler 
+This is used to edit the correct modules in ufs-weather-model/machine.compiler
 
 * TEST_UFS - Run ufs-weather-model regression tests. Defaults to true.
 

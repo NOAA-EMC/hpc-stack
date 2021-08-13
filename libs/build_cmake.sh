@@ -34,7 +34,13 @@ export CC=$SERIAL_CC
 export CXX=$SERIAL_CXX
 export FC=$SERIAL_FC
 
-$SUDO ./bootstrap --prefix=$prefix
+# CMake must be available if boostrap is set to no
+if [[ ${STACK_cmake_bootstrap:-} =~ [nNfF] ]]; then
+    cmake . -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE:STRING=Release
+else
+    $SUDO ./bootstrap --prefix=$prefix -- -DCMAKE_BUILD_TYPE:STRING=Release
+fi
+
 $SUDO make -j${NTHREADS:-4}
 $SUDO make install
 
