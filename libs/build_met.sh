@@ -64,6 +64,8 @@ export GRIB2CLIB_NAME=-lg2c
 export LIB_JASPER=${JASPER_ROOT}/lib64
 export LIB_LIBPNG=${PNG_ROOT}/lib64
 export LIB_Z=${ZLIB_ROOT}/lib
+export MET_PYTHON_CC=`python3-config --cflags`
+export MET_PYTHON_LD=`python3-config --ldflags`
 
 LDFLAGS1="-Wl,--disable-new-dtags"
 LDFLAGS2="-Wl,-rpath,${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
