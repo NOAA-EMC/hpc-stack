@@ -61,15 +61,19 @@ export MET_GRIB2CINC=${g2c_ROOT}/include
 export MET_GSL=${GSL_ROOT}
 export BUFRLIB_NAME=-lbufr_4
 export GRIB2CLIB_NAME=-lg2c
-export LIB_JASPER=${JASPER_ROOT}/lib64
-export LIB_LIBPNG=${PNG_ROOT}/lib64
+export LIB_JASPER=${JASPER_ROOT}/lib
+export LIB_LIBPNG=${PNG_ROOT}/lib
 export LIB_Z=${ZLIB_ROOT}/lib
 
-LDFLAGS1="-Wl,--disable-new-dtags"
+export MET_PYTHON=`which python3`
+export MET_PYTHON_CC="-I/opt/local/Library/Frameworks/Python.framework/Versions/3.8/include/python3.8"
+export MET_PYTHON_LD="-L/Users/KIG/opt/anaconda3/lib/python3.8/config-3.8-darwin -lpython3.8 -ldl -framework CoreFoundation"
+
+#LDFLAGS1="-Wl,--disable-new-dtags"
 LDFLAGS2="-Wl,-rpath,${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
 LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB}:${MET_PYTHON}/lib:${MET_GSL}/lib"
 LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG} -L${LIB_Z}"
-LDFLAGS5="-L${I_MPI_ROOT}/lib64"
+#LDFLAGS5="-L${I_MPI_ROOT}/lib64"
 if [[ -z $mpi ]]; then
   export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
 else
@@ -99,6 +103,10 @@ printenv | egrep "^MET_" | sed -r 's/^/export /g'
 echo "LDFLAGS = ${LDFLAGS}"
 
 #echo "./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python"
+
+#make distclean
+#make clean
+
 ./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python
 
 set -x
@@ -110,7 +118,7 @@ if [ $ret != 0 ]; then
 fi
 
 echo "make > make.log 2>&1"
-make > make.log 2>&1
+make
 ret=$?
 if [ $ret != 0 ]; then
     echo "make returned with non-zero ($ret) status"
