@@ -67,7 +67,8 @@ export LIB_Z=${ZLIB_ROOT}/lib
 
 LDFLAGS1="-Wl,--disable-new-dtags"
 LDFLAGS2="-Wl,-rpath,${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
-LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB}:${MET_PYTHON}/lib:${MET_GSL}/lib"
+#LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB}:${MET_PYTHON}/lib:${MET_GSL}/lib"
+LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB}:${MET_GSL}/lib"
 LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG} -L${LIB_Z}"
 LDFLAGS5="-L${I_MPI_ROOT}/lib64"
 if [[ -z $mpi ]]; then
