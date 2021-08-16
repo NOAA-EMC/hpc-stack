@@ -53,7 +53,7 @@ export F77=$FC
 export FFLAGS="${STACK_FFLAGS:-} ${STACK_met_FFLAGS:-}"
 export CFLAGS="${STACK_CFLAGS:-} ${STACK_met_CFLAGS:-}"
 
-export MET_NETCDF=${NetCDF_ROOT}
+export MET_NETCDF=${NETCDF_ROOT}
 export MET_HDF5=${HDF5_ROOT}
 export MET_BUFRLIB=${bufr_ROOT}/lib
 export MET_GRIB2CLIB=${g2c_ROOT}/lib
