@@ -52,6 +52,9 @@ URL="https://github.com/CGAL/cgal/releases/download/releases%2FCGAL-$version/$so
 cmake . -DCMAKE_INSTALL_PREFIX=$prefix
 $SUDO make install
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules core $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

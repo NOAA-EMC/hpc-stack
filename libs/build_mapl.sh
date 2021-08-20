@@ -71,6 +71,9 @@ cmake .. \
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 modpath=mpi
 $MODULES && update_modules $modpath $name $id

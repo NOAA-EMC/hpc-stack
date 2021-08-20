@@ -57,6 +57,9 @@ $SUDO ./configure -prefix=$prefix -c++=$CXX -cc=$CC -fortran=$FC -mpi -ompt -bfd
 # Note - if this doesn't work you might have to run the entire script as root
 $SUDO make install
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules mpi $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

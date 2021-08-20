@@ -223,6 +223,9 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $USE_SUDO =~ [yYtT] ]] && sudo -- bash -c "export PATH=$PATH; make install" \
                           || make install
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 [[ ${using_mpi:-} =~ [yYtT] ]] && modpath=mpi || modpath=compiler
 [[ ${using_python:-} =~ [yYtT] ]] && py_version="$(python3 --version | cut -d " " -f2 | cut -d. -f1-2)"

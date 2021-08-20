@@ -118,6 +118,9 @@ if [[ ${STACK_wgrib2_lib:-n} =~ [yYtT] ]]; then
     $SUDO cp -r cmake ${prefix}/lib
 fi
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 modpath=compiler
 $MODULES && update_modules $modpath $name $install_as

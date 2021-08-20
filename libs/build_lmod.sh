@@ -36,10 +36,10 @@ cd lua-$lua_version
 mkdir -p build && cd build
 ../configure --prefix=$mods_path/lua/$lua_version
 make
-sudo make install
+$SUDO make install
 cd $mods_path/lua
-sudo ln -s $lua_version lua
-sudo ln -s $mods_path/lua/$lua_version/bin/* /usr/local/bin
+$SUDO ln -s $lua_version lua
+$SUDO ln -s $mods_path/lua/$lua_version/bin/* /usr/local/bin
 
 # install lmod
 # this installs in $MODULESHOME, which is set to $mods_path/lmod/lmod
@@ -50,6 +50,9 @@ cd Lmod-$lmod_version
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 ../configure --prefix=$mods_path
-sudo make install
+$SUDO make install
+
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
 
 echo LMod $lua_version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

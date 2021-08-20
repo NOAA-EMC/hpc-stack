@@ -79,6 +79,9 @@ echo "executing ... conda env list"
 conda env list
 set -x
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules python $name $version $python_version
 echo $name $version $rqmts_file >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

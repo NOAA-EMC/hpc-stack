@@ -27,6 +27,9 @@ URL="https://sourceforge.net/projects/tkdiff/files/tkdiff/$version/$software.zip
 $SUDO mkdir -p $prefix/bin
 $SUDO mv $software/tkdiff $prefix/bin
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules core $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

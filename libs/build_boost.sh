@@ -98,6 +98,9 @@ $SUDO mv stage/lib $prefix
 
 rm -f $HOME/user-config.jam
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $version

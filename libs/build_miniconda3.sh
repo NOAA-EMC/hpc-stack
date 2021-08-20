@@ -54,6 +54,9 @@ echo "install $version of conda"
 conda install -yq conda=$version
 set -x
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules core $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

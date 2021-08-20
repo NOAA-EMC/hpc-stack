@@ -112,6 +112,9 @@ $SUDO mv lib/*     $prefix/lib/
 $SUDO mv doc/*     $prefix/doc/
 $SUDO mv static/*  $prefix/static/
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $version

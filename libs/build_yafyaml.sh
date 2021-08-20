@@ -43,6 +43,9 @@ mkdir -p build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=$prefix ..
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules compiler $name $id
 echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

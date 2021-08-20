@@ -52,6 +52,9 @@ make -j${NTHREADS:-4}
 [[ "$MAKE_CHECK" = "YES" ]] && make check
 $SUDO make install
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules compiler $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

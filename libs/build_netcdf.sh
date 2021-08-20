@@ -187,7 +187,7 @@ if [[ $enable_cxx =~ [yYtT] ]]; then
 
   version=$cxx_version
   software=$name-"cxx4"-$version
-	URL="$URLroot/$name-cxx4.git"
+  URL="$URLroot/$name-cxx4.git"
   [[ -d $software ]] || ( git clone -b "v$version" $URL $software )
   [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
   [[ -d build ]] && rm -rf build
@@ -202,3 +202,7 @@ if [[ $enable_cxx =~ [yYtT] ]]; then
 
   echo netcdf-cxx $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 fi
+
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+

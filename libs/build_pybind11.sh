@@ -39,6 +39,9 @@ cmake -DCMAKE_INSTALL_PREFIX=$prefix \
       -DCMAKE_VERBOSE_MAKEFILE=1 ..
 VERBOSE=$MAKE_VERBOSE $SUDO make -j${NTHREADS:-4} install
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules core $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

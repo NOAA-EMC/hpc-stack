@@ -65,6 +65,9 @@ EOF
     $SUDO cp $tmpl_file $version.lua
   fi
 
+  # Make the modulefile read-only
+  $SUDO chmod a-w $version.lua
+
   # Make the latest installed version the default
   [[ -e default ]] && $SUDO rm -f default
   $SUDO ln -s $version.lua default

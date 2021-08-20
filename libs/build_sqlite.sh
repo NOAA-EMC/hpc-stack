@@ -44,6 +44,9 @@ URL="https://www.sqlite.org/2020/$software.tar.gz"
 make V=$MAKE_VERBOSE -j${NTHREADS:-4}
 $SUDO make V=$MAKE_VERBOSE -j${NTHREADS:-4} install
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules compiler $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

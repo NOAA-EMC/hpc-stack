@@ -90,10 +90,10 @@ EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut 
 enable_pnetcdf=$(nc-config --has-pnetcdf)
 
 if [[ ! -z $mpi ]]; then
-    if [[ $enable_pnetcdf =~ [yYtT] ]]; then
-	PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
-	PNETCDF_LIBS="-lpnetcdf"
-    fi
+  if [[ $enable_pnetcdf =~ [yYtT] ]]; then
+    PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
+    PNETCDF_LIBS="-lpnetcdf"
+  fi
 fi
 NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
 NETCDF_LIBS="-lnetcdf"
@@ -108,6 +108,9 @@ export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS:-} ${HDF5_LIBS:-} ${EXTRA_LIBS:-}"
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
+
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi

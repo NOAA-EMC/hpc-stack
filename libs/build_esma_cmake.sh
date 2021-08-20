@@ -35,6 +35,9 @@ git checkout $version
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 mkdir -p $prefix && cp -r $software/* $prefix
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules core $name $id
 echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

@@ -54,6 +54,9 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && ctest
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
+
 # generate modulefile from template
 $MODULES && update_modules mpi $name $repo-$version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

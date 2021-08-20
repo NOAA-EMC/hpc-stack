@@ -61,10 +61,10 @@ AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2
 EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
 
 if [[ ! -z $mpi ]]; then
-    if [[ $enable_pnetcdf =~ [yYtT] ]]; then
-	PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
-	PNETCDF_LIBS="-lpnetcdf"
-    fi
+  if [[ $enable_pnetcdf =~ [yYtT] ]]; then
+    PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
+    PNETCDF_LIBS="-lpnetcdf"
+  fi
 fi
 NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
 NETCDF_LIBS="-lnetcdf"
@@ -93,6 +93,9 @@ mkdir -p build && cd build
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
+
+# Make the installation prefix read-only for all
+$MODULES && $SUDO chmod a-w $prefix
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
