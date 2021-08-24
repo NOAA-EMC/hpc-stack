@@ -1,5 +1,5 @@
 cmake:
-  build: NO
+  build: YES
   bootstrap: NO
   version: 3.20.1
 
