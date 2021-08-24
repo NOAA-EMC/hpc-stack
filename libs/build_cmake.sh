@@ -36,9 +36,9 @@ export FC=$SERIAL_FC
 
 # CMake must be available if boostrap is set to no
 if [[ ${STACK_cmake_bootstrap:-} =~ [nNfF] ]]; then
-    cmake . -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE:STRING=Release
+    cmake . -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF
 else
-    $SUDO ./bootstrap --prefix=$prefix -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF
+    $SUDO ./bootstrap --prefix=$prefix -- -DCMAKE_BUILD_TYPE:STRING=Release 
 fi
 
 $SUDO make -j${NTHREADS:-4}
