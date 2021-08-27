@@ -30,7 +30,7 @@ else
   yaml=stack_${whichpackage}.yaml
 fi
 if [ ! -f stack/$yaml ]; then
-  echo "yaml config file 'config/$yaml' does not exist! Exitting..."
+  echo "yaml config file 'stack/$yaml' does not exist! Exitting..."
   exit 1
 fi
 
