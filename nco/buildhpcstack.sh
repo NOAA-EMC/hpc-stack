@@ -6,7 +6,6 @@
 #  -compiler ("all" uses all available compilers, listed below)
 #  -package ("all" compiles all)
 
-#sed -i 's|export NCO_V=false|export NCO_V=true|' config/config_nco_wcoss2.sh
 
 hpcstackdir=${1:?"hpc-stack dir?"}
 cd $hpcstackdir
@@ -57,4 +56,5 @@ done
 cd $installprefix
 find modulefiles/ \( -path '*hpc-cray-mpich*' -o -path '*hpc-intel*' \) -type f | xargs rm -f
 find modulefiles/ \( -path '*hpc-cray-mpich*' -o -path '*hpc-intel*' \) -type d | xargs rm -rf
+find $HPC_STACK_ROOTDIR -type f -name '*.lua' | xargs sed -i 's|/opt/modules|/apps/ops/prod/libs|'
 rm -rf modulefiles/stack/hpc
