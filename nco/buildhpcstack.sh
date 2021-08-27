@@ -24,7 +24,7 @@ if [ ${user/#ops./} != $envir ]; then
 fi
 
 if [ $whichpackage == "all" ]; then
-  yaml=stack_nceplibs.yaml
+  yaml=stack_nco_wcoss2.yaml
   read -p "Are you sure you want to recompile all packages? ENTER to continue, Ctrl-C to quit."
 else
   yaml=stack_${whichpackage}.yaml
