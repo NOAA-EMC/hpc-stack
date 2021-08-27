@@ -29,7 +29,7 @@ if [ $whichpackage == "all" ]; then
 else
   yaml=stack_${whichpackage}.yaml
 fi
-if [ ! -f config/$yaml ]; then
+if [ ! -f stack/$yaml ]; then
   echo "yaml config file 'config/$yaml' does not exist! Exitting..."
   exit 1
 fi
