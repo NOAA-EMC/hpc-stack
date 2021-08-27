@@ -14,7 +14,7 @@ conflict(pkgName)
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
-
+setenv("WGRIB2", pathJoin(base,"bin", "wgrib2"))
 prepend_path("PATH", pathJoin(base,"bin"))
 setenv("wgrib2_ROOT", base)
 setenv("wgrib2_VERSION", pkgVersion)

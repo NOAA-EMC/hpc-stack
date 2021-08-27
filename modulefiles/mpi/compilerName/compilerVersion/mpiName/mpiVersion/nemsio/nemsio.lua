@@ -20,6 +20,11 @@ local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
 
+setenv("MKGFSNEMSIOCTL",pathJoin(base,"bin","mkgfsnemsioctl"))
+setenv("NEMSIO_CHGDATE",pathJoin(base,"bin","nemsio_chgdate"))
+setenv("NEMSIO_GET",pathJoin(base,"bin","nemsio_get"))
+setenv("NEMSIO_READ",pathJoin(base,"bin","nemsio_read"))
+
 setenv("nemsio_ROOT", base)
 setenv("nemsio_VERSION", pkgVersion)
 setenv("NEMSIO_INC", pathJoin(base,"include"))
