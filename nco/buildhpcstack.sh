@@ -6,7 +6,7 @@
 #  -compiler ("all" uses all available compilers, listed below)
 #  -package ("all" compiles all)
 
-#sed -i 's|export NCO_V=false|export NCO_V=true|' config/config_wcoss2.sh
+#sed -i 's|export NCO_V=false|export NCO_V=true|' config/config_nco_wcoss2.sh
 
 hpcstackdir=${1:?"hpc-stack dir?"}
 cd $hpcstackdir
@@ -16,7 +16,7 @@ if [ $? -ne 0 ]; then
 fi
 envir=${2:?"envir? (first argument)"}
 whichcompiler=${3:?"which compiler? (second argument)"}
-whichpackage=${4:?"which package (config/stack_<?>.yaml); 'all' compiles all? (third argument)"}
+whichpackage=${4:?"which package (stack/stack_<?>.yaml); 'all' compiles all? (third argument)"}
 user=$(whoami)
 installprefix=/apps/ops/${envir}/libs
 
@@ -36,8 +36,8 @@ if [ ! -f config/$yaml ]; then
 fi
 
 case $whichcompiler in
-  all) configfilelist="config_wcoss2.sh" ;;
-  intel) configfilelist="config_wcoss2.sh" ;;
+  all) configfilelist="config_nco_wcoss2.sh" ;;
+  intel) configfilelist="config_nco_wcoss2.sh" ;;
   gcc|gnu) echo "No gcc config file yet! Exitting..." ; exit 1 ;;
   *) echo "Compiler '$whichcompiler' not recognized! Exitting..." ; exit 1 ;;
 esac
@@ -45,18 +45,16 @@ esac
 echo "Confirm installation:"
 echo "  install prefix: $installprefix"
 echo "  config script list: $(readlink -f config/$configfilelist)"
-echo "  yaml config file: $(readlink -f config/$yaml)"
+echo "  yaml config file: $(readlink -f stack/$yaml)"
 read -p "ENTER to continue, Ctrl-C to quit."
 
-./setup_modules.sh -p $installprefix -c config/config_wcoss2.sh
+./setup_modules.sh -p $installprefix -c config/config_nco_wcoss2.sh
 
 for configfile in config_wcoss2.sh ; do
   ./build_stack.sh -p $installprefix -c config/$configfile -y config/$yaml -m
 done
 
 cd $installprefix
-rm -rf include  include_4  include_4_DA  include_8  include_8_DA  include_d  include_d_DA bin lib share
 find modulefiles/ \( -path '*hpc-cray-mpich*' -o -path '*hpc-intel*' \) -type f | xargs rm -f
 find modulefiles/ \( -path '*hpc-cray-mpich*' -o -path '*hpc-intel*' \) -type d | xargs rm -rf
 rm -rf modulefiles/stack/hpc
-rm -rf modulefiles/compiler/*/*/prod_util
