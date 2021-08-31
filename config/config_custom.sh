@@ -19,8 +19,8 @@ export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
 
 
-#export MET_PYTHON_CC="-I/opt/local/Library/Frameworks/Python.framework/Versions/3.8/include/python3.8"
-#export MET_PYTHON_LD="-L/Users/KIG/opt/anaconda3/lib/python3.8/config-3.8-darwin -lpython3.8 -ldl -framework CoreFoundation"
+export MET_PYTHON_CC="-I/opt/local/Library/Frameworks/Python.framework/Versions/3.8/include/python3.8"
+export MET_PYTHON_LD="-L/Users/KIG/opt/anaconda3/lib/python3.8/config-3.8-darwin -lpython3.8 -ldl -framework CoreFoundation"
 
 #export MET_PYTHON_CONFIG=`which python3-config`
 #export MET_PYTHON=`which python3`

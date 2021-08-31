@@ -56,16 +56,16 @@ export CFLAGS="${STACK_CFLAGS:-} ${STACK_met_CFLAGS:-}"
 export MET_NETCDF=${NetCDF_ROOT}
 export MET_HDF5=${HDF5_ROOT}
 
-libdir=`find ${bufr_ROOT} -name libbufr_4.a -exec dirname {} \;`
-export MET_BUFRLIB=$libdir
-libdir=`find ${g2c_ROOT} -name libg2c.a -exec dirname {} \;`
-export MET_GRIB2CLIB=${g2c_ROOT}/$libdir
+bufr_libdir=`find ${bufr_ROOT} -name libbufr_4.a -exec dirname {} \;`
+export MET_BUFRLIB=$bufr_libdir
+g2c_libdir=`find ${g2c_ROOT} -name libg2c.a -exec dirname {} \;`
+export MET_GRIB2CLIB=$g2c_libdir
 export MET_GRIB2CINC=${g2c_ROOT}/include
 export MET_GSL=${GSL_ROOT}
 export BUFRLIB_NAME=-lbufr_4
 export GRIB2CLIB_NAME=-lg2c
-libdir=`find ${JASPER_ROOT} -name libjasper.a -exec dirname {} \;`
-export LIB_JASPER=$libdir
+jasper_libdir=`find ${JASPER_ROOT} -name libjasper.a -exec dirname {} \;`
+export LIB_JASPER=$jasper_libdir
 
 export LIB_LIBPNG=${PNG_ROOT}/lib
 export LIB_Z=${ZLIB_ROOT}/lib
