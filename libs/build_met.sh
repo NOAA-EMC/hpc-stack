@@ -55,19 +55,34 @@ export CFLAGS="${STACK_CFLAGS:-} ${STACK_met_CFLAGS:-}"
 
 export MET_NETCDF=${NetCDF_ROOT}
 export MET_HDF5=${HDF5_ROOT}
-export MET_BUFRLIB=${bufr_ROOT}/lib
-export MET_GRIB2CLIB=${g2c_ROOT}/lib
+
+libdir=`find ${bufr_ROOT} -name libbufr_4.a -exec dirname {} \;`
+export MET_BUFRLIB=$libdir
+libdir=`find ${g2c_ROOT} -name libg2c.a -exec dirname {} \;`
+export MET_GRIB2CLIB=${g2c_ROOT}/$libdir
 export MET_GRIB2CINC=${g2c_ROOT}/include
 export MET_GSL=${GSL_ROOT}
 export BUFRLIB_NAME=-lbufr_4
 export GRIB2CLIB_NAME=-lg2c
-export LIB_JASPER=${JASPER_ROOT}/lib
+libdir=`find ${JASPER_ROOT} -name libjasper.a -exec dirname {} \;`
+export LIB_JASPER=$libdir
+
 export LIB_LIBPNG=${PNG_ROOT}/lib
 export LIB_Z=${ZLIB_ROOT}/lib
 
-export MET_PYTHON=`which python3`
-export MET_PYTHON_CC="-I/opt/local/Library/Frameworks/Python.framework/Versions/3.8/include/python3.8"
-export MET_PYTHON_LD="-L/Users/KIG/opt/anaconda3/lib/python3.8/config-3.8-darwin -lpython3.8 -ldl -framework CoreFoundation"
+
+export MET_PYTHON=${MET_PYTHON:-`which python3`}
+export MET_PYTHON_CONFIG=${MET_PYTHON_CONFIG:-`which python3-config`}
+
+
+if [[ -z $MET_PYTHON_CC ]]; then
+    export MET_PYTHON_CC=`$MET_PYTHON_CONFIG --cflags`
+fi
+
+if [[ -z $MET_PYTHON_LD ]]; then
+    export MET_PYTHON_LD=`$MET_PYTHON_CONFIG --ldflags`
+fi
+
 
 #LDFLAGS1="-Wl,--disable-new-dtags"
 LDFLAGS2="-Wl,-rpath,${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
@@ -93,23 +108,11 @@ url="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.g
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 
-set +x
-
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}
 curr_dir=$(pwd)
 
-echo "MET Configuration settings..."
-printenv | egrep "^MET_" | sed -r 's/^/export /g'
-echo "LDFLAGS = ${LDFLAGS}"
-
-#echo "./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python"
-
-#make distclean
-#make clean
 
 ./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python
-
-set -x
 
 ret=$?
 if [ $ret != 0 ]; then
