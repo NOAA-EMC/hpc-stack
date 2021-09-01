@@ -53,6 +53,9 @@ find $hpcstackdir/modulefiles -type f -name '*.lua' | xargs sed -i 's|/opt/modul
 
 for configfile in config_wcoss2.sh ; do
   ./build_stack.sh -p $installprefix -c config/$configfile -y stack/$yaml -m
+  # Build two versions of wgrib2 for NCEP rotated lat-lon grid interpolation (ip) and WMO rot lat-lon grids (ip2)
+  ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_ip.yaml -m
+  ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_ip2.yaml -m
 done
 
 cd $installprefix

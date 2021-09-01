@@ -1,0 +1,6 @@
+wgrib2:
+  build: YES
+  version: 2.0.8
+  install_as: 2.0.8_ip
+  lib: YES
+  ipolates: 1

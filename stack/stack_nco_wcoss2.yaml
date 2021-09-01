@@ -118,13 +118,6 @@ bufr:
   python: NO
   is_nceplib: YES
 
-wgrib2:
-  build: YES
-  version: 2.0.8
-  install_as: 2.0.8
-  lib: YES
-  ipolates: 3
-
 grib_util:
   build: YES
   version: v1.2.2
