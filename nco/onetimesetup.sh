@@ -3,8 +3,8 @@ set -eux
 hpcstackdir=$(cd ../ && pwd)
 
 # Remove dash in compiler/mpi name in module so that install tree is <compiler>/<version> instead of <compiler>-<version>
-find $hpcstackdir/modulefiles -type f -name "*.lua" -exec sed -i "s:local compNameVerD = .*::" {} \;
-find $hpcstackdir/modulefiles -type f -name "*.lua" -exec sed -i "s:local mpiNameVerD = .*::" {} \;
+find $hpcstackdir/modulefiles -type f -name "*.lua" -exec sed -i "s:local compNameVerD .*::" {} \;
+find $hpcstackdir/modulefiles -type f -name "*.lua" -exec sed -i "s:local mpiNameVerD .*::" {} \;
 
 find $hpcstackdir/modulefiles -type f -name "*.lua" -exec sed -i "s:compNameVerD:compNameVer:" {} \;
 find $hpcstackdir/modulefiles -type f -name "*.lua" -exec sed -i "s:mpiNameVerD:mpiNameVer:" {} \;
