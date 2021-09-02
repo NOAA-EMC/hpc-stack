@@ -20,6 +20,8 @@ setenv("crtm_VERSION", pkgVersion)
 setenv("CRTM_INC", pathJoin(base,"include"))
 setenv("CRTM_LIB", pathJoin(base,"lib/libcrtm.a"))
 
+setenv("CRTM_FIX", @CRTM_FIX_DIR@)
+
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: library")

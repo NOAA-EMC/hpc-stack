@@ -50,6 +50,9 @@ export MPI_CC=$SERIAL_CC
 export MPI_FC=$SERIAL_FC
 export MPI_CXX=$SERIAL_CXX
 
+# Pre-existing CRTM_FIX_DIR
+export CRTM_FIX_DIR=""
+
 module load hdf5/1.10.6
 export HDF5_ROOT=$HDF5_DIR
 module load netcdf/4.7.4
