@@ -8,7 +8,7 @@ version=${1:-${STACK_wgrib2_version}}
 software=$name-$version
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
 install_as=${STACK_wgrib2_install_as:-${version}}
 
 if $MODULES; then

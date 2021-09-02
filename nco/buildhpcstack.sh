@@ -1,21 +1,17 @@
 #!/bin/bash
 # This script installs/updates hpc-stack packages.
 # Four arguments:
-#  -hpc-stack base dir (contains config/, libs/, modulefiles/, pkg/, etc.)
 #  -envir (prod/para/test)
 #  -compiler ("all" uses all available compilers, listed below)
 #  -package ("all" compiles all)
 
 
-hpcstackdir=${1:?"hpc-stack dir?"}
+hpcstackdir=$(cd ../ && pwd)
 cd $hpcstackdir
-if [ $? -ne 0 ]; then
-  echo "Directory '$hpcstackdir' could not be found."
-  exit 1
-fi
-envir=${2:?"envir? (first argument)"}
-whichcompiler=${3:?"which compiler? (second argument)"}
-whichpackage=${4:?"which package (stack/stack_<?>.yaml); 'all' compiles all? (third argument)"}
+
+envir=${1:?"envir? (first argument)"}
+whichcompiler=${2:?"which compiler? (second argument)"}
+whichpackage=${3:?"which package (stack/stack_<?>.yaml); 'all' compiles all? (third argument)"}
 user=$(whoami)
 installprefix=/apps/ops/${envir}/libs
 
