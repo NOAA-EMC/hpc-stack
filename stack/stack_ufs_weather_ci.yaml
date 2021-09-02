@@ -185,7 +185,6 @@ crtm:
   version: v2.3.0
   install_as: 2.3.0
   is_nceplib: YES
-  download_fix: NO
   install_fix: NO
 
 upp:

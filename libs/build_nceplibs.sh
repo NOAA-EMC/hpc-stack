@@ -212,7 +212,7 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 # Download CRTM fix files
 if [[ "$name" == "crtm" ]]; then
-  if [[ ${STACK_crtm_download_fix:-} =~ [yYtT] ]]; then
+  if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
     if [[ ! -d crtm_fix-$version ]]; then
       crtm_tarball=fix_REL-${install_as}_emc.tgz
       $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
@@ -222,7 +222,7 @@ if [[ "$name" == "crtm" ]]; then
     fi
     if [[ ! -f link_crtm_coeffs.sh ]]; then
       $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
-      sed -i -e 's/LINK="ln -sf"/LINK="mv"/g' link_crtm_coeffs.sh
+      sed -i'.backup' -e 's/LINK="ln -sf"/LINK="mv"/g' link_crtm_coeffs.sh
       chmod +x link_crtm_coeffs.sh
     fi
   fi
