@@ -134,3 +134,4 @@ ncio:
 madis:
   build: YES
   version: 4.3
+  install_as: 4.3.0

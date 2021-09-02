@@ -5,6 +5,8 @@ set -eux
 name="madis"
 version=${1:-${STACK_madis_version}}
 
+install_as=${STACK_madis_install_as:-${version}}
+
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
@@ -23,7 +25,7 @@ if $MODULES; then
   set +x
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   set -x
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -114,5 +116,5 @@ $SUDO mv static/*  $prefix/static/
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version
+$MODULES && update_modules $modpath $name $install_as
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
