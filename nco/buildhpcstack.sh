@@ -43,8 +43,6 @@ echo "  config script list: $(readlink -f config/$configfilelist)"
 echo "  yaml config file: $(readlink -f stack/$yaml)"
 read -p "ENTER to continue, Ctrl-C to quit."
 
-find $hpcstackdir/modulefiles -type f -name '*.lua' | xargs sed -i 's|/opt/modules|/apps/ops/prod/libs|'
-
 ./setup_modules.sh -p $installprefix -c config/config_nco_wcoss2.sh
 
 for configfile in config_wcoss2.sh ; do
