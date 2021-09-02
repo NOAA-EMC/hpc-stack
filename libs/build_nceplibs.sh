@@ -201,14 +201,22 @@ esac
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-#[[ -d $software ]] || ( git clone --recursive -b $version $URL $software )
 if [[ ! -d $software ]]; then
   git clone $URL $software
   cd $software
   git checkout $version
   git submodule update --init --recursive
-  cd ..
 fi
+
+# Download CRTM fix files
+if [[ "$name" == "crtm" ]]; then
+  crtm_tarball=fix_REL-${install_as}_emc.tgz
+  [[ ! -f $crtm_tarball ]] && $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
+  [[ ! -f link_crtm_coeffs.sh ]] && $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
+fi
+
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -222,6 +230,16 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 [[ $USE_SUDO =~ [yYtT] ]] && sudo -- bash -c "export PATH=$PATH; make install" \
                           || make install
+
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
+# Install CRTM fix files
+if [[ "$name" == "crtm" ]]; then
+  cd $software
+  tar xzf $crtm_tarball
+  sed -i 's/LINK="ln -sf"/LINK="mv"/g' link_crtm_coeffs.sh
+  ./link_crtm_coeffs.sh ./fix $prefix/fix
+fi
 
 # generate modulefile from template
 [[ ${using_mpi:-} =~ [yYtT] ]] && modpath=mpi || modpath=compiler
