@@ -4,7 +4,7 @@
 #  -envir (prod/para/test)
 #  -compiler ("all" uses all available compilers, listed below)
 #  -package ("all" compiles all)
-
+set -eux
 
 hpcstackdir=$(cd ../ && pwd)
 cd $hpcstackdir
