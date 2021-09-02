@@ -208,11 +208,24 @@ if [[ ! -d $software ]]; then
   git submodule update --init --recursive
 fi
 
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
 # Download CRTM fix files
 if [[ "$name" == "crtm" ]]; then
-  crtm_tarball=fix_REL-${install_as}_emc.tgz
-  [[ ! -f $crtm_tarball ]] && $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
-  [[ ! -f link_crtm_coeffs.sh ]] && $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
+  if [[ ${STACK_crtm_download_fix:-} =~ [yYtT] ]]; then
+    if [[ ! -d crtm_fix-$version ]]; then
+      crtm_tarball=fix_REL-${install_as}_emc.tgz
+      $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
+      tar xzf $crtm_tarball
+      mv fix crtm_fix-$version
+      rm -rf $crtm_tarball
+    fi
+    if [[ ! -f link_crtm_coeffs.sh ]]; then
+      $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
+      sed -i -e 's/LINK="ln -sf"/LINK="mv"/g' link_crtm_coeffs.sh
+      chmod +x link_crtm_coeffs.sh
+    fi
+  fi
 fi
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
@@ -235,10 +248,11 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 # Install CRTM fix files
 if [[ "$name" == "crtm" ]]; then
-  cd $software
-  tar xzf $crtm_tarball
-  sed -i 's/LINK="ln -sf"/LINK="mv"/g' link_crtm_coeffs.sh
-  ./link_crtm_coeffs.sh ./fix $prefix/fix
+  if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
+    if [[ -d crtm_fix-$version ]]; then
+      ./link_crtm_coeffs.sh ./crtm_fix-$version $prefix/fix
+    fi
+  fi
 fi
 
 # generate modulefile from template
