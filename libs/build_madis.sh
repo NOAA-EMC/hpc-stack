@@ -11,6 +11,8 @@ install_as=${STACK_madis_install_as:-${version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
+is_parallel=$(nc-config --has-parallel)
+
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -25,7 +27,15 @@ if $MODULES; then
   set +x
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   set -x
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
+
+  if [[ $is_parallel =~ [yYtT] ]];
+      modpath=mpi
+      prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
+  else
+      modpath=compiler
+      prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$install_as"
+  fi
+     
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -35,7 +45,7 @@ else
   enable_pnetcdf=$(nc-config --has-pnetcdf)
 fi
 
-if [[ ! -z $mpi ]]; then
+if [[ $is_parallel =~ [yYtT] ]]; then
   export FC=$MPI_FC
   export CC=$MPI_CC
   export CXX=$MPI_CXX
@@ -55,7 +65,7 @@ HDF5_LIBS="-lhdf5_hl -lhdf5"
 AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
 EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
 
-if [[ ! -z $mpi ]]; then
+if [[ $is_parallel =~ [yYtT] ]]; then
   if [[ $enable_pnetcdf =~ [yYtT] ]]; then
     PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
     PNETCDF_LIBS="-lpnetcdf"
@@ -115,6 +125,5 @@ $SUDO mv doc/*     $prefix/doc/
 $SUDO mv static/*  $prefix/static/
 
 # generate modulefile from template
-[[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $install_as
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
