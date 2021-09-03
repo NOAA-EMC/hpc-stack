@@ -215,15 +215,17 @@ if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
     if [[ ! -d crtm_fix-$version ]]; then
       crtm_tarball=fix_REL-${install_as}_emc.tgz
+      rm -f $crtm_tarball
       $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
       tar xzf $crtm_tarball
       mv fix crtm_fix-$version
-      rm -rf $crtm_tarball
+      rm -f $crtm_tarball
     fi
     if [[ ! -f link_crtm_coeffs.sh ]]; then
       $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
       sed -i'.backup' -e 's/LINK="ln -sf"/LINK="mv"/g' link_crtm_coeffs.sh
       chmod +x link_crtm_coeffs.sh
+      rm -f link_crtm_coeffs.sh.backup
     fi
   fi
 fi
