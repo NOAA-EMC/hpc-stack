@@ -28,7 +28,7 @@ if $MODULES; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   set -x
 
-  if [[ $is_parallel =~ [yYtT] ]];
+  if [[ $is_parallel =~ [yYtT] ]]; then
       modpath=mpi
       prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
   else
