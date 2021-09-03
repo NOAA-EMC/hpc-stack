@@ -165,8 +165,8 @@ w3emc:
 
 g2:
   build: YES
-  version: v3.4.3
-  install_as: 3.4.3
+  version: v3.4.4
+  install_as: 3.4.4
   is_nceplib: YES
 
 g2c:
@@ -210,11 +210,10 @@ bufr:
 
 wgrib2:
   build: YES
-  version: v2.0.8-cmake-v6
+  version: 2.0.8
   install_as: 2.0.8
-  openmp: ON
-  cmake_opts: "-DUSE_SPECTRAL=ON -DUSE_IPOLATES=3 -DUSE_NETCDF4=ON"
-  is_nceplib: YES
+  lib: YES
+  ipolates: 3
 
 prod_util:
   build: YES
@@ -231,7 +230,7 @@ grib_util:
 
 ncio:
   build: YES
-  version: develop
+  version: v1.0.0
   install_as: 1.0.0
   is_nceplib: YES
 
