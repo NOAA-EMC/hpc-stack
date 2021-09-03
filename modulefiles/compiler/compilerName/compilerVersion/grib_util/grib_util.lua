@@ -10,6 +10,7 @@ local compNameVer  = hierA[1]
 local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
+prereq("libjpeg")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
