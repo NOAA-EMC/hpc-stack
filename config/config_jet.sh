@@ -21,4 +21,4 @@ export WGET="wget -nv"
 # Bypass unused variable bug in LMod version on Jet when sourcing the LMod setup
 export __lmod_vx=""
 
-module load make/3.20.1
+module load cmake/3.20.1
