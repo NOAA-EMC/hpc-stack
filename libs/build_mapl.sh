@@ -11,6 +11,8 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 id=${version//\//-}
 
+install_as=${STACK_mapl_install_as:-${id}}
+
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -30,7 +32,7 @@ if $MODULES; then
 
   set -x
 
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$id"
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
                                || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
@@ -73,5 +75,5 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 
 # generate modulefile from template
 modpath=mpi
-$MODULES && update_modules $modpath $name $id
+$MODULES && update_modules $modpath $name $install_as
 echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
