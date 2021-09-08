@@ -82,8 +82,8 @@ if [[ -z ${MET_PYTHON_LD+x} ]]; then
     export MET_PYTHON_LD=`$MET_PYTHON_CONFIG --ldflags`
 fi
 
-LDFLAGS2="-Wl,-rpath,${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
-LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB}:${MET_PYTHON}/lib:${MET_GSL}/lib"
+LDFLAGS2="${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
+LDFLAGS3="${MET_GRIB2CLIB}:${MET_PYTHON}/lib:${MET_GSL}/lib"
 LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG} -L${LIB_Z}"
 
 export LDFLAGS="${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
