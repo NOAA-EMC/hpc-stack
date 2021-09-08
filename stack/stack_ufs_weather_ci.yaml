@@ -185,6 +185,7 @@ crtm:
   version: v2.3.0
   install_as: 2.3.0
   is_nceplib: YES
+  install_fix: NO
 
 upp:
   build: YES
@@ -226,10 +227,6 @@ grib_util:
   install_as: 1.2.2
   openmp: ON
   is_nceplib: YES
-
-gsl:
-  build: NO
-  version: 2.6
 
 ncio:
   build: YES
