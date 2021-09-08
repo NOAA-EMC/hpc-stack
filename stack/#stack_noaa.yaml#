@@ -1,11 +1,7 @@
-gnu:
-  build: NO
-  version: 9.3.0
-
 mpi:
   build: YES
   flavor: mpich
-  version: 3.3.2
+  version: 3.4.2
 
 cmake:
   build: NO
@@ -14,48 +10,53 @@ cmake:
 
 jpeg:
   build: YES
+  shared: NO
   version: 9.1.0
 
 zlib:
   build: YES
+  shared: NO
   version: 1.2.11
 
 png:
   build: YES
+  shared: NO
   version: 1.6.35
 
 szip:
   build: YES
+  shared: NO
   version: 2.1.1
 
 jasper:
   build: YES
+  shared: NO
   version: 2.0.25
 
 udunits:
-  build: NO
+  build: YES
+  shared: NO
   version: 2.2.28
 
 hdf5:
   build: YES
   version: 1.10.6
-  shared: YES
+  shared: NO
   enable_szip: NO
   enable_zlib: YES
 
 pnetcdf:
   build: NO
   version: 1.12.1
-  shared: YES
+  shared: NO
 
 netcdf:
   build: YES
-  shared: YES
+  shared: NO
   enable_pnetcdf: NO
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
-  disable_cxx: YES
 
 nccmp:
   build: YES
@@ -78,7 +79,7 @@ pio:
 esmf:
   build: YES
   version: 8_1_1
-  shared: YES
+  shared: NO
   enable_pnetcdf: NO
   debug: NO
 
@@ -86,7 +87,7 @@ fms:
   build: YES
   version: 2020.04.03
   repo: noaa-gfdl
-  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON"
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
 bacio:
   build: YES
@@ -205,7 +206,7 @@ bufr:
   build: YES
   version: bufr_v11.5.0
   install_as: 11.5.0
-  python: YES
+  python: NO
   is_nceplib: YES
 
 wgrib2:
@@ -244,7 +245,7 @@ eigen:
   version: 3.3.7
 
 gsl_lite:
-  build: YES
+  build: NO
   version: 0.37.0
 
 gptl:
@@ -292,12 +293,8 @@ fckit:
 
 atlas:
   build: YES
-  version: release-stable
-  repo: jcsda
-
-gsl:
-  build: YES
-  version: 2.6
+  version: 0.24.1
+  repo: ecmwf
 
 madis:
   build: YES
@@ -329,11 +326,11 @@ mapl:
   version: v2.7.3
 
 geos:
-  build: YES
+  build: NO
   version: 3.8.1
 
 sqlite:
-  build: YES
+  build: NO
   version: 3.32.3
 
 proj:
@@ -341,29 +338,17 @@ proj:
   version: 7.1.0
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
-miniconda3:
-  build: NO
-  version: 4.7.12
-
 r2d2:
   build: NO
   version: 1.0.0
   is_pyvenv: YES
 
-ufswm:
+hofx:
   build: NO
   version: 1.0.0
   is_pyvenv: YES
 
-gsl:
+ufswm:
   build: YES
-  version: 2.6
-
-met:
-  build: YES
-  version: 9.1.1
-  release_date: 20201118
-
-metplus:
-  build: YES
-  version: 3.1.1
+  version: 1.0.0
+  is_pyvenv: YES
