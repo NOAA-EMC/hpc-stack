@@ -64,7 +64,7 @@ export MET_GRIB2CINC=${g2c_ROOT}/include
 export MET_GSL=${GSL_ROOT}
 export BUFRLIB_NAME=-lbufr_4
 export GRIB2CLIB_NAME=-lg2c
-jasper_libdir=`find ${JASPER_ROOT} -name libjasper.a -exec dirname {} \;`
+jasper_libdir=`find ${Jasper_ROOT} -name libjasper.a -exec dirname {} \;`
 export LIB_JASPER=$jasper_libdir
 
 export LIB_LIBPNG=${PNG_ROOT}/lib
@@ -75,11 +75,11 @@ export MET_PYTHON=${MET_PYTHON:-`which python3`}
 export MET_PYTHON_CONFIG=${MET_PYTHON_CONFIG:-`which python3-config`}
 
 
-if [[ -z $MET_PYTHON_CC ]]; then
+if [[ -z ${MET_PYTHON_CC+x} ]]; then
     export MET_PYTHON_CC=`$MET_PYTHON_CONFIG --cflags`
 fi
 
-if [[ -z $MET_PYTHON_LD ]]; then
+if [[ -z ${MET_PYTHON_LD+x} ]]; then
     export MET_PYTHON_LD=`$MET_PYTHON_CONFIG --ldflags`
 fi
 
