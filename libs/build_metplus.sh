@@ -8,7 +8,7 @@ version=${1:-${STACK_metplus_version}}
 cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 software="v"$version
 pkg_name=$name-$version
-met_version=${1:-${STACK_metplus_met_version}}
+met_version=${1:-${STACK_metplus_version}}
 url="https://github.com/dtcenter/METplus/archive/$software.tar.gz"
 [[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
