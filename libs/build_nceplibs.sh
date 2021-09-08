@@ -67,6 +67,7 @@ if $MODULES; then
       ;;
     g2c)
       module try-load jpeg
+      module try-load zlib
       module try-load png
       module try-load jasper
       ;;
