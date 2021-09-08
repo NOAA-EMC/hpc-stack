@@ -111,36 +111,6 @@ curr_dir=$(pwd)
 
 ./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} --enable-grib2 --enable-python
 
-ret=$?
-if [ $ret != 0 ]; then
-    echo "configure returned with non-zero ($ret) status"
-    exit 1
-fi
-
-echo "make > make.log 2>&1"
 make
-ret=$?
-if [ $ret != 0 ]; then
-    echo "make returned with non-zero ($ret) status"
-    exit 1
-fi
-
-echo "make install > make_install.log 2>&1"
-$SUDO make install > make_install.log 2>&1
-ret=$?
-if [ $? != 0 ]; then
-    echo "make install returned with non-zero ($ret) status"
-    exit 1
-fi
-
-echo "make test > make_test.log 2>&1"
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
-make test > make_test.log 2>&1
-ret=$?
-if [ $? != 0 ]; then
-    echo "make test returned with non-zero ($ret) status"
-    exit 1
-fi
-
-export PATH=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}:${PATH}
-echo "Finished compiling at `date`"
+$SUDO make install
