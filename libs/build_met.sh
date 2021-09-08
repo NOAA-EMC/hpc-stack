@@ -86,13 +86,8 @@ LDFLAGS2="-Wl,-rpath,${MET_NETCDF}/lib:${MET_HDF5}/lib:${MET_BUFRLIB}"
 LDFLAGS3="-Wl,-rpath,${MET_GRIB2CLIB}:${MET_PYTHON}/lib:${MET_GSL}/lib"
 LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG} -L${LIB_Z}"
 
-if [[ -z $mpi ]]; then
-  export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
-else
-  export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-} ${LDFLAGS5:-}"
-fi
-  export LIBS="-lhdf5_hl -lhdf5 -lz"
-
+export LDFLAGS="${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
+export LIBS="-lhdf5_hl -lhdf5 -lz"
 
 export CFLAGS+="-D__64BIT__"
 export CXXFLAGS+="-D__64BIT__"
