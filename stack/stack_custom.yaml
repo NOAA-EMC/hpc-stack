@@ -84,7 +84,7 @@ esmf:
 
 fms:
   build: YES
-  version: 2020.04.03
+  version: 2021.03
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
@@ -165,8 +165,8 @@ w3emc:
 
 g2:
   build: YES
-  version: v3.4.3
-  install_as: 3.4.3
+  version: v3.4.4
+  install_as: 3.4.4
   is_nceplib: YES
 
 g2c:
@@ -186,6 +186,7 @@ crtm:
   version: v2.3.0
   install_as: 2.3.0
   is_nceplib: YES
+  install_fix: NO
 
 upp:
   build: YES
