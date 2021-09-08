@@ -24,7 +24,6 @@ else
     prefix=${GSL_ROOT:-"/usr/local"}
 fi
 
-
 export CC=$SERIAL_CC
 eval cflags="\${STACK_${name}_CFLAGS:-}"
 export CFLAGS="${STACK_CFLAGS:-} $cflags -fPIC -w"
