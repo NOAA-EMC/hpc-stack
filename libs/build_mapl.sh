@@ -75,6 +75,6 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 
 # generate modulefile from template
 modpath=mpi
-module_substitutions=" -DMAPL_ESMF_VERSION=${ESMF_VERSION}"
+module_substitutions="-DMAPL_ESMF_VERSION=${ESMF_VERSION}"
 $MODULES && update_modules $modpath $name $install_as "" $module_substitutions
 echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
