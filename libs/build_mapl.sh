@@ -27,7 +27,7 @@ if $MODULES; then
   module load gftl-shared
   module load yafyaml
   module load netcdf
-  module load esmf
+  module load esmf/${STACK_mapl_esmf_version:-default}
   module list
 
   set -x
