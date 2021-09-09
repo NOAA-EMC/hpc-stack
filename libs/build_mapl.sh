@@ -30,6 +30,7 @@ if $MODULES; then
 
   set -x
 
+  esmf_ver=
   install_as=${STACK_mapl_install_as:-"${id}-esmf-${ESMF_VERSION}"}
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
   if [[ -d $prefix ]]; then
@@ -74,5 +75,5 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 
 # generate modulefile from template
 modpath=mpi
-$MODULES && update_modules $modpath $name $install_as
+$MODULES && update_modules $modpath $name $install_as "" " -DMAPL_ESMF_VERSION=${ESMF_VERSION}"
 echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
