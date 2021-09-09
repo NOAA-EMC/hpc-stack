@@ -9,7 +9,7 @@ version=${2:-${STACK_mapl_version:-"main"}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
-id=${version//\//-}
+id=$(echo $version | sed 's/v//')
 
 if $MODULES; then
   set +x
@@ -30,8 +30,8 @@ if $MODULES; then
 
   set -x
 
-  esmf_ver=
-  install_as=${STACK_mapl_install_as:-"${id}-esmf-${ESMF_VERSION}"}
+  short_esmf_ver=$(echo ${ESMF_VERSION:-} | sed "s:beta_snapshot:bs:")
+  install_as=${STACK_mapl_install_as:-"${id}-esmf-${short_esmf_ver}"}
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
@@ -75,6 +75,7 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 
 # generate modulefile from template
 modpath=mpi
-module_substitutions="-DMAPL_ESMF_VERSION=${ESMF_VERSION}"
+
+module_substitutions="-DMAPL_ESMF_VERSION=${short_esmf_ver}"
 $MODULES && update_modules $modpath $name $install_as "" $module_substitutions
 echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
