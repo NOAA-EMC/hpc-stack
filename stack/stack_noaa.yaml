@@ -349,7 +349,7 @@ hofx:
   is_pyvenv: YES
 
 hofxdiag:
-  build: YES
+  build: NO
   version: 1.0.0
   is_pyvenv: YES
 
