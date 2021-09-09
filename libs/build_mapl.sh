@@ -11,8 +11,6 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 id=${version//\//-}
 
-install_as=${STACK_mapl_install_as:-${id}}
-
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -32,6 +30,7 @@ if $MODULES; then
 
   set -x
 
+  install_as=${STACK_mapl_install_as:-"${id}-esmf-${ESMF_VERSION}"}
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \

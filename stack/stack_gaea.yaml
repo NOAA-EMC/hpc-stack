@@ -320,4 +320,3 @@ mapl:
   build: YES
   repo: GEOS-ESM
   version: v2.7.3
-  install_as: v2.7.3-esmf811
