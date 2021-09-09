@@ -13,7 +13,7 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
-always_load("esmf/@MAPL_ESMF_VERSION@")
+prereq_any("esmf/@MAPL_ESMF_VERSION@", "esmf/@MAPL_ESMF_VERSION@-debug")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
