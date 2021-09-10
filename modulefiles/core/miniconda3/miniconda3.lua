@@ -18,8 +18,10 @@ prepend_path("MODULEPATH", mpath)
 
 local base = pathJoin(opt,"core",pkgName,pkgVersion)
 
-pushenv("CONDA_ENVS_PATH", pathJoin(base,"envs"))
-pushenv("CONDA_PKGS_PATH", pathJoin(base,"pkgs"))
+setenv("CONDA_ROOT",               base)
+setenv("CONDA_ENVS_PATH", pathJoin(base,"envs"))
+setenv("CONDA_PKGS_DIRS", pathJoin(base,"pkgs"))
+setenv("CONDARC",         pathJoin(base,".condarc"))
 
 -- These are conda functions defined in conda.sh
 local funcs = "conda __conda_activate __conda_hashr __conda_reactivate __add_sys_prefix_to_path"
@@ -41,7 +43,7 @@ local unload_cmd="for i in $(seq ${CONDA_SHLVL:=0}); do conda deactivate; done; 
 unset -f " .. funcs .. "; \
 prefix=" .. base .. "; \
 export PATH=$(echo $PATH | tr ':' '\\n' | grep . | grep -v $prefix | tr '\\n' ':' | sed 's/:$//'); \
-unset $(env | grep -o \"[^=]*CONDA[^=]*\" | grep -v 'CONDA_ENVS_PATH\\|CONDA_PKGS_DIRS'); \
+unset $(env | grep -o \"[^=]*CONDA[^=]*\" | grep -v 'CONDA_ENVS_PATH\\|CONDA_PKGS_DIRS\\|CONDARC'); \
 unset prefix"
 
 -- source conda on load, deactivate on unload
