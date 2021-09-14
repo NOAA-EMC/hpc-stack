@@ -80,7 +80,7 @@ esmf:
 
 fms:
   build: YES
-  version: 2020.04.03
+  version: 2021.03
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
@@ -161,8 +161,8 @@ w3emc:
 
 g2:
   build: YES
-  version: v3.4.3
-  install_as: 3.4.3
+  version: v3.4.4
+  install_as: 3.4.4
   is_nceplib: YES
 
 g2c:
@@ -182,6 +182,7 @@ crtm:
   version: v2.3.0
   install_as: 2.3.0
   is_nceplib: YES
+  install_fix: YES
 
 upp:
   build: YES
@@ -333,12 +334,21 @@ proj:
   version: 7.1.0
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
+miniconda3:
+  build: YES
+  version: 4.6.14
+
 r2d2:
   build: NO
   version: 1.0.0
   is_pyvenv: YES
 
 hofx:
+  build: NO
+  version: 1.0.0
+  is_pyvenv: YES
+
+hofxdiag:
   build: NO
   version: 1.0.0
   is_pyvenv: YES

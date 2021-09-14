@@ -1,0 +1,11 @@
+numpy
+scipy
+matplotlib
+netcdf4
+xarray
+xhistogram==0.1.2
+pandas
+cartopy
+cython
+pyyaml
+scikit-learn
