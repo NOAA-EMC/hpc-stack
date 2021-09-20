@@ -48,4 +48,4 @@ $SUDO make install
 
 modpath=compiler
 $MODULES && update_modules $modpath $name $version \
-         || echo $name $version >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+         || echo $name $version $url >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
