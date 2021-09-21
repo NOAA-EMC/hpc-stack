@@ -186,8 +186,8 @@ crtm:
 
 upp:
   build: YES
-  version: upp_v10.0.5
-  install_as: 10.0.5
+  version: upp_v10.0.9
+  install_as: 10.0.9
   openmp: ON
   is_nceplib: YES
 
