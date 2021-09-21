@@ -161,8 +161,8 @@ w3emc:
 
 g2:
   build: YES
-  version: v3.4.4
-  install_as: 3.4.4
+  version: v3.4.5
+  install_as: 3.4.5
   is_nceplib: YES
 
 g2c:
@@ -220,8 +220,8 @@ prod_util:
 
 grib_util:
   build: YES
-  version: v1.2.2
-  install_as: 1.2.2
+  version: v1.2.3
+  install_as: 1.2.3
   openmp: ON
   is_nceplib: YES
 
