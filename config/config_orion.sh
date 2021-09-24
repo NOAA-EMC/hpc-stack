@@ -3,7 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="intel/2018.4"
 export HPC_MPI="impi/2018.4"
-export HPC_PYTHON="python/3.7.5"
+export HPC_PYTHON="miniconda3/4.6.14"
 
 # Build options
 export USE_SUDO=N
@@ -17,6 +17,7 @@ export   MAKE_CLEAN=N
 export DOWNLOAD_ONLY=F
 export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
+export VENVTYPE="condaenv"
 
 # Load these basic modules for Orion
 module purge

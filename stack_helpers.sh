@@ -6,6 +6,7 @@ function update_modules {
   local name=$2
   local version=$3
   local py_version=${4:-}
+  local module_substitutions=${5:-}
   case $modpath in
     python )
       if [[ "${VENVTYPE:-"pyvenv"}" == "pyvenv" ]]; then
@@ -58,7 +59,7 @@ EOF
     CMAKE_OPTS="-DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}"
     CMAKE_OPTS+=" -DTMPL_FILE=$tmpl_file -DVERSION=$version"
     [[ -n "${py_version:-}" ]] && CMAKE_OPTS+=" -DPYTHON_VERSION=$py_version"
-    CMAKE_OPTS+=" -DCRTM_FIX_DIR=${CRTM_FIX_DIR:-}"
+    CMAKE_OPTS+=" ${module_substitutions}"
     # Install the module with configure_file, replacing ${CMAKE_INSTALL_LIBDIR} (and potentially other variables)
     # with the actual value for that system
     $SUDO cmake $CMAKE_OPTS -P ${HPC_STACK_ROOT}/cmake/configure_module.cmake
