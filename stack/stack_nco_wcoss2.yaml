@@ -95,6 +95,7 @@ crtm:
   build: YES
   version: v2.3.0
   install_as: 2.3.0
+  install_fix: YES
   is_nceplib: YES
 
 upp:
