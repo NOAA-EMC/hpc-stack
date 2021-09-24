@@ -48,8 +48,12 @@ read -p "ENTER to continue, Ctrl-C to quit."
 for configfile in config_nco_wcoss2.sh ; do
   ./build_stack.sh -p $installprefix -c config/$configfile -y stack/$yaml -m
   # Build two versions of wgrib2 for NCEP rotated lat-lon grid interpolation (ip) and WMO rot lat-lon grids (ip2)
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_ip.yaml -m; fi
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_ip2.yaml -m ; fi
+  if [ $whichpackage == all ]; then
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_8.yaml -m
+  fi
+  if [ $whichpackage == all ]; then
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_7.yaml -m
+  fi
 done
 
 cd $installprefix
