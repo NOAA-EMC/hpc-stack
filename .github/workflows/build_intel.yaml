@@ -55,10 +55,10 @@ jobs:
       run: |
         cd hpc-stack
         prefix=$GITHUB_WORKSPACE/install
-        intel_ver=$( gcc -dumpfullversion -dumpversion )
+        intel_ver=$( icc -dumpversion )
         python_ver=$( python3 --version | cut -d " " -f2 | cut -d. -f1-2 )
-        export HPC_COMPILER="intel/2021"
-        export HPC_MPI="impi/2021"
+        export HPC_COMPILER="intel/${intel_ver}"
+        export HPC_MPI="impi/${intel_ver}"
         export HPC_PYTHON="python/${python_ver}"
         yes | ./setup_modules.sh -c config/config_custom.sh -p $prefix
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y stack/stack_custom.yaml -m
