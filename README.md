@@ -136,6 +136,7 @@ script.
   - [PNetCDF](https://parallel-netcdf.github.io/)
   - [NetCDF](https://www.unidata.ucar.edu/software/netcdf/)
   - [ParallelIO](https://github.com/NCAR/ParallelIO)
+  - [ncview](http://meteora.ucsd.edu/~pierce/ncview_home_page.html)
   - [nccmp](https://gitlab.com/remikz/nccmp)
   - [nco](http://nco.sourceforge.net/)
   - [CDO](https://code.mpimet.mpg.de/projects/cdo)
