@@ -5,8 +5,6 @@ export HPC_COMPILER="intel/19.1.1.217"
 export HPC_MPI="intel-mpi/2019.8.254"
 export HPC_PYTHON="python/3.8.5"
 
-module load slurm/expanse/20.02.3
-module load cpu/0.15.4
 
 # Build options
 export USE_SUDO=N
