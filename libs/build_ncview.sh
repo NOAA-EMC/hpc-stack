@@ -52,33 +52,32 @@ fi
 
 export CFLAGS="${STACK_CFLAGS:-} ${STACK_ncview_CFLAGS:-} -fPIC"
 
-#HDF5_LDFLAGS="-L$HDF5_ROOT/lib"
-#HDF5_LIBS="-lhdf5_hl -lhdf5"
-#
-#AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-#EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
-#
-#if [[ ! -z $mpi ]]; then
-#  if [[ $enable_pnetcdf =~ [yYtT] ]]; then
-#    PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
-#    PNETCDF_LIBS="-lpnetcdf"
-#  fi
-#fi
-#
-#NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
-#NETCDF_LIBS="-lnetcdf"
-#
-#export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS} ${AM_LDFLAGS:-}"
-#export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS} ${HDF5_LIBS} ${EXTRA_LIBS:-}"
-#export CPPFLAGS="-I${NETCDF_ROOT}/include"
+HDF5_LDFLAGS="-L$HDF5_ROOT/lib"
+HDF5_LIBS="-lhdf5_hl -lhdf5"
+
+AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
+EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
+
+if [[ ! -z $mpi ]]; then
+  if [[ $enable_pnetcdf =~ [yYtT] ]]; then
+    PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
+    PNETCDF_LIBS="-lpnetcdf"
+  fi
+fi
+
+NETCDF_LDFLAGS="-L$NETCDF_ROOT/lib"
+NETCDF_LIBS="-lnetcdf"
+
+export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS} ${AM_LDFLAGS:-}"
+export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS} ${HDF5_LIBS} ${EXTRA_LIBS:-}"
 
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
 ../configure --prefix=$prefix \
-             --with-udunits2_incdir=${UDUNITS_ROOT}/include \
-             --with-udunits2_libdir=${UDUNITS_ROOT}/lib
+             --with-udunits2_incdir=${UDUNITS_ROOT:-}/include \
+             --with-udunits2_libdir=${UDUNITS_ROOT:-}/lib
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
