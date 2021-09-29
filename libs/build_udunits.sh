@@ -33,6 +33,7 @@ export CXX=$SERIAL_CXX
 export FFLAGS="${STACK_FFLAGS:-} ${STACK_udunits_FFLAGS:-} -fPIC"
 export CFLAGS="${STACK_CFLAGS:-} ${STACK_udunits_CFLAGS:-} -fPIC"
 export FCFLAGS="$FFLAGS"
+export LDFLAGS="${STACK_LDFLAGS:-} ${STACK_udunits_LDFLAGS:-}"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
