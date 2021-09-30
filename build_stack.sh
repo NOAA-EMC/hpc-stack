@@ -143,15 +143,39 @@ build_lib sqlite
 build_lib proj
 build_lib geos
 
+# Build serial versions of HDF5 and netCDF, if using MODULES
+if $MODULES; then
+
+  # Save $HPC_MPI variable
+  _HPC_MPI=$HPC_MPI
+  unset HPC_MPI
+
+  # Build hdf5 and netcdf as serial versions
+  build_lib hdf5
+  build_lib netcdf
+
+  # Build netcdf utilities with the serial netCDF library
+  build_lib nccmp
+  build_lib nco
+  build_lib cdo
+
+  # Restore $HPC_MPI variable
+  export HPC_MPI=$_HPC_MPI
+  unset _HPC_MPI
+
+fi
+
 #----------------------
 # MPI-dependent
 # These must be rebuilt for each MPI implementation
 build_lib hdf5
 build_lib pnetcdf
 build_lib netcdf
-build_lib nccmp
-build_lib nco
-build_lib cdo
+if ! $MODULES; then
+  build_lib nccmp
+  build_lib nco
+  build_lib cdo
+fi
 build_lib pio
 
 # NCEPlibs
