@@ -143,7 +143,7 @@ build_lib sqlite
 build_lib proj
 build_lib geos
 
-# Build serial versions of HDF5 and netCDF, if using MODULES
+# Also build serial versions of HDF5 and netCDF, if using MODULES
 if $MODULES; then
 
   # Save $HPC_MPI variable
@@ -171,6 +171,7 @@ fi
 build_lib hdf5
 build_lib pnetcdf
 build_lib netcdf
+# Only build these if only parallel builds are installed
 if ! $MODULES; then
   build_lib nccmp
   build_lib nco
