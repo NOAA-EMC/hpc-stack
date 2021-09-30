@@ -26,8 +26,10 @@ module load slurm/expanse/20.02.3
 module load cpu/0.15.4
 module load cmake/3.18.2 
 
-export STACK_udunits_LDFLAGS="-L/expanse/lustre/scratch/domh/temp_project/expat-2.4.1/lib"
-export STACK_udunits_CFLAGS="-I/expanse/lustre/scratch/domh/temp_project/expat-2.4.1/include"
+BSD_ROOT="/cm/shared/apps/spack/cpu/opt/spack/linux-centos8-zen/gcc-8.3.1/libbsd-0.10.0-adrl7mon2vjnjxfi462y23wau36kayw3"
+EXPANSE_ROOT="/cm/shared/apps/spack/cpu/opt/spack/linux-centos8-zen/gcc-8.3.1/expat-2.2.9-kmhtadv3hnspa5iaijtrnhl65radrebv"
+export STACK_udunits_LDFLAGS="-L${EXPANSE_ROOT}/lib -L${BSD_ROOT}/lib"
+export STACK_udunits_CFLAGS="-I${EXPANSE_ROOT}/include"
 
 # Build FMS with AVX2 flags
 export STACK_fms_CFLAGS="-march=core-avx2"
