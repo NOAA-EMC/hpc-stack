@@ -17,7 +17,7 @@ if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
-  [[ -z $HPC_MPI ]] || module load hpc-$HPC_MPI
+  [[ -z $mpi ]] || module load hpc-$HPC_MPI
   [[ $enable_szip =~ [yYtT] ]] && module try-load szip
   [[ $enable_zlib =~ [yYtT] ]] && module try-load zlib
   module list
