@@ -34,6 +34,18 @@ if $MODULES; then
       module load hpc-$HPC_MPI
       using_mpi=YES
       ;;
+    w3emc)
+      version_number=$(echo $version | cut -c 2-)
+      major_ver=$(echo $version_number | cut -d. -f1)
+      minor_ver=$(echo $version_number | cut -d. -f2)
+      using_mpi=NO
+      if [[ "$major_ver" -le "2" ]]; then
+          if [[ "$minor_ver" -lt "9" ]]; then
+              module load hpc-$HPC_MPI
+              using_mpi=YES
+          fi
+      fi
+      ;;
     # The following can use MPI (if available)
     wrf_io | wgrib2)
       if [[ ! -z $mpi ]]; then
@@ -79,22 +91,10 @@ if $MODULES; then
       module load nemsio
       ;;
     w3emc)
-      # Starting with version 2.9.0 w3emc no longer relies on MPI
-      version_number=$(echo $version | cut -c 2-)
-      major_ver=$(echo $version_number | cut -d. -f1)
-      minor_ver=$(echo $version_number | cut -d. -f2)
-      if [[ "$major_ver" -le "2" ]]; then
-          if [[ "$minor_ver" -lt "9" ]]; then
-              using_mpi=YES
-              module load hpc-$HPC_MPI
-              module load netcdf
-              module load sigio
-              module load nemsio
-          else
-              using_mpi=NO
-          fi
-      else
-          using_mpi=NO
+      if [[ "$using_mpi" =~ [yYtT] ]]; then
+          module load netcdf
+          module load sigio
+          module load nemsio
       fi
       ;;
     nceppost | upp)
