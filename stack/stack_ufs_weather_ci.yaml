@@ -76,14 +76,14 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_1
+  version: 8_2_0_beta_snapshot_14
   shared: YES
   enable_pnetcdf: NO
   debug: NO
 
 fms:
   build: YES
-  version: 2020.04.03
+  version: 2021.03
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
@@ -189,8 +189,8 @@ crtm:
 
 upp:
   build: YES
-  version: upp_v10.0.5
-  install_as: 10.0.5
+  version: upp_v10.0.9
+  install_as: 10.0.9
   openmp: ON
   is_nceplib: YES
 
@@ -233,3 +233,33 @@ ncio:
   version: v1.0.0
   install_as: 1.0.0
   is_nceplib: YES
+
+ecbuild:
+  build: YES
+  version: 3.6.1
+  repo: ecmwf
+
+esma_cmake:
+  build: YES
+  repo: GEOS-ESM
+  version: v3.4.3
+
+cmakemodules:
+  build: YES
+  repo: NOAA-EMC
+  version: v1.2.0
+
+gftl_shared:
+  build: YES
+  repo: Goddard-Fortran-Ecosystem
+  version: v1.3.0
+
+yafyaml:
+  build: YES
+  repo: Goddard-Fortran-Ecosystem
+  version: v0.5.1
+
+mapl:
+  build: YES
+  repo: GEOS-ESM
+  version: v2.7.3

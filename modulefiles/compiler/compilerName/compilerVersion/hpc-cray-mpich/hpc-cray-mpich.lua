@@ -10,7 +10,7 @@ local compNameVer  = hierA[1]
 local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
-conflict("hpc-impi","hpc-mpich","hpc-mpt","hpc-openmpi")
+conflict("hpc-impi","hpc-intel-mpi","hpc-mpich","hpc-mpt","hpc-openmpi")
 
 local mpi = pathJoin("cray-mpich",pkgVersion)
 load(mpi)

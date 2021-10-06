@@ -183,7 +183,7 @@ URL="https://github.com/noaa-emc/nceplibs-$name"
 extraCMakeFlags=""
 case $name in
   nceppost | upp)
-    URL="https://github.com/noaa-emc/emc_post"
+    URL="https://github.com/noaa-emc/upp"
     extraCMakeFlags="-DBUILD_POSTEXEC=OFF"
     ;;
   crtm)
