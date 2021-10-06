@@ -23,6 +23,15 @@ export DOWNLOAD_ONLY=F
 export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv"
 
+# Define the ESMF_COMM variable for WCOSS2
+# This is necessary to be done here rather than
+# stack_noaa.yaml, to keep one YAML file for NOAA.
+export STACK_esmf_comm="mpich3"
+export STACK_esmf_os="Linux"
+#FMS to build with AVX:
+export STACK_fms_CFLAGS="-march=core-avx2"
+export STACK_fms_FFLAGS="-march=core-avx2"
+
 # WCOSS2 specific
 # NOTE:
 # On WCOSS2 the Intel compiler module is "intel/19.1.3.304"
@@ -50,9 +59,6 @@ export MPI_CC=$SERIAL_CC
 export MPI_FC=$SERIAL_FC
 export MPI_CXX=$SERIAL_CXX
 
-# Pre-existing CRTM_FIX_DIR
-export CRTM_FIX_DIR=""
-
 module load hdf5/1.10.6
 export HDF5_ROOT=$HDF5_DIR
 module load netcdf/4.7.4
@@ -60,3 +66,4 @@ export NETCDF_ROOT=$NETCDF_DIR
 module load jasper/2.0.25
 module load libjpeg/9c
 module load libpng/1.6.37
+
