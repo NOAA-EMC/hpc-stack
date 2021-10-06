@@ -13,7 +13,7 @@ conflict(pkgName)
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
-local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
+local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
 setenv("w3emc_ROOT", base)
 setenv("w3emc_VERSION", pkgVersion)
