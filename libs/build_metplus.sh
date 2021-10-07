@@ -42,4 +42,7 @@ cat metplus_system.conf | \
 mv metplus_system_new.conf metplus_system.conf
 
 
-
+# generate modulefile from template
+[[ -z $mpi ]] && modpath=compiler || modpath=mpi
+$MODULES && update_modules $modpath $name $version_install
+echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

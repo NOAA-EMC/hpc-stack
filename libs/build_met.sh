@@ -54,7 +54,7 @@ export FFLAGS="${STACK_FFLAGS:-} ${STACK_met_FFLAGS:-}"
 export CFLAGS="${STACK_CFLAGS:-} ${STACK_met_CFLAGS:-}"
 
 export CFLAGS+="-D__64BIT__"
-export CXXFLAGS+="-D__64BIT__"
+export CXXFLAGS+="-D__64BIT__ -fPIC"
 
 export MET_NETCDF=${NETCDF_ROOT}
 export MET_HDF5=${HDF5_ROOT}
@@ -109,3 +109,8 @@ curr_dir=$(pwd)
 make
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
+
+# generate modulefile from template
+[[ -z $mpi ]] && modpath=compiler || modpath=mpi
+$MODULES && update_modules $modpath $name $version_install
+echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
