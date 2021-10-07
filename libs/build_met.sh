@@ -54,7 +54,7 @@ export FFLAGS="${STACK_FFLAGS:-} ${STACK_met_FFLAGS:-}"
 export CFLAGS="${STACK_CFLAGS:-} ${STACK_met_CFLAGS:-}"
 
 export CFLAGS+="-D__64BIT__"
-export CXXFLAGS+="-D__64BIT__ -fPIC"
+export CXXFLAGS+="-D__64BIT__"
 
 export MET_NETCDF=${NETCDF_ROOT}
 export MET_HDF5=${HDF5_ROOT}
@@ -89,7 +89,7 @@ LDFLAGS2="-L${MET_NETCDF}/lib -L${MET_HDF5}/lib -L${MET_BUFRLIB}"
 LDFLAGS3="-L${MET_GRIB2CLIB} -L${MET_PYTHON}/lib -L${MET_GSL}/lib"
 LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG} -L${LIB_Z}"
 
-export LDFLAGS="${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
+export LDFLAGS="-fPIE ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
 export LIBS="-lhdf5_hl -lhdf5 -lz"
 
 cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}

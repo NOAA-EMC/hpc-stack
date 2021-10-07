@@ -55,7 +55,7 @@ netcdf:
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
-  disable_cxx: YES
+  disable_cxx: NO
 
 nccmp:
   build: NO
