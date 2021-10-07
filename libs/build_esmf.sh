@@ -119,6 +119,9 @@ case $MPI in
   impi )
     export ESMF_COMM="intelmpi"
     ;;
+  intel-mpi )
+    export ESMF_COMM="intelmpi"
+    ;;
   mpt )
     export ESMF_COMM="mpt"
     ;;
