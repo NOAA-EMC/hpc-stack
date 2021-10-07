@@ -55,7 +55,7 @@ netcdf:
   version_c: 4.7.4
   version_f: 4.5.3
   version_cxx: 4.3.1
-  disable_cxx: YES
+  disable_cxx: NO
 
 nccmp:
   build: NO
@@ -164,7 +164,7 @@ w3emc:
   is_nceplib: YES
 
 g2:
-  build: YES
+  build: NO
   version: v3.4.5
   install_as: 3.4.5
   is_nceplib: YES
@@ -357,7 +357,7 @@ ufswm:
   is_pyvenv: YES
 
 gsl:
-  build: NO
+  build: YES
   version: 2.6
 
 met:
