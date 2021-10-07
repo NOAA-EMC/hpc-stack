@@ -164,7 +164,7 @@ w3emc:
   is_nceplib: YES
 
 g2:
-  build: YES
+  build: NO
   version: v3.4.5
   install_as: 3.4.5
   is_nceplib: YES

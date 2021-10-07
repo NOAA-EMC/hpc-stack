@@ -64,8 +64,9 @@ jobs:
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y stack/stack_custom.yaml -m
 
     - name: debug
+      if: ${{ always() }}
       run: |
-        cat /home/runner/work/hpc-stack/hpc-stack/openmpi/pkg/met-9.1.1/config.log
+        cat hpc-stack/pkg/met-9.1.1/config.log
         
     - name: Upload logs
       if: ${{ always() }}
