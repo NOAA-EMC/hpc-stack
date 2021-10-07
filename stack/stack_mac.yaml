@@ -189,7 +189,7 @@ crtm:
   install_fix: NO
 
 upp:
-  build: YES
+  build: NO
   version: upp_v10.0.9
   install_as: 10.0.9
   openmp: ON
@@ -223,7 +223,7 @@ prod_util:
   is_nceplib: YES
 
 grib_util:
-  build: YES
+  build: NO
   version: v1.2.3
   install_as: 1.2.3
   openmp: ON
