@@ -56,6 +56,10 @@ jobs:
         export HPC_PYTHON="python/${python_ver}"
         ./build_stack.sh -p $prefix -c config/config_mac.sh -y stack/stack_mac.yaml
 
+    - name: debug
+      run: |
+        cat /home/runner/work/hpc-stack/hpc-stack/openmpi/pkg/met-9.1.1/config.log    
+        
     - name: Upload logs
       if: ${{ always() }}
       uses: actions/upload-artifact@v2
