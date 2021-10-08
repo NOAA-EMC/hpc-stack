@@ -104,8 +104,8 @@ export LIBS="-lhdf5_hl -lhdf5 -lz"
 cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 software=$name-$version.$release_date
 pkg_name=$name-$version
-url="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
+URL="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.gz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 
