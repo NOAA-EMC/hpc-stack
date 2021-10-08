@@ -13,11 +13,6 @@ url="https://github.com/dtcenter/METplus/archive/$software.tar.gz"
 [[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 
-
-# Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi=$(echo $HPC_MPI | sed 's/\//-/g')
-
 if $MODULES; then
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
     mkdir -p $prefix
@@ -31,8 +26,6 @@ fi
 cp -r ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}/* $prefix
 cd $prefix
 curr_dir=$(pwd)
-export PATH=${curr_dir}/ush:${PATH}
-
 
 # Update the path to the MET tools for the users
 cd ${curr_dir}/parm/metplus_config

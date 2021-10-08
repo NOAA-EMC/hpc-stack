@@ -5,6 +5,7 @@ set -eux
 name="met"
 version=${1:-${STACK_met_version}}
 release_date=${2:-${STACK_met_release_date}}
+install_as=${STACK_met_install_as:-${version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -122,5 +123,5 @@ $SUDO make install
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version_install
-echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $install_as
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
