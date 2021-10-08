@@ -215,6 +215,7 @@ build_lib madis
 
 build_lib miniconda3
 build_lib r2d2
+build_lib metplus_pyenv
 
 # JEDI 3rd party dependencies
 

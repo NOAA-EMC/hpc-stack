@@ -19,6 +19,7 @@ if $MODULES; then
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
     [[ $enable_python =~ [yYtT] ]] && module load hpc-$HPC_PYTHON
+    module load metplus_pyenv
     module load bufr
     module load zlib
     module load jasper
