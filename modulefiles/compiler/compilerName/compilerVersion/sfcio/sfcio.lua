@@ -20,6 +20,9 @@ setenv("sfcio_VERSION", pkgVersion)
 setenv("SFCIO_INC", pathJoin(base,"include"))
 setenv("SFCIO_LIB", pathJoin(base,"lib/libsfcio.a"))
 
+setenv("SFCIO_INC4", pathJoin(base,"include"))
+setenv("SFCIO_LIB4", pathJoin(base,"lib/libsfcio.a"))
+
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: library")

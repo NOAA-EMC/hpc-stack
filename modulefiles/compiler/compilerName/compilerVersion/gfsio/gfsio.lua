@@ -20,6 +20,9 @@ setenv("gfsio_VERSION", pkgVersion)
 setenv("GFSIO_INC",  pathJoin(base,"include"))
 setenv("GFSIO_LIB",  pathJoin(base,"lib/libgfsio.a"))
 
+setenv("GFSIO_INC4",  pathJoin(base,"include"))
+setenv("GFSIO_LIB4",  pathJoin(base,"lib/libgfsio.a"))
+
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: library")
