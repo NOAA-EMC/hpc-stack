@@ -158,6 +158,7 @@ if $MODULES; then
   build_lib nccmp
   build_lib nco
   build_lib cdo
+  build_lib madis
 
   # Restore $HPC_MPI variable
   export HPC_MPI=$_HPC_MPI
@@ -176,6 +177,7 @@ if ! $MODULES; then
   build_lib nccmp
   build_lib nco
   build_lib cdo
+  build_lib madis
 fi
 build_lib pio
 

@@ -11,8 +11,6 @@ install_as=${STACK_madis_install_as:-${version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
-is_parallel=$(nc-config --has-parallel)
-
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -23,18 +21,11 @@ if $MODULES; then
   module load netcdf
   module list
   set -x
-  enable_pnetcdf=$(nc-config --has-pnetcdf)
-  set +x
-    [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
-  set -x
 
-  if [[ $is_parallel =~ [yYtT] ]]; then
-      modpath=mpi
-      prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
-  else
-      modpath=compiler
-      prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$install_as"
-  fi
+  # A serial version of NetCDF is always built when modules are enabled, so pnetcdf can be ignored
+  enable_pnetcdf="no"
+
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$install_as"
      
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
@@ -45,14 +36,14 @@ else
   enable_pnetcdf=$(nc-config --has-pnetcdf)
 fi
 
-if [[ $is_parallel =~ [yYtT] ]]; then
-  export FC=$MPI_FC
-  export CC=$MPI_CC
-  export CXX=$MPI_CXX
+if [[ ! -z $mpi ]]; then
+    export FC=$MPI_FC
+    export CC=$MPI_CC
+    export CXX=$MPI_CXX
 else
-  export FC=$SERIAL_FC
-  export CC=$SERIAL_CC
-  export CXX=$SERIAL_CXX
+    export FC=$SERIAL_FC
+    export CC=$SERIAL_CC
+    export CXX=$SERIAL_CXX
 fi
 
 export F77=$FC
@@ -65,7 +56,7 @@ HDF5_LIBS="-lhdf5_hl -lhdf5"
 AM_LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
 EXTRA_LIBS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
 
-if [[ $is_parallel =~ [yYtT] ]]; then
+if [[ ! -z $mpi ]]; then
   if [[ $enable_pnetcdf =~ [yYtT] ]]; then
     PNETCDF_LDFLAGS="-L$PNETCDF_ROOT/lib"
     PNETCDF_LIBS="-lpnetcdf"
