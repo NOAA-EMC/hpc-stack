@@ -210,8 +210,6 @@ build_lib ncio
 
 # Other
 
-build_lib madis
-
 # Python and associate virtual environments
 
 build_lib miniconda3
