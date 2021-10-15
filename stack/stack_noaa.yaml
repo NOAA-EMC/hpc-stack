@@ -269,35 +269,35 @@ json_schema_validator:
   version: 2.1.0
 
 pybind11:
-  build: YES
+  build: NO
   version: 2.5.0
 
 ecbuild:
-  build: YES
+  build: NO
   version: 3.6.1
   repo: ecmwf
 
 eckit:
-  build: YES
+  build: NO
   version: 1.16.0
   repo: ecmwf
 
 fckit:
-  build: YES
+  build: NO 
   version: 0.9.2
   repo: ecmwf
 
 atlas:
-  build: YES
+  build: NO
   version: 0.24.1
   repo: ecmwf
 
 madis:
-  build: YES
+  build: NO
   version: 4.3
 
 esma_cmake:
-  build: YES
+  build: NO
   repo: GEOS-ESM
   version: v3.4.3
 
