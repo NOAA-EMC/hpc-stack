@@ -4,13 +4,11 @@
 # Disable that so LMOD isn't overwritten
 unset BASH_ENV
 
-# Startup LMOD
-source /apps/prod/lmodules/startLmod
-
 # Compiler/MPI combination
-#export HPC_COMPILER="cray-intel/19.1.1.217"  # See IMPORTANT NOTE below
-export HPC_COMPILER="intel/19.1.1.217"
-export HPC_MPI="cray-mpich/8.0.15"
+#export HPC_COMPILER="cray-intel/19.1.3.304"  # See IMPORTANT NOTE below
+export HPC_COMPILER="intel/19.1.3.304"
+export HPC_MPI="cray-mpich/8.1.7"
+export HPC_PYTHON="python/3.8.6"
 
 # Build options
 export USE_SUDO=N
@@ -27,7 +25,7 @@ export WGET="wget -nv"
 
 # WCOSS2 specific
 # NOTE:
-# On WCOSS2 the Intel compiler module is "intel/19.1.1.217"
+# On WCOSS2 the Intel compiler module is "intel/19.1.3.304"
 # However, on the Cray, the wrappers are cc, ftn, and CC
 # The Intel modules have icc, ifort and icpc for CC, FC and CXX respectively
 # By specifying "cray-intel", we load the "hpc-cray-intel" module which
@@ -35,10 +33,11 @@ export WGET="wget -nv"
 # define cc, FC and CC for CC, FC and CXX respectively.
 # cray-intel does not imply the native module in this case
 
-#module purge
-module load cmake/3.16.5
-module load git/2.27.0
-module load cpe-intel
+module load PrgEnv-intel/8.1.0
+module load cmake/3.20.2
+module load git/2.29.0
+module load intel/19.1.3.304
+module load craype/2.7.8
 
 export SERIAL_CC=cc
 export SERIAL_FC=ftn
@@ -53,10 +52,6 @@ export MPI_CXX=$SERIAL_CXX
 # stack_noaa.yaml, to keep one YAML file for NOAA.
 export STACK_esmf_comm="mpich3"
 export STACK_esmf_os="Linux"
-
-# LMod is coming to WCOSS2
-# LMod has disabled "default" and requires exact module match.
-# https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html
-#module load lmod/8.3
-#export LMOD_EXACT_MATCH="no"
-#export LMOD_EXTENDED_DEFAULT="yes"
+#FMS to build with AVX:
+export STACK_fms_CFLAGS="-march=core-avx2"
+export STACK_fms_FFLAGS="-march=core-avx2"

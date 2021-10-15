@@ -30,9 +30,21 @@ if $MODULES; then
 
   case $name in
     # The following require MPI
-    nemsio | nemsiogfs | ncio | nceppost | upp | w3emc)
+    nemsio | nemsiogfs | ncio | nceppost | upp)
       module load hpc-$HPC_MPI
       using_mpi=YES
+      ;;
+    w3emc)
+      version_number=$(echo $version | cut -c 2-)
+      major_ver=$(echo $version_number | cut -d. -f1)
+      minor_ver=$(echo $version_number | cut -d. -f2)
+      using_mpi=NO
+      if [[ "$major_ver" -le "2" ]]; then
+          if [[ "$minor_ver" -lt "9" ]]; then
+              module load hpc-$HPC_MPI
+              using_mpi=YES
+          fi
+      fi
       ;;
     # The following can use MPI (if available)
     wrf_io | wgrib2)
@@ -67,6 +79,7 @@ if $MODULES; then
       ;;
     g2c)
       module try-load jpeg
+      module try-load zlib
       module try-load png
       module try-load jasper
       ;;
@@ -78,9 +91,11 @@ if $MODULES; then
       module load nemsio
       ;;
     w3emc)
-      module load netcdf
-      module load sigio
-      module load nemsio
+      if [[ "$using_mpi" =~ [yYtT] ]]; then
+          module load netcdf
+          module load sigio
+          module load nemsio
+      fi
       ;;
     nceppost | upp)
       module try-load png
@@ -182,7 +197,7 @@ URL="https://github.com/noaa-emc/nceplibs-$name"
 extraCMakeFlags=""
 case $name in
   nceppost | upp)
-    URL="https://github.com/noaa-emc/emc_post"
+    URL="https://github.com/noaa-emc/upp"
     extraCMakeFlags="-DBUILD_POSTEXEC=OFF"
     ;;
   crtm)
@@ -201,14 +216,37 @@ esac
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-#[[ -d $software ]] || ( git clone --recursive -b $version $URL $software )
 if [[ ! -d $software ]]; then
   git clone $URL $software
   cd $software
   git checkout $version
   git submodule update --init --recursive
-  cd ..
 fi
+
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
+# Download CRTM fix files
+if [[ "$name" == "crtm" ]]; then
+  if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
+    if [[ ! -d crtm_fix-$version ]]; then
+      crtm_tarball=fix_REL-${install_as}_emc.tgz
+      rm -f $crtm_tarball
+      $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
+      tar xzf $crtm_tarball
+      mv fix crtm_fix-$version
+      rm -f $crtm_tarball
+    fi
+    if [[ ! -f link_crtm_coeffs.sh ]]; then
+      $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
+      sed -i'.backup' -e 's/LINK="ln -sf"/LINK="mv"/g' link_crtm_coeffs.sh
+      chmod +x link_crtm_coeffs.sh
+      rm -f link_crtm_coeffs.sh.backup
+    fi
+  fi
+fi
+
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
@@ -222,6 +260,17 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 [[ $USE_SUDO =~ [yYtT] ]] && sudo -- bash -c "export PATH=$PATH; make install" \
                           || make install
+
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
+# Install CRTM fix files
+if [[ "$name" == "crtm" ]]; then
+  if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
+    if [[ -d crtm_fix-$version ]]; then
+      ./link_crtm_coeffs.sh ./crtm_fix-$version $prefix/fix
+    fi
+  fi
+fi
 
 # generate modulefile from template
 [[ ${using_mpi:-} =~ [yYtT] ]] && modpath=mpi || modpath=compiler

@@ -10,14 +10,14 @@ local compNameVer  = hierA[1]
 local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
-conflict("hpc-intel-mpi","hpc-cray-mpich","hpc-mpich","hpc-mpt","hpc-openmpi")
+conflict("hpc-cray-mpich","hpc-mpich","hpc-mpt","hpc-openmpi","hpc-impi")
 
-local mpi = pathJoin("impi",pkgVersion)
+local mpi = pathJoin("intel-mpi",pkgVersion)
 load(mpi)
 prereq(mpi)
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
-local mpath = pathJoin(opt,"modulefiles/mpi",compNameVer,"impi",pkgVersion)
+local mpath = pathJoin(opt,"modulefiles/mpi",compNameVer,"intel-mpi",pkgVersion)
 prepend_path("MODULEPATH", mpath)
 
 setenv("MPI_FC",  "mpiifort")

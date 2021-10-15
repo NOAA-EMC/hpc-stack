@@ -80,7 +80,7 @@ esmf:
 
 fms:
   build: YES
-  version: 2020.04.03
+  version: 2021.03
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
@@ -161,8 +161,8 @@ w3emc:
 
 g2:
   build: YES
-  version: v3.4.2
-  install_as: 3.4.2
+  version: v3.4.5
+  install_as: 3.4.5
   is_nceplib: YES
 
 g2c:
@@ -182,11 +182,12 @@ crtm:
   version: v2.3.0
   install_as: 2.3.0
   is_nceplib: YES
+  install_fix: NO
 
 upp:
   build: YES
-  version: upp_v10.0.5
-  install_as: 10.0.5
+  version: upp_v10.0.9
+  install_as: 10.0.9
   openmp: ON
   is_nceplib: YES
 
@@ -206,11 +207,10 @@ bufr:
 
 wgrib2:
   build: YES
-  version: v2.0.8-cmake-v6
+  version: 2.0.8
   install_as: 2.0.8
-  openmp: ON
-  cmake_opts: "-DUSE_SPECTRAL=ON -DUSE_IPOLATES=3 -DUSE_NETCDF4=ON"
-  is_nceplib: YES
+  lib: YES
+  ipolates: 3
 
 prod_util:
   build: YES
@@ -220,14 +220,14 @@ prod_util:
 
 grib_util:
   build: YES
-  version: v1.2.2
-  install_as: 1.2.2
+  version: v1.2.3
+  install_as: 1.2.3
   openmp: ON
   is_nceplib: YES
 
 ncio:
   build: YES
-  version: develop
+  version: v1.0.0
   install_as: 1.0.0
   is_nceplib: YES
 
@@ -295,3 +295,28 @@ atlas:
 madis:
   build: YES
   version: 4.3
+
+esma_cmake:
+  build: YES
+  repo: GEOS-ESM
+  version: v3.4.3
+
+cmakemodules:
+  build: YES
+  repo: NOAA-EMC
+  version: v1.2.0
+
+gftl_shared:
+  build: YES
+  repo: Goddard-Fortran-Ecosystem
+  version: v1.3.0
+
+yafyaml:
+  build: YES
+  repo: Goddard-Fortran-Ecosystem
+  version: v0.5.1
+
+mapl:
+  build: YES
+  repo: GEOS-ESM
+  version: v2.7.3
