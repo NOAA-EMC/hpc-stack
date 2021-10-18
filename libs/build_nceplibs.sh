@@ -238,7 +238,7 @@ if [[ "$name" == "crtm" ]]; then
     fi
     if [[ ! -f link_crtm_coeffs.sh ]]; then
       $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
-      sed -i'.backup' -e 's/LINK="ln -sf"/LINK="mv"/g' link_crtm_coeffs.sh
+      sed -i'.backup' -e 's/LINK="ln -sf"/LINK="cp"/g' link_crtm_coeffs.sh
       chmod +x link_crtm_coeffs.sh
       rm -f link_crtm_coeffs.sh.backup
     fi
