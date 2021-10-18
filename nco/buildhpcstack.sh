@@ -51,6 +51,13 @@ for configfile in config_nco_wcoss2.sh ; do
   if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_7.yaml -m; fi
   if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_8.yaml -m ; fi
   if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_8_ip2.yaml -m ; fi
+
+  # Build multiple versions of these libraries
+  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2_v3_4_1.yaml -m ; fi
+  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2_v3_4_4.yaml -m ; fi
+  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2c_v1_6_2.yaml -m; fi
+  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2tmpl_v1_9_1.yaml -m ; fi
+  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_w3emc_v2_9_1.yaml -m ; fi  
 done
 
 cd $installprefix

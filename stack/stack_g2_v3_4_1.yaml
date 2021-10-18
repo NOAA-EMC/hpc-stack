@@ -1,0 +1,5 @@
+g2:
+  build: YES
+  version: v3.4.1
+  install_as: 3.4.1
+  is_nceplib: YES

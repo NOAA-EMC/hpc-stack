@@ -1,0 +1,5 @@
+g2c:
+  build: YES
+  version: v1.6.2
+  install_as: 1.6.2
+  is_nceplib: YES
