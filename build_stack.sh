@@ -149,7 +149,7 @@ if $MODULES; then
 
   # Save $HPC_MPI variable
   _HPC_MPI=$HPC_MPI
-  unset HPC_MPI
+  export HPC_MPI=""
 
   # Build hdf5 and netcdf as serial versions
   build_lib hdf5
