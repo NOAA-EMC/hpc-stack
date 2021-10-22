@@ -91,6 +91,7 @@ if $MODULES; then
       module load nemsio
       ;;
     w3emc)
+      module load bacio
       if [[ "$using_mpi" =~ [yYtT] ]]; then
           module load netcdf
           module load sigio
