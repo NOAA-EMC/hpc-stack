@@ -206,6 +206,20 @@ build_lib prod_util
 build_lib grib_util
 build_lib ncio
 
+if $MODULES; then
+
+  # Save $HPC_MPI variable
+  _HPC_MPI=$HPC_MPI
+  export HPC_MPI=""
+
+  build_lib nemsio
+
+  # Restore $HPC_MPI variable
+  export HPC_MPI=$_HPC_MPI
+  unset _HPC_MPI
+
+fi
+
 # Other
 
 build_lib madis
