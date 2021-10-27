@@ -143,8 +143,8 @@ landsfcutil:
 
 nemsio:
   build: YES
-  version: v2.5.2
-  install_as: 2.5.2
+  version: v2.5.4
+  install_as: 2.5.4
   is_nceplib: YES
 
 nemsiogfs:
