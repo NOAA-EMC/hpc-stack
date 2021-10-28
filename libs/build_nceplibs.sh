@@ -50,7 +50,7 @@ if $MODULES; then
               fi
           fi
       fi
-      if [[ $using_MPI = "UNKNOWN" ]]; then
+      if [[ $using_mpi = "UNKNOWN" ]]; then
         w3dep="w3emc"
         using_mpi=NO
         if [[ ! -z $mpi ]]; then
