@@ -186,7 +186,7 @@ else
   eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
   case $name in
     # The following require MPI
-    nemsio | nemsiogfs | ncio | nceppost | upp | w3emc)
+    nemsio | nemsiogfs | ncio | nceppost | upp)
       using_mpi=YES
       ;;
     # The following can use MPI (if available)
