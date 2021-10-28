@@ -237,6 +237,11 @@ case $name in
       extraCMakeFlags="-DENABLE_PYTHON=ON"
     fi
     ;;
+  nemsio)
+    if [[ ${using_mpi:-} =~ [yYtT] ]]; then
+      extraCMakeFlags="-DENABLE_MPI=ON"
+    fi
+    ;;
 esac
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
