@@ -240,6 +240,8 @@ case $name in
   nemsio)
     if [[ ${using_mpi:-} =~ [yYtT] ]]; then
       extraCMakeFlags="-DENABLE_MPI=ON"
+    else
+      extraCMakeFlags="-DENABLE_MPI=OFF"
     fi
     ;;
 esac
