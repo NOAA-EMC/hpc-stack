@@ -186,13 +186,13 @@ build_lib sigio
 build_lib sfcio
 build_lib gfsio
 build_lib w3nco
+build_lib w3emc
 build_lib sp
 build_lib ip
 build_lib ip2
 build_lib landsfcutil
 build_lib nemsio
 build_lib nemsiogfs
-build_lib w3emc
 build_lib g2
 build_lib g2c
 build_lib g2tmpl
