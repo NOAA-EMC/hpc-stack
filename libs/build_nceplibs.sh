@@ -30,9 +30,34 @@ if $MODULES; then
 
   case $name in
     # The following require MPI
-    nemsio | nemsiogfs | ncio | nceppost | upp)
+    nemsiogfs | ncio | nceppost | upp)
       module load hpc-$HPC_MPI
       using_mpi=YES
+      ;;
+    nemsio)
+      version_number=$(echo $version | cut -c 2-)
+      major_ver=$(echo $version_number | cut -d. -f1)
+      minor_ver=$(echo $version_number | cut -d. -f2)
+      patch_ver=$(echo $version_number | cut -d. -f3)
+      using_mpi=UNKNOWN
+      if [[ "$major_ver" -le "2" ]]; then
+          if [[ "$minor_ver" -le "5" ]]; then
+              if [[ "$patch_ver" -lt "3" ]]; then
+                  [[ ! -z $mpi ]] || (echo nemsio $version_number requires MPI. SKIPPING!; exit 0)
+                  module load hpc-$HPC_MPI
+                  using_mpi=YES
+                  w3dep="w3nco"
+              fi
+          fi
+      fi
+      if [[ $using_mpi = "UNKNOWN" ]]; then
+        w3dep="w3emc"
+        using_mpi=NO
+        if [[ ! -z $mpi ]]; then
+          module load hpc-$HPC_MPI
+          using_mpi=YES
+        fi
+      fi
       ;;
     w3emc)
       version_number=$(echo $version | cut -c 2-)
@@ -85,7 +110,7 @@ if $MODULES; then
       ;;
     nemsio)
       module load bacio
-      module load w3nco
+      module load ${w3dep}
       ;;
     nemsiogfs)
       module load nemsio
@@ -162,7 +187,7 @@ else
   eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
   case $name in
     # The following require MPI
-    nemsio | nemsiogfs | ncio | nceppost | upp | w3emc)
+    nemsio | nemsiogfs | ncio | nceppost | upp)
       using_mpi=YES
       ;;
     # The following can use MPI (if available)
@@ -210,6 +235,13 @@ case $name in
   bufr)
     if [[ ${using_python:-} =~ [yYtT] ]]; then
       extraCMakeFlags="-DENABLE_PYTHON=ON"
+    fi
+    ;;
+  nemsio)
+    if [[ ${using_mpi:-} =~ [yYtT] ]]; then
+      extraCMakeFlags="-DENABLE_MPI=ON"
+    else
+      extraCMakeFlags="-DENABLE_MPI=OFF"
     fi
     ;;
 esac
