@@ -1,6 +1,6 @@
 cmake:
   build: YES
-  bootstrap: NO
+  bootstrap: YES
   version: 3.20.1
 
 jpeg:
@@ -73,7 +73,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_1
+  version: 8_2_0_beta_snapshot_14
   shared: NO
   enable_pnetcdf: NO
   debug: NO

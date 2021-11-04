@@ -38,7 +38,7 @@ export FC=$SERIAL_FC
 if [[ ${STACK_cmake_bootstrap:-} =~ [nNfF] ]]; then
     cmake . -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF
 else
-    $SUDO ./bootstrap --prefix=$prefix -- -DCMAKE_BUILD_TYPE:STRING=Release 
+    $SUDO ./bootstrap --prefix=$prefix -- -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_USE_OPENSSL=OFF
 fi
 
 $SUDO make -j${NTHREADS:-4}
