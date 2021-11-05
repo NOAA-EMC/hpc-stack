@@ -1,44 +1,44 @@
 bufr:
-  build: YES
+  build: NO
   version: bufr_v11.5.0
   install_as: 11.5.0
   python: NO
   is_nceplib: YES
 
 zlib:
-  build: YES
+  build: NO
   shared: NO
   version: 1.2.11
 
 png:
-  build: YES
+  build: NO
   shared: NO
   version: 1.6.35
 
 g2c:
-  build: YES
+  build: NO
   version: v1.6.4
   install_as: 1.6.4
   is_nceplib: YES
 
 gsl:
-  build: YES
+  build: NO
   version: 2.6
 
 jasper:
-  build: YES
+  build: NO
   shared: NO
   version: 2.0.25
 
 hdf5:
-  build: YES
+  build: NO
   version: 1.10.6
   shared: NO
   enable_szip: NO
   enable_zlib: YES
 
 netcdf:
-  build: YES
+  build: NO
   shared: NO
   enable_pnetcdf: NO
   version_c: 4.7.4

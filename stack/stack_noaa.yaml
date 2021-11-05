@@ -359,14 +359,20 @@ ufswm:
   is_pyvenv: YES
 
 gsl:
-  build: YES
+  build: NO
   version: 2.6
+
+metplus_pyenv:
+  build: NO
+  version 1.0.0
+  is_pyvent: YES
 
 met:
   build: YES
   version: 9.1.1
+  enable_pytho: NO
   release_date: 20201118
 
 metplus:
-  build: YES
+  build: NO
   version: 3.1.1
