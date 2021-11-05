@@ -36,18 +36,28 @@ software=$name-$version
 pkg_version=$version
 [[ -n ${pyversion:-} ]] && pkg_version=$pyversion_$version
 installer="Miniconda3-${pkg_version}-${os}-x86_64.sh"
-URL="https://repo.anaconda.com/miniconda/$installer"
 
-[[ -d $software ]] || ( mkdir -p $software; $WGET $URL -O $software/$installer )
+URL_ROOT=${STACK_miniconda3_URL:-"https://repo.anaconda.com"}
+URL="$URL_ROOT/miniconda"
+
+[[ -f $installer ]] || $WGET $URL/$installer
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
-$SUDO bash $software/$installer -b -p $prefix -s
+$SUDO bash $installer -b -p $prefix -s
+
+# This is a multiuser installation of Miniconda
+#https://docs.conda.io/projects/conda/en/latest/user-guide/configuration/admin-multi-user-install.html
+export CONDA_ROOT=$prefix
+export CONDARC=$CONDA_ROOT/.condarc
+export CONDA_ENVS_PATH=$CONDA_ROOT/envs
+export CONDA_PKGS_DIR=$CONDA_ROOT/pkgs
+
 set +x
 echo "sourcing conda.sh"
 PS1=
 source $prefix/etc/profile.d/conda.sh
-echo "setting conda default threads to 4"
-conda config --system --set default_threads 4
+#echo "setting conda default threads to 4"
+#conda config --system --set default_threads 4
 echo "disabling conda auto updates"
 conda config --system --set auto_update_conda False
 echo "install $version of conda"

@@ -144,8 +144,8 @@ landsfcutil:
 
 nemsio:
   build: YES
-  version: v2.5.2
-  install_as: 2.5.2
+  version: v2.5.4
+  install_as: 2.5.4
   is_nceplib: YES
 
 nemsiogfs:
@@ -156,14 +156,14 @@ nemsiogfs:
 
 w3emc:
   build: YES
-  version: v2.7.3
-  install_as: 2.7.3
+  version: v2.9.2
+  install_as: 2.9.2
   is_nceplib: YES
 
 g2:
   build: YES
-  version: v3.4.2
-  install_as: 3.4.2
+  version: v3.4.4
+  install_as: 3.4.4
   is_nceplib: YES
 
 g2c:
@@ -183,6 +183,7 @@ crtm:
   version: v2.3.0
   install_as: 2.3.0
   is_nceplib: YES
+  install_fix: YES
 
 upp:
   build: YES
@@ -293,7 +294,16 @@ atlas:
   version: 0.24.1
   repo: ecmwf
 
+miniconda3:
+  build: YES
+  version: 4.6.14
+
 r2d2:
+  build: YES
+  version: 1.0.0
+  is_pyvenv: YES
+
+hofxdiag:
   build: YES
   version: 1.0.0
   is_pyvenv: YES

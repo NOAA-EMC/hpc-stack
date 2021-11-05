@@ -1,7 +1,7 @@
 help([[
 ]])
 
-local pkgName    = myModuleName()
+local pkgName = myModuleName()
 local pkgVersion = myModuleVersion()
 local pkgNameVer = myModuleFullName()
 
@@ -13,15 +13,21 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
-prereq_any("esmf/@MAPL_ESMF_VERSION@", "esmf/@MAPL_ESMF_VERSION@-debug")
+load("netcdf")
+prereq("netcdf")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
 
-setenv("MAPL_ROOT", base)
+prepend_path("PATH", pathJoin(base,"bin"))
+setenv("wgrib2_ROOT", base)
+setenv("wgrib2_VERSION", pkgVersion)
+setenv("WGRIB2_INC", pathJoin(base,"include"))
+setenv("WGRIB_LIB", pathJoin(base,"lib/libwgrib2.a"))
+setenv("WGRIB2_LIBAPI", pathJoin(base,"lib/libwgrib2_api.a"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: library")
-whatis("Description: MAPL is a foundation layer of the GEOS architecture")
+whatis("Description: " .. pkgName .. " library")

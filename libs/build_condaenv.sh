@@ -36,12 +36,17 @@ if $MODULES; then
 else
   nameUpper=$(echo $name | tr [a-z] [A-Z])
   eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
+  export CONDA_ROOT=$prefix
+  export CONDARC=$CONDA_ROOT/.condarc
+  export CONDA_ENVS_PATH=$CONDA_ROOT/envs
+  export CONDA_PKGS_DIRS=$CONDA_ROOT/pkgs
 fi
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software=${name}-${version}
-mkdir -p $software
+# Disable error trapping of unbound variables
+# Conda is full of them, and we cannot debug conda
+set +u
 
 # Activate conda's base environment to get a few details such as python_version
 set +x
@@ -63,21 +68,20 @@ fi
 set +x
 echo "executing ... conda deactivate"
 conda deactivate
-set -x
 
 # Create the conda environment
-set +x
-echo "executing ... conda env create -q --file $rqmts_file"
-conda env create -q --file $rqmts_file
-set -x
+echo "executing ... conda env create --file $rqmts_file"
+conda env create --file $rqmts_file
 
 # Activate conda environment and get list
-set +x
 echo "executing ... conda activate $name"
 conda activate $name
 echo "executing ... conda env list"
 conda env list
 set -x
+
+# Enable error trapping again
+set -u
 
 # generate modulefile from template
 $MODULES && update_modules python $name $version $python_version

@@ -11,15 +11,18 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
+load("bacio", "w3emc")
+prereq("bacio", "w3emc")
+
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
-setenv("crtm_ROOT", base)
-setenv("crtm_VERSION", pkgVersion)
-setenv("CRTM_INC", pathJoin(base,"include"))
-setenv("CRTM_LIB", pathJoin(base,"lib/libcrtm.a"))
-setenv("CRTM_FIX", pathJoin(base,"fix"))
+setenv("nemsio_ROOT", base)
+setenv("nemsio_VERSION", pkgVersion)
+setenv("NEMSIO_INC", pathJoin(base,"include"))
+setenv("NEMSIO_LIB", pathJoin(base,"lib/libnemsio.a"))
+prepend_path("PATH", pathJoin(base,"bin"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
