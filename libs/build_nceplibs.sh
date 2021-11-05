@@ -234,7 +234,12 @@ case $name in
     ;;
   bufr)
     if [[ ${using_python:-} =~ [yYtT] ]]; then
-      extraCMakeFlags="-DENABLE_PYTHON=ON"
+      extraCMakeFlags="-DENABLE_PYTHON=ON "
+    fi
+    if [[ $MAKE_CHECK =~ [yYtT] ]]; then
+        extraCMakeFlags+="-DBUILD_TESTS=ON"
+    else
+        extraCMakeFlags+="-DBUILD_TETS=OFF"
     fi
     ;;
   nemsio)
