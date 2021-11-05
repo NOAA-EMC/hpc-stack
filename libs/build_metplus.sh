@@ -2,21 +2,25 @@
 
 set -eux
 
-name="METplus"
+name="metplus"
 version=${1:-${STACK_metplus_version}}
+
+# Hyphenated version used for install prefix
+compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 software="v"$version
-pkg_name=$name-$version
+pkg_name=METplus-$version
 met_version=${1:-${STACK_metplus_version}}
-url="https://github.com/dtcenter/METplus/archive/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $url; tar -xf $software.tar.gz )
+URL="https://github.com/dtcenter/METplus/archive/$software.tar.gz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 
 if $MODULES; then
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
     mkdir -p $prefix
-    met_prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi"
+    met_prefix="${PREFIX:-"/opt/modules"}/$compiler/met/${met_version}"
 else
     prefix=${MET_ROOT:-"/usr/local"}
     met_prefix=$prefix
@@ -36,6 +40,5 @@ mv metplus_system_new.conf metplus_system.conf
 
 
 # generate modulefile from template
-[[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version_install
-echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules compiler $name $version
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

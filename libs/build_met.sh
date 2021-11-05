@@ -11,15 +11,17 @@ install_as=${STACK_met_install_as:-${version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
-[[ $STACK_met_enable_python =~ [yYtT] ]] && enable_python=YES || enable_python=NO
+[[ ${STACK_met_enable_python:-} =~ [yYtT] ]] && enable_python=YES || enable_python=NO
 
 if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
-    [[ $enable_python =~ [yYtT] ]] && module load hpc-$HPC_PYTHON
-    module load metplus_pyenv
+    if [[ $enable_python =~ [yYtT] ]]; then
+	module load miniconda3
+	module load metplus_pyenv
+    fi
     module load bufr
     module load zlib
     module load jasper
@@ -85,13 +87,13 @@ if [[ $enable_python =~ [yYtT] ]]; then
     if [[ -z ${MET_PYTHON_CC+x} ]]; then
         #export MET_PYTHON_CC=`$MET_PYTHON_CONFIG --cflags`
         echo "Set MET_PYTHON_CC to include 'Python.h' usually through 'python3-config --cflfags'"
-        exit
+        exit 1
     fi
 
     if [[ -z ${MET_PYTHON_LD+x} ]]; then
         #export MET_PYTHON_LD=`$MET_PYTHON_CONFIG --ldflags`
         echo "Set MET_PYTHON_LD to to link to libpython through 'python3-config --ldflags"
-        exit
+        exit 1
     fi
 fi
 
