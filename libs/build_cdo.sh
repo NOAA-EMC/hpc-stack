@@ -9,6 +9,31 @@ version=${1:-${STACK_cdo_version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
+case $version in
+  1.9.9 )
+    URL="https://code.mpimet.mpg.de/attachments/download/23323/cdo-1.9.9.tar.gz"
+  ;;
+  1.9.8 )
+    URL="https://code.mpimet.mpg.de/attachments/download/20826/cdo-1.9.8.tar.gz"
+  ;;
+  1.9.7.1 )
+    URL="https://code.mpimet.mpg.de/attachments/download/20124/cdo-1.9.7.1.tar.gz"
+  ;;
+  1.9.6 )
+    URL="https://code.mpimet.mpg.de/attachments/download/19299/cdo-1.9.6.tar.gz"
+  ;;
+  * )
+    echo "Try using CDO version 1.9.6 and above, ABORT!"
+    exit 1
+  ;;
+esac
+
+software=$name-$version
+[[ -d $software ]] || ( $WGET $URL; tar -xzf $software.tar.gz && rm -f $software.tar.gz )
+[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -53,30 +78,6 @@ export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_cdo_CXXFLAGS:-} -fPIC"
 export F77=$FC
 export FCFLAGS=$FFLAGS
 
-cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-
-case $version in
-  1.9.9 )
-    URL="https://code.mpimet.mpg.de/attachments/download/23323/cdo-1.9.9.tar.gz"
-  ;;
-  1.9.8 )
-    URL="https://code.mpimet.mpg.de/attachments/download/20826/cdo-1.9.8.tar.gz"
-  ;;
-  1.9.7.1 )
-    URL="https://code.mpimet.mpg.de/attachments/download/20124/cdo-1.9.7.1.tar.gz"
-  ;;
-  1.9.6 )
-    URL="https://code.mpimet.mpg.de/attachments/download/19299/cdo-1.9.6.tar.gz"
-  ;;
-  * )
-    echo "Try using CDO version 1.9.6 and above, ABORT!"
-    exit 1
-  ;;
-esac
-
-software=$name-$version
-[[ -d $software ]] || ( $WGET $URL; tar -xzf $software.tar.gz && rm -f $software.tar.gz )
-[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build

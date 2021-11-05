@@ -1,0 +1,25 @@
+name: Test DOWNLOAD_ONLY
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    env:
+      VERBOSE: 1
+    runs-on: ubuntu-20.04
+
+    steps:
+
+    - name: Get sources
+      uses: actions/checkout@v2
+      with:
+        path: hpc-stack
+
+    - name: Test DOWNLOAD_ONLY
+      run: |
+        cd hpc-stack
+        sed -i "s/DOWNLOAD_ONLY=N/DOWNLOAD_ONLY=Y/" ./config/config_custom.sh
+        prefix=$GITHUB_WORKSPACE/install
+        sed -i "s/install_fix: YES/install_fix: NO/" stack/stack_noaa.yaml
+        ./build_stack.sh -p $prefix -c config/config_custom.sh -y stack/stack_noaa.yaml
