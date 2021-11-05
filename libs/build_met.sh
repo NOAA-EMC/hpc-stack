@@ -9,7 +9,6 @@ install_as=${STACK_met_install_as:-${version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 [[ ${STACK_met_enable_python:-} =~ [yYtT] ]] && enable_python=YES || enable_python=NO
 
@@ -17,7 +16,6 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    [[ -z $mpi ]] || module load hpc-$HPC_MPI
     if [[ $enable_python =~ [yYtT] ]]; then
 	module load miniconda3
 	module load metplus_pyenv
@@ -45,15 +43,9 @@ fi
 
 export MET_BASE=$prefix/share/met
 
-if [[ ! -z $mpi ]]; then
-    export FC=$MPI_FC
-    export CC=$MPI_CC
-    export CXX=$MPI_CXX
-else
-    export FC=$SERIAL_FC
-    export CC=$SERIAL_CC
-    export CXX=$SERIAL_CXX
-fi
+export FC=$SERIAL_FC
+export CC=$SERIAL_CC
+export CXX=$SERIAL_CXX
 
 export F77=$FC
 export FFLAGS="${STACK_FFLAGS:-} ${STACK_met_FFLAGS:-}"
@@ -79,20 +71,18 @@ export LIB_JASPER=$jasper_libdir
 export LIB_LIBPNG=${PNG_ROOT}/lib
 export LIB_Z=${ZLIB_ROOT}/lib
 
-
-
 if [[ $enable_python =~ [yYtT] ]]; then
     export MET_PYTHON=${MET_PYTHON:-`which python3`}
 
     if [[ -z ${MET_PYTHON_CC+x} ]]; then
         #export MET_PYTHON_CC=`$MET_PYTHON_CONFIG --cflags`
-        echo "Set MET_PYTHON_CC to include 'Python.h' usually through 'python3-config --cflfags'"
+        echo "Set MET_PYTHON_CC to include 'Python.h' usually found through 'python3-config --cflfags'"
         exit 1
     fi
 
     if [[ -z ${MET_PYTHON_LD+x} ]]; then
         #export MET_PYTHON_LD=`$MET_PYTHON_CONFIG --ldflags`
-        echo "Set MET_PYTHON_LD to to link to libpython through 'python3-config --ldflags"
+        echo "Set MET_PYTHON_LD to to link to libpython found through 'python3-config --ldflags"
         exit 1
     fi
 fi
@@ -115,7 +105,6 @@ URL="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.g
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}
 curr_dir=$(pwd)
 
-
 extra_flags="--enable-grib2 "
 [[ $enable_python =~ [yYtT] ]] && extra_flags+="--enable-python "
 ./configure --prefix=$prefix BUFRLIB_NAME=${BUFRLIB_NAME} GRIB2CLIB_NAME=${GRIB2CLIB_NAME} ${extra_flags:-}
@@ -125,6 +114,5 @@ make
 $SUDO make install
 
 # generate modulefile from template
-[[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $install_as
+$MODULES && update_modules compiler $name $install_as
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
