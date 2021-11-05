@@ -12,12 +12,15 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 [[ ${STACK_pio_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_pio_enable_gptl:-} =~ [yYtT] ]] && enable_gptl=YES || enable_gptl=NO
 
+export LIBRARY_PATH=/opt/new-modules/gnu-9.3.0/zlib/1.2.11/lib:$LIBRARY_PATH
+export LD_LIBRARY_PATH=/opt/new-modules/gnu-9.3.0/zlib/1.2.11/lib:$LD_LIBRARY_PATH
 if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     module load hpc-$HPC_MPI
     module try-load cmake
+    module load zlib
     module load szip
     module load hdf5
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
@@ -68,7 +71,6 @@ CMAKE_FLAGS="-DUSER_CMAKE_MODULE_PATH=`pwd`/CMake_Fortran_utils -DGENF90_PATH=`p
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-
 [[ $enable_pnetcdf =~ [yYtT] ]] && CMAKE_FLAGS+=" -DWITH_PNETCDF=ON -DPnetCDF_PATH=$PNETCDF" \
                                 || CMAKE_FLAGS+=" -DWITH_PNETCDF=OFF"
 [[ $enable_gptl =~ [yYtT] ]] && CMAKE_FLAGS+=" -DPIO_ENABLE_TIMING=ON" \
@@ -79,9 +81,14 @@ cmake ..\
   -DCMAKE_INSTALL_PREFIX=$prefix \
   -DNetCDF_PATH=${NETCDF_ROOT:-} \
   -DHDF5_PATH=${HDF5_ROOT:-} \
+  -DPIO_ENABLE_EXAMPLES=OFF \
   -DCMAKE_VERBOSE_MAKEFILE=1 \
   $CMAKE_FLAGS
 
+# -DCMAKE_STATIC_LINKER_FLAGS=${ZLIB_ROOT}/lib/libz.a \
+# -DCMAKE_MODULE_LINKER_FLAGS=${ZLIB_ROOT}/lib/libz.a \
+# -DCMAKE_EXE_LINKER_FLAGS=${ZLIB_ROOT}/lib/libz.a \
+# -DCMAKE_SHARED_LINKER_FLAGS=${ZLIB_ROOT}/lib/libz.a \
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make test

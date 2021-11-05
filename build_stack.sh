@@ -176,6 +176,7 @@ if ! $MODULES; then
   build_lib nccmp
   build_lib nco
   build_lib cdo
+  echo "here"
 fi
 build_lib pio
 

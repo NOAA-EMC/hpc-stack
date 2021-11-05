@@ -100,6 +100,7 @@ if $MODULES; then
     g2)
       module try-load jpeg
       module try-load png
+      module try-load zlib
       module try-load jasper
       ;;
     g2c)
@@ -124,6 +125,7 @@ if $MODULES; then
       fi
       ;;
     nceppost | upp)
+      module try-load zlib
       module try-load png
       module try-load jasper
       module load netcdf
@@ -143,6 +145,7 @@ if $MODULES; then
       # module load nemsio
       ;;
     grib_util)
+      module try-load zlib
       module try-load jpeg
       module try-load jasper
       module try-load zlib
@@ -263,11 +266,11 @@ if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
     if [[ ! -d crtm_fix-$version ]]; then
       crtm_tarball=fix_REL-${install_as}_emc.tgz
-      rm -f $crtm_tarball
-      $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
-      tar xzf $crtm_tarball
-      mv fix crtm_fix-$version
-      rm -f $crtm_tarball
+#     rm -f $crtm_tarball
+#     $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
+#     tar xzf $crtm_tarball
+#     mv fix crtm_fix-$version
+#     rm -f $crtm_tarball
     fi
     if [[ ! -f link_crtm_coeffs.sh ]]; then
       $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
