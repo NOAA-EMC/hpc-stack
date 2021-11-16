@@ -11,6 +11,13 @@ install_as=${STACK_madis_install_as:-${version}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
+software=$name-$version
+URL="https://madis-data.ncep.noaa.gov/source/$software.tar.gz"
+[[ -f $software.tar.gz ]] || ( $WGET $URL )
+[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -70,12 +77,6 @@ export LDFLAGS="${PNETCDF_LDFLAGS:-} ${NETCDF_LDFLAGS:-} ${HDF5_LDFLAGS} ${AM_LD
 export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS} ${HDF5_LIBS} ${EXTRA_LIBS:-}"
 export CPPFLAGS="-I${NETCDF_ROOT}/include"
 
-cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-
-software=$name-$version
-URL="https://madis-data.ncep.noaa.gov/source/$software.tar.gz"
-[[ -f $software.tar.gz ]] || ( $WGET $URL )
-[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 rm -rf $software && mkdir -p $software && cd $software
 tar -xf ../$software.tar.gz
 
