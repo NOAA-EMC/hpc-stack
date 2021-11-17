@@ -16,7 +16,7 @@ if $MODULES; then
   prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 0 )
   fi
 else
   prefix=${EIGEN_ROOT:-"/usr/local"}

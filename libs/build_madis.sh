@@ -33,7 +33,7 @@ if $MODULES; then
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 0 )
   fi
 else
   prefix=${MADIS_ROOT:-"/usr/local"}

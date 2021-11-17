@@ -16,7 +16,7 @@ if $MODULES; then
   prefix="${PREFIX:-"/opt/modules"}/core/$name/$id"
   if [[ -d $prefix ]]; then
     [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 0 )
   fi
 else
   prefix=${CMAKEMODULES_ROOT:-"/usr/local"}
