@@ -64,4 +64,5 @@ done
 cd $installprefix
 find modulefiles/ \( -path '*hpc-cray-mpich*' -o -path '*hpc-intel*' \) -type f | xargs rm -f
 find modulefiles/ \( -path '*hpc-cray-mpich*' -o -path '*hpc-intel*' \) -type d | xargs rm -rf
+rm -rf modulefiles/core/hpc-python
 rm -rf modulefiles/stack/hpc
