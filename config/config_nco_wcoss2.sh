@@ -60,9 +60,7 @@ export MPI_FC=$SERIAL_FC
 export MPI_CXX=$SERIAL_CXX
 
 module load hdf5/1.10.6
-export HDF5_ROOT=$HDF5_DIR
 module load netcdf/4.7.4
-export NETCDF_ROOT=$NETCDF_DIR
 module load jasper/2.0.25
 module load libjpeg/9c
 module load libpng/1.6.37

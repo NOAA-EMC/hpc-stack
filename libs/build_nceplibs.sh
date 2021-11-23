@@ -113,11 +113,13 @@ if $MODULES; then
       module load ${w3dep}
       ;;
     nemsiogfs)
+      module load w3nco
       module load nemsio
       ;;
     w3emc)
       module load bacio
       if [[ "$using_mpi" =~ [yYtT] ]]; then
+	  module load w3nco
           module load netcdf
           module load sigio
           module load nemsio
