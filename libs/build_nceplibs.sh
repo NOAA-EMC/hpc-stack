@@ -43,7 +43,7 @@ if $MODULES; then
       if [[ "$major_ver" -le "2" ]]; then
           if [[ "$minor_ver" -le "5" ]]; then
               if [[ "$patch_ver" -lt "3" ]]; then
-                  [[ ! -z $mpi ]] || (echo nemsio $version_number requires MPI. SKIPPING!; exit 0)
+                  [[ ! -z $mpi ]] || echo nemsio $version_number requires MPI. SKIPPING!; exit 0
                   module load hpc-$HPC_MPI
                   using_mpi=YES
                   w3dep="w3nco"
@@ -114,6 +114,7 @@ if $MODULES; then
       ;;
     nemsiogfs)
       module load nemsio
+      module load w3nco
       ;;
     w3emc)
       module load bacio
