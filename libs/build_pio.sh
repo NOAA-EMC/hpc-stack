@@ -18,7 +18,7 @@ if $MODULES; then
     module load hpc-$HPC_COMPILER
     module load hpc-$HPC_MPI
     module try-load cmake
-    module load szip
+    module try-load szip
     module load hdf5
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
     module load netcdf
