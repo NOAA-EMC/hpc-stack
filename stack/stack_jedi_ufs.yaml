@@ -343,6 +343,10 @@ hofx:
   version: 1.0.0
   is_pyvenv: YES
 
+lapack:
+  build: YES
+  version: 3.10.0
+
 ufswm:
   build: NO
   version: 1.0.0
