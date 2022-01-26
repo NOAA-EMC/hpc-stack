@@ -73,13 +73,13 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_1
+  version: 8_2_0
   shared: NO
   enable_pnetcdf: NO
   debug: NO
 
 fms:
-  build: YES
+  build: NO
   version: dev/jcsda
   repo: jcsda
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
