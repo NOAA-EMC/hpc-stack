@@ -73,7 +73,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_2_0_beta_snapshot_14
+  version: 8_2_0
   shared: NO
   enable_pnetcdf: NO
   debug: NO
