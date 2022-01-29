@@ -43,7 +43,7 @@ URL="$URL_ROOT/miniconda"
 [[ -f $installer ]] || $WGET $URL/$installer
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
-$SUDO bash $installer -b -p $prefix -s
+$SUDO bash $installer -b -p $prefix -s -u
 
 # This is a multiuser installation of Miniconda
 #https://docs.conda.io/projects/conda/en/latest/user-guide/configuration/admin-multi-user-install.html

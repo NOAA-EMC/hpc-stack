@@ -60,9 +60,9 @@ else
 fi
 
 export F9X=$FC
-export FFLAGS="${STACK_FFLAGS:-} ${STACK_esmf_FFLAGS:-} -fPIC -lmpi -lmpi_cxx"
-export CFLAGS="${STACK_CFLAGS:-} ${STACK_esmf_CFLAGS:-} -fPIC -lmpi -lmpi_cxx"
-export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_esmf_CXXFLAGS:-} -fPIC -lmpi -lmpi_cxx"
+export FFLAGS="${STACK_FFLAGS:-} ${STACK_esmf_FFLAGS:-} -fPIC -lmpi -lmpicxx"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_esmf_CFLAGS:-} -fPIC -lmpi -lmpicxx"
+export CXXFLAGS="${STACK_CXXFLAGS:-} ${STACK_esmf_CXXFLAGS:-} -fPIC -lmpi -lmpicxx"
 export FCFLAGS="$FFLAGS"
 
 URL="https://github.com/esmf-org/esmf"
@@ -143,7 +143,7 @@ export ESMF_F90LINKPATHS="-L$HDF5_ROOT/lib $HDF5LDFLAGS"
 export ESMF_NETCDF=split
 export ESMF_NETCDF_INCLUDE=$NETCDF_ROOT/include
 export ESMF_NETCDF_LIBPATH=$NETCDF_ROOT/lib
-export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs -lmpi -lmpi_cxx"
+export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs -lmpi -lmpicxx"
 export ESMF_NFCONFIG=nf-config
 [[ $enable_pnetcdf =~ [yYtT] ]] && export ESMF_PNETCDF=pnetcdf-config
 # Configure optimization level

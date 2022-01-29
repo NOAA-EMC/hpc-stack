@@ -187,8 +187,8 @@ build_lib sigio
 build_lib sfcio
 build_lib gfsio
 build_lib w3nco
-build_lib nemsio
 build_lib w3emc
+build_lib nemsio
 build_lib sp
 build_lib ip
 build_lib ip2
@@ -213,7 +213,7 @@ if $MODULES; then
   _HPC_MPI=$HPC_MPI
   export HPC_MPI=""
 
-  build_lib nemsio
+#  build_lib nemsio
 
   # Restore $HPC_MPI variable
   export HPC_MPI=$_HPC_MPI
@@ -244,7 +244,7 @@ build_lib json_schema_validator
 build_lib pybind11
 
 # JEDI dependencies
-
+#
 build_lib ecbuild
 build_lib eckit
 build_lib fckit
