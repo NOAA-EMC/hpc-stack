@@ -8,6 +8,9 @@
 
 set -eu
 
+source /usr/share/lmod/lmod/init/sh
+module use /opt/hpc-modules/modulefiles/stack
+
 # root directory for the repository
 export HPC_STACK_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
