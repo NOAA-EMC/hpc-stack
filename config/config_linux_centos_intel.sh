@@ -36,8 +36,8 @@ export SERIAL_CC=icc
 export SERIAL_FC=ifort
 export SERIAL_CXX=icpc
 
-export MPI_CC=mpiicc     
-export MPI_FC=mpiifort   
-export MPI_CXX=mpiicpc    
+export MPI_CC=mpiicc
+export MPI_FC=mpiifort
+export MPI_CXX=mpiicpc
 
 #
