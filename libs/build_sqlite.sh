@@ -36,7 +36,7 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software="sqlite-autoconf-${version:0:1}${version:2:2}0${version:5:1}00"
 URL="https://www.sqlite.org/2020/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
+[[ -d $software ]] || ( $WGET --no-check-certificate $URL; tar -xf $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 

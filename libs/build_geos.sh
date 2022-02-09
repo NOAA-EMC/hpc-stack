@@ -40,7 +40,7 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 software=$name-$version
 URL="https://download.osgeo.org/geos/$software.tar.bz2"
 
-[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.bz2 )
+[[ -d $software ]] || ( $WGET --no-check-certificate $URL; tar -xf $software.tar.bz2 )
 [[ ${DOWNLOAD_ONLY:-} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 

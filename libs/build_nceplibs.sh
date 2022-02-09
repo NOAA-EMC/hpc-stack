@@ -232,7 +232,7 @@ case $name in
     extraCMakeFlags="-DBUILD_POSTEXEC=OFF"
     ;;
   crtm)
-    URL="https://github.com/NOAA-EMC/crtm.git"
+    URL="https://github.com/noaa-emc/emc_crtm"
     ;;
   wgrib2)
     extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
@@ -262,9 +262,7 @@ software=$name-$version
 if [[ ! -d $software ]]; then
   git clone $URL $software
   cd $software
-  if [[ "$name" == "crtm" ]]; then
-    version=release/REL-${install_as}_emc
-  fi
+
   git checkout $version
   git submodule update --init --recursive
 fi
@@ -274,21 +272,19 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 # Download CRTM fix files
 if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
-    if [[ ! -d crtm_fix-${install_as} ]]; then
+    if [[ ! -d crtm_fix-$version ]]; then
       crtm_tarball=fix_REL-${install_as}_emc.tgz
       rm -f $crtm_tarball
       $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
       tar xzf $crtm_tarball
-      mv fix crtm_fix-${install_as}
+      mv fix crtm_fix-$version
       rm -f $crtm_tarball
     fi
-    if [[ "${install_as}" == "2.3.0" ]]; then
-     if [[ ! -f link_crtm_coeffs.sh ]]; then
-       $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
-       sed -i'.backup' -e 's/LINK="ln -sf"/LINK="cp"/g' link_crtm_coeffs.sh
-       chmod +x link_crtm_coeffs.sh
-       rm -f link_crtm_coeffs.sh.backup
-     fi
+    if [[ ! -f link_crtm_coeffs.sh ]]; then
+      $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
+      sed -i'.backup' -e 's/LINK="ln -sf"/LINK="cp"/g' link_crtm_coeffs.sh
+      chmod +x link_crtm_coeffs.sh
+      rm -f link_crtm_coeffs.sh.backup
     fi
   fi
 fi
@@ -314,22 +310,8 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 # Install CRTM fix files
 if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
-    if [[ -d crtm_fix-${install_as} ]]; then
-     if [[ "${install_as}" == "2.3.0" ]]; then
+    if [[ -d crtm_fix-$version ]]; then
        ./link_crtm_coeffs.sh ./crtm_fix-$version $prefix/fix
-     else
-       mkdir -p $prefix/fix
-       cp ./crtm_fix-${install_as}/ACCoeff/netcdf/* $prefix/fix
-       cp ./crtm_fix-${install_as}/AerosolCoeff/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/AerosolCoeff/netCDF/* $prefix/fix
-       cp ./crtm_fix-${install_as}/CloudCoeff/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/CloudCoeff/netCDF/* $prefix/fix
-       cp ./crtm_fix-${install_as}/EmisCoeff/*/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/EmisCoeff/*/*/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/SpcCoeff/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/SpcCoeff/netcdf/* $prefix/fix
-       cp ./crtm_fix-${install_as}/TauCoeff/ODPS/Big_Endian/* $prefix/fix
-     fi
     fi
   fi
 fi
