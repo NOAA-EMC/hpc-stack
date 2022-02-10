@@ -13,7 +13,7 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
 URL="https://madis-data.ncep.noaa.gov/source/$software.tar.gz"
-[[ -f $software.tar.gz ]] || ( $WGET $URL )
+[[ -f $software.tar.gz ]] || ( $WGET --no-check-certificate $URL )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 if $MODULES; then
