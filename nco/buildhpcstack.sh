@@ -4,7 +4,7 @@
 #  -envir (prod/para/test)
 #  -compiler ("all" uses all available compilers, listed below)
 #  -package ("all" compiles all)
-set -eux
+set -eu
 
 hpcstackdir=$(cd ../ && pwd)
 cd $hpcstackdir
@@ -59,6 +59,8 @@ for configfile in config_nco_wcoss2.sh ; do
   if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2tmpl_v1_9_1.yaml -m ; fi
   if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_w3emc_v2_9_1.yaml -m ; fi
   if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_w3emc_v2_9_2.yaml -m ; fi
+
+  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_metplus.yaml -m; fi
 done
 
 cd $installprefix

@@ -139,6 +139,7 @@ build_lib zlib
 build_lib png
 build_lib szip
 build_lib jasper
+build_lib gsl
 build_lib sqlite
 build_lib proj
 build_lib geos
@@ -228,6 +229,7 @@ fi
 
 build_lib miniconda3
 build_lib r2d2
+build_lib metplus_pyenv
 
 # JEDI 3rd party dependencies
 
@@ -248,6 +250,11 @@ build_lib ecbuild
 build_lib eckit
 build_lib fckit
 build_lib atlas
+
+# MET and METplus
+
+build_lib met
+build_lib metplus
 
 # UFS 3rd party dependencies
 

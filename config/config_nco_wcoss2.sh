@@ -65,3 +65,5 @@ module load jasper/2.0.25
 module load libjpeg/9c
 module load libpng/1.6.37
 
+export MET_PYTHON_CC="-I/apps/spack/python/3.8.6/intel/19.1.3.304/pjn2nzkjvqgmjw4hmyz43v5x4jbxjzpk/include/python3.8"
+export MET_PYTHON_LD="-L/apps/spack/python/3.8.6/intel/19.1.3.304/pjn2nzkjvqgmjw4hmyz43v5x4jbxjzpk/lib -lpython3.8"

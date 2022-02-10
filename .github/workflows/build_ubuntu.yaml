@@ -70,6 +70,11 @@ jobs:
         export HPC_MPI="${{ matrix.mpi }}/${mpi_ver}"
         export HPC_PYTHON="python/${python_ver}"
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y stack/stack_custom.yaml
+        
+    - name: debug
+      if: ${{ always() }}
+      run: |
+        cat ${{ matrix.mpi }}/pkg/met-9.1.1/config.log
 
     - name: Upload logs
       if: ${{ always() }}

@@ -1,0 +1,13 @@
+gsl:
+  build: YES
+  version: 2.6
+
+met:
+  build: YES
+  release_date: 20201118
+  enable_python: YES
+  version: 9.1.1
+
+metplus:
+  build: YES
+  version: 3.1.1
