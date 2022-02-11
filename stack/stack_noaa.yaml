@@ -179,8 +179,8 @@ g2tmpl:
 
 crtm:
   build: YES
-  version: v2.3.0
-  install_as: 2.3.0
+  version: v2.4.0
+  install_as: 2.4.0
   is_nceplib: YES
   install_fix: YES
 
