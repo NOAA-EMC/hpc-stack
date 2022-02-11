@@ -125,7 +125,7 @@ To determine whether these prerequisites are installed, query the environment va
       which cmake 
       cmake  --version 
 
-If compilers or MPI's need to be installed, consult the :doc:`HPC-Stack Prerequisites <hpc-prereqs.rst>` document for further guidance. 
+If compilers or MPI's need to be installed, consult the :ref:`HPC-Stack Prerequisites <Prerequisites>` document for further guidance. 
 
 .. _NonConConfigure:
 
@@ -140,11 +140,11 @@ Some of the parameter settings available are:
 * HPC_MPI: This is the MPI library you wish to use. The format is the same as for HPC_COMPILER. For example: ``HPC_MPI=impi/2020``.
 * HPC_PYTHON: This is the Python interpreter to use for the build. The format is the same as for HPC_COMPILER, for example: ``HPC_PYTHON=python/3.7.5``. Use ``python --version`` to determine the current version of Python. 
 
-Other variables include USE_SUDO, DOWNLOAD_ONLY, NOTE, PKGDIR, LOGDIR, OVERWRITE, NTHREADS, MAKE_CHECK, MAKE_VERBOSE, and VENVTYPE. For more information on their use, see :doc:`HPC-Stack Parameters <hpc-parameters.rst>`. 
+Other variables include USE_SUDO, DOWNLOAD_ONLY, NOTE, PKGDIR, LOGDIR, OVERWRITE, NTHREADS, MAKE_CHECK, MAKE_VERBOSE, and VENVTYPE. For more information on their use, see :ref:`HPC-Stack Parameters <HPCParameters>`. 
 
 .. note:: 
 
-   If you only want to install select components of the stack, you can edit the ``stack/stack_custom.yaml`` file to omit unwanted components. The ``stack/stack_custom.yaml`` file lists the software packages to be built along with their version, options, compiler flags, and any other package-specific options. A full listing of components is available in the :doc:`HPC-Stack Components <hpc-components.rst>` section.
+   If you only want to install select components of the stack, you can edit the ``stack/stack_custom.yaml`` file to omit unwanted components. The ``stack/stack_custom.yaml`` file lists the software packages to be built along with their version, options, compiler flags, and any other package-specific options. A full listing of components is available in the :ref:`HPC-Stack Components <HPCComponents>` section.
 
 
 .. _NonConSetUp:
