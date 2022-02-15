@@ -40,7 +40,7 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-../configure --prefix=$prefix
+../configure --prefix=$prefix --disable-shared
 
 make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
