@@ -22,8 +22,13 @@ if $MODULES; then
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
     if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 0 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
     fi
 else
     prefix=${TAU_ROOT:-"/usr/local/$name/$version"}

@@ -12,8 +12,14 @@ pyversion=${3:-${STACK_miniconda3_pyversion:-}}
 if $MODULES; then
   prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 0 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 else
   prefix=${MINICONDA3_ROOT:-"/usr/local"}
