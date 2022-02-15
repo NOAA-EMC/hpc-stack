@@ -16,24 +16,27 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    if [[ $enable_python =~ [yYtT] ]]; then
-	module load miniconda3
-	module load metplus_pyenv
-    fi
+    module load hpc-$HPC_PYTHON
+    module load gsl
     module load bufr
     module load zlib
     module load jasper
-    module load png
+    module try-load png
     module load g2c
-    module load gsl
     module load hdf5
     module load netcdf
     module list
     set -x
-    prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
+
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
     if [[ -d $prefix ]]; then
-	[[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-	    || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
     fi
 else
 
@@ -57,18 +60,18 @@ export CXXFLAGS+="-D__64BIT__"
 export MET_NETCDF=${NETCDF_ROOT}
 export MET_HDF5=${HDF5_ROOT}
 
-bufr_libdir=`find ${BUFR_ROOT:-${bufr_ROOT}} -name libbufr_4.a -exec dirname {} \;`
+bufr_libdir=`find ${bufr_ROOT:-${BUFR_ROOT}} -name libbufr_4.a -exec dirname {} \;`
 export MET_BUFRLIB=$bufr_libdir
-g2c_libdir=`find ${G2C_ROOT:-${g2c_ROOT}} -name libg2c.a -exec dirname {} \;`
+g2c_libdir=`find ${g2c_ROOT:-${G2C_ROOT}} -name libg2c.a -exec dirname {} \;`
 export MET_GRIB2CLIB=$g2c_libdir
 export MET_GRIB2CINC=${G2C_ROOT:-${g2c_ROOT}}/include
-export MET_GSL=${GSL_ROOT:-${gsl_ROOT}}
+export MET_GSL=${GSL_ROOT}
 export BUFRLIB_NAME=-lbufr_4
 export GRIB2CLIB_NAME=-lg2c
 jasper_libdir=`find ${JASPER_ROOT} -name libjasper.a -exec dirname {} \;`
 export LIB_JASPER=$jasper_libdir
 
-export LIB_LIBPNG=${PNG_ROOT}/lib
+export LIB_LIBPNG=${PNG_LIBDIR}
 export LIB_Z=${ZLIB_ROOT}/lib
 
 if [[ $enable_python =~ [yYtT] ]]; then
