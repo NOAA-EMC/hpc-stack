@@ -61,11 +61,20 @@ curr_dir=$(pwd)
 
 LDFLAGS1="-L$HDF5_ROOT/lib"
 LDFLAGS2=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep AM_LDFLAGS | cut -d: -f2)
-[[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4="-L$PNETCDF_ROOT/lib"
+if [[ $enable_pnetcdf =~ [yYtT] ]]; then
+    # Serial build of NetCDF should not use pnetcdf
+    # because it requires MPI
+    if [[ -n "$mpi" ]]; then
+       LDFLAGS4="-L$PNETCDF_ROOT/lib"
+    fi
+fi
+
 if [[ ${STACK_netcdf_shared:-} != [yYtT] ]]; then
   LDFLAGS1+=" -lhdf5_hl -lhdf5"
   LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
-  [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4+=" -lpnetcdf"
+  if [ -n "$mpi" ]; then
+      [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4+=" -lpnetcdf"
+  fi
 fi
 export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
 
