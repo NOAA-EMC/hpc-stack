@@ -173,6 +173,7 @@ if $MODULES; then
       fi
       ;;
   esac
+  module try-load cmake
   module list
   set -x
 
