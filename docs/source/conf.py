@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
 project = 'HPC-Stack Users Guide'
-copyright = '2022, EPIC AUS Team'
-author = 'EPIC AUS Team'
+copyright = '2022, EMC/EPIC'
+author = 'EMC/EPIC'
 
 # The short X.Y version
 version = ''
