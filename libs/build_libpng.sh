@@ -31,7 +31,7 @@ if $MODULES; then
     fi
 
 else
-    prefix=${PNG_ROOT:-"/usr/local"}
+    prefix=${LIBPNG_ROOT:-"/usr/local"}
 fi
 
 export CC=$SERIAL_CC
