@@ -34,7 +34,7 @@ fi
 
 software=$name-$version
 pkg_version=$version
-[[ -n ${pyversion:-} ]] && pkg_version=$pyversion_$version
+[[ -n ${pyversion:-} ]] && pkg_version=${pyversion}_$version
 installer="Miniconda3-${pkg_version}-${os}-x86_64.sh"
 
 URL_ROOT=${STACK_miniconda3_URL:-"https://repo.anaconda.com"}

@@ -146,9 +146,9 @@ landsfcutil:
   is_nceplib: YES
 
 nemsio:
-  build: NO
-  version: v2.5.2
-  install_as: 2.5.2
+  build: YES
+  version: v2.5.4
+  install_as: 2.5.4
   is_nceplib: YES
 
 nemsiogfs:
@@ -158,9 +158,9 @@ nemsiogfs:
   is_nceplib: YES
 
 w3emc:
-  build: NO
-  version: v2.7.3
-  install_as: 2.7.3
+  build: YES
+  version: v2.9.2
+  install_as: 2.9.2
   is_nceplib: YES
 
 g2:
