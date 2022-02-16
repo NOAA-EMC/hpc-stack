@@ -89,7 +89,7 @@ if $MODULES; then
       module try-load jpeg
       module try-load jasper
       module try-load zlib
-      module try-load png
+      module try-load libpng
       module load netcdf
       module load sp
       module load ip2
@@ -103,13 +103,13 @@ if $MODULES; then
       ;;
     g2)
       module try-load jpeg
-      module try-load png
+      module try-load libpng
       module try-load jasper
       ;;
     g2c)
       module try-load jpeg
       module try-load zlib
-      module try-load png
+      module try-load libpng
       module try-load jasper
       ;;
     nemsio)
@@ -129,7 +129,7 @@ if $MODULES; then
       fi
       ;;
     nceppost | upp)
-      module try-load png
+      module try-load libpng
       module try-load jasper
       module load netcdf
       module load bacio
@@ -151,7 +151,7 @@ if $MODULES; then
       module try-load jpeg
       module try-load jasper
       module try-load zlib
-      module try-load png
+      module try-load libpng
       module load bacio
       module load w3nco
       module load g2
@@ -182,8 +182,14 @@ if $MODULES; then
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$install_as"
   fi
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 
 else
@@ -244,7 +250,7 @@ case $name in
     if [[ $MAKE_CHECK =~ [yYtT] ]]; then
         extraCMakeFlags+="-DBUILD_TESTS=ON"
     else
-        extraCMakeFlags+="-DBUILD_TETS=OFF"
+        extraCMakeFlags+="-DBUILD_TESTS=OFF"
     fi
     ;;
   nemsio)

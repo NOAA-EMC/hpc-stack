@@ -11,7 +11,7 @@ zlib:
   build: NO
   version: 1.2.11
 
-png:
+libpng:
   build: NO
   version: 1.6.35
 
