@@ -94,7 +94,7 @@ major_ver=$(echo $nc_ver | cut -d' ' -f2 | cut -d. -f1)
 if [[ $major_ver == "4" ]]; then
     # Prevents duplicate symbols
     # See http://nco.sourceforge.net/build_hints.shtml
-    CPPFLAGS="-DHAVE_NETCDF4_H"
+    export CPPFLAGS="-DHAVE_NETCDF4_H"
 fi
 
 ../configure --prefix=$prefix \
