@@ -2,13 +2,13 @@
 
 set -eux
 
-name="png"
-version=${1:-${STACK_png_version}}
+name="libpng"
+version=${1:-${STACK_libpng_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
-[[ ${STACK_png_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+[[ ${STACK_libpng_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 # manage package dependencies here
 if $MODULES; then
@@ -31,11 +31,11 @@ if $MODULES; then
     fi
 
 else
-    prefix=${PNG_ROOT:-"/usr/local"}
+    prefix=${LIBPNG_ROOT:-"/usr/local"}
 fi
 
 export CC=$SERIAL_CC
-export CFLAGS="${STACK_CFLAGS:-} ${STACK_png_CFLAGS:-} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_libpng_CFLAGS:-} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
