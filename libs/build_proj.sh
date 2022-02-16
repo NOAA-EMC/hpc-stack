@@ -16,7 +16,8 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module try-load cmake
-  module load sqlite
+  module try-load sqlite
+  module try-load tiff
   module list
   set -x
 
@@ -50,6 +51,16 @@ URL="https://download.osgeo.org/proj/$software.tar.gz"
 CMAKE_OPTS=${STACK_proj_cmake_opts:-""}
 
 [[ $MAKE_CHECK =~ [yYtT] ]] || CMAKE_OPTS+=" -DBUILD_TESTING=OFF"
+
+if [[ -n ${TIFF_ROOT-} ]] ; then
+  CMAKE_OPTS+=" -DTIFF_INCLUDE_DIR=${TIFF_ROOT}/include "
+  CMAKE_OPTS+=" -DTIFF_LIBRARY=${TIFF_ROOT}/lib64/libtiff.so "
+fi
+
+if [[ -n ${SQLITE_ROOT-} ]] ; then
+  CMAKE_OPTS+=" -DSQLITE3_INCLUDE_DIR=${SQLITE_ROOT}/include "
+  CMAKE_OPTS+=" -DSQLITE3_LIBRARY=${SQLITE_ROOT}/lib/libsqlite3.so "
+fi
 
 LIB_DIR=${SQLITE_ROOT:-} cmake -H. -Bbuild -DCMAKE_INSTALL_PREFIX=$prefix $CMAKE_OPTS
 cd build

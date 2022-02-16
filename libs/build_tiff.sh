@@ -28,8 +28,8 @@ else
     prefix=${TIFF_ROOT:-"/usr/local"}
 fi
 
-#export CC=$SERIAL_CC
-#export CFLAGS="${STACK_CFLAGS:-} ${STACK_tiff_CFLAGS:-} -fPIC"
+export CC=$SERIAL_CC
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_tiff_CFLAGS:-} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 

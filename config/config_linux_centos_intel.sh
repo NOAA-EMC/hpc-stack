@@ -32,6 +32,10 @@ module load ics/2020.0
 module load mpi/impi/2020u0
 #
 
+export CC=icc
+export FC=ifort
+export CXX=icpc
+
 export SERIAL_CC=icc
 export SERIAL_FC=ifort
 export SERIAL_CXX=icpc
