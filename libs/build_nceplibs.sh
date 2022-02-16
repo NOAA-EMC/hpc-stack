@@ -173,6 +173,7 @@ if $MODULES; then
       fi
       ;;
   esac
+  module try-load cmake
   module list
   set -x
 
@@ -244,7 +245,7 @@ case $name in
     if [[ $MAKE_CHECK =~ [yYtT] ]]; then
         extraCMakeFlags+="-DBUILD_TESTS=ON"
     else
-        extraCMakeFlags+="-DBUILD_TETS=OFF"
+        extraCMakeFlags+="-DBUILD_TESTS=OFF"
     fi
     ;;
   nemsio)

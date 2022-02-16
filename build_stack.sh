@@ -141,6 +141,7 @@ build_lib szip
 build_lib jasper
 build_lib tiff
 build_lib sqlite
+build_lib tiff
 build_lib proj
 build_lib geos
 

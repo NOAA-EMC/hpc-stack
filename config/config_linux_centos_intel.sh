@@ -23,15 +23,12 @@ export BASH_ENV=$HOME/apps/lmod/lmod/init/bash # Point to the new definition of 
 
 source $BASH_ENV                              # Redefine the module command to point
                                               # to the new Lmod
-export LMOD_SYSTEM_DEFAULT_MODULES=ics/2020.0:mpi/impi/2020u0        # Colon separated list of modules
-                                              # to load at startup
 module --initial_load --no_redirect restore
 module use $HOME/modulefiles
 module load cmake
-module load ics/2020.0
-module load mpi/impi/2020u0
+module load intel/2020.0
+module load impi/2020u0
 #
-
 export SERIAL_CC=icc
 export SERIAL_FC=ifort
 export SERIAL_CXX=icpc
@@ -40,4 +37,3 @@ export MPI_CC=mpiicc
 export MPI_FC=mpiifort
 export MPI_CXX=mpiicpc
 
-#
