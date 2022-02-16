@@ -89,7 +89,7 @@ if $MODULES; then
       module try-load jpeg
       module try-load jasper
       module try-load zlib
-      module try-load png
+      module try-load libpng
       module load netcdf
       module load sp
       module load ip2
@@ -103,13 +103,13 @@ if $MODULES; then
       ;;
     g2)
       module try-load jpeg
-      module try-load png
+      module try-load libpng
       module try-load jasper
       ;;
     g2c)
       module try-load jpeg
       module try-load zlib
-      module try-load png
+      module try-load libpng
       module try-load jasper
       ;;
     nemsio)
@@ -131,7 +131,7 @@ if $MODULES; then
       fi
       ;;
     nceppost | upp)
-      module try-load png
+      module try-load libpng
       module try-load jasper
       module load netcdf
       module load bacio
@@ -153,7 +153,7 @@ if $MODULES; then
       module try-load jpeg
       module try-load jasper
       module try-load zlib
-      module try-load png
+      module try-load libpng
       module load bacio
       module load w3nco
       module load g2
