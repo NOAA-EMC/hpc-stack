@@ -1,7 +1,7 @@
 cmake:
   build: NO
   bootstrap: NO
-  version: 3.20.1
+  version: 3.20.2
 
 jpeg:
   build: YES
@@ -143,8 +143,8 @@ landsfcutil:
 
 nemsio:
   build: YES
-  version: v2.5.4
-  install_as: 2.5.4
+  version: v2.5.2
+  install_as: 2.5.2
   is_nceplib: YES
 
 nemsiogfs:
@@ -193,15 +193,15 @@ upp:
 
 wrf_io:
   build: YES
-  version: v1.2.0
-  install_as: 1.2.0
+  version: v1.1.1
+  install_as: 1.1.1
   openmp: ON
   is_nceplib: YES
 
 bufr:
   build: YES
-  version: bufr_v11.5.0
-  install_as: 11.5.0
+  version: bufr_v11.4.0
+  install_as: 11.4.0
   python: NO
   is_nceplib: YES
 
