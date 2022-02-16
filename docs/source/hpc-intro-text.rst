@@ -1,9 +1,8 @@
-**Definition:** HPC-stack is a repository that provides a unified, shell script-based build system for 
-building the software stack required for the `Unified Forecast System (UFS) <https://ufscommunity.org/>`_ and applications. 
+**Definition:** The HPC-stack is a repository that provides a unified, shell script-based build system for building the software stack required for numerical weather prediction (NWP) tools such as the `Unified Forecast System (UFS) <https://ufscommunity.org/>`_ and the Joint Effort for Data assimilation Integration (JEDI) framework. 
 
 Background
 ------------------------
-The UFS Weather Model draws on over 50 code libraries to run its applications. These libraries range from libraries developed in-house at NOAA (e.g. NCEPLIBS, FMS, etc.) to libraries developed by NOAA's partners (e.g. PIO, ESMF etc) to truly third party libraries (e.g. NETCDF). Individual installation of these libraries is not practical, so the `HPC-Stack <https://github.com/NOAA-EMC/hpc-stack>`_ was developed as a central installation system to ensure that the infrastructure environment across multiple platforms is as similar as possible. Installation of the HPC-Stack is required to run the SRW. 
+The `HPC-Stack <https://github.com/NOAA-EMC/hpc-stack.git>`_ provides libraries and dependencies in a consistent manner for NWP applications. It is part of the `NCEPLIBS project <https://github.com/NOAA-EMC/NCEPLIBS>`_ and is model/system agnostic. The HPC-Stack was originally written to facilitate installation of third-party libraries in a systematic manner on macOS and Linux systems (specifically RHEL). It was later transferred, expanded and further enhanced in the `Joint Effort for Data assimilation Integration (JEDI) <https://jointcenterforsatellitedataassimilation-jedi-docs.readthedocs-hosted.com/en/latest/>`_ project.
 
 Instructions
 -------------------------
@@ -11,8 +10,6 @@ Instructions
 
 Users can either build the HPC-stack on their local system or use the centrally maintained stacks on each HPC platform. For a detailed description of installation options, see :ref:`Installing the HPC-Stack <InstallBuildHPCstack>`.  
 
-.. note::
-   `HPC-Stack <https://github.com/NOAA-EMC/hpc-stack.git>`_ is part of the NCEPLIBS project and was originally written for the `Joint Effort for Data assimilation Integration (JEDI) <https://jointcenterforsatellitedataassimilation-jedi-docs.readthedocs-hosted.com/en/latest/>`_ framework.
 
 
 

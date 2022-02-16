@@ -32,7 +32,7 @@ If you want to add a new library to the stack you need to follow these steps:
 
 5. Create a new module template at the appropriate place in the modulefiles directory, using exising files as a template
 
-6. Update ``README.md`` to include the name of the new library or package
+6. Update the `HPC Components <HPCComponents>` file to include the name of the new library or package
 
 Configuring for a new HPC
 ---------------------------
@@ -52,7 +52,7 @@ If you want to port this to a new HPC, you need to follow these steps:
 Using the **DOWNLOAD_ONLY** Option
 ----------------------------------------
 
-If an HPC (e.g. NOAA RDHPCS Hera) does not allow access to online software via ``wget`` or ``git clone``, you will have to download all the packages using the **DOWNLOAD_ONLY** option in the ``config_custom.sh``. Execute ``build_stack.sh`` as you would on a machine that does allow access to online software with ``DOWNLOAD_ONLY=YES`` and all the packages will be downloaded in the ``pkg`` directory.  Transfer the contents of the ``pkg`` directory to the machine you wish to install the hpc-stack and execute ``build_stack.sh``.  ``build_stack.sh`` will detect the already downloaded packages and use them rather than fetching them.
+If an HPC (e.g., NOAA RDHPCS Hera) does not allow access to online software via ``wget`` or ``git clone``, you will have to download all the packages using the **DOWNLOAD_ONLY** option in the ``config_custom.sh``. Execute ``build_stack.sh`` as you would on a machine that does allow access to online software with ``DOWNLOAD_ONLY=YES`` and all the packages will be downloaded in the ``pkg`` directory.  Transfer the contents of the ``pkg`` directory to the machine you wish to install the hpc-stack and execute ``build_stack.sh``.  ``build_stack.sh`` will detect the already downloaded packages and use them rather than fetching them.
 
 Using the HPC-stack
 ---------------------
