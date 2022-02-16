@@ -89,9 +89,13 @@ export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS:-} ${HDF5_LIBS:-} ${EXTRA_LIBS:-}"
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-# Prevents duplicate symbols
-# See http://nco.sourceforge.net/build_hints.shtml
-CPPFLAGS="-DHAVE_NETCDF4_H"
+nc_ver=$(nc-config --version)
+major_ver=$(echo $nc_ver | cut -d' ' -f2 | cut -d. -f1)
+if [[ $major_ver == "4" ]]; then
+    # Prevents duplicate symbols
+    # See http://nco.sourceforge.net/build_hints.shtml
+    CPPFLAGS="-DHAVE_NETCDF4_H"
+fi
 
 ../configure --prefix=$prefix \
              --enable-doc=no \

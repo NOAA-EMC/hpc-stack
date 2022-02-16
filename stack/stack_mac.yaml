@@ -62,7 +62,7 @@ nccmp:
   version: 1.8.9.0
 
 nco:
-  build: NO
+  build: YES
   version: 4.9.3
 
 cdo:
