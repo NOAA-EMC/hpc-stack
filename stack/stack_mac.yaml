@@ -20,7 +20,7 @@ zlib:
   build: YES
   version: 1.2.11
 
-png:
+libpng:
   build: YES
   version: 1.6.35
 
