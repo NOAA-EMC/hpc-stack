@@ -84,8 +84,7 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-#html_theme = 'sphinx_rtd_theme'
-html_theme = 'classic'
+html_theme = 'sphinx_rtd_theme'
 html_theme_path = ["_themes", ]
 
 
@@ -202,7 +201,12 @@ epub_exclude_files = ['search.html']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3/', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+}
+intersphinx_disabled_domains = ['std']
+#intersphinx_mapping = {'https://docs.python.org/': None}
 #intersphinx_mapping = {
 #    'rtd': ('https://docs.readthedocs.io/en/stable/', None),
 #    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
