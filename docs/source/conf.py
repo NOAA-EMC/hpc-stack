@@ -14,11 +14,6 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
 
-import sphinx_rtd_theme
-from sphinx_rtd_theme import __version__ as theme_version
-from sphinx_rtd_theme import __version_full__ as theme_version_full
-from sphinx.locale import _
-
 # -- Project information -----------------------------------------------------
 
 project = 'HPC-Stack Users Guide'
@@ -50,7 +45,7 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinx.ext.napoleon',
     'sphinx_rtd_theme',
-    'sphinxcontrib.bibtex'
+    'sphinxcontrib.bibtex',
 ]
 
 bibtex_bibfiles = ['references.bib']
@@ -89,7 +84,8 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+#html_theme = 'sphinx_rtd_theme'
+html_theme = 'classic'
 html_theme_path = ["_themes", ]
 
 
@@ -128,7 +124,7 @@ def setup(app):
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'UFS-SR-Weather-App'
+htmlhelp_basename = 'HPC-Stack'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -156,7 +152,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'UFS-SRWeatherApp.tex', 'UFS Short-Range Weather App Users Guide',
+    (master_doc, 'HPC-Stack.tex', 'HPC-Stack Users Guide',
      ' ', 'manual'),
 ]
 
@@ -166,7 +162,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'UFS-SRWeatherApp', 'UFS Short-Range Weather App Users Guide',
+    (master_doc, 'HPC-Stack', 'HPC-Stack Users Guide',
      [author], 1)
 ]
 
@@ -177,8 +173,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'UFS-SRWeatherApp', 'UFS Short-Range Weather App Users Guide',
-     author, 'UFS-SRWeatherApp', 'One line description of project.',
+    (master_doc, 'HPC-Stack', 'HPC-Stack Users Guide',
+     author, 'HPC-Stack', 'One line description of project.',
      'Miscellaneous'),
 ]
 
@@ -206,11 +202,11 @@ epub_exclude_files = ['search.html']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-#intersphinx_mapping = {'https://docs.python.org/': None}
-intersphinx_mapping = {
-    'rtd': ('https://docs.readthedocs.io/en/stable/', None),
-    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
-}
+intersphinx_mapping = {'https://docs.python.org/': None}
+#intersphinx_mapping = {
+#    'rtd': ('https://docs.readthedocs.io/en/stable/', None),
+#    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+#}
 
 # -- Options for todo extension ----------------------------------------------
 
