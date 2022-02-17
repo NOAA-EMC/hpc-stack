@@ -45,10 +45,7 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinx.ext.napoleon',
     'sphinx_rtd_theme',
-    'sphinxcontrib.bibtex',
 ]
-
-bibtex_bibfiles = ['references.bib']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -100,11 +97,7 @@ html_theme_options = {"body_max_width": "none"}
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_context = {
-    'css_files': [
-        '_static/theme_overrides.css',  # override wide tables in RTD theme
-        ],
-     }
+html_context = {}
 
 def setup(app):
     app.add_css_file('custom.css')  # may also be an URL
@@ -123,7 +116,7 @@ def setup(app):
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'HPC-Stack'
+htmlhelp_basename = 'HPC-Stack Help'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -201,16 +194,13 @@ epub_exclude_files = ['search.html']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {
-    'python': ('https://docs.python.org/3/', None),
-    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
-}
-intersphinx_disabled_domains = ['std']
-#intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {'https://docs.python.org/': None}
 #intersphinx_mapping = {
 #    'rtd': ('https://docs.readthedocs.io/en/stable/', None),
 #    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
 #}
+#intersphinx_disabled_domains = ['std']
+
 
 # -- Options for todo extension ----------------------------------------------
 
