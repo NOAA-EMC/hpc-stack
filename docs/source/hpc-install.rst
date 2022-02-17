@@ -4,7 +4,7 @@
 Install and Build the HPC-Stack
 ================================
 
-.. warning::
+.. attention::
    The HPC-stack is already installed on `Level 1 systems <https://github.com/ufs-community/ufs-srweather-app/wiki/Supported-Platforms-and-Compilers>`_ (e.g., Cheyenne, Hera, Orion). Installation is not necessary. 
 
 HPC-Stack installation will vary from system to system because there are so many possible combinations of operating systems, compilers, MPI's, and package versions. Installation via an EPIC-provided container is recommended to reduce this variability. However, users may choose a non-container approach to installation if they prefer. 
@@ -207,7 +207,5 @@ Here the -m option is only required if LMod is used for managing the software st
 .. warning:: 
    Steps :numref:`Step %s <NonConConfigure>`, :numref:`Step %s <NonConSetUp>`, and :numref:`Step %s <NonConHPCBuild>` need to be repeated for each compiler/MPI combination that you wish to install.** The new packages will be installed alongside any previously-existing packages that may already have been built from other compiler/MPI combinations.
 
-From here, the user can continue to install and run applications that depend on the HPC-Stack, such as the UFS Short Range Weather (SRW) Application. 
-
-
+From here, the user can continue to install and run applications that depend on the HPC-Stack.
 
