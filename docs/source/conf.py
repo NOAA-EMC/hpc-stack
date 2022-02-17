@@ -14,6 +14,10 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
 
+import sphinx_rtd_theme
+from sphinx_rtd_theme import __version__ as theme_version
+from sphinx_rtd_theme import __version_full__ as theme_version_full
+from sphinx.locale import _
 
 # -- Project information -----------------------------------------------------
 
@@ -202,7 +206,11 @@ epub_exclude_files = ['search.html']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+#intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {
+    'rtd': ('https://docs.readthedocs.io/en/stable/', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+}
 
 # -- Options for todo extension ----------------------------------------------
 
