@@ -25,11 +25,10 @@ The Earth Prediction Innovation Center (EPIC) provides several containers availa
 Install Singularity
 -----------------------
 
-To install the HPC-stack via Singularity container, first install the Singularity package according to the `Singularity Installation Guide <https://sylabs.io/guides/3.2/user-guide/installation.html#>`_. This will include the installation of dependencies and the installation of the Go programming 
-language. SingularityCE Version 3.7 or above is recommended. 
+To install the HPC-stack via Singularity container, first install the Singularity package according to the `Singularity Installation Guide <https://sylabs.io/guides/3.2/user-guide/installation.html#>`_. This will include the installation of dependencies and the installation of the Go programming language. SingularityCE Version 3.7 or above is recommended. 
 
 .. warning:: 
-   Docker containers can only be run with root privileges, and users cannot have root privileges on HPC computers. Therefore, it is not possible to build the HPC-stack inside a Docker container. A Docker image may be pulled, but it must be run inside a container such as Singularity. 
+   Docker containers can only be run with root privileges, and users cannot have root privileges on HPC computers. Therefore, it is not possible to build the HPC-stack inside a Docker container on an HPC system. A Docker image may be pulled, but it must be run inside a container such as Singularity. 
 
 
 Build and Run the Container
@@ -100,6 +99,7 @@ Build the HPC-Stack
 From here, the user can continue to install and run applications that depend on the HPC-Stack, such as the UFS Short Range Weather (SRW) Application. 
 
 
+.. _NonContainerInstall:
 
 Non-Container HPC-Stack Installation and Build 
 =================================================
@@ -112,7 +112,7 @@ To install the HPC-Stack locally, the following pre-requisites must be installed
 * **Python 3:** Can be obtained either from the `main distributor <https://www.python.org/>`_ or from `Anaconda <https://www.anaconda.com/>`_. 
 * **Compilers:** Distributions of Fortran, C, and C++ compilers that work for your system. 
 * **Message Passing Interface (MPI)** libraries for multi-processor and multi-core communications, configured to work with your corresponding Fortran, C/C++ compilers. 
-* **Programs and software packages:** `Lmod <https://lmod.readthedocs.io/en/latest/030_installing.html>`_, `CMake <https://cmake.org/install/>`_, `make <https://www.gnu.org/software/make/>`_, `wget <https://www.gnu.org/software/wget/>`_, `curl <https://curl.se/>`_, `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_
+* **Programs and software packages:** `Lmod <https://lmod.readthedocs.io/en/latest/030_installing.html>`_, `CMake <https://cmake.org/install/>`_, `make <https://www.gnu.org/software/make/>`_, `wget <https://www.gnu.org/software/wget/>`_, `curl <https://curl.se/>`_, `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_, and the `TIFF library <https://gitlab.com/libtiff/libtiff.git>`_. 
 
 To determine whether these prerequisites are installed, query the environment variables (for ``Lmod``) or the location and version of the packages (for ``cmake``, ``make``, ``wget``, ``curl``, ``git``). A few examples:
 
@@ -121,6 +121,17 @@ To determine whether these prerequisites are installed, query the environment va
       echo $LMOD_PKG
       which cmake 
       cmake  --version 
+
+Methods for determining whether ``libtiff`` is installed vary between the systems. Users can try the following approaches:
+
+   .. code-block:: console
+
+      whereis libtiff
+      locate libtiff
+      ldconfig -p | grep libtiff 
+      ls /usr/lib64/libtiff*
+      ls /usr/lib/libtiff*
+
 
 If compilers or MPI's need to be installed, consult the :ref:`HPC-Stack Prerequisites <Prerequisites>` document for further guidance. 
 
@@ -133,7 +144,7 @@ Choose the COMPILER, MPI, and PYTHON version, and specify any other aspects of t
    
 Some of the parameter settings available are: 
 
-* HPC_COMPILER: This defines the vendor and version of the compiler you wish to use for this build. The format is the same as what you would typically use in a module load command. For example, HPC_COMPILER=intel/2020. Use ``gcc -v`` to determine your compiler and version. 
+* HPC_COMPILER: This defines the vendor and version of the compiler you wish to use for this build. The format is the same as what you would typically use in a module load command. For example, ``HPC_COMPILER=intel/2020``. Use ``gcc -v`` to determine your compiler and version. 
 * HPC_MPI: This is the MPI library you wish to use. The format is the same as for HPC_COMPILER. For example: ``HPC_MPI=impi/2020``.
 * HPC_PYTHON: This is the Python interpreter to use for the build. The format is the same as for HPC_COMPILER, for example: ``HPC_PYTHON=python/3.7.5``. Use ``python --version`` to determine the current version of Python. 
 
@@ -152,7 +163,7 @@ Set Up Compiler, MPI, Python & Module System
 .. note::
    This step is required if you are using ``Lmod`` modules for managing the software stack. Lmod is installed across all Level 1 and Level 2 systems and in the containers provided. If ``LMod`` is not desired or used, the user can skip ahead to :numref:`Step %s <NonConHPCBuild>`.
 
-Run from the top directory:
+After preparing the system configuration in ``./config/config_<platform>.sh``, run the following command from the top directory:
 
    .. code-block:: console
 
@@ -160,7 +171,11 @@ Run from the top directory:
 
 where:
 
-``<prefix>`` is the directory where the software packages will be installed with a default value $HOME/opt. The software installation trees will branch directly off of <prefix>, while the module files will be located in the <prefix>/modulefiles subdirectory. 
+``<prefix>`` is the directory where the software packages will be installed during the hpc-stack build. The default value is $HOME/opt. The software installation trees will branch directly off of <prefix>, while the module files will be located in the <prefix>/modulefiles subdirectory. 
+
+.. attention::
+
+   Note that ``<prefix>`` requires an absolute path; it will not work with a relative path.
 
 ``<configuration>`` points to the configuration script that you wish to use, as described in :numref:`Step %s <NonConConfigure>`. The default configuration file is ``config/config_custom.sh``. 
 
@@ -187,6 +202,21 @@ It may be necessary to set certain source and path variables in the ``build_stac
       export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
       export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
+It may also be necessary to initialize ``Lmod`` when using a user-specific ``Lmod`` installation:
+
+   .. code-block:: console
+
+      module purge
+      export BASH_ENV=$HOME/<Lmod-installation-dir>/lmod/lmod/init/bash 
+      source $BASH_ENV  
+      export LMOD_SYSTEM_DEFAULT_MODULES=<module1>:<module2>:<module3>
+      module --initial_load --no_redirect restore
+      module use <$HOME>/<your-modulefiles-dir>
+
+where: 
+* ``<Lmod-installation-dir>`` is the top directory where Lmod is installed
+* ``<module1>, ...,<moduleN>`` is column-separated list of modules to load by default
+* <$HOME>/<your-modulefiles-dir> is the directory where additional custom modules may be built with Lmod (e.g., $HOME/modulefiles).
 
 .. _NonConHPCBuild:
 
@@ -199,7 +229,7 @@ Now all that remains is to build the stack:
 
       ./build_stack.sh -p <prefix> -c <configuration> -y <yaml> -m
 
-Here the -m option is only required if LMod is used for managing the software stack. It should be omitted otherwise. <prefix> and <configuration> are the same as in :numref:`Step %s <NonConSetUp>`, namely a reference to the installation prefix and a corresponding configuration file in the config directory. As in :numref:`Step %s <NonConSetUp>`, if this argument is omitted, the default is to use ``$HOME/opt`` and ``config/config_custom.sh`` respectively. <yaml> represents a user configurable yaml file containing a list of packages that need to be built in the stack along with their versions and package options. The default value of <yaml> is ``stack/stack_custom.yaml``.
+Here the -m option is only required when you need to build your own modules *and* LMod is used for managing the software stack. It should be omitted otherwise. <prefix> and <configuration> are the same as in :numref:`Step %s <NonConSetUp>`, namely a reference to the absolute-path installation prefix and a corresponding configuration file in the ``config`` directory. As in :numref:`Step %s <NonConSetUp>`, if this argument is omitted, the default is to use ``$HOME/opt`` and ``config/config_custom.sh`` respectively. ``<yaml>`` represents a user configurable yaml file containing a list of packages that need to be built in the stack along with their versions and package options. The default value of ``<yaml>`` is ``stack/stack_custom.yaml``.
 
 .. warning:: 
    Steps :numref:`Step %s <NonConConfigure>`, :numref:`Step %s <NonConSetUp>`, and :numref:`Step %s <NonConHPCBuild>` need to be repeated for each compiler/MPI combination that you wish to install.** The new packages will be installed alongside any previously-existing packages that may already have been built from other compiler/MPI combinations.
