@@ -35,7 +35,7 @@ language. SingularityCE Version 3.7 or above is recommended.
 Build and Run the Container
 ----------------------------
 
-1. Pull and build the container.
+#. Pull and build the container.
 
    .. code-block:: console
 
@@ -43,15 +43,14 @@ Build and Run the Container
       singularity build --sandbox ubuntu20.04-epic ubuntu20.04-epic.sif
       cd ubuntu20.04-epic
    
-   Make a directory (e.g. ``contrib``) in the container if one does not exist: 
-      
-      .. code-block:: console
-         
-         mkdir contrib
-         cd ..
+   Make a directory (e.g., ``contrib``) in the container if one does not exist: 
 
-2. Start the container and run an interactive shell within it. This command also binds the local working 
-directory to the container so that data can be shared between them.
+   .. code-block:: console
+         
+      mkdir contrib
+      cd ..
+
+#. Start the container and run an interactive shell within it. This command also binds the local working directory to the container so that data can be shared between them.
 
    .. code-block:: console
       
@@ -61,38 +60,36 @@ directory to the container so that data can be shared between them.
 Build the HPC-Stack
 --------------------
 
-1. Clone the hpc-stack repository (from inside the singularity shell above).
-
+#. Clone the hpc-stack repository (from inside the singularity shell above).
+   
    .. code-block:: console
       
       git clone -b feature/ubuntu20.04 https://github.com/jkbk2004/hpc-stack
       cd hpc-stack
 
-2. Set up the build environment. Be sure to change the ``prefix`` argument in the code below to 
-your system's install location (likely within the hpc-stack directory). 
-
-   .. code-block:: console
+#. Set up the build environment. Be sure to change the ``prefix`` argument in the code below to your system's install location (likely within the hpc-stack directory). 
    
+   .. code-block:: console
+      
       ./setup_modules.sh -p <prefix> -c config/config_custom.sh
 
    where <prefix> is the directory where the software packages will be installed with a default value $HOME/opt. 
-
    Enter YES/YES/YES when the option is presented. Then modify ``build_stack.sh`` with the following commands:
    
    .. code-block:: console
-   
+
       sed -i "10 a source /usr/share/lmod/6.6/init/bash" ./build_stack.sh
       sed -i "10 a export PATH=/usr/local/sbin:/usr/local/bin:$PATH" ./build_stack.sh
       sed -i "10 a export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH" ./build_stack.sh
 
-3. Build the environment. This may take several hours to complete. 
-
+#. Build the environment. This may take several hours to complete. 
+   
    .. code-block:: console
 
       ./build_stack.sh -p <prefix> -c config/config_custom.sh -y stack/stack_custom.yaml -m
 
-4. Load the required modules. 
-
+#. Load the required modules. 
+   
    .. code-block:: console
 
       source /usr/share/lmod/lmod/init/bash
@@ -157,9 +154,9 @@ Set Up Compiler, MPI, Python & Module System
 
 Run from the top directory:
 
-.. code-block:: console
+   .. code-block:: console
 
-   ./setup_modules.sh -p <prefix> -c <configuration>
+      ./setup_modules.sh -p <prefix> -c <configuration>
 
 where:
 
