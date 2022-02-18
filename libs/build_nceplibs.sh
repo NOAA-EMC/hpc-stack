@@ -238,7 +238,7 @@ case $name in
     extraCMakeFlags="-DBUILD_POSTEXEC=OFF"
     ;;
   crtm)
-    URL="https://github.com/NOAA-EMC/crtm.git"
+    URL="https://github.com/JCSDA/crtm.git"
     ;;
   wgrib2)
     extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
