@@ -266,7 +266,8 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
 if [[ ! -d $software ]]; then
-  GIT_LFS_SKIP_SMUDGE=1 git clone $URL $software
+  export GIT_LFS_SKIP_SMUDGE=1
+  git clone $URL $software
   cd $software
   if [[ "$name" == "crtm" ]]; then
     version=release/REL-${install_as}_emc
