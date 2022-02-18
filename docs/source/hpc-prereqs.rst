@@ -9,22 +9,26 @@ A wide variety of compiler and MPI options are available. Certain combinations m
 
 The following system, compiler, and MPI combinations have been tested successfully:
 
-+-----------------------------------+------------------------------------------+--------------------------------------------+
-| System                            |  Compilers                                | MPI                                        |
-+===================================+===========================================+============================================+
-| SUSE Linux Enterprise Server 12.4 | Intel compilers 2020.0 (ifort, icc, icps) | Intel MPI wrappers (mpif90, mpicc, mpicxx) |
-+-----------------------------------+-------------------------------------------+--------------------------------------------+
-| Linux CentOS 7                    | Intel compilers 2020.0 (ifort, icc, icps) | Intel MPI (mpiifort, mpiicc, mpiicpc)      |
-+-----------------------------------+-------------------------------------------+--------------------------------------------+
+.. table::  Sample System, Compiler, and MPI Options
+
+   +------------------------+-------------------------+-----------------------------+
+   | **System**             |  **Compilers**          | **MPI**                     |
+   +========================+=========================+=============================+
+   | SUSE Linux Enterprise  | Intel compilers 2020.0  | Intel MPI wrappers          |
+   | Server 12.4            | (ifort, icc, icps)      | (mpif90, mpicc, mpicxx)     |
+   +------------------------+-------------------------+-----------------------------+
+   | Linux CentOS 7         | Intel compilers 2020.0  | Intel MPI                   |
+   |                        | (ifort, icc, icps)      | (mpiifort, mpiicc, mpiicpc) |
+   +------------------------+-------------------------+-----------------------------+
 
 Compilers and MPI libraries can be downloaded from the following websites: 
 
 Compilers: 
   * `GNU/GCC <https://gcc.gnu.org/>`__ (version 9.x)
-  * `Intel <https://intel.com/`__
+  * `Intel <https://intel.com/>`__
 
 MPI's
-  * `OpenMPI <https://www.open-mpi.org/)`__
-  * `MPICH <https://www.mpich.org/)`__
+  * `OpenMPI <https://www.open-mpi.org/>`__
+  * `MPICH <https://www.mpich.org/>`__
   * `IntelMPI (IMPI) <https://www.intel.com/content/www/us/en/developer/tools/oneapi/mpi-library.html>`__
 
