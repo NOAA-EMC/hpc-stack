@@ -238,7 +238,7 @@ case $name in
     extraCMakeFlags="-DBUILD_POSTEXEC=OFF"
     ;;
   crtm)
-    URL="https://github.com/JCSDA/crtm.git"
+    URL="https://github.com/NOAA-EMC/crtm.git"
     ;;
   wgrib2)
     extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
@@ -266,7 +266,7 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
 if [[ ! -d $software ]]; then
-  git clone $URL $software
+  GIT_LFS_SKIP_SMUDGE=1 git clone $URL $software
   cd $software
   if [[ "$name" == "crtm" ]]; then
     version=release/REL-${install_as}_emc
