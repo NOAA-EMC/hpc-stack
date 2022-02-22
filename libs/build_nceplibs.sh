@@ -323,7 +323,7 @@ if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
     if [[ -d crtm_fix-${install_as} ]]; then
      if [[ "${install_as}" == "2.3.0" ]]; then
-       ./link_crtm_coeffs.sh ./crtm_fix-$version $prefix/fix
+       ./link_crtm_coeffs.sh ./crtm_fix-${install_as} $prefix/fix
      else
        mkdir -p $prefix/fix
        cp ./crtm_fix-${install_as}/ACCoeff/netcdf/* $prefix/fix
