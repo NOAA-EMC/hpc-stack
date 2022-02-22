@@ -79,6 +79,9 @@ sed -i'.backup' "s:^USE_G2CLIB=.*:USE_G2CLIB=${STACK_wgrib2_g2clib:-0}:" makefil
 sed -i'.backup' "s:^USE_PNG=.*:USE_PNG=${STACK_wgrib2_png:-1}:" makefile
 sed -i'.backup' "s:^USE_AEC=.*:USE_AEC=${STACK_wgrib2_aec:-1}:" makefile
 
+# Fix openmp flag in older version of wgrib2. Intel compilers no longer accept -openmp.
+sed -i'.backup' "s:-openmp:-qopenmp:" makefile
+
 make
 
 # Wgrib2 does not provide a 'make install'
