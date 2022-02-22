@@ -193,8 +193,8 @@ upp:
 
 wrf_io:
   build: YES
-  version: v1.1.1
-  install_as: 1.1.1
+  version: v1.2.0
+  install_as: 1.2.0
   openmp: ON
   is_nceplib: YES
 
