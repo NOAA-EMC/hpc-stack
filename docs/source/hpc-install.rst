@@ -38,9 +38,9 @@ Build and Run the Container
 
    .. code-block:: console
 
-      singularity pull ubuntu20.04-epic.sif docker://noaaepic/ubuntu20.04-epic
-      singularity build --sandbox ubuntu20.04-epic ubuntu20.04-epic.sif
-      cd ubuntu20.04-epic
+      singularity pull ubuntu20.04-gnu9.3.sif docker://noaaepic/ubuntu20.04-gnu9.3
+      singularity build --sandbox ubuntu20.04-gnu9.3 ubuntu20.04-gnu9.3.sif
+      cd ubuntu20.04-gnu9.3
    
    Make a directory (e.g., ``contrib``) in the container if one does not exist: 
 
