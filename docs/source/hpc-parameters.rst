@@ -20,7 +20,7 @@ Compiler & MPI
    * ``intel/2021.3.0``
 
 ``HPC_MPI``: (Default: “”)
-   The MPI library you wish to use for this build. The format is the same as for HPC_COMPILER; for example: ``HPC_MPI=impi/2020``. Current MPI types accepted are openmpi, mpich, impi, cray, and cray*.Options include:
+   The MPI library you wish to use for this build. The format is the same as for HPC_COMPILER; for example: ``HPC_MPI=impi/2020``. Current MPI types accepted are openmpi, mpich, impi, cray, and cray*. Options include:
    
    * ``impi/2020``
    * ``impi/2018.4.274``
