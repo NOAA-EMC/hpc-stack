@@ -15,7 +15,7 @@ HPC-Stack installation will vary from system to system because there are so many
 Install and Build the HPC-Stack in a Singularity Container
 ===========================================================
 
-The Earth Prediction Innovation Center (EPIC) provides several containers available for the installation of the stack and Unified Forecast System (UFS) applications: 
+The Earth Prediction Innovation Center (EPIC) provides `several containers <https://github.com/NOAA-EPIC/ufs-containers>`__ available for the installation of the stack and Unified Forecast System (UFS) applications: 
 
 * docker://noaaepic/ubuntu20.04-gnu9.3
 * docker://noaaepic/ubuntu20.04-hpc-stack
@@ -72,7 +72,7 @@ Build the HPC-Stack
       
       ./setup_modules.sh -p <prefix> -c config/config_custom.sh
 
-   where <prefix> is the directory where the software packages will be installed with a default value $HOME/opt. 
+   where <prefix> is the directory where the software packages will be installed with a default value $HOME/opt. For example, if the hpc-stack is installed in the user's directory: `/home/$USER/hpc-stack/hpc-modules`
    Enter YES/YES/YES when the option is presented. Then modify ``build_stack.sh`` with the following commands:
    
    .. code-block:: console
@@ -87,12 +87,12 @@ Build the HPC-Stack
 
       ./build_stack.sh -p <prefix> -c config/config_custom.sh -y stack/stack_custom.yaml -m
 
-#. Load the required modules. 
+#. Load the required modules, making sure to change the `<prefix>` to the location of the module files. 
    
    .. code-block:: console
 
       source /usr/share/lmod/lmod/init/bash
-      module use <prefix>/modulefiles/stack
+      module use <prefix>/hpc-modules/modulefiles/stack
       module load hpc hpc-gnu hpc-openmpi
       module avail
 
