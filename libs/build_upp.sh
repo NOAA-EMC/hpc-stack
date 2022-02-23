@@ -1,10 +1,9 @@
 #!/bin/bash
-
 set -eux
 
 name="upp"
-URL="https://github.com/noaa-emc/upp"
-version= ${STACK_upp_version}
+URL="https://github.com/NOAA-EMC/UPP.git"
+version=${STACK_upp_version}
 openmp=${STACK_upp_openmp}
 install_as=${STACK_upp_install_as:-${version}}
 
@@ -36,7 +35,6 @@ if $MODULES; then
   module list
   set -x
 
-  install_as=${3:-${s_install_as}} #  third column of COMPONENTS
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
   if [[ -d $prefix ]]; then
       if [[ $OVERWRITE =~ [yYtT] ]]; then
@@ -59,7 +57,7 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 [[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
-if [[ -f "./CMakeLists.txt" ]]; then
+if [[ -f CMakeLists.txt ]]; then
     using_cmake=true
 else
     using_cmake=false
@@ -68,22 +66,35 @@ fi
 git checkout $version
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
-[[ -d build ]] && $SUDO rm -rf build
-mkdir -p build && cd build
-
-CMAKE_OPTS="-DBUILD_POSTEXEC=OFF ${STACK_upp_cmake_opts:-""}"
-
 if [[ "$using_cmake" = true ]]; then
+
+    [[ -d build ]] && $SUDO rm -rf build
+    mkdir -p build && cd build
+
+    CMAKE_OPTS="-DBUILD_POSTEXEC=OFF ${STACK_upp_cmake_opts:-""}"
+    
     cmake .. -DCMAKE_INSTALL_PREFIX=$prefix ${CMAKE_OPTS}
     VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
     VERBOSE=$MAKE_VERBOSE $SUDO make install
 else
-    sed -i '.backup' "s:libupp_4.a:libupp.a:" makefile_lib
-    sed -i '.backup' "s:include/upp_4:include:" makefile_lib
-    mkdir -m 775 -p include
+    cd sorc/ncep_post.fd
+    sed -i'.backup' "s:libupp_4.a:libupp.a:" makefile_lib
+    sed -i'.backup' "s:include/upp_4:include:" makefile_lib
+
+    # Clean
+    rm -rf include lib *.mod
+    make -f makefile_lib clean
+
+    # Build
+    mkdir include lib
     make -f makefile_lib
+
+    # Install
+    mv libupp.a lib/
+    mkdir -p $prefix
+    cp -r include lib ${prefix}/
 fi
 
 # generate modulefile from template
-$MODULES && update_modules mpi $name $version
-echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules mpi $name $install_as
+echo $name $install_as $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
