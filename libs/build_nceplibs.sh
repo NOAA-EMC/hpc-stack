@@ -30,7 +30,7 @@ if $MODULES; then
 
   case $name in
     # The following require MPI
-    nemsiogfs | ncio | nceppost | upp)
+    nemsiogfs | ncio )
       module load hpc-$HPC_MPI
       using_mpi=YES
       ;;
@@ -128,25 +128,6 @@ if $MODULES; then
           module load nemsio
       fi
       ;;
-    nceppost | upp)
-      module try-load libpng
-      module try-load jasper
-      module load netcdf
-      module load bacio
-      module load w3nco
-      module load g2
-      module load g2tmpl
-      module load ip
-      module load sp
-      module load w3emc
-      module load crtm
-      # post executable requires the following,
-      # but we are not building post executable
-      # module load sigio
-      # module load sfcio
-      # module load gfsio
-      # module load nemsio
-      ;;
     grib_util)
       module try-load jpeg
       module try-load jasper
@@ -198,7 +179,7 @@ else
   eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
   case $name in
     # The following require MPI
-    nemsio | nemsiogfs | ncio | nceppost | upp)
+    nemsio | nemsiogfs | ncio )
       using_mpi=YES
       ;;
     # The following can use MPI (if available)
@@ -233,10 +214,6 @@ export FCFLAGS="$FFLAGS"
 URL="https://github.com/noaa-emc/nceplibs-$name"
 extraCMakeFlags=""
 case $name in
-  nceppost | upp)
-    URL="https://github.com/noaa-emc/upp"
-    extraCMakeFlags="-DBUILD_POSTEXEC=OFF"
-    ;;
   crtm)
     URL="https://github.com/NOAA-EMC/crtm.git"
     ;;
