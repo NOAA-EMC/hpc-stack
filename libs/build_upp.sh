@@ -29,12 +29,10 @@ if $MODULES; then
   module load sp
   module load w3emc
   module load crtm
-  # post executable requires the following,
-  # but we are not building post executable
-  # module load sigio
-  # module load sfcio
-  # module load gfsio
-  # module load nemsio
+  module load sigio
+  module load sfcio
+  module load gfsio
+  module load nemsio
   module list
   set -x
 
@@ -80,7 +78,10 @@ if [[ "$using_cmake" = true ]]; then
     VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
     VERBOSE=$MAKE_VERBOSE $SUDO make install
 else
-    make -j4
+    sed -i '.backup' "s:libupp_4.a:libupp.a:" makefile_lib
+    sed -i '.backup' "s:include/upp_4:include:" makefile_lib
+    mkdir -m 775 -p include
+    make -f makefile_lib
 fi
 
 # generate modulefile from template
