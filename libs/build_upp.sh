@@ -28,10 +28,6 @@ if $MODULES; then
   module load sp
   module load w3emc
   module load crtm
-  module load sigio
-  module load sfcio
-  module load gfsio
-  module load nemsio
   module list
   set -x
 
@@ -71,7 +67,7 @@ if [[ "$using_cmake" = true ]]; then
     [[ -d build ]] && $SUDO rm -rf build
     mkdir -p build && cd build
 
-    CMAKE_OPTS="-DBUILD_POSTEXEC=OFF ${STACK_upp_cmake_opts:-""}"
+    CMAKE_OPTS="-DBUILD_POSTEXEC=OFF -DOPENMP=${openmp} ${STACK_upp_cmake_opts:-""}"
     
     cmake .. -DCMAKE_INSTALL_PREFIX=$prefix ${CMAKE_OPTS}
     VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
