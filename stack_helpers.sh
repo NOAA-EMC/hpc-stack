@@ -129,6 +129,11 @@ function no_modules {
       export MPI_CXX=${MPI_CXX:-"CC"}
       export MPI_FC=${MPI_FC:-"ftn"}
       ;;
+    mpt  )
+      export MPI_CC=${MPI_CC:-"mpicc"}
+      export MPI_CXX=${MPI_CXX:-"CC"}
+      export MPI_FC=${MPI_FC:-"mpif90"}
+      ;;
     * )
       echo "Unknown MPI option = $mpiName, ABORT!"
       local abort=Y

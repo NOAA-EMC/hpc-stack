@@ -77,7 +77,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_1
+  version: 8_2_0
   shared: YES
   enable_pnetcdf: NO
   debug: NO
@@ -313,7 +313,7 @@ cmakemodules:
 gftl_shared:
   build: YES
   repo: Goddard-Fortran-Ecosystem
-  version: v1.3.0
+  version: v1.3.3
 
 yafyaml:
   build: YES
@@ -328,6 +328,10 @@ mapl:
 geos:
   build: YES
   version: 3.8.1
+
+libtiff:
+  build: YES
+  version: 4.0.3
 
 sqlite:
   build: YES
