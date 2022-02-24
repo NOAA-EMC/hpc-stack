@@ -36,7 +36,7 @@ export CFLAGS="${STACK_CFLAGS:-} ${STACK_libtiff_CFLAGS:-} -fPIC"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-URL="https://gitlab.com/lib${name}/lib${name}.git"
+URL="https://gitlab.com/${name}/${name}.git"
 [[ -d $software ]] || ( git clone $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
