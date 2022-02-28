@@ -9,7 +9,8 @@ Install and Build the HPC-Stack
 
 HPC-Stack installation will vary from system to system because there are so many possible combinations of operating systems, compilers, MPI's, and package versions. Installation via an EPIC-provided container is recommended to reduce this variability. However, users may choose a non-container approach to installation if they prefer. 
 
-..note:: 
+.. note:: 
+
    MPI stands for Message Passing Interface. An MPI is a standard communication system used in parallel programming. It establishes portable and efficient syntax for the exchange of messages and data between multiple processors that are used by a single computer program. An MPI is required for high-performance computing (HPC). 
 
 
@@ -18,7 +19,7 @@ HPC-Stack installation will vary from system to system because there are so many
 Install and Build the HPC-Stack in a Singularity Container
 ===========================================================
 
-The Earth Prediction Innovation Center (EPIC) provides `several containers <https://github.com/NOAA-EPIC/ufs-containers>`__ available for the installation of the HPC-Stack and Unified Forecast System (UFS) applications: 
+The Earth Prediction Innovation Center (EPIC) provides `several containers <https://github.com/NOAA-EPIC/ufs-containers>`__ available for the installation of the HPC-Stack (individually or combined with Unified Forecast System (UFS) applications): 
 
 * docker://noaaepic/ubuntu20.04-gnu9.3
 * docker://noaaepic/ubuntu20.04-hpc-stack
