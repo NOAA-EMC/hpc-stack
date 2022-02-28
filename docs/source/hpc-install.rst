@@ -10,7 +10,6 @@ Install and Build the HPC-Stack
 HPC-Stack installation will vary from system to system because there are so many possible combinations of operating systems, compilers, MPI's, and package versions. Installation via an EPIC-provided container is recommended to reduce this variability. However, users may choose a non-container approach to installation if they prefer. 
 
 ..note:: 
-
    MPI stands for Message Passing Interface. An MPI is a standard communication system used in parallel programming. It establishes portable and efficient syntax for the exchange of messages and data between multiple processors that are used by a single computer program. An MPI is required for high-performance computing (HPC). 
 
 
