@@ -1,3 +1,8 @@
+mpi:
+  build: YES
+  flavor: mpich
+  version: 3.4.2
+  
 cmake:
   build: NO
   bootstrap: NO
@@ -231,12 +236,12 @@ ncio:
   is_nceplib: YES
 
 boost:
-  build: YES
+  build: NO
   version: 1.68.0
   level: headers-only
 
 eigen:
-  build: YES
+  build: NO
   version: 3.3.7
 
 gsl_lite:
@@ -260,15 +265,15 @@ cgal:
   version: 5.0.2
 
 json:
-  build: YES
+  build: NO
   version: 3.9.1
 
 json_schema_validator:
-  build: YES
+  build: NO
   version: 2.1.0
 
 pybind11:
-  build: YES
+  build: NO
   version: 2.5.0
 
 ecbuild:
@@ -287,7 +292,7 @@ fckit:
   repo: ecmwf
 
 atlas:
-  build: YES
+  build: NO
   version: 0.24.1
   repo: ecmwf
 
@@ -353,6 +358,6 @@ hofxdiag:
   is_pyvenv: YES
 
 ufswm:
-  build: YES
+  build: NO
   version: 1.0.0
   is_pyvenv: YES
