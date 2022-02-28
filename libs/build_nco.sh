@@ -37,8 +37,13 @@ if $MODULES; then
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
 
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 else
     prefix=${NCO_ROOT:-"/usr/local"}
@@ -83,6 +88,14 @@ export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS:-} ${HDF5_LIBS:-} ${EXTRA_LIBS:-}"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
+
+nc_ver=$(nc-config --version)
+major_ver=$(echo $nc_ver | cut -d' ' -f2 | cut -d. -f1)
+if [[ $major_ver == "4" ]]; then
+    # Prevents duplicate symbols
+    # See http://nco.sourceforge.net/build_hints.shtml
+    CPPFLAGS="-DHAVE_NETCDF4_H"
+fi
 
 ../configure --prefix=$prefix \
              --enable-doc=no \

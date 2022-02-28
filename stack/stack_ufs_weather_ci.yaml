@@ -20,7 +20,7 @@ zlib:
   build: YES
   version: 1.2.11
 
-png:
+libpng:
   build: YES
   version: 1.6.35
 
@@ -192,7 +192,6 @@ upp:
   version: upp_v10.0.9
   install_as: 10.0.9
   openmp: ON
-  is_nceplib: YES
 
 wrf_io:
   build: YES

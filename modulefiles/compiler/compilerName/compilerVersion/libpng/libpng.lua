@@ -21,6 +21,7 @@ prepend_path("CPATH", pathJoin(base,"include"))
 prepend_path("MANPATH", pathJoin(base,"share","man"))
 
 setenv("PNG_ROOT", base)
+setenv("LIBPNG_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}","libpng.a"))
 setenv("PNG_INCLUDES", pathJoin(base,"include"))
 setenv("PNG_LIBRARIES", pathJoin(base,"lib"))
 setenv("PNG_VERSION", pkgVersion)
