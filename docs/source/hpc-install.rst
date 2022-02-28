@@ -5,7 +5,7 @@ Install and Build the HPC-Stack
 ================================
 
 .. attention::
-   The HPC-stack is already installed on `Level 1 systems <https://github.com/ufs-community/ufs-srweather-app/wiki/Supported-Platforms-and-Compilers>`_ (e.g., Cheyenne, Hera, Orion). Installation is not necessary. 
+   The HPC-Stack is already installed on `Level 1 <https://github.com/ufs-community/ufs-srweather-app/wiki/Supported-Platforms-and-Compilers>`__ systems (e.g., Cheyenne, Hera, Orion). Installation is not necessary. 
 
 HPC-Stack installation will vary from system to system because there are so many possible combinations of operating systems, compilers, MPI's, and package versions. Installation via an EPIC-provided container is recommended to reduce this variability. However, users may choose a non-container approach to installation if they prefer. 
 
@@ -29,10 +29,10 @@ The Earth Prediction Innovation Center (EPIC) provides `several containers <http
 Install Singularity
 -----------------------
 
-To install the HPC-stack via Singularity container, first install the Singularity package according to the `Singularity Installation Guide <https://sylabs.io/guides/3.2/user-guide/installation.html#>`_. This will include the installation of dependencies and the installation of the Go programming language. SingularityCE Version 3.7 or above is recommended. 
+To install the HPC-Stack via Singularity container, first install the Singularity package according to the `Singularity Installation Guide <https://sylabs.io/guides/3.2/user-guide/installation.html#>`_. This will include the installation of dependencies and the installation of the Go programming language. SingularityCE Version 3.7 or above is recommended. 
 
 .. warning:: 
-   Docker containers can only be run with root privileges, and users cannot have root privileges on HPC computers. Therefore, it is not possible to build the HPC-stack inside a Docker container on an HPC system. A Docker image may be pulled, but it must be run inside a container such as Singularity. Docker can, however, be used when building the HPC-Stack on a local system. 
+   Docker containers can only be run with root privileges, and users cannot have root privileges on HPC computers. Therefore, it is not possible to build the HPC-Stack inside a Docker container on an HPC system. A Docker image may be pulled, but it must be run inside a container such as Singularity. Docker can, however, be used to build the HPC-Stack on a *local* system. 
 
 
 Build and Run the Container
@@ -57,7 +57,7 @@ Build and Run the Container
 
    .. code-block:: console
       
-      singularity shell -e --writable --bind /contrib:/contrib ubuntu20.04-gnu9.3
+      singularity shell -e --writable --bind /<local_dir>:/contrib ubuntu20.04-gnu9.3
 
 
 Build the HPC-Stack
@@ -67,16 +67,16 @@ Build the HPC-Stack
    
    .. code-block:: console
       
-      git clone -b feature/ubuntu20.04 https://github.com/jkbk2004/hpc-stack
+      git clone https://github.com/NOAA-EMC/hpc-stack
       cd hpc-stack
 
-#. Set up the build environment. Be sure to change the ``prefix`` argument in the code below to your system's install location (likely within the hpc-stack directory). 
+#. Set up the build environment. Be sure to change the ``prefix`` argument in the code below to your system's install location (likely within the ``hpc-stack`` directory). 
    
    .. code-block:: console
       
       ./setup_modules.sh -p <prefix> -c config/config_custom.sh
 
-   where <prefix> is the directory where the software packages will be installed with a default value $HOME/opt. For example, if the hpc-stack is installed in the user's directory: `/home/$USER/hpc-stack/hpc-modules`
+   where <prefix> is the directory where the software packages will be installed with a default value $HOME/opt. For example, if the HPC-Stack is installed in the user's directory: `/home/$USER/hpc-stack/hpc-modules`
    Enter YES/YES/YES when the option is presented. Then modify ``build_stack.sh`` with the following commands:
    
    .. code-block:: console
@@ -102,7 +102,7 @@ Build the HPC-Stack
 
 .. Hint::
    
-   If the modules cannot be found in  `$USER/hpc-stack/modulefiles/stack`, there may be a separate `hpc-modules` directory, which can be sourced using the command `module use <prefix>/hpc-modules/modulefiles/stack`. 
+   If the modules cannot be found in  ``$USER/hpc-stack/modulefiles/stack``, there may be a separate ``hpc-modules`` directory, which can be sourced using the command ``module use <prefix>/hpc-modules/modulefiles/stack``. 
 
 From here, the user can continue to install and run applications that depend on the HPC-Stack, such as the UFS Short Range Weather (SRW) Application. 
 
@@ -119,10 +119,10 @@ To install the HPC-Stack locally, the following pre-requisites must be installed
 
 * **Python 3:** Can be obtained either from the `main distributor <https://www.python.org/>`_ or from `Anaconda <https://www.anaconda.com/>`_. 
 * **Compilers:** Distributions of Fortran, C, and C++ compilers that work for your system. 
-* **Message Passing Interface (MPI)** libraries for multi-processor and multi-core communications, configured to work with your corresponding Fortran, C/C++ compilers. 
+* **Message Passing Interface (MPI)** libraries for multi-processor and multi-core communications, configured to work with your corresponding Fortran, C, and C++ compilers. 
 * **Programs and software packages:** `Lmod <https://lmod.readthedocs.io/en/latest/030_installing.html>`_, `CMake <https://cmake.org/install/>`_, `make <https://www.gnu.org/software/make/>`_, `wget <https://www.gnu.org/software/wget/>`_, `curl <https://curl.se/>`_, `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_, and the `TIFF library <https://gitlab.com/libtiff/libtiff.git>`_. 
 
-To determine whether these prerequisites are installed, query the environment variables (for ``Lmod``) or the location and version of the packages (for ``cmake``, ``make``, ``wget``, ``curl``, ``git``). A few examples:
+To determine whether these prerequisites are installed, query the environment variables (for ``Lmod``) or the location and version of the packages (for ``cmake``, ``make``, ``wget``, ``curl``, ``git``). For example:
 
    .. code-block:: console 
 
@@ -130,7 +130,7 @@ To determine whether these prerequisites are installed, query the environment va
       which cmake 
       cmake  --version 
 
-Methods for determining whether ``libtiff`` is installed vary between the systems. Users can try the following approaches:
+Methods for determining whether ``libtiff`` is installed vary between systems. Users can try the following approaches:
 
    .. code-block:: console
 
@@ -228,7 +228,7 @@ where:
 
 .. _NonConHPCBuild:
 
-Build the HPC-stack
+Build the HPC-Stack
 --------------------
 
 Now all that remains is to build the stack:
