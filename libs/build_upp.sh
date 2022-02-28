@@ -60,11 +60,11 @@ else
 fi
 
 git checkout $version
-git submodule update --init --recursive
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 if [[ "$using_cmake" = true ]]; then
 
+    git submodule update --init --recursive
     [[ -d build ]] && $SUDO rm -rf build
     mkdir -p build && cd build
 
