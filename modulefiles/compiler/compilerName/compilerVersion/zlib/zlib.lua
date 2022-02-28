@@ -21,6 +21,7 @@ prepend_path("CPATH", pathJoin(base,"include"))
 prepend_path("MANPATH", pathJoin(base,"share","man"))
 
 setenv("ZLIB_ROOT", base)
+setenv("ZLIB_LIB", pathJoin(base,"lib","libz.a"))
 setenv("ZLIB_INCLUDES", pathJoin(base,"include"))
 setenv("ZLIB_LIBRARIES", pathJoin(base,"lib"))
 setenv("ZLIB_VERSION", pkgVersion)

@@ -17,6 +17,7 @@ local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
 setenv("gfsio_ROOT", base)
 setenv("gfsio_VERSION", pkgVersion)
+
 setenv("GFSIO_INC",  pathJoin(base,"include"))
 setenv("GFSIO_LIB",  pathJoin(base,"lib/libgfsio.a"))
 
