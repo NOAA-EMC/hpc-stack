@@ -1,7 +1,12 @@
+mpi:
+  build: YES
+  flavor: mpich
+  version: 3.4.2
+  
 cmake:
   build: NO
   bootstrap: NO
-  version: 3.20.1
+  version: 3.20.2
 
 jpeg:
   build: YES
@@ -16,7 +21,7 @@ zlib:
 libpng:
   build: YES
   shared: NO
-  version: 1.6.35
+  version: 1.6.37
 
 szip:
   build: YES
@@ -73,7 +78,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_1
+  version: 8_0_1
   shared: NO
   enable_pnetcdf: NO
   debug: NO
@@ -143,8 +148,8 @@ landsfcutil:
 
 nemsio:
   build: YES
-  version: v2.5.4
-  install_as: 2.5.4
+  version: v2.5.2
+  install_as: 2.5.2
   is_nceplib: YES
 
 nemsiogfs:
@@ -173,21 +178,21 @@ g2c:
 
 g2tmpl:
   build: YES
-  version: v1.10.0
-  install_as: 1.10.0
+  version: v1.9.1
+  install_as: 1.9.1
   is_nceplib: YES
 
 crtm:
   build: YES
-  version: v2.4.0
-  install_as: 2.4.0
+  version: v2.3.0
+  install_as: 2.3.0
   is_nceplib: YES
   install_fix: YES
 
 upp:
   build: YES
-  version: upp_v10.0.9
-  install_as: 10.0.9
+  version: upp_v8.1.0
+  install_as: 8.1.0
   openmp: ON
 
 wrf_io:
@@ -199,15 +204,15 @@ wrf_io:
 
 bufr:
   build: YES
-  version: bufr_v11.5.0
-  install_as: 11.5.0
+  version: bufr_v11.4.0
+  install_as: 11.4.0
   python: NO
   is_nceplib: YES
 
 wgrib2:
   build: YES
-  version: 2.0.8
-  install_as: 2.0.8
+  version: 2.0.7
+  install_as: 2.0.7
   lib: YES
   ipolates: 3
 
@@ -231,12 +236,12 @@ ncio:
   is_nceplib: YES
 
 boost:
-  build: YES
+  build: NO
   version: 1.68.0
   level: headers-only
 
 eigen:
-  build: YES
+  build: NO
   version: 3.3.7
 
 gsl_lite:
@@ -260,15 +265,15 @@ cgal:
   version: 5.0.2
 
 json:
-  build: YES
+  build: NO
   version: 3.9.1
 
 json_schema_validator:
-  build: YES
+  build: NO
   version: 2.1.0
 
 pybind11:
-  build: YES
+  build: NO
   version: 2.5.0
 
 ecbuild:
@@ -287,7 +292,7 @@ fckit:
   repo: ecmwf
 
 atlas:
-  build: YES
+  build: NO
   version: 0.24.1
   repo: ecmwf
 
@@ -334,7 +339,7 @@ proj:
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
 miniconda3:
-  build: YES
+  build: NO
   version: 4.6.14
 
 r2d2:
@@ -353,6 +358,6 @@ hofxdiag:
   is_pyvenv: YES
 
 ufswm:
-  build: YES
+  build: NO
   version: 1.0.0
   is_pyvenv: YES
