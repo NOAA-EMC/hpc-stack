@@ -53,11 +53,13 @@ Build and Run the Container
       mkdir contrib
       cd ..
 
-#. Start the container and run an interactive shell within it. This command also binds the local working directory to the container so that data can be shared between them.
+#. From the local working directory, start the container and run an interactive shell within it. This command also binds the local working directory to the container so that data can be shared between them.
 
    .. code-block:: console
       
       singularity shell -e --writable --bind /<local_dir>:/contrib ubuntu20.04-gnu9.3
+   
+   Make sure to update ``<local_dir>`` with the name of your local working directory. 
 
 
 Build the HPC-Stack
@@ -76,7 +78,7 @@ Build the HPC-Stack
       
       ./setup_modules.sh -p <prefix> -c config/config_custom.sh
 
-   where <prefix> is the directory where the software packages will be installed with a default value $HOME/opt. For example, if the HPC-Stack is installed in the user's directory: `/home/$USER/hpc-stack/hpc-modules`
+   Here, ``<prefix>`` is the directory where the software packages will be installed with a default value $HOME/opt. For example, if the HPC-Stack is installed in the user's directory, the prefix might be ``/home/$USER/hpc-stack/hpc-modules``.
    Enter YES/YES/YES when the option is presented. Then modify ``build_stack.sh`` with the following commands:
    
    .. code-block:: console
@@ -91,7 +93,7 @@ Build the HPC-Stack
 
       ./build_stack.sh -p <prefix> -c config/config_custom.sh -y stack/stack_custom.yaml -m
 
-#. Load the required modules, making sure to change the `<prefix>` to the location of the module files. 
+#. Load the required modules, making sure to change the ``<prefix>`` to the location of the module files. 
    
    .. code-block:: console
 
@@ -148,11 +150,11 @@ If compilers or MPI's need to be installed, consult the :ref:`HPC-Stack Prerequi
 Configure the Build
 ---------------------
 
-Choose the COMPILER, MPI, and PYTHON version, and specify any other aspects of the build that you would like. For Level 1 systems, a default configuration can be found in the applicable ``config/config_<platform>.sh`` file. For Level 2-4 systems, selections can be made by editing the config/config_custom.sh file to reflect the appropriate compiler, mpi, and python choices for your system. If Lmod is installed on your system, you can view options using the ``module avail`` command. 
+Choose the COMPILER, MPI, and PYTHON version, and specify any other aspects of the build that you would like. For Level 1 systems, a default configuration can be found in the applicable ``config/config_<platform>.sh`` file. For Level 2-4 systems, selections can be made by editing the config/config_custom.sh file to reflect the appropriate compiler, mpi, and python choices for your system. If Lmod is installed on your system, you can view package options using the ``module avail`` command. 
    
 Some of the parameter settings available are: 
 
-* HPC_COMPILER: This defines the vendor and version of the compiler you wish to use for this build. The format is the same as what you would typically use in a module load command. For example, ``HPC_COMPILER=intel/2020``. Use ``gcc -v`` to determine your compiler and version. 
+* HPC_COMPILER: This defines the vendor and version of the compiler you wish to use for this build. The format is the same as what you would typically use in a ``module load`` command. For example, ``HPC_COMPILER=intel/2020``. Use ``gcc -v`` to determine your compiler and version. 
 * HPC_MPI: This is the MPI library you wish to use. The format is the same as for HPC_COMPILER. For example: ``HPC_MPI=impi/2020``.
 * HPC_PYTHON: This is the Python interpreter to use for the build. The format is the same as for HPC_COMPILER, for example: ``HPC_PYTHON=python/3.7.5``. Use ``python --version`` to determine the current version of Python. 
 
@@ -160,7 +162,7 @@ Other variables include USE_SUDO, DOWNLOAD_ONLY, NOTE, PKGDIR, LOGDIR, OVERWRITE
 
 .. note:: 
 
-   If you only want to install select components of the stack, you can edit the ``stack/stack_custom.yaml`` file to omit unwanted components. The ``stack/stack_custom.yaml`` file lists the software packages to be built along with their version, options, compiler flags, and any other package-specific options. A full listing of components is available in the :ref:`HPC-Stack Components <HPCComponents>` section.
+   If you only want to install select components of the HPC-Stack, you can edit the ``stack/stack_custom.yaml`` file to omit unwanted components. The ``stack/stack_custom.yaml`` file lists the software packages to be built along with their version, options, compiler flags, and any other package-specific options. A full listing of components is available in the :ref:`HPC-Stack Components <HPCComponents>` section.
 
 
 .. _NonConSetUp:
@@ -179,7 +181,7 @@ After preparing the system configuration in ``./config/config_<platform>.sh``, r
 
 where:
 
-``<prefix>`` is the directory where the software packages will be installed during the hpc-stack build. The default value is $HOME/opt. The software installation trees will branch directly off of <prefix>, while the module files will be located in the <prefix>/modulefiles subdirectory. 
+``<prefix>`` is the directory where the software packages will be installed during the HPC-Stack build. The default value is $HOME/opt. The software installation trees will branch directly off of ``<prefix>``, while the module files will be located in the ``<prefix>/modulefiles`` subdirectory. 
 
 .. attention::
 
@@ -189,14 +191,14 @@ where:
 
 **Additional Options:**
 
-The compiler and mpi modules can be handled separately from the rest of the build in order to exploit site-specific installations that maximize performance. In this case, the compiler and mpi modules are preceded by an hpc- label. For example, to load the Intel compiler module and the Intel MPI (IMPI) software library, enter:
+The compiler and mpi modules can be handled separately from the rest of the build in order to exploit site-specific installations that maximize performance. In this case, the compiler and mpi modules are preceded by an ``hpc-`` label. For example, to load the Intel compiler module and the Intel MPI (IMPI) software library, enter:
 
    .. code-block:: console
 
       module load hpc-intel/2020
       module load hpc-impi/2020
 
-These hpc- modules are really meta-modules that load the compiler/mpi library and modify the MODULEPATH so that the user has access to the software packages that will be built in :numref:`Step %s <NonConHPCBuild>`. On HPC systems, these meta-modules load the native modules provided by the system administrators. 
+These ``hpc-`` modules are really meta-modules that load the compiler/mpi library and modify the MODULEPATH so that the user has access to the software packages that will be built in :numref:`Step %s <NonConHPCBuild>`. On HPC systems, these meta-modules load the native modules provided by the system administrators. 
 
 In short, you may prefer not to load the compiler or MPI modules directly. Instead, loading the hpc- meta-modules as demonstrated above will provide everything needed to load software libraries.
    
@@ -222,9 +224,10 @@ It may also be necessary to initialize ``Lmod`` when using a user-specific ``Lmo
       module use <$HOME>/<your-modulefiles-dir>
 
 where: 
+
 * ``<Lmod-installation-dir>`` is the top directory where Lmod is installed
 * ``<module1>, ...,<moduleN>`` is column-separated list of modules to load by default
-* <$HOME>/<your-modulefiles-dir> is the directory where additional custom modules may be built with Lmod (e.g., $HOME/modulefiles).
+* ``<$HOME>/<your-modulefiles-dir>`` is the directory where additional custom modules may be built with Lmod (e.g., $HOME/modulefiles).
 
 .. _NonConHPCBuild:
 
@@ -235,12 +238,12 @@ Now all that remains is to build the stack:
 
    .. code-block:: console
 
-      ./build_stack.sh -p <prefix> -c <configuration> -y <yaml> -m
+      ./build_stack.sh -p <prefix> -c <configuration> -y <yaml_file> -m
 
-Here the -m option is only required when you need to build your own modules *and* LMod is used for managing the software stack. It should be omitted otherwise. <prefix> and <configuration> are the same as in :numref:`Step %s <NonConSetUp>`, namely a reference to the absolute-path installation prefix and a corresponding configuration file in the ``config`` directory. As in :numref:`Step %s <NonConSetUp>`, if this argument is omitted, the default is to use ``$HOME/opt`` and ``config/config_custom.sh`` respectively. ``<yaml>`` represents a user configurable yaml file containing a list of packages that need to be built in the stack along with their versions and package options. The default value of ``<yaml>`` is ``stack/stack_custom.yaml``.
+Here the -m option is only required when you need to build your own modules *and* LMod is used for managing the software stack. It should be omitted otherwise. ``<prefix>`` and ``<configuration>`` are the same as in :numref:`Step %s <NonConSetUp>`, namely a reference to the absolute-path installation prefix and a corresponding configuration file in the ``config`` directory. As in :numref:`Step %s <NonConSetUp>`, if this argument is omitted, the default is to use ``$HOME/opt`` and ``config/config_custom.sh`` respectively. ``<yaml_file>`` represents a user configurable yaml file containing a list of packages that need to be built in the stack along with their versions and package options. The default value of ``<yaml_file>`` is ``stack/stack_custom.yaml``.
 
 .. warning:: 
-   Steps :numref:`Step %s <NonConConfigure>`, :numref:`Step %s <NonConSetUp>`, and :numref:`Step %s <NonConHPCBuild>` need to be repeated for each compiler/MPI combination that you wish to install.** The new packages will be installed alongside any previously-existing packages that may already have been built from other compiler/MPI combinations.
+   Steps :numref:`Step %s <NonConConfigure>`, :numref:`Step %s <NonConSetUp>`, and :numref:`Step %s <NonConHPCBuild>` need to be repeated for each compiler/MPI combination that you wish to install. The new packages will be installed alongside any previously-existing packages that may already have been built from other compiler/MPI combinations.
 
 From here, the user can continue to install and run applications that depend on the HPC-Stack.
 

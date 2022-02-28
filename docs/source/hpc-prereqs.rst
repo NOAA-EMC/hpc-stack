@@ -30,5 +30,5 @@ Compilers:
 MPI's
   * `OpenMPI <https://www.open-mpi.org/>`__
   * `MPICH <https://www.mpich.org/>`__
-  * `IntelMPI (IMPI) <https://www.intel.com/content/www/us/en/developer/tools/oneapi/mpi-library.html>`__
+  * `IntelMPI <https://www.intel.com/content/www/us/en/developer/tools/oneapi/mpi-library.html>`__
 

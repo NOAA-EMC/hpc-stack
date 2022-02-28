@@ -32,7 +32,7 @@ Compiler & MPI
    * ``openmpi/4.1.2``
 
 .. note:: 
-   For example, when using Intel-based compilers and Intel's implementation of the MPI interface (IMPI), the ``config/config_custom.sh`` should contain the following specifications: 
+   For example, when using Intel-based compilers and Intel's implementation of the MPI interface, the ``config/config_custom.sh`` should contain the following specifications: 
 
    .. code-block:: console
 
@@ -47,7 +47,7 @@ Compiler & MPI
    This will set the C, Fortran, and C++ compilers and MPI's. 
 
 .. note::
-   To verify that your chosen mpi build (e.g., mpiicc) is based on the corresponding serial compiler (e.g., icc), use the ``-show`` option to query the MPI's. For example,
+   To verify that your chosen MPI build (e.g., mpiicc) is based on the corresponding serial compiler (e.g., icc), use the ``-show`` option to query the MPI's. For example,
    
    .. code-block:: console
 
@@ -68,32 +68,32 @@ Other Parameters
    The Python interpretor you wish to use for this build. The format is the same as for ``HPC_COMPILER``, for example: ``HPC_PYTHON=python/3.7.5``. 
 
 ``USE_SUDO``: (Default: “”)
-   If PREFIX is set to a value that requires root permission to write to, such as ``/opt/modules``, then this flag should be enabled. For example, ``USE_SUDO=Y``.
+   If the directory where the software packages will be installed (``<prefix>``) requires root permission to write to, such as ``/opt/modules``, then this flag should be enabled. For example, ``USE_SUDO=Y``.
 
 ``DOWNLOAD_ONLY``: (Default: “”)
-   The stack allows the option to download the source code for all the software without performing the installation. This is especially useful for installing the stack on machines that do not allow internet connectivity to websites hosting the softwares e.g. GitHub.
+   The stack allows the option to download the source code for all the software without performing the installation. This is especially useful for installing the stack on machines that do not allow internet connectivity to websites hosting the software (e.g., GitHub).
 
 .. note::
 
-   To enable a boolean flag use a single-digit ``Y`` or ``T``. To disable, use ``N`` or ``F`` (case insensitive)
+   To enable a boolean flag, use a single-digit ``Y`` or ``T``. To disable, use ``N`` or ``F`` (case insensitive).
 
 ``PKGDIR``: (Default: “”)
-   is the directory where tarred or zipped software files will be downloaded and compiled. Unlike PREFIX, this is a relative path, based on the root path of the repository. Individual software packages can be downloaded manually to this directory and untarred, but this is not required. Build scripts will look for directory ``pkg/pkgName-pkgVersion`` e.g., ``pkg/hdf5-1_10_3``.
+   is the directory where tarred or zipped software files will be downloaded and compiled. Unlike ``<prefix>``, this is a relative path based on the root path of the repository. Individual software packages can be downloaded manually to this directory and untarred, but this is not required. Build scripts will look for the directory ``pkg/<pkgName-pkgVersion>`` (e.g., ``pkg/hdf5-1_10_3``).
 
 ``LOGDIR``: (Default: “”)
    The directory where log files from the build will be written, relative to the root path of the repository.
 
 ``OVERWRITE``: (Default: “”)
-   If set, this flag will cause the build script to remove the current installation, if any exists, and replace it with the new version of each software package in question. If this is not set, the build will bypass software packages that are already installed.
+   If set to ``T``, this flag will cause the build script to remove the current installation, if any exists, and replace it with the new version of each software package in question. If this variable is not set, the build will bypass software packages that are already installed.
 
 ``NTHREADS``: (Default: “”)
-   The number of threads to use for parallel builds
+   The number of threads to use for parallel builds.
 
 ``MAKE_CHECK``: (Default: “”)
-   Run make check after build
+   Run make check after build.
 
 ``MAKE_VERBOSE``: (Default: “”)
-   Print out extra information to the log files during the build
+   Print out extra information to the log files during the build.
 
 ``VENVTYPE``: (Default: “”)
    Set the type of python environment to build. Value depends on whether using pip or conda. Set ``VENVTYPE=pyvenv`` when using pip and ``VENVTYPE=condaenv`` when using Miniconda for creating virtual environments. Default is ``pyvenv``.
