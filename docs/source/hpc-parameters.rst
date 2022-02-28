@@ -73,7 +73,7 @@ Other Parameters
    If the directory where the software packages will be installed (``$PREFIX``) requires root permission to write to, such as ``/opt/modules``, then this flag should be enabled. For example, ``USE_SUDO=Y``.
 
 ``DOWNLOAD_ONLY``: 
-   The stack allows the option to download the source code for all the software without performing the installation. This is especially useful for installing the stack on machines that do not allow internet connectivity to websites hosting the software (e.g., GitHub). For more information, see :ref:`Additional Notes <DownloadOnly>`.
+   The stack allows the option to download the source code for all the software without performing the installation. This is especially useful for installing the stack on machines that do not allow internet connectivity to websites hosting the software (e.g., GitHub). For more information, see :numref:`Section %s Additional Notes <DownloadOnly>`.
 
 .. note::
 

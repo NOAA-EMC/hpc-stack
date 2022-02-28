@@ -89,7 +89,7 @@ Known Workaround for Certain Installations of Lmod
     setenv("LMOD_EXACT_MATCH", "no")
     setenv("LMOD_EXTENDED_DEFAULT", "yes")
 
-  See more on the `Lmod website <https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html>`__
+  See more on the `Lmod website <https://lmod.readthedocs.io/en/latest/090_configuring_lmod.html>`__.
 
 
 Known Issues
