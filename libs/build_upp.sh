@@ -50,7 +50,7 @@ export CC=$MPI_CC
 
 software=$name-$version
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-[[ -d $software ]] || git clone --recursive $URL $software
+[[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
 if [[ -f CMakeLists.txt ]]; then
@@ -60,6 +60,7 @@ else
 fi
 
 git checkout $version
+git submodule update --init --recursive
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 if [[ "$using_cmake" = true ]]; then
