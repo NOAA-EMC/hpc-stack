@@ -11,7 +11,7 @@ HPC-Stack installation will vary from system to system because there are so many
 
 .. note:: 
 
-   MPI stands for Message Passing Interface. An MPI is a standard communication system used in parallel programming. It establishes portable and efficient syntax for the exchange of messages and data between multiple processors that are used by a single computer program. An MPI is required for high-performance computing (HPC). 
+   MPI stands for Message Passing Interface. An MPI is a standardized communication system used in parallel programming. It establishes portable and efficient syntax for the exchange of messages and data between multiple processors that are used by a single computer program. An MPI is required for high-performance computing (HPC). 
 
 
 .. _SingularityInstall:
@@ -19,12 +19,12 @@ HPC-Stack installation will vary from system to system because there are so many
 Install and Build the HPC-Stack in a Singularity Container
 ===========================================================
 
-The Earth Prediction Innovation Center (EPIC) provides `several containers <https://github.com/NOAA-EPIC/ufs-containers>`__ available for the installation of the HPC-Stack (individually or combined with Unified Forecast System (UFS) applications): 
+The Earth Prediction Innovation Center (EPIC) provides `several containers <https://github.com/NOAA-EPIC/ufs-containers>`__ available for the installation of the HPC-Stack either individually or combined with Unified Forecast System (UFS) applications: 
 
-* docker://noaaepic/ubuntu20.04-gnu9.3
-* docker://noaaepic/ubuntu20.04-hpc-stack
-* docker://noaaepic/ubuntu20.04-epic-srwapp
-* docker://noaaepic/ubuntu20.04-epic-mrwapp
+* `<docker://noaaepic/ubuntu20.04-gnu9.3>`__
+* `<docker://noaaepic/ubuntu20.04-hpc-stack>`__
+* `<docker://noaaepic/ubuntu20.04-epic-srwapp>`__
+* `<docker://noaaepic/ubuntu20.04-epic-mrwapp>`__
 
 Install Singularity
 -----------------------
@@ -32,7 +32,7 @@ Install Singularity
 To install the HPC-Stack via Singularity container, first install the Singularity package according to the `Singularity Installation Guide <https://sylabs.io/guides/3.2/user-guide/installation.html#>`_. This will include the installation of dependencies and the installation of the Go programming language. SingularityCE Version 3.7 or above is recommended. 
 
 .. warning:: 
-   Docker containers can only be run with root privileges, and users cannot have root privileges on HPC computers. Therefore, it is not possible to build the HPC-Stack inside a Docker container on an HPC system. A Docker image may be pulled, but it must be run inside a container such as Singularity. Docker can, however, be used to build the HPC-Stack on a *local* system. 
+   Docker containers can only be run with root privileges, and users cannot have root privileges on HPC's. Therefore, it is not possible to build the HPC-Stack inside a Docker container on an HPC system. A Docker image may be pulled, but it must be run inside a container such as Singularity. Docker can, however, be used to build the HPC-Stack on a *local* system. 
 
 
 Build and Run the Container
@@ -65,7 +65,7 @@ Build and Run the Container
 Build the HPC-Stack
 --------------------
 
-#. Clone the hpc-stack repository (from inside the singularity shell above).
+#. Clone the HPC-Stack repository (from inside the Singularity shell initialized above).
    
    .. code-block:: console
       
@@ -78,7 +78,8 @@ Build the HPC-Stack
       
       ./setup_modules.sh -p <prefix> -c config/config_custom.sh
 
-   Here, ``<prefix>`` is the directory where the software packages will be installed with a default value $HOME/opt. For example, if the HPC-Stack is installed in the user's directory, the prefix might be ``/home/$USER/hpc-stack/hpc-modules``.
+   Here, ``<prefix>`` is the directory where the software packages will be installed with a default value of ``$HOME/opt``. For example, if the HPC-Stack is installed in the user's directory, the prefix might be ``/home/$USER/hpc-stack/hpc-modules``.
+   
    Enter YES/YES/YES when the option is presented. Then modify ``build_stack.sh`` with the following commands:
    
    .. code-block:: console
@@ -98,13 +99,9 @@ Build the HPC-Stack
    .. code-block:: console
 
       source /usr/share/lmod/lmod/init/bash
-      module use <prefix>/modulefiles/stack
+      module use <prefix>/hpc-modules/modulefiles/stack
       module load hpc hpc-gnu hpc-openmpi
       module avail
-
-.. Hint::
-   
-   If the modules cannot be found in  ``$USER/hpc-stack/modulefiles/stack``, there may be a separate ``hpc-modules`` directory, which can be sourced using the command ``module use <prefix>/hpc-modules/modulefiles/stack``. 
 
 From here, the user can continue to install and run applications that depend on the HPC-Stack, such as the UFS Short Range Weather (SRW) Application. 
 
@@ -130,7 +127,7 @@ To determine whether these prerequisites are installed, query the environment va
 
       echo $LMOD_PKG
       which cmake 
-      cmake  --version 
+      cmake --version 
 
 Methods for determining whether ``libtiff`` is installed vary between systems. Users can try the following approaches:
 
@@ -150,7 +147,7 @@ If compilers or MPI's need to be installed, consult the :ref:`HPC-Stack Prerequi
 Configure the Build
 ---------------------
 
-Choose the COMPILER, MPI, and PYTHON version, and specify any other aspects of the build that you would like. For Level 1 systems, a default configuration can be found in the applicable ``config/config_<platform>.sh`` file. For Level 2-4 systems, selections can be made by editing the config/config_custom.sh file to reflect the appropriate compiler, mpi, and python choices for your system. If Lmod is installed on your system, you can view package options using the ``module avail`` command. 
+Choose the COMPILER, MPI, and PYTHON version, and specify any other aspects of the build that you would like. For `Level 1 <https://github.com/ufs-community/ufs-srweather-app/wiki/Supported-Platforms-and-Compilers>`__ systems, a default configuration can be found in the applicable ``config/config_<platform>.sh`` file. For Level 2-4 systems, selections can be made by editing the ``config/config_custom.sh`` file to reflect the appropriate compiler, MPI, and Python choices for your system. If Lmod is installed on your system, you can view package options using the ``module avail`` command. 
    
 Some of the parameter settings available are: 
 
@@ -191,14 +188,14 @@ where:
 
 **Additional Options:**
 
-The compiler and mpi modules can be handled separately from the rest of the build in order to exploit site-specific installations that maximize performance. In this case, the compiler and mpi modules are preceded by an ``hpc-`` label. For example, to load the Intel compiler module and the Intel MPI (IMPI) software library, enter:
+The compiler and MPI modules can be handled separately from the rest of the build in order to exploit site-specific installations that maximize performance. In this case, the compiler and MPI modules are preceded by an ``hpc-`` label. For example, to load the Intel compiler module and the Intel MPI (IMPI) software library, enter:
 
    .. code-block:: console
 
       module load hpc-intel/2020
       module load hpc-impi/2020
 
-These ``hpc-`` modules are really meta-modules that load the compiler/mpi library and modify the MODULEPATH so that the user has access to the software packages that will be built in :numref:`Step %s <NonConHPCBuild>`. On HPC systems, these meta-modules load the native modules provided by the system administrators. 
+These ``hpc-`` modules are really meta-modules that load the compiler/MPI library and modify the MODULEPATH so that the user has access to the software packages that will be built in :numref:`Step %s <NonConHPCBuild>`. On HPC systems, these meta-modules load the native modules provided by the system administrators. 
 
 In short, you may prefer not to load the compiler or MPI modules directly. Instead, loading the hpc- meta-modules as demonstrated above will provide everything needed to load software libraries.
    
@@ -226,7 +223,7 @@ It may also be necessary to initialize ``Lmod`` when using a user-specific ``Lmo
 where: 
 
 * ``<Lmod-installation-dir>`` is the top directory where Lmod is installed
-* ``<module1>, ...,<moduleN>`` is column-separated list of modules to load by default
+* ``<module1>, ...,<moduleN>`` is a comma-separated list of modules to load by default
 * ``<$HOME>/<your-modulefiles-dir>`` is the directory where additional custom modules may be built with Lmod (e.g., $HOME/modulefiles).
 
 .. _NonConHPCBuild:

@@ -5,7 +5,9 @@
 HPC-Stack Additional Notes
 ===========================
 
-Setting compiler flags and other options
+.. _Flags:
+
+Setting Compiler Flags and Other Options
 -----------------------------------------
 
 Often it is necessary to specify compiler flags (e.g., ``gfortran-10 -fallow-argument-mismatch`` for the packages via ``FFLAGS``.  There are 2 ways this can be achieved:
@@ -46,12 +48,14 @@ If you want to port this to a new HPC, you need to follow these steps:
 
 #. If the new HPC system provides some basic modules for e.g., Git, CMake, etc., they can be loaded in ``config/config_<hpc>.sh``.
 
+.. _DownloadOnly:
+
 Using the DOWNLOAD_ONLY Option
 ----------------------------------------
 
-If an HPC (e.g., NOAA RDHPCS Hera) does not allow access to online software via ``wget`` or ``git clone``, you will have to download all the packages using the ``DOWNLOAD_ONLY`` option in the ``config_custom.sh``. Execute ``build_stack.sh`` as you would on a machine that does allow access to online software with ``DOWNLOAD_ONLY=YES`` and all the packages will be downloaded in the ``pkg`` directory. Transfer the contents of the ``pkg`` directory to the machine where you wish to install the hpc-stack, and execute ``build_stack.sh``. The ``build_stack.sh`` script will detect the already-downloaded packages and use them rather than fetching them.
+If an HPC (e.g., NOAA RDHPCS Hera) does not allow access to online software via ``wget`` or ``git clone``, you will have to download all the packages using the ``DOWNLOAD_ONLY`` option in the ``config_custom.sh``. Execute ``build_stack.sh`` as you would on a machine that does allow access to online software with ``DOWNLOAD_ONLY=YES`` and all the packages will be downloaded in the ``pkg`` directory. Transfer the contents of the ``pkg`` directory to the machine where you wish to install the HPC-Stack, and execute ``build_stack.sh``. The ``build_stack.sh`` script will detect the already-downloaded packages and use them rather than fetching them.
 
-Using the HPC-stack
+Using the HPC-Stack
 ---------------------
 
 * If Lmod is used to manage the software stack, you will need to activate the HPC-Stack in order to use it. This is done by loading the ``hpc`` module under ``$PREFIX/modulefiles/stack`` as follows:
