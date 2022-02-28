@@ -23,6 +23,7 @@ prepend_path("MANPATH", pathJoin(base,"share","man"))
 
 setenv("Jasper_ROOT", base)
 setenv("JASPER_ROOT", base)
+setenv("JASPER_LIB", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}","libjasper.a"))
 setenv("JASPER_INCLUDES", pathJoin(base,"include"))
 setenv("JASPER_LIBRARIES", pathJoin(base,"${CMAKE_INSTALL_LIBDIR}"))
 setenv("JASPER_VERSION", pkgVersion)
