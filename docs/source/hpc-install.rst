@@ -9,13 +9,17 @@ Install and Build the HPC-Stack
 
 HPC-Stack installation will vary from system to system because there are so many possible combinations of operating systems, compilers, MPI's, and package versions. Installation via an EPIC-provided container is recommended to reduce this variability. However, users may choose a non-container approach to installation if they prefer. 
 
+..note:: 
+
+   MPI stands for Message Passing Interface. An MPI is a standard communication system used in parallel programming. It establishes portable and efficient syntax for the exchange of messages and data between multiple processors that are used by a single computer program. An MPI is required for high-performance computing (HPC). 
+
 
 .. _SingularityInstall:
 
 Install and Build the HPC-Stack in a Singularity Container
 ===========================================================
 
-The Earth Prediction Innovation Center (EPIC) provides `several containers <https://github.com/NOAA-EPIC/ufs-containers>`__ available for the installation of the stack and Unified Forecast System (UFS) applications: 
+The Earth Prediction Innovation Center (EPIC) provides `several containers <https://github.com/NOAA-EPIC/ufs-containers>`__ available for the installation of the HPC-Stack and Unified Forecast System (UFS) applications: 
 
 * docker://noaaepic/ubuntu20.04-gnu9.3
 * docker://noaaepic/ubuntu20.04-hpc-stack
@@ -28,7 +32,7 @@ Install Singularity
 To install the HPC-stack via Singularity container, first install the Singularity package according to the `Singularity Installation Guide <https://sylabs.io/guides/3.2/user-guide/installation.html#>`_. This will include the installation of dependencies and the installation of the Go programming language. SingularityCE Version 3.7 or above is recommended. 
 
 .. warning:: 
-   Docker containers can only be run with root privileges, and users cannot have root privileges on HPC computers. Therefore, it is not possible to build the HPC-stack inside a Docker container on an HPC system. A Docker image may be pulled, but it must be run inside a container such as Singularity. 
+   Docker containers can only be run with root privileges, and users cannot have root privileges on HPC computers. Therefore, it is not possible to build the HPC-stack inside a Docker container on an HPC system. A Docker image may be pulled, but it must be run inside a container such as Singularity. Docker can, however, be used when building the HPC-Stack on a local system. 
 
 
 Build and Run the Container
@@ -92,9 +96,13 @@ Build the HPC-Stack
    .. code-block:: console
 
       source /usr/share/lmod/lmod/init/bash
-      module use <prefix>/hpc-modules/modulefiles/stack
+      module use <prefix>/modulefiles/stack
       module load hpc hpc-gnu hpc-openmpi
       module avail
+
+.. Hint::
+   
+   If the modules cannot be found in  `$USER/hpc-stack/modulefiles/stack`, there may be a separate `hpc-modules` directory, which can be sourced using the command `module use <prefix>/hpc-modules/modulefiles/stack`. 
 
 From here, the user can continue to install and run applications that depend on the HPC-Stack, such as the UFS Short Range Weather (SRW) Application. 
 
