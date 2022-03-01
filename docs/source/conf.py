@@ -167,7 +167,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'HPC-Stack', 'HPC-Stack Users Guide',
-     author, 'HPC-Stack', 'One line description of project.',
+     author, 'HPC-Stack', 'How to build and run the HPC-Stack',
      'Miscellaneous'),
 ]
 
