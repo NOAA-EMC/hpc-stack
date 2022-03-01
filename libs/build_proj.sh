@@ -59,8 +59,8 @@ CMAKE_OPTS=${STACK_proj_cmake_opts:-""}
 [[ $MAKE_CHECK =~ [yYtT] ]] || CMAKE_OPTS+=" -DBUILD_TESTING=OFF"
 
 if [[ -n ${LIBTIFF_ROOT-} ]] ; then
-  CMAKE_OPTS+=" -DLIBTIFF_INCLUDE_DIR=${LIBTIFF_ROOT}/include "
-  [[ -f ${LIBTIFF_ROOT}/lib64/libtiff.so ]] && CMAKE_OPTS+=" -DLIBTIFF_LIBRARY=${LIBTIFF_ROOT}/lib64/libtiff.so " || CMAKE_OPTS+=" -DLIBTIFF_LIBRARY=${LIBTIFF_ROOT}/lib/libtiff.so "
+  CMAKE_OPTS+=" -DTIFF_INCLUDE_DIR=${LIBTIFF_ROOT}/include "
+  [[ -f ${LIBTIFF_ROOT}/lib64/libtiff.so ]] && CMAKE_OPTS+=" -DTIFF_LIBRARY=${LIBTIFF_ROOT}/lib64/libtiff.so " || CMAKE_OPTS+=" -DTIFF_LIBRARY=${LIBTIFF_ROOT}/lib/libtiff.so "
 fi
 
 if [[ -n ${SQLITE_ROOT-} ]] ; then
