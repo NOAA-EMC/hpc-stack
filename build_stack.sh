@@ -140,6 +140,7 @@ build_lib libpng
 build_lib szip
 build_lib jasper
 build_lib sqlite
+build_lib libtiff
 build_lib proj
 build_lib geos
 
