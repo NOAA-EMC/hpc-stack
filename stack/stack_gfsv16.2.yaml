@@ -192,8 +192,8 @@ upp:
 
 wrf_io:
   build: YES
-  version: v1.2.0
-  install_as: 1.2.0
+  version: v1.1.1-cmake-v5
+  install_as: 1.1.1
   openmp: ON
   is_nceplib: YES
 
