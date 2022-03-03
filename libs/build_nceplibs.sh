@@ -262,11 +262,10 @@ if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
     if [[ ! -d crtm_fix-${install_as} ]]; then
       crtm_tarball=fix_REL-${install_as}_emc.tgz
-      rm -f $crtm_tarball
-      $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
+     [[ -f $crtm_tarball ]] || ( $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball )
       tar xzf $crtm_tarball
       mv fix crtm_fix-${install_as}
-      rm -f $crtm_tarball
+#      rm -f $crtm_tarball
     fi
     if [[ "${install_as}" == "2.3.0" ]]; then
      if [[ ! -f link_crtm_coeffs.sh ]]; then
@@ -315,6 +314,8 @@ if [[ "$name" == "crtm" ]]; then
        cp ./crtm_fix-${install_as}/SpcCoeff/Big_Endian/* $prefix/fix
        cp ./crtm_fix-${install_as}/SpcCoeff/netcdf/* $prefix/fix
        cp ./crtm_fix-${install_as}/TauCoeff/ODPS/Big_Endian/* $prefix/fix
+       mv $prefix/fix/amsua_metop-c.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.noACC.bin
+       cp ./crtm_fix-${install_as}/SpcCoeff/Little_Endian/amsua_metop-c_v2.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.bin
      fi
     fi
   fi
