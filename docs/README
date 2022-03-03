@@ -1,0 +1,15 @@
+To build html docs:
+
+From the docs directory:
+
+make clean && sphinx-build -b html source build
+
+OR simply run: 
+
+make html
+
+Sphinx uses Latex to export the documentation as a PDF file. To build pdf run:
+
+make latexpdf
+
+It will generate a PDF file in ./build/latex/<sphinx-project-name>.pdf
