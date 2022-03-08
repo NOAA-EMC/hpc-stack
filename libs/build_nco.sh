@@ -101,6 +101,7 @@ fi
              --enable-doc=no \
              --enable-netcdf4 \
              --enable-shared=no \
+	     --enable-ncap2=no \
              NETCDF_INC=$NETCDF_ROOT/include \
              NETCDF_LIB=$NETCDF_ROOT/lib
 
