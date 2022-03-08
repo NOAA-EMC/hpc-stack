@@ -1,7 +1,7 @@
 help([[
 ]])
 
-local pkgName    = myModuleName()
+local pkgName = myModuleName()
 local pkgVersion = myModuleVersion()
 local pkgNameVer = myModuleFullName()
 
@@ -11,21 +11,21 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
+load("bacio", "w3emc")
+prereq("bacio", "w3emc")
+
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
-prepend_path("LD_LIBRARY_PATH", pathJoin(base,"lib"))
-prepend_path("DYLD_LIBRARY_PATH", pathJoin(base,"lib"))
-prepend_path("CPATH", pathJoin(base,"include"))
-prepend_path("MANPATH", pathJoin(base,"share","man"))
-
-setenv("PNG_ROOT", base)
-setenv("PNG_INCLUDES", pathJoin(base,"include"))
-setenv("PNG_LIBRARIES", pathJoin(base,"lib"))
-setenv("PNG_VERSION", pkgVersion)
+setenv("nemsio_ROOT", base)
+setenv("nemsio_VERSION", pkgVersion)
+setenv("NEMSIO_INC", pathJoin(base,"include"))
+setenv("NEMSIO_LIB", pathJoin(base,"lib/libnemsio.a"))
+prepend_path("PATH", pathJoin(base,"bin"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: library")
-whatis("Description: PNG library")
+whatis("Description: " .. pkgName .. " library")
+

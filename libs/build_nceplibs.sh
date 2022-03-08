@@ -30,9 +30,34 @@ if $MODULES; then
 
   case $name in
     # The following require MPI
-    nemsio | nemsiogfs | ncio | nceppost | upp)
+    nemsiogfs | ncio )
       module load hpc-$HPC_MPI
       using_mpi=YES
+      ;;
+    nemsio)
+      version_number=$(echo $version | cut -c 2-)
+      major_ver=$(echo $version_number | cut -d. -f1)
+      minor_ver=$(echo $version_number | cut -d. -f2)
+      patch_ver=$(echo $version_number | cut -d. -f3)
+      using_mpi=UNKNOWN
+      if [[ "$major_ver" -le "2" ]]; then
+          if [[ "$minor_ver" -le "5" ]]; then
+              if [[ "$patch_ver" -lt "3" ]]; then
+                  [[ ! -z $mpi ]] || exit 0 
+                  module load hpc-$HPC_MPI
+                  using_mpi=YES
+                  w3dep="w3nco"
+              fi
+          fi
+      fi
+      if [[ $using_mpi = "UNKNOWN" ]]; then
+        w3dep="w3emc"
+        using_mpi=NO
+        if [[ ! -z $mpi ]]; then
+          module load hpc-$HPC_MPI
+          using_mpi=YES
+        fi
+      fi
       ;;
     w3emc)
       version_number=$(echo $version | cut -c 2-)
@@ -64,63 +89,50 @@ if $MODULES; then
       module try-load jpeg
       module try-load jasper
       module try-load zlib
-      module try-load png
+      module try-load libpng
       module load netcdf
       module load sp
       module load ip2
+      ;;
+    crtm)
+      module load hpc-$HPC_MPI
+      module load netcdf
       ;;
     ip2)
       module load sp
       ;;
     g2)
       module try-load jpeg
-      module try-load png
+      module try-load libpng
       module try-load jasper
       ;;
     g2c)
       module try-load jpeg
       module try-load zlib
-      module try-load png
+      module try-load libpng
       module try-load jasper
       ;;
     nemsio)
       module load bacio
-      module load w3nco
+      module load ${w3dep}
       ;;
     nemsiogfs)
       module load nemsio
+      module load w3nco
       ;;
     w3emc)
+      module load bacio
       if [[ "$using_mpi" =~ [yYtT] ]]; then
           module load netcdf
           module load sigio
           module load nemsio
       fi
       ;;
-    nceppost | upp)
-      module try-load png
-      module try-load jasper
-      module load netcdf
-      module load bacio
-      module load w3nco
-      module load g2
-      module load g2tmpl
-      module load ip
-      module load sp
-      module load w3emc
-      module load crtm
-      # post executable requires the following,
-      # but we are not building post executable
-      # module load sigio
-      # module load sfcio
-      # module load gfsio
-      # module load nemsio
-      ;;
     grib_util)
       module try-load jpeg
       module try-load jasper
       module try-load zlib
-      module try-load png
+      module try-load libpng
       module load bacio
       module load w3nco
       module load g2
@@ -151,8 +163,14 @@ if $MODULES; then
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$install_as"
   fi
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 
 else
@@ -161,7 +179,7 @@ else
   eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
   case $name in
     # The following require MPI
-    nemsio | nemsiogfs | ncio | nceppost | upp | w3emc)
+    nemsio | nemsiogfs | ncio )
       using_mpi=YES
       ;;
     # The following can use MPI (if available)
@@ -196,19 +214,27 @@ export FCFLAGS="$FFLAGS"
 URL="https://github.com/noaa-emc/nceplibs-$name"
 extraCMakeFlags=""
 case $name in
-  nceppost | upp)
-    URL="https://github.com/noaa-emc/upp"
-    extraCMakeFlags="-DBUILD_POSTEXEC=OFF"
-    ;;
   crtm)
-    URL="https://github.com/noaa-emc/emc_crtm"
+    URL="https://github.com/NOAA-EMC/crtm.git"
     ;;
   wgrib2)
     extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
     ;;
   bufr)
     if [[ ${using_python:-} =~ [yYtT] ]]; then
-      extraCMakeFlags="-DENABLE_PYTHON=ON"
+      extraCMakeFlags="-DENABLE_PYTHON=ON "
+    fi
+    if [[ $MAKE_CHECK =~ [yYtT] ]]; then
+        extraCMakeFlags+="-DBUILD_TESTS=ON"
+    else
+        extraCMakeFlags+="-DBUILD_TESTS=OFF"
+    fi
+    ;;
+  nemsio)
+    if [[ ${using_mpi:-} =~ [yYtT] ]]; then
+      extraCMakeFlags="-DENABLE_MPI=ON"
+    else
+      extraCMakeFlags="-DENABLE_MPI=OFF"
     fi
     ;;
 esac
@@ -217,8 +243,12 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
 if [[ ! -d $software ]]; then
+  export GIT_LFS_SKIP_SMUDGE=1
   git clone $URL $software
   cd $software
+  if [[ "$name" == "crtm" ]]; then
+    version=release/REL-${install_as}_emc
+  fi
   git checkout $version
   git submodule update --init --recursive
 fi
@@ -228,19 +258,20 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 # Download CRTM fix files
 if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
-    if [[ ! -d crtm_fix-$version ]]; then
+    if [[ ! -d crtm_fix-${install_as} ]]; then
       crtm_tarball=fix_REL-${install_as}_emc.tgz
-      rm -f $crtm_tarball
-      $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball
+     [[ -f $crtm_tarball ]] || ( $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball )
       tar xzf $crtm_tarball
-      mv fix crtm_fix-$version
-      rm -f $crtm_tarball
+      mv fix crtm_fix-${install_as}
+#      rm -f $crtm_tarball
     fi
-    if [[ ! -f link_crtm_coeffs.sh ]]; then
-      $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
-      sed -i'.backup' -e 's/LINK="ln -sf"/LINK="cp"/g' link_crtm_coeffs.sh
-      chmod +x link_crtm_coeffs.sh
-      rm -f link_crtm_coeffs.sh.backup
+    if [[ "${install_as}" == "2.3.0" ]]; then
+     if [[ ! -f link_crtm_coeffs.sh ]]; then
+       $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
+       sed -i'.backup' -e 's/LINK="ln -sf"/LINK="cp"/g' link_crtm_coeffs.sh
+       chmod +x link_crtm_coeffs.sh
+       rm -f link_crtm_coeffs.sh.backup
+     fi
     fi
   fi
 fi
@@ -266,8 +297,24 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 # Install CRTM fix files
 if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
-    if [[ -d crtm_fix-$version ]]; then
-      ./link_crtm_coeffs.sh ./crtm_fix-$version $prefix/fix
+    if [[ -d crtm_fix-${install_as} ]]; then
+     if [[ "${install_as}" == "2.3.0" ]]; then
+       ./link_crtm_coeffs.sh ./crtm_fix-${install_as} $prefix/fix
+     else
+       mkdir -p $prefix/fix
+       cp ./crtm_fix-${install_as}/ACCoeff/netcdf/* $prefix/fix
+       cp ./crtm_fix-${install_as}/AerosolCoeff/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${install_as}/AerosolCoeff/netCDF/* $prefix/fix
+       cp ./crtm_fix-${install_as}/CloudCoeff/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${install_as}/CloudCoeff/netCDF/* $prefix/fix
+       cp ./crtm_fix-${install_as}/EmisCoeff/*/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${install_as}/EmisCoeff/*/*/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${install_as}/SpcCoeff/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${install_as}/SpcCoeff/netcdf/* $prefix/fix
+       cp ./crtm_fix-${install_as}/TauCoeff/ODPS/Big_Endian/* $prefix/fix
+       mv $prefix/fix/amsua_metop-c.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.noACC.bin
+       cp ./crtm_fix-${install_as}/SpcCoeff/Little_Endian/amsua_metop-c_v2.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.bin
+     fi
     fi
   fi
 fi

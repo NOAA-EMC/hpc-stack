@@ -20,7 +20,7 @@ zlib:
   build: YES
   version: 1.2.11
 
-png:
+libpng:
   build: YES
   version: 1.6.35
 
@@ -62,8 +62,8 @@ nccmp:
   version: 1.8.9.0
 
 nco:
-  build: NO
-  version: 4.9.3
+  build: YES
+  version: 5.0.6
 
 cdo:
   build: NO
@@ -76,8 +76,8 @@ pio:
   enable_gptl: NO
 
 esmf:
-  build: NO
-  version: 8_1_1
+  build: YES
+  version: 8_2_0
   shared: YES
   enable_pnetcdf: NO
   debug: NO
@@ -146,9 +146,9 @@ landsfcutil:
   is_nceplib: YES
 
 nemsio:
-  build: NO
-  version: v2.5.2
-  install_as: 2.5.2
+  build: YES
+  version: v2.5.4
+  install_as: 2.5.4
   is_nceplib: YES
 
 nemsiogfs:
@@ -158,9 +158,9 @@ nemsiogfs:
   is_nceplib: YES
 
 w3emc:
-  build: NO
-  version: v2.7.3
-  install_as: 2.7.3
+  build: YES
+  version: v2.9.2
+  install_as: 2.9.2
   is_nceplib: YES
 
 g2:
@@ -193,7 +193,6 @@ upp:
   version: upp_v10.0.9
   install_as: 10.0.9
   openmp: ON
-  is_nceplib: YES
 
 wrf_io:
   build: NO
@@ -327,7 +326,7 @@ cmakemodules:
 gftl_shared:
   build: NO
   repo: Goddard-Fortran-Ecosystem
-  version: v1.3.0
+  version: v1.3.3
 
 yafyaml:
   build: NO
@@ -342,6 +341,10 @@ mapl:
 geos:
   build: NO
   version: 3.8.1
+
+libtiff:
+  build: YES
+  version: 4.0.3
 
 sqlite:
   build: NO

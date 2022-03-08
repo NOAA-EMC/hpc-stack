@@ -11,7 +11,7 @@ zlib:
   build: NO
   version: 1.2.11
 
-png:
+libpng:
   build: NO
   version: 1.6.35
 
@@ -118,8 +118,8 @@ landsfcutil:
 
 nemsio:
   build: YES
-  version: v2.5.2
-  install_as: 2.5.2
+  version: v2.5.4
+  install_as: 2.5.4
   is_nceplib: YES
 
 nemsiogfs:
@@ -130,8 +130,8 @@ nemsiogfs:
 
 w3emc:
   build: YES
-  version: v2.7.3
-  install_as: 2.7.3
+  version: v2.9.2
+  install_as: 2.9.2
   is_nceplib: YES
 
 g2:
@@ -164,7 +164,6 @@ upp:
   version: upp_v10.0.5
   install_as: 10.0.5
   openmp: ON
-  is_nceplib: YES
 
 wrf_io:
   build: YES
