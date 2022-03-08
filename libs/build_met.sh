@@ -44,6 +44,14 @@ else
 
 fi
 
+
+cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+software=$name-$version.$release_date
+pkg_name=$name-$version
+URL="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.gz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
+[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+
 export MET_BASE=$prefix/share/met
 
 export FC=$SERIAL_FC
@@ -97,12 +105,6 @@ LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG} -L${LIB_Z}"
 export LDFLAGS="-fPIE ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
 export LIBS="-lhdf5_hl -lhdf5 -lz"
 
-cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-software=$name-$version.$release_date
-pkg_name=$name-$version
-URL="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
-[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}
