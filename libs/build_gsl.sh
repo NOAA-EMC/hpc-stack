@@ -6,7 +6,6 @@ name="gsl"
 version=${1:-${STACK_gsl_version}}
 
 compiler=$(echo $HPC_COMPILER | sed 's:/:-:g')
-mpi=$(echo $HPC_MPI | sed 's:/:-:g')
 
 if $MODULES; then
     set + x
