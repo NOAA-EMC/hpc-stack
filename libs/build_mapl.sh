@@ -5,6 +5,9 @@ set -eux
 name="mapl"
 repo="GEOS-ESM"
 version=${2:-${STACK_mapl_version:-"main"}}
+export STACK_mapl_FFLAGS=" -fallow-argument-mismatch -fallow-invalid-boz"
+export FFLAGS=" ${STACK_mapl_FFLAGS:-} "
+export STACK_mapl_cmake_opts=" -DCMAKE_SYSTEM_APPLE=ON -DCMAKE_HOST_APPLE=ON -DCMAKE_BUILD_TOOL=gmake -DBLA_VENDOR=Apple "
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -57,8 +60,9 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-
-git checkout $version
+feature="feature/mathomp4/fixes-for-m1-212"
+#git checkout $version
+git checkout $feature
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 [[ -d build ]] && $SUDO rm -rf build
@@ -81,6 +85,10 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 # generate modulefile from template
 modpath=mpi
 
+# 
+echo "  "
+echo "Completed gmake install in build_mapl.sh" 
+echo "  "
 module_substitutions="-DMAPL_ESMF_VERSION=${ESMF_VERSION:-}"
 $MODULES && update_modules $modpath $name $install_as "" $module_substitutions
 echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

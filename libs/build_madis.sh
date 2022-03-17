@@ -4,6 +4,7 @@ set -eux
 
 name="madis"
 version=${1:-${STACK_madis_version}}
+export STACK_madis_FFLAGS=" -fallow-argument-mismatch"
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')

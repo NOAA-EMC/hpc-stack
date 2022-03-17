@@ -32,9 +32,13 @@ software=$name-$id
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] || git clone $URL $software
+# Download the test fix for the Mac M1 / APPLE
+feature="feature/mathomp4/add-m1-support"
+#
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
-git checkout $version
+#git checkout $version
+git checkout $feature
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
