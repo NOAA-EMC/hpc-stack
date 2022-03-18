@@ -21,8 +21,8 @@ zlib:
   version: 1.2.11
 
 libpng:
-  build: YES
-  version: 1.6.35
+  build: NO
+  version: 1.6.37
 
 szip:
   build: YES
@@ -33,7 +33,7 @@ jasper:
   version: 2.0.25
 
 udunits:
-  build: NO
+  build: YES
   version: 2.2.28
 
 hdf5:
@@ -53,7 +53,7 @@ netcdf:
   shared: YES
   enable_pnetcdf: NO
   version_c: 4.7.4
-  version_f: 4.5.3
+  version_f: 4.5.4
   version_cxx: 4.3.1
   disable_cxx: YES
 
@@ -62,8 +62,8 @@ nccmp:
   version: 1.8.9.0
 
 nco:
-  build: YES
-  version: 5.0.6
+  build: NO
+  version: 4.9.3
 
 cdo:
   build: YES
@@ -77,7 +77,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_1
+  version: 8_2_0
   shared: YES
   enable_pnetcdf: NO
   debug: NO
@@ -86,7 +86,7 @@ fms:
   build: YES
   version: 2021.03
   repo: noaa-gfdl
-  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON"
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DENABLE_QUAD_PRECISION=OFF "
 
 bacio:
   build: YES
@@ -277,7 +277,7 @@ pybind11:
 
 ecbuild:
   build: YES
-  version: 3.6.1
+  version: 2021.08.0
   repo: ecmwf
 
 eckit:
@@ -302,7 +302,7 @@ madis:
 esma_cmake:
   build: YES
   repo: GEOS-ESM
-  version: v3.4.3
+  version: v3.12.0
 
 cmakemodules:
   build: YES
@@ -312,7 +312,7 @@ cmakemodules:
 gftl_shared:
   build: YES
   repo: Goddard-Fortran-Ecosystem
-  version: v1.3.0
+  version: v1.3.6
 
 yafyaml:
   build: YES
@@ -322,24 +322,28 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
-  version: v2.7.3
+  version: v2.12.2
 
 geos:
   build: YES
   version: 3.8.1
+
+libtiff:
+  build: YES
+  version: 4.0.3
 
 sqlite:
   build: YES
   version: 3.32.3
 
 proj:
-  build: NO
+  build: YES
   version: 7.1.0
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
 miniconda3:
   build: NO
-  version: 4.7.12
+  version: 4.6.14
 
 r2d2:
   build: NO

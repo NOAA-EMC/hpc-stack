@@ -9,7 +9,7 @@ mpi:
 
 cmake:
   build: NO
-  bootstrap: YES
+  bootstrap: NO
   version: 3.20.1
 
 jpeg:
@@ -21,8 +21,8 @@ zlib:
   version: 1.2.11
 
 libpng:
-  build: NO 
-  version: 1.6.35
+  build: NO
+  version: 1.6.37
 
 szip:
   build: YES
@@ -86,7 +86,7 @@ fms:
   build: YES
   version: 2021.03
   repo: noaa-gfdl
-  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON -DENABLE_QUAD_PRECISION=OFF "
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DENABLE_QUAD_PRECISION=OFF "
 
 bacio:
   build: YES
@@ -193,7 +193,6 @@ upp:
   version: upp_v10.0.9
   install_as: 10.0.9
   openmp: ON
-  is_nceplib: YES
 
 wrf_io:
   build: YES
@@ -303,7 +302,7 @@ madis:
 esma_cmake:
   build: YES
   repo: GEOS-ESM
-  version: v3.11.0
+  version: v3.12.0
 
 cmakemodules:
   build: YES
