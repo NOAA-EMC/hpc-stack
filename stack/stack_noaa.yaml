@@ -356,17 +356,3 @@ ufswm:
   build: YES
   version: 1.0.0
   is_pyvenv: YES
-
-gsl:
-  build: NO
-  version: 2.6
-
-met:
-  build: NO
-  version: 9.1.1
-  enable_pytho: NO
-  release_date: 20201118
-
-metplus:
-  build: NO
-  version: 3.1.1
