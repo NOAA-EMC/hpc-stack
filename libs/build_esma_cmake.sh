@@ -32,6 +32,7 @@ software=$name-$id
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] || git clone $URL $software
+#
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
 git checkout $version

@@ -3,9 +3,9 @@ gnu:
   version: 9.3.0
 
 mpi:
-  build: YES
-  flavor: mpich
-  version: 3.3.2
+  build: NO
+  flavor: openmpi
+  version: 4.0.1
 
 cmake:
   build: NO

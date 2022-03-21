@@ -1,22 +1,22 @@
 #!/bin/bash
 
 # Use Lmod for modules definition
-source /usr/local/opt/lmod/init/profile   
+source /opt/homebrew/opt/lmod/init/profile
 
 module list
 echo "PATH = $PATH"
 
 # Compiler/MPI combination
 export HPC_COMPILER="gnu/11.2.0_3"
-export HPC_MPI="mpich/3.3.2"
-export HPC_PYTHON="python/3.9.11"
+export HPC_MPI="openmpi/4.1.2"
+export HPC_PYTHON="python/3.10.2"
 
 # Build options
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log
 export OVERWRITE=N
-export NTHREADS=4
+export NTHREADS=8
 export   MAKE_CHECK=N
 export MAKE_VERBOSE=Y
 export   MAKE_CLEAN=N
