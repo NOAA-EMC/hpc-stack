@@ -3,10 +3,9 @@ gnu:
   version: 9.3.0
 
 mpi:
-  build: NO
-  flavor: opempi
-  version: 4.0.1
-  cmake_opts: "-DENABLE_QUAD_PRECISION=OFF "
+  build: YES
+  flavor: openmpi
+  version: 4.1.2
 
 cmake:
   build: NO
