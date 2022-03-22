@@ -5,7 +5,6 @@ set -eux
 name="mapl"
 repo="GEOS-ESM"
 version=${2:-${STACK_mapl_version:-"main"}}
-export STACK_mapl_FFLAGS=" -fallow-argument-mismatch -fallow-invalid-boz"
 export FFLAGS=" ${STACK_mapl_FFLAGS:-} "
 
 # Hyphenated version used for install prefix
