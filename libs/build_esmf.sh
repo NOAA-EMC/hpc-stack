@@ -15,6 +15,7 @@ COMPILER=$(echo $HPC_COMPILER | cut -d/ -f1)
 MPI=$(echo $HPC_MPI | cut -d/ -f1)
 
 host=$(uname -s)
+abi64=$(uname -m)
 
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
@@ -96,6 +97,7 @@ case $COMPILER in
   gnu|gcc|clang )
     export ESMF_COMPILER="gfortran"
     export ESMF_F90COMPILEOPTS="-g -fbacktrace ${FCFLAGS}"
+    [[ "$abi64" == "arm64" ]] && export ESMF_ABI=64
     if [[ "$host" == "Darwin" ]]; then
       export ESMF_CXXCOMPILEOPTS="-g -Wno-error=format-security ${CXXFLAGS}"
     else
