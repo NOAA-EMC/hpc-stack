@@ -4,8 +4,9 @@ gnu:
 
 mpi:
   build: NO
-  flavor: openmpi
+  flavor: opempi
   version: 4.0.1
+  cmake_opts: "-DENABLE_QUAD_PRECISION=OFF "
 
 cmake:
   build: NO
@@ -298,6 +299,7 @@ atlas:
 madis:
   build: YES
   version: 4.3
+  STACK_madis_FFLAGS=" -fallow-argument-mismatch -fallow-invalid-boz"
 
 esma_cmake:
   build: YES
@@ -323,6 +325,8 @@ mapl:
   build: YES
   repo: GEOS-ESM
   version: v2.12.2
+  cmake_opts: "-DBLA_VENDOR=Apple"
+  STACK_mapl_FFLAGS=" -fallow-argument-mismatch -fallow-invalid-boz"
 
 geos:
   build: YES
