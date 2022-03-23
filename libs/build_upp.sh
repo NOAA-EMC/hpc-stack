@@ -53,13 +53,14 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 [[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
+git checkout $version
+
 if [[ -f CMakeLists.txt ]]; then
     using_cmake=true
 else
     using_cmake=false
 fi
 
-git checkout $version
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 if [[ "$using_cmake" = true ]]; then
@@ -77,6 +78,9 @@ else
     cd sorc/ncep_post.fd
     sed -i'.backup' "s:libupp_4.a:libupp.a:" makefile_lib
     sed -i'.backup' "s:include/upp_4:include:" makefile_lib
+
+    export myFC=${FC}
+    export myCPP=`which cpp`
 
     # Clean
     rm -rf include lib *.mod
