@@ -103,7 +103,6 @@ upp:
   version: upp_v10.0.8
   install_as: 10.0.8
   openmp: ON
-  is_nceplib: YES
 
 wrf_io:
   build: YES

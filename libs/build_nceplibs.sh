@@ -137,6 +137,7 @@ if $MODULES; then
       module try-load libpng
       module load bacio
       module load w3nco
+      module load w3emc/2.9.2
       module load g2
       module load ip
       module load sp
