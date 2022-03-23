@@ -15,8 +15,8 @@ if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
-  module try-load cmake
-  module load sqlite
+  module is-loaded cmake || module try-load cmake
+  module try-load sqlite
   module try-load libtiff
   module list
   set -x

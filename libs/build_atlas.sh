@@ -15,8 +15,10 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
-  module try-load cmake
+  module is-loaded cmake || module try-load cmake
   module try-load zlib
+  [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+  module restore hpc-$modpath-zlib
   module try-load boost-headers
   module try-load eigen
   module load ecbuild
