@@ -4,6 +4,7 @@ set -eux
 
 name="esmf"
 version=${1:-${STACK_esmf_version}}
+install_as=${STACK_esmf_install_as:-${version}}
 
 software=${name}_$version
 
@@ -21,7 +22,7 @@ host=$(uname -s)
 [[ ${STACK_esmf_debug} =~ [yYtT] ]] && enable_debug=YES || enable_debug=NO
 
 # This will allow debug version of software (ESMF) to be installed next to the optimized version (this is only affected for $MODULES)
-[[ $enable_debug =~ [yYtT] ]] && version_install=$version-debug || version_install=$version
+[[ $enable_debug =~ [yYtT] ]] && version_install=${install_as}-debug || version_install=${install_as}
 
 if $MODULES; then
   set +x
@@ -74,7 +75,7 @@ URL="https://github.com/esmf-org/esmf"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software="ESMF_$version"
+software="$version"
 
 [[ -d $software ]] || ( git clone -b $software $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
