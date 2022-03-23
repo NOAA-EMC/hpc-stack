@@ -1,0 +1,26 @@
+pio:
+  build: YES
+  version: 2.5.3
+  enable_pnetcdf: NO
+  enable_gptl: NO
+
+fms:
+  build: YES
+  version: 2021.04
+  repo: noaa-gfdl
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
+
+crtm:
+  build: YES
+  version: v2.4.0
+  install_as: 2.4.0
+  is_nceplib: YES
+  install_fix: YES
+  
+esmf:
+  build: YES
+  version: 8.3.0b09
+  shared: YES
+  enable_pnetcdf: NO
+  debug: NO
+

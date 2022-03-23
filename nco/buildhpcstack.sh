@@ -22,6 +22,8 @@ fi
 if [ $whichpackage == "all" ]; then
   yaml=stack_nco_wcoss2.yaml
   read -p "Are you sure you want to recompile all packages? ENTER to continue, Ctrl-C to quit."
+elif [$whichpackage == "ufs_dev" ]; then
+    
 else
   yaml=stack_${whichpackage}.yaml
 fi
@@ -61,6 +63,11 @@ for configfile in config_nco_wcoss2.sh ; do
   if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_w3emc_v2_9_2.yaml -m ; fi
 
   if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_metplus.yaml -m; fi
+
+  if [[ $whichpackage == all || $whichpackage == ufs_dev_wcoss2 ]]; then
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/esmf8_2_1b04.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_fms2021.03.yaml -m
+  fi
 done
 
 cd $installprefix
