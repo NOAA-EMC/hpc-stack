@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="gnu/11.1.0"
+export HPC_COMPILER="gnu/10.1.0"
 export HPC_MPI="mpt/2.25"
 export HPC_PYTHON="python/3.4.6"
 
@@ -10,7 +10,7 @@ export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log
 export OVERWRITE=N
-export NTHREADS=4
+export NTHREADS=8
 export   MAKE_CHECK=N
 export MAKE_VERBOSE=N
 export   MAKE_CLEAN=N
@@ -20,7 +20,7 @@ export WGET="wget -nv --no-check-certificate"
 
 module purge
 
-module load gnu/11.1.0
+module load gnu/10.1.0
 module load mpt/2.25
 module load ncarcompilers/0.5.0
 module load ncarenv/1.3

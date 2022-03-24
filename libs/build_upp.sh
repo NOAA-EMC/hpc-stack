@@ -10,6 +10,7 @@ install_as=${STACK_upp_install_as:-${version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+[[ -z $mpi ]] && modpath=compiler || modpath=mpi
 
 if $MODULES; then
   set +x

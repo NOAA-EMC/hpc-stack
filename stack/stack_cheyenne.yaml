@@ -125,6 +125,8 @@ w3nco:
   version: v2.4.1
   install_as: 2.4.1
   is_nceplib: YES
+  STACK_w3nco_FFLAGS=" -fdefault-integer-8 -fdefault-real-8"
+  STACK_w3nco_FCLAGS=" -fdefault-integer-8 -fdefault-real-8"
 
 sp:
   build: YES
@@ -201,7 +203,7 @@ upp:
   version: upp_v10.0.9
   install_as: 10.0.9
   openmp: ON
-  is_nceplib: YES
+  is_nceplib: NO
 
 wrf_io:
   build: YES
