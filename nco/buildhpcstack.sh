@@ -23,8 +23,6 @@ if [ $whichpackage == "all" ]; then
   yaml=stack_nco_wcoss2.yaml
   read -p "Are you sure you want to recompile all packages? ENTER to continue, Ctrl-C to quit."
 elif [$whichpackage == "ufs_dev" ]; then
-    
-else
   yaml=stack_${whichpackage}.yaml
 fi
 if [ ! -f stack/$yaml ]; then
@@ -49,25 +47,25 @@ read -p "ENTER to continue, Ctrl-C to quit."
 
 for configfile in config_nco_wcoss2.sh ; do
   ./build_stack.sh -p $installprefix -c config/$configfile -y stack/$yaml -m
-  # Build two versions of wgrib2 for NCEP rotated lat-lon grid interpolation (ip) and WMO rot lat-lon grids (ip2)
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_7.yaml -m; fi
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_8.yaml -m ; fi
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_8_ip2.yaml -m ; fi
 
-  # Build multiple versions of these libraries
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2_v3_4_1.yaml -m ; fi
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2_v3_4_4.yaml -m ; fi
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2c_v1_6_2.yaml -m; fi
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2tmpl_v1_9_1.yaml -m ; fi
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_w3emc_v2_9_1.yaml -m ; fi
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_w3emc_v2_9_2.yaml -m ; fi
+   if [[ $whichpackage == "all" ]]; then
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_7.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_8.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_8_ip2.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2_v3_4_1.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2_v3_4_4.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2c_v1_6_2.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2tmpl_v1_9_1.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_w3emc_v2_9_1.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_w3emc_v2_9_2.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_grib_util_v1_2_4.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_metplus.yaml -m
 
-  if [ $whichpackage == all ]; then ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_metplus.yaml -m; fi
-
-  if [[ $whichpackage == all || $whichpackage == ufs_dev_wcoss2 ]]; then
-      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/esmf8_2_1b04.yaml -m
-      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_fms2021.03.yaml -m
-  fi
+      if [[ $whichpackage == "all" || $whichpackage == "ufs_dev_wcoss2" ]]; then
+	  ./build_stack.sh -p $installprefix -c config/$configfile -y stack/esmf_8_2_1b04.yaml -m
+	  ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_fms2021.03.yaml -m
+      fi
+   fi
 done
 
 cd $installprefix
