@@ -20,7 +20,7 @@ zlib:
   build: YES
   version: 1.2.11
 
-png:
+libpng:
   build: YES
   version: 1.6.35
 
@@ -62,8 +62,8 @@ nccmp:
   version: 1.8.9.0
 
 nco:
-  build: NO
-  version: 4.9.3
+  build: YES
+  version: 5.0.6
 
 cdo:
   build: YES
@@ -77,7 +77,7 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_1
+  version: 8_2_0
   shared: YES
   enable_pnetcdf: NO
   debug: NO
@@ -193,7 +193,6 @@ upp:
   version: upp_v10.0.9
   install_as: 10.0.9
   openmp: ON
-  is_nceplib: YES
 
 wrf_io:
   build: YES
@@ -313,7 +312,7 @@ cmakemodules:
 gftl_shared:
   build: YES
   repo: Goddard-Fortran-Ecosystem
-  version: v1.3.0
+  version: v1.3.3
 
 yafyaml:
   build: YES
@@ -328,6 +327,10 @@ mapl:
 geos:
   build: YES
   version: 3.8.1
+
+libtiff:
+  build: YES
+  version: 4.0.3
 
 sqlite:
   build: YES

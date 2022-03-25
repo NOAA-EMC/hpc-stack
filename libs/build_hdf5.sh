@@ -20,13 +20,21 @@ if $MODULES; then
   [[ -z $mpi ]] || module load hpc-$HPC_MPI
   [[ $enable_szip =~ [yYtT] ]] && module try-load szip
   [[ $enable_zlib =~ [yYtT] ]] && module try-load zlib
+  [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+  module save hpc-$modpath-zlib
   module list
   set -x
 
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 
 else
@@ -79,3 +87,8 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+# save the current modules list to the hpc-hdf5 collection
+if $MODULES; then
+  module load $name/$version
+  module save hpc-$modpath-hdf5
+fi

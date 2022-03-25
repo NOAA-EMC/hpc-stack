@@ -30,19 +30,28 @@ if $MODULES; then
   module try-load zlib
   module try-load szip
   [[ -z $mpi ]] || module load hpc-$HPC_MPI
-  module load hdf5
+  [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+  module restore hpc-$modpath-hdf5
+  module is-loaded hdf5 || module load hdf5
   if [[ ! -z $mpi ]]; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   fi
-  module load netcdf
+  [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+  module restore hpc-$modpath-netcdf
+  module is-loaded netcdf || module load netcdf
   module try-load udunits
   module list
   set -x
 
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version_install"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 
 else
@@ -71,7 +80,8 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software="ESMF_$version"
 
-[[ -d $software ]] || ( git clone -b $software $URL $software )
+#[[ -d $software ]] || ( git clone -b $software $URL $software )
+[[ -d $software ]] || ( git clone $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
@@ -177,3 +187,6 @@ $SUDO make install
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $version_install
 echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+# Save module environment
+module load $name/$version
+module save hpc-$modpath-esmf
