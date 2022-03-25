@@ -22,7 +22,7 @@ fi
 if [ $whichpackage == "all" ]; then
   yaml=stack_nco_wcoss2.yaml
   read -p "Are you sure you want to recompile all packages? ENTER to continue, Ctrl-C to quit."
-elif [$whichpackage == "ufs_dev" ]; then
+else
   yaml=stack_${whichpackage}.yaml
 fi
 if [ ! -f stack/$yaml ]; then
@@ -60,16 +60,19 @@ for configfile in config_nco_wcoss2.sh ; do
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_w3emc_v2_9_2.yaml -m
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_grib_util_v1_2_4.yaml -m
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_metplus.yaml -m
-
-      if [[ $whichpackage == "all" || $whichpackage == "ufs_dev_wcoss2" ]]; then
-	  ./build_stack.sh -p $installprefix -c config/$configfile -y stack/esmf_8_2_1b04.yaml -m
-	  ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_fms2021.03.yaml -m
-      fi
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_ufs_dev_wcoss2.yaml -m
    fi
+
+   if [[ $whichpackage == "all" || $whichpackage == "ufs_dev_wcoss2" ]]; then
+       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_esmf_8_2_1b04.yaml -m
+       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_fms_2021_03.yaml -m
+   fi
+
 done
 
 cd $installprefix
 find modulefiles/ \( -path '*hpc-cray-mpich*' -o -path '*hpc-intel*' \) -type f | xargs rm -f
 find modulefiles/ \( -path '*hpc-cray-mpich*' -o -path '*hpc-intel*' \) -type d | xargs rm -rf
+find modulefiles/ -type f -name "*.lua" -exec sed -i "s:HPC_OPT_LOCAL:HPC_OPT:" {} \;
 rm -rf modulefiles/core/hpc-python
 rm -rf modulefiles/stack/hpc

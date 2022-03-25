@@ -18,7 +18,6 @@ if $MODULES; then
     module load hpc-$HPC_COMPILER
     module load hpc-$HPC_PYTHON
     module load gsl
-    module load envvar
     module load bufr
     module load zlib
     module load jasper

@@ -9,6 +9,8 @@ find $hpcstackdir/modulefiles -type f -name "*.lua" -exec sed -i "s:local mpiNam
 find $hpcstackdir/modulefiles -type f -name "*.lua" -exec sed -i "s:compNameVerD:compNameVer:" {} \;
 find $hpcstackdir/modulefiles -type f -name "*.lua" -exec sed -i "s:mpiNameVerD:mpiNameVer:" {} \;
 
+find $hpcstackdir/modulefiles -type f -name "*.lua" -exec sed -i "s:HPC_OPT:HPC_OPT_LOCAL:" {} \;
+
 # Remove dash from build scripts
 find $hpcstackdir/libs -type f -name "build_*.sh" -exec sed -i 's:compiler=$(.*:compiler=$(echo $HPC_COMPILER):' {} \;
 find $hpcstackdir/libs -type f -name "build_*.sh" -exec sed -i 's:mpi=$(.*:mpi=$(echo $HPC_MPI):' {} \;
