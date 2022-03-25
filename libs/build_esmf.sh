@@ -71,7 +71,8 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software="ESMF_$version"
 
-[[ -d $software ]] || ( git clone -b $software $URL $software )
+#[[ -d $software ]] || ( git clone -b $software $URL $software )
+[[ -d $software ]] || ( git clone $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
