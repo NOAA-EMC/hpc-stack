@@ -34,6 +34,3 @@ module load cmake/3.18.2
 # Build FMS with AVX2 flags
 export STACK_fms_CFLAGS="-march=core-avx2"
 export STACK_fms_FFLAGS="-march=core-avx2"
-
-export STACK_mapl_esmf_version="8_2_1_beta_snapshot_04"
-
