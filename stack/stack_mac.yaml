@@ -1,6 +1,6 @@
 gnu:
-  build: NO
-  version: 9.3.0
+  build: YES
+  version: 11.2.0_3
 
 mpi:
   build: YES
@@ -84,7 +84,7 @@ esmf:
 
 fms:
   build: YES
-  version: 2021.03
+  version: 3.6.3
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DENABLE_QUAD_PRECISION=OFF "
 
