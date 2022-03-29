@@ -73,7 +73,8 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_1
+  version: ESMF_8_2_0
+  install_as: 8.2.0
   shared: NO
   enable_pnetcdf: NO
   debug: NO
@@ -318,6 +319,7 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
+  esmf_version: 8.2.0
   version: v2.7.3
 
 geos:
