@@ -7,7 +7,7 @@ local pkgNameVer = myModuleFullName()
 
 conflict(pkgName)
 
-prereq("json")
+depends_on("json")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
