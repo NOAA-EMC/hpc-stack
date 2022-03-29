@@ -77,7 +77,8 @@ pio:
 
 esmf:
   build: YES
-  version: 8_2_0
+  version: ESMF_8_2_0
+  install_as: 8.2.0
   shared: YES
   enable_pnetcdf: NO
   debug: NO
@@ -326,6 +327,7 @@ mapl:
   version: v2.12.2
   cmake_opts: "-DBLA_VENDOR=Apple"
   STACK_mapl_FFLAGS=" -fallow-argument-mismatch -fallow-invalid-boz"
+  esmf_version: 8.2.0
 
 geos:
   build: YES
