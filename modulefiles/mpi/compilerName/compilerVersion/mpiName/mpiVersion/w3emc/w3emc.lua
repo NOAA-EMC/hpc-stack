@@ -13,8 +13,7 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
-load("sigio", "nemsio")
-prereq("sigio", "nemsio")
+depends_on("sigio", "nemsio")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 

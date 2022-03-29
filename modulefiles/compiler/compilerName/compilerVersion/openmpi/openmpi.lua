@@ -14,8 +14,6 @@ family("mpi")
 conflict(pkgName)
 conflict("mpich","impi")
 
-try_load("szip")
-
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local mpath = pathJoin(opt,"modulefiles/mpi",compNameVer,pkgName,pkgVersion)
