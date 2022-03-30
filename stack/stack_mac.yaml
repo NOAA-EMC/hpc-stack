@@ -325,8 +325,6 @@ mapl:
   build: YES
   repo: GEOS-ESM
   version: v2.12.2
-  cmake_opts: "-DBLA_VENDOR=Apple"
-  STACK_mapl_FFLAGS=" -fallow-argument-mismatch -fallow-invalid-boz"
   esmf_version: 8.2.0
 
 geos:
