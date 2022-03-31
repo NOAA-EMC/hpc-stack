@@ -29,6 +29,7 @@ usage() {
 
 # ==============================================================================
 
+echo "Starting hpc-stack build: `date` "
 # Defaults:
 library=""
 export PREFIX="$HOME/opt"
@@ -267,3 +268,4 @@ build_lib mapl
 
 # ==============================================================================
 echo "build_stack.sh: SUCCESS!"
+echo "Finished hpc-stack build: `date` "
