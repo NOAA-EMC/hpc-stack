@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Use Lmod for modules definition
 source /usr/local/opt/lmod/init/profile   
 
@@ -25,11 +24,11 @@ export WGET="wget -nv --no-check-certificate "
 export STACK_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz -march=native"
 export STACK_CFLAGS="-march=native"
 export STACK_CXXFLAGS="-march=native"
- 
+#
 export CC=/usr/local/bin/gcc
 export FC=/usr/local/bin/gfortran
 export CXX=/usr/local/bin/g++
- 
+#
 export SERIAL_CC=/usr/local/bin/gcc
 export SERIAL_FC=/usr/local/bin/gfortran
 export SERIAL_CXX=/usr/local/bin/g++
