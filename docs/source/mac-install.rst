@@ -6,9 +6,9 @@ Install and Build HPC-Stack on MacOS
 
 HPC-Stack can be installed and built on MacOS systems. The following two options have been tested:
 
-**Option 1:** MacBookAir 2020, M1 chip (arm64, running natively), 4+4 cores, Big Sur 11.6.4, GNU compiler suite v.11.2.0_3 (gcc, gfortran, g++); no MPI pre-installed
+* **Option 1:** MacBookAir 2020, M1 chip (arm64, running natively), 4+4 cores, Big Sur 11.6.4, GNU compiler suite v.11.2.0_3 (gcc, gfortran, g++); no MPI pre-installed
 
-**Option 2:** MacBook Pro 2015, 2.8 GHz Quad-Core Intel Core i7 (x86_64), Catalina OS X 10.15.7, GNU compiler suite v.11.2.0_3 (gcc, gfortran, g++); no MPI pre-installed
+* **Option 2:** MacBook Pro 2015, 2.8 GHz Quad-Core Intel Core i7 (x86_64), Catalina OS X 10.15.7, GNU compiler suite v.11.2.0_3 (gcc, gfortran, g++); no MPI pre-installed
 
 .. note::
     Examples throughout this chapter presume the user is using Terminal.app with a bash shell environment. If this is not the case, users will need to adjust the commands to fit their command line application and shell environment. 
@@ -89,11 +89,19 @@ Install cmake utility via homebrew:
 Install/Upgrade Make
 --------------------------
 
-Install or upgrade make utility via homebrew:
+To install the make utility via homebrew:
 
 .. code-block:: console
 
     $ brew install cmake   (or $ brew upgrade make)
+
+To upgrade the make utility via homebrew:
+
+.. code-block:: console
+
+    $ brew upgrade make
+
+
 
 .. _InstallLmod:
 
@@ -125,13 +133,12 @@ For the Option 2 installation, add:
 Install libpng 
 --------------------
 
-Install the libpng library:
+This library has issues when building on MacOS during the HPC-Stack bundle build. Therefore, it must be installed separately. To install the libpng library:
 
 .. code-block:: console
 
     $ brew install libpng 
 
-This library has issues when building on Mac OS during the HPC-Stack bundle build.
 
 Install wget
 ----------------
@@ -152,7 +159,7 @@ First, verify that python3 is installed, and check the current version:
     $ which python3 (/usr/bin/python3)
     $ python3 --version ( Python 3.8.2)
 
-If necessary, download the updated version for MacOS from https://www.python.org/downloads. The version 3.9.11 64-bit universal2 installer package is recommended (i.e., python-3.9.11-macosc10.9.pkg). Double-click on the installer package, and accept the License terms. An admin-level password will be requested for the installation. At the end of the installation, run the ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
+If necessary, download the updated version for MacOS from https://www.python.org/downloads. The version 3.9.11 64-bit universal2 installer package is recommended (i.e., ``python-3.9.11-macosc10.9.pkg``). Double-click on the installer package, and accept the License terms. An administrative level password will be requested for the installation. At the end of the installation, run the ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
 
 Start a new bash session (type ``bash`` in the existing terminal), and verify the installed version:
 
@@ -183,7 +190,7 @@ Download HPC-Stack code from `GitHub <github.com>`__:
 
 .. code-block:: console 
 
-	$ git clone git@github.com:NOAA-EMC/hpc-stack.git
+    $ git clone git@github.com:NOAA-EMC/hpc-stack.git
     $ cd hpc-stack
 
 The configuration files are ``./config/config_<machine>.sh``. For Option 1, ``<machine>`` is ``mac_m1_gnu`` and for Option 2, ``<machine>`` is ``mac_gnu``. 
@@ -202,6 +209,8 @@ For Option 1:
     source /opt/homebrew/opt/lmod/init/profile
 
 For Option 2:
+
+.. code-block:: console 
 
     source /usr/local/opt/lmod/init/profile
 
@@ -256,10 +265,6 @@ Set the environmental variables for compiler paths in ``config/config_<machine>.
     export SERIAL_CXX=${GNU}/g++
 
 
-
-
-
-
 Specify MPI Libraries
 ------------------------
 
@@ -286,7 +291,7 @@ Option 2:
 Libpng
 ----------
 
-Set build ``libpng`` library to NO in ./stack/stack_<machine>.yaml. (See :numref:`Step %s <InstallLibpng>`). Leave the defaults for other libraries and versions in the ``./stack/stack_<machine>.yaml`` file. 
+Set build ``libpng`` library to NO in ``./stack/stack_<machine>.yaml``. (See :numref:`Step %s <InstallLibpng>`). Leave the defaults for other libraries and versions in the ``./stack/stack_<machine>.yaml`` file. 
 
 Set Up the Modules and Environment
 --------------------------------------

@@ -121,6 +121,9 @@ To install the HPC-Stack locally, the following pre-requisites must be installed
 * **Message Passing Interface (MPI)** libraries for multi-processor and multi-core communications, configured to work with your corresponding Fortran, C, and C++ compilers. 
 * **Programs and software packages:** `Lmod <https://lmod.readthedocs.io/en/latest/030_installing.html>`_, `CMake <https://cmake.org/install/>`_, `make <https://www.gnu.org/software/make/>`_, `wget <https://www.gnu.org/software/wget/>`_, `curl <https://curl.se/>`_, `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_, and the `TIFF library <https://gitlab.com/libtiff/libtiff.git>`_. 
 
+.. note::
+   For detailed instructions on how to build the HPC-Stack on two particular configurations of MacOS, see :numref:`Chapter %s <MacInstall>`
+
 To determine whether these prerequisites are installed, query the environment variables (for ``Lmod``) or the location and version of the packages (for ``cmake``, ``make``, ``wget``, ``curl``, ``git``). For example:
 
    .. code-block:: console 
