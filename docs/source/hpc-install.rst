@@ -108,8 +108,8 @@ From here, the user can continue to install and run applications that depend on 
 
 .. _NonContainerInstall:
 
-Non-Container HPC-Stack Installation and Build 
-=================================================
+Non-Container HPC-Stack Installation and Build (General/Linux)
+================================================================
 
 Install Prerequisites
 ----------------------
