@@ -299,7 +299,6 @@ atlas:
 madis:
   build: YES
   version: 4.3
-  STACK_madis_FFLAGS=" -fallow-argument-mismatch -fallow-invalid-boz"
 
 esma_cmake:
   build: YES

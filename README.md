@@ -29,8 +29,8 @@ Jet         | Kyle Gerheiser
 Orion       | Hang-Lei
 WCOSS-Dell  | Hang-Lei
 WCOSS-Cray  | Hang-Lei
-Cheyenne    | Dom Heinzeller
-Gaea        | Dom Heinzeller
+Cheyenne    | Jong Kim
+Gaea        | Kyle Gerheiser
 
 ## Contributors
 
