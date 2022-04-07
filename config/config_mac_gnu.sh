@@ -32,3 +32,4 @@ export CXX=/usr/local/bin/g++
 export SERIAL_CC=/usr/local/bin/gcc
 export SERIAL_FC=/usr/local/bin/gfortran
 export SERIAL_CXX=/usr/local/bin/g++
+
