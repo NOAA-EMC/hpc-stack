@@ -22,8 +22,7 @@ export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv --no-check-certificate "
 
 # gfortran-10 needs the following
-export STACK_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz -march=native"
-export STACK_CFLAGS="-march=native"
+export STACK_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
 export STACK_CXXFLAGS="-march=native"
  
 export CC=/usr/local/bin/gcc
