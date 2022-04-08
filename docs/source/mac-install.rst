@@ -13,9 +13,6 @@ HPC-Stack can be installed and built on MacOS systems. The following two options
 .. note::
     Examples throughout this chapter presume that the user is running Terminal.app with a bash shell environment. If this is not the case, users will need to adjust the commands to fit their command line application and shell environment. 
 
-**HPC-Stack Source Code for Mac:** https://github.com/NOAA-EMC/hpc-stack.git, (develop branch)
-
-
 Prerequisites for Building HPC-Stack
 ======================================
 
