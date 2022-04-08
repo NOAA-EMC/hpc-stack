@@ -1,11 +1,11 @@
 gnu:
-  build: YES
+  build: NO
   version: 11.2.0_3
 
 mpi:
   build: YES
-  flavor: mpich
-  version: 3.3.2
+  flavor: openmpi
+  version: 4.1.2
 
 cmake:
   build: NO
@@ -77,8 +77,7 @@ pio:
 
 esmf:
   build: YES
-  version: ESMF_8_2_0
-  install_as: 8.2.0
+  version: 8_2_0
   shared: YES
   enable_pnetcdf: NO
   debug: NO
@@ -325,7 +324,6 @@ mapl:
   build: YES
   repo: GEOS-ESM
   version: v2.12.2
-  esmf_version: 8.2.0
 
 geos:
   build: YES

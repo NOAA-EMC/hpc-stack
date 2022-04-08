@@ -17,11 +17,6 @@ family("mpi")
 conflict(pkgName)
 conflict("mpich","openmpi")
 
-always_load("intel/17.0.1")
-prereq("intel/17.0.1")
-
-try_load("szip")
-
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 local base = "/opt/intel17/compilers_and_libraries_2017.1.132"
 

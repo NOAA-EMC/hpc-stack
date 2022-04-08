@@ -43,5 +43,3 @@ export STACK_fms_FFLAGS="-march=core-avx2 -fallow-argument-mismatch"
 # Patch FMS
 export STACK_fms_PATCH="cheyenne_gnu_fms_mpp_util_mpi_inc.patch"
 
-export STACK_mapl_esmf_version="8_2_1_beta_snapshot_04"
-
