@@ -11,9 +11,9 @@ HPC-Stack can be installed and built on MacOS systems. The following two options
 * **Option 2:** MacBook Pro 2015, 2.8 GHz Quad-Core Intel Core i7 (x86_64), Catalina OS X 10.15.7, GNU compiler suite v.11.2.0_3 (gcc, gfortran, g++); no MPI pre-installed
 
 .. note::
-    Examples throughout this chapter presume the user is using Terminal.app with a bash shell environment. If this is not the case, users will need to adjust the commands to fit their command line application and shell environment. 
+    Examples throughout this chapter presume that the user is running Terminal.app with a bash shell environment. If this is not the case, users will need to adjust the commands to fit their command line application and shell environment. 
 
-**HPC-Stack Source Code:** https://github.com/NOAA-EMC/hpc-stack.git, (develop branch)
+**HPC-Stack Source Code for Mac:** https://github.com/NOAA-EMC/hpc-stack.git, (develop branch)
 
 
 Prerequisites for Building HPC-Stack
@@ -22,7 +22,7 @@ Prerequisites for Building HPC-Stack
 Install Homebrew and Xcode Command-Line Tools (CLT)
 -----------------------------------------------------
 
-Open Terminal.app and a web browser. Go to https://brew.sh, copy the command-line installation directive, and run it in a new Terminal window. Terminal will request a ``sudo`` access password. The installation command would look similar to the following:
+Open Terminal.app and a web browser. Go to https://brew.sh, copy the command-line installation directive, and run it in a new Terminal window. Terminal will request a ``sudo`` access password. The installation command will look similar to the following:
 
 .. code-block:: console
 
@@ -30,7 +30,7 @@ Open Terminal.app and a web browser. Go to https://brew.sh, copy the command-lin
 
 This will install Homebrew, Xcode CLT, and Ruby. 
 
-An alternative way of installing the Xcode command-line tools (CLT) can done as follows:
+An alternative way to install the Xcode command-line tools (CLT) is as follows:
 
 .. code-block:: console
 
@@ -45,16 +45,16 @@ Install GNU compiler suite (version 11) and gfortran:
 
     $ brew install gcc@11 
 
-Create symbolic links from the version-specific binaries to gcc and g++. A ``sudo`` password may be requested. The path will likely be ``/opt/homebrew/bin/gcc-11`` (Option 1), or ``/usr/local/bin/gcc-11`` (Option 2). 
+Create symbolic links from the version-specific binaries to gcc and g++.  A ``sudo`` password may be requested. The path will likely be ``/opt/homebrew/bin/gcc-11`` (Option 1), or ``/usr/local/bin/gcc-11`` (Option 2). 
 
 .. code-block:: console
 
     $ which  gcc-11    
-    $ cd /usr/local/bin/               (or /opt/homebrew/bin/ )
+    $ cd /usr/local/bin/        (OR cd /opt/homebrew/bin/ )
     $ ln -s gcc-11 gcc  
     $ ln -s g++-11 g++
 
-There is no need to create a link for gfortran if this is the first installation of this compiler. If an earlier version of gfortran exists, you may rename it (e.g., to gfortran-old), and create a link to the new installation:
+There is no need to create a link for gfortran if this is the first installation of this compiler. If an earlier version of gfortran exists, you may rename it (e.g., to "gfortran-old") and create a link to the new installation:
 
 .. code-block:: console
 
@@ -79,7 +79,7 @@ Verify that they show the correct version of GNU installed:
 Install CMake
 ----------------
 
-Install cmake utility via homebrew:
+Install the cmake utility via homebrew:
 
 .. code-block:: console
 
@@ -156,8 +156,10 @@ First, verify that python3 is installed, and check the current version:
 
 .. code-block:: console
 
-    $ which python3 (/usr/bin/python3)
-    $ python3 --version ( Python 3.8.2)
+    $ which python3
+    $ python3 --version
+
+The first command should return ``/usr/bin/python3`` and the second should return ``Python 3.8.2`` or similar (the exact version is unimportant).
 
 If necessary, download the updated version for MacOS from https://www.python.org/downloads. The version 3.9.11 64-bit universal2 installer package is recommended (i.e., ``python-3.9.11-macosc10.9.pkg``). Double-click on the installer package, and accept the License terms. An administrative level password will be requested for the installation. At the end of the installation, run the ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
 
@@ -195,7 +197,7 @@ Download HPC-Stack code from `GitHub <github.com>`__:
 
 The configuration files are ``./config/config_<machine>.sh``. For Option 1, ``<machine>`` is ``mac_m1_gnu`` and for Option 2, ``<machine>`` is ``mac_gnu``. 
 
-The ``./stack/stack_<machine>.yaml`` file lists the libraries that will be built as part of HPC-Stack, in addition to a few library-specific options. These can be altered based on user preferences. 
+The ``./stack/stack_<machine>.yaml`` file lists the libraries that will be built as part of HPC-Stack, in addition to library-specific options. These can be altered based on user preferences. 
 
 Lmod Environment
 --------------------
@@ -233,7 +235,7 @@ Comment out any export statements not relevant to the system.
 Set Appropriate Flags
 ------------------------
 
-When using gfortran higher than version 10, set the following flag in ``config_<machine>.sh``: 
+When using gfortran version 10 or higher, verify that the following flags are set in ``config_<machine>.sh``: 
 
 For Option 1:
 
@@ -246,14 +248,14 @@ For Option 2:
 
 .. code-block:: console 
 
-    export STACK_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz  -march=native" 
-    export STACK_CFLAGS="-march=native" 
+    export STACK_FFLAGS=“-fallow-argument-mismatch -fallow-invalid-boz”
+    export STACK_CXXFLAGS=“-march=native”
     export STACK_CXXFLAGS="-march=native" 
 
 Set Environment Variables
 ----------------------------
 
-Set the environmental variables for compiler paths in ``config/config_<machine>.sh``. The variable ``{GNU}`` below refers to the directory where the compiler binaries are located. For example, on Option 1, ``${GNU}=/opt/homebrew/bin/gcc``, and on Option 2: ``{GNU}=/usr/local/bin``.
+Set the environmental variables for compiler paths in ``config/config_<machine>.sh``. The variable ``GNU`` below refers to the directory where the compiler binaries are located. For example, on Option 1, ``GNU=/opt/homebrew/bin/gcc``, and on Option 2: ``GNU=/usr/local/bin``.
 
 .. code-block:: console 
 
