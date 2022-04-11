@@ -130,7 +130,7 @@ For the Option 2 installation, add:
 Install libpng 
 --------------------
 
-This library has issues when building on MacOS during the HPC-Stack bundle build. Therefore, it must be installed separately. To install the libpng library:
+The libpng library has issues when building on MacOS during the HPC-Stack bundle build. Therefore, it must be installed separately. To install the libpng library, run:
 
 .. code-block:: console
 
@@ -140,16 +140,18 @@ This library has issues when building on MacOS during the HPC-Stack bundle build
 Install wget
 ----------------
 
+Install the Wget software package:
+
 .. code-block:: console
 
     brew install wget
 
 .. _InstallPython:
 
-Install or update python3 
+Install or Update Python3 
 ------------------------------
 
-First, verify that python3 is installed, and check the current version:
+First, verify that Python3 is installed, and check the current version:
 
 .. code-block:: console
 
@@ -158,7 +160,7 @@ First, verify that python3 is installed, and check the current version:
 
 The first command should return ``/usr/bin/python3`` and the second should return ``Python 3.8.2`` or similar (the exact version is unimportant).
 
-If necessary, download the updated version for MacOS from https://www.python.org/downloads. The version 3.9.11 64-bit universal2 installer package is recommended (i.e., ``python-3.9.11-macosc10.9.pkg``). Double-click on the installer package, and accept the License terms. An administrative level password will be requested for the installation. At the end of the installation, run the ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
+If necessary, download an updated version of Python3 for MacOS from https://www.python.org/downloads. The version 3.9.11 64-bit universal2 installer package is recommended (i.e., ``python-3.9.11-macosc10.9.pkg``). Double-click on the installer package, and accept the license terms. An administrative level password will be requested for the installation. At the end of the installation, run ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
 
 Start a new bash session (type ``bash`` in the existing terminal), and verify the installed version:
 
@@ -199,7 +201,7 @@ The ``./stack/stack_<machine>.yaml`` file lists the libraries that will be built
 Lmod Environment
 --------------------
 
-Verify the initialization of Lmod environment, or add it to the configuration file ``config/config_<machine>.sh``, as in :numref:`Step %s <InstallLmod>`.
+Verify the initialization of Lmod environment, or add it to the configuration file ``./config/config_<machine>.sh``, as in :numref:`Step %s <InstallLmod>`.
 
 For Option 1: 
 
@@ -217,7 +219,7 @@ For Option 2:
 Specify Compiler, Python, and MPI
 ------------------------------------
 
-Specify the combination of compilers, python libraries, and type of MPI libraries in the configuration file ``./config/config_<machine>.sh``.
+Specify the combination of compilers, python libraries, and MPI libraries in the configuration file ``./config/config_<machine>.sh``.
 
 .. code-block:: console 
 
@@ -226,7 +228,7 @@ Specify the combination of compilers, python libraries, and type of MPI librarie
     export HPC_MPI="mpich/3.3.2"        (Option 2 only)
     export HPC_PYTHON="python/3.10.2"
 
-Comment out any export statements not relevant to the system. 
+Comment out any export statements not relevant to the system, and make sure that version numbers reflect the versions installed on the system (which may differ from the versions listed here). 
 
 
 Set Appropriate Flags
@@ -246,16 +248,16 @@ For Option 2:
 .. code-block:: console 
 
     export STACK_FFLAGS=“-fallow-argument-mismatch -fallow-invalid-boz”
-    export STACK_CXXFLAGS=“-march=native”
     export STACK_CXXFLAGS="-march=native" 
 
 Set Environment Variables
 ----------------------------
 
-Set the environmental variables for compiler paths in ``config/config_<machine>.sh``. The variable ``GNU`` below refers to the directory where the compiler binaries are located. For example, on Option 1, ``GNU=/opt/homebrew/bin/gcc``, and on Option 2: ``GNU=/usr/local/bin``.
+Set the environmental variables for compiler paths in ``./config/config_<machine>.sh``. The variable ``GNU`` below refers to the directory where the compiler binaries are located. For example, with Option 1, ``GNU=/opt/homebrew/bin/gcc``, and with Option 2: ``GNU=/usr/local/bin``. 
 
 .. code-block:: console 
 
+    export GNU="path/to/compiler/binaries"
     export CC=$GNU/gcc
     export FC=$GNU/gfortran
     export CXX=$GNU/g++
@@ -267,7 +269,7 @@ Set the environmental variables for compiler paths in ``config/config_<machine>.
 Specify MPI Libraries
 ------------------------
 
-Specify the MPI libraries to be built within the HPC-Stack in the ``./stack/stack_<machine>.yaml``. The ``openmpi/4.1.2`` (Option 1) and ``mpich/3.3.2`` (Option 2) have been built successfully.
+Specify the MPI libraries to be built within the HPC-Stack in ``./stack/stack_<machine>.yaml``. The ``openmpi/4.1.2`` (Option 1) and ``mpich/3.3.2`` (Option 2) have been built successfully.
 
 Option 1: 
 
@@ -290,7 +292,13 @@ Option 2:
 Libpng
 ----------
 
-Set build ``libpng`` library to NO in ``./stack/stack_<machine>.yaml``. (See :numref:`Step %s <InstallLibpng>`). Leave the defaults for other libraries and versions in the ``./stack/stack_<machine>.yaml`` file. 
+Set build ``libpng`` library to NO in ``./stack/stack_<machine>.yaml`` to avoid problems during the HPC-Stack build. Leave the defaults for other libraries and versions in ``./stack/stack_<machine>.yaml``. 
+
+.. code-block:: console
+
+    libpng:
+        build: NO
+
 
 Set Up the Modules and Environment
 --------------------------------------
@@ -301,7 +309,7 @@ Set up the modules and environment:
 
     ./setup_modules.sh -c config/config_<machine>.sh -p $HPC_INSTALL_DIR | tee setup_modules.log
 
-where ``<machine>`` is ``mac_m1_gnu`` (Option 1), or ``mac_gnu`` (Option 2), and ``$HPC_INSTALL_DIR`` is the *absolute* path for the installation directory of the HPC-Stack. You will be asked to choose whether or not to use "native" installations of python, the compilers, and the MPI. "Native" means that they are already installed on your system. Thus, you answer "YES" to python, "YES" to gnu compilers, and "NO" for MPI/mpich. 
+where ``<machine>`` is ``mac_m1_gnu`` (Option 1), or ``mac_gnu`` (Option 2), and ``$HPC_INSTALL_DIR`` is the *absolute* path for the installation directory of the HPC-Stack. You will be asked to choose whether or not to use "native" installations of Python, the compilers, and the MPI. "Native" means that they are already installed on your system. Thus, you answer "YES" to python, "YES" to gnu compilers, and "NO" for MPI/mpich. 
 
 Building HPC-Stack
 -----------------------
