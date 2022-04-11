@@ -11,7 +11,7 @@ HPC-Stack can be installed and built on MacOS systems. The following two options
 * **Option 2:** MacBook Pro 2015, 2.8 GHz Quad-Core Intel Core i7 (x86_64), Catalina OS X 10.15.7, GNU compiler suite v.11.2.0_3 (gcc, gfortran, g++); no MPI pre-installed
 
 .. note::
-    Examples throughout this chapter presume that the user is running Terminal.app with a bash shell environment. If this is not the case, users will need to adjust the commands to fit their command line application and shell environment. 
+    Examples throughout this chapter presume that the user is running Terminal.app with a bash shell environment. If this is not the case, users will need to adjust commands to fit their command line application and shell environment. 
 
 Prerequisites for Building HPC-Stack
 ======================================
@@ -23,7 +23,7 @@ Open Terminal.app and a web browser. Go to https://brew.sh, copy the command-lin
 
 .. code-block:: console
 
-    $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 This will install Homebrew, Xcode CLT, and Ruby. 
 
@@ -31,7 +31,7 @@ An alternative way to install the Xcode command-line tools (CLT) is as follows:
 
 .. code-block:: console
 
-    $ xcode-select --install 
+    xcode-select --install 
 
 Install Compilers
 ------------------------
@@ -40,38 +40,38 @@ Install GNU compiler suite (version 11) and gfortran:
 
 .. code-block:: console
 
-    $ brew install gcc@11 
+    brew install gcc@11 
 
 Create symbolic links from the version-specific binaries to gcc and g++.  A ``sudo`` password may be requested. The path will likely be ``/opt/homebrew/bin/gcc-11`` (Option 1), or ``/usr/local/bin/gcc-11`` (Option 2). 
 
 .. code-block:: console
 
-    $ which  gcc-11    
-    $ cd /usr/local/bin/        (OR cd /opt/homebrew/bin/ )
-    $ ln -s gcc-11 gcc  
-    $ ln -s g++-11 g++
+    which gcc-11    
+    cd /usr/local/bin/        (OR cd /opt/homebrew/bin/ )
+    ln -s gcc-11 gcc  
+    ln -s g++-11 g++
 
 There is no need to create a link for gfortran if this is the first installation of this compiler. If an earlier version of gfortran exists, you may rename it (e.g., to "gfortran-old") and create a link to the new installation:
 
 .. code-block:: console
 
-    $ ln -s gfortran-11 gfortran
+    ln -s gfortran-11 gfortran
 
 Verify the paths for the compiler binaries:
 
 .. code-block:: console
 
-    $ which  gcc
-    $ which  g++
-    $ which  gfortran 
+    which gcc
+    which g++
+    which gfortran 
 
 Verify that they show the correct version of GNU installed:
 
 .. code-block:: console
 
-    $ gcc --version
-    $ g++ --version
-    $ gfortran --version 
+    gcc --version
+    g++ --version
+    gfortran --version 
 
 Install CMake
 ----------------
@@ -80,7 +80,7 @@ Install the cmake utility via homebrew:
 
 .. code-block:: console
 
-    $ brew install cmake
+    brew install cmake
 
 
 Install/Upgrade Make
@@ -90,13 +90,13 @@ To install the make utility via homebrew:
 
 .. code-block:: console
 
-    $ brew install cmake   (or $ brew upgrade make)
+    brew install cmake
 
 To upgrade the make utility via homebrew:
 
 .. code-block:: console
 
-    $ brew upgrade make
+    brew upgrade make
 
 
 
@@ -109,7 +109,7 @@ Install Lmod, the module management environment:
 
 .. code-block:: console
 
-    $ brew install lmod
+    brew install lmod
 
 You may need to add the Lmod environment initialization to your shell profile, e.g., to ``${HOME}/.bashrc``. 
 
@@ -134,7 +134,7 @@ This library has issues when building on MacOS during the HPC-Stack bundle build
 
 .. code-block:: console
 
-    $ brew install libpng 
+    brew install libpng 
 
 
 Install wget
@@ -142,7 +142,7 @@ Install wget
 
 .. code-block:: console
 
-    $ brew install wget
+    brew install wget
 
 .. _InstallPython:
 
@@ -153,8 +153,8 @@ First, verify that python3 is installed, and check the current version:
 
 .. code-block:: console
 
-    $ which python3
-    $ python3 --version
+    which python3
+    python3 --version
 
 The first command should return ``/usr/bin/python3`` and the second should return ``Python 3.8.2`` or similar (the exact version is unimportant).
 
@@ -164,7 +164,7 @@ Start a new bash session (type ``bash`` in the existing terminal), and verify th
 
 .. code-block:: console
 
-    $ python3 --version
+    python3 --version
 
 The output should now correspond to the Python version you installed. 
 
@@ -175,7 +175,7 @@ Install git and dependencies:
 
 .. code-block:: console
 
-    $ brew install git
+    brew install git
 
 
 
@@ -189,8 +189,8 @@ Download HPC-Stack code from `GitHub <github.com>`__:
 
 .. code-block:: console 
 
-    $ git clone git@github.com:NOAA-EMC/hpc-stack.git
-    $ cd hpc-stack
+    git clone git@github.com:NOAA-EMC/hpc-stack.git
+    cd hpc-stack
 
 The configuration files are ``./config/config_<machine>.sh``. For Option 1, ``<machine>`` is ``mac_m1_gnu`` and for Option 2, ``<machine>`` is ``mac_gnu``. 
 
@@ -299,7 +299,7 @@ Set up the modules and environment:
 
 .. code-block:: console 
 
-    $ ./setup_modules.sh -c config/config_<machine>.sh -p ${HPC_INSTALL_DIR} | tee setup_modules.log
+    ./setup_modules.sh -c config/config_<machine>.sh -p ${HPC_INSTALL_DIR} | tee setup_modules.log
 
 where ``<machine>`` is ``mac_m1_gnu`` (Option 1), or ``mac_gnu`` (Option 2), and ``${HPC_INSTALL_DIR}`` is the *absolute* path for the installation directory of the HPC-Stack. You will be asked to choose whether or not to use "native" installations of python, the compilers, and the MPI. "Native" means that they are already installed on your system. Thus, you answer "YES" to python, "YES" to gnu compilers, and "NO" for MPI/mpich. 
 
@@ -310,7 +310,7 @@ Build the modules:
 
 .. code-block:: console
 
-    $ ./build_stack.sh -c config/config_<machine>.sh -p ${HPC_INSTALL_DIR} -y stack/stack_<machine>.yaml -m | tee build_stack.log
+    ./build_stack.sh -c config/config_<machine>.sh -p ${HPC_INSTALL_DIR} -y stack/stack_<machine>.yaml -m | tee build_stack.log
 
 .. attention:: 
     * The option ``-p`` requires an absolute path (full path) of the installation directory!
