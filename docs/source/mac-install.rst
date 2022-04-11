@@ -90,7 +90,7 @@ To install the make utility via homebrew:
 
 .. code-block:: console
 
-    brew install cmake
+    brew install make
 
 To upgrade the make utility via homebrew:
 
@@ -111,7 +111,7 @@ Install Lmod, the module management environment:
 
     brew install lmod
 
-You may need to add the Lmod environment initialization to your shell profile, e.g., to ``${HOME}/.bashrc``. 
+You may need to add the Lmod environment initialization to your shell profile, e.g., to ``$HOME/.bashrc``. 
 
 For the Option 1 installation, add: 
 
@@ -256,12 +256,12 @@ Set the environmental variables for compiler paths in ``config/config_<machine>.
 
 .. code-block:: console 
 
-    export CC=${GNU}/gcc
-    export FC=${GNU}/gfortran
-    export CXX=${GNU}/g++
-    export SERIAL_CC=${GNU}/gcc
-    export SERIAL_FC=${GNU}/gfortran
-    export SERIAL_CXX=${GNU}/g++
+    export CC=$GNU/gcc
+    export FC=$GNU/gfortran
+    export CXX=$GNU/g++
+    export SERIAL_CC=$GNU/gcc
+    export SERIAL_FC=$GNU/gfortran
+    export SERIAL_CXX=$GNU/g++
 
 
 Specify MPI Libraries
@@ -299,9 +299,9 @@ Set up the modules and environment:
 
 .. code-block:: console 
 
-    ./setup_modules.sh -c config/config_<machine>.sh -p ${HPC_INSTALL_DIR} | tee setup_modules.log
+    ./setup_modules.sh -c config/config_<machine>.sh -p $HPC_INSTALL_DIR | tee setup_modules.log
 
-where ``<machine>`` is ``mac_m1_gnu`` (Option 1), or ``mac_gnu`` (Option 2), and ``${HPC_INSTALL_DIR}`` is the *absolute* path for the installation directory of the HPC-Stack. You will be asked to choose whether or not to use "native" installations of python, the compilers, and the MPI. "Native" means that they are already installed on your system. Thus, you answer "YES" to python, "YES" to gnu compilers, and "NO" for MPI/mpich. 
+where ``<machine>`` is ``mac_m1_gnu`` (Option 1), or ``mac_gnu`` (Option 2), and ``$HPC_INSTALL_DIR`` is the *absolute* path for the installation directory of the HPC-Stack. You will be asked to choose whether or not to use "native" installations of python, the compilers, and the MPI. "Native" means that they are already installed on your system. Thus, you answer "YES" to python, "YES" to gnu compilers, and "NO" for MPI/mpich. 
 
 Building HPC-Stack
 -----------------------
@@ -310,7 +310,7 @@ Build the modules:
 
 .. code-block:: console
 
-    ./build_stack.sh -c config/config_<machine>.sh -p ${HPC_INSTALL_DIR} -y stack/stack_<machine>.yaml -m | tee build_stack.log
+    ./build_stack.sh -c config/config_<machine>.sh -p $HPC_INSTALL_DIR -y stack/stack_<machine>.yaml -m | tee build_stack.log
 
 .. attention:: 
     * The option ``-p`` requires an absolute path (full path) of the installation directory!
