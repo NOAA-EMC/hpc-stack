@@ -9,7 +9,7 @@ export HPC_PYTHON="python/dummy"
 export USE_SUDO=N
 export PKGDIR=pkg
 export LOGDIR=log
-export OVERWRITE=Y
+export OVERWRITE=N
 export NTHREADS=4
 export   MAKE_CHECK=N
 export MAKE_VERBOSE=N
@@ -38,7 +38,8 @@ export STACK_madis_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
 
 # Build FMS with AVX2 flags
 export STACK_fms_CFLAGS="-march=core-avx2"
-export STACK_fms_FFLAGS="-march=core-avx2"
+export STACK_fms_FFLAGS="-march=core-avx2 -fallow-argument-mismatch"
 
 # Patch FMS
 export STACK_fms_PATCH="cheyenne_gnu_fms_mpp_util_mpi_inc.patch"
+

@@ -195,30 +195,40 @@ function build_lib() {
   set -u
 
   # Determine if $1 is an NCEPlib
+  echo "library to build is $1, is it an NCEPlib?"
   local var="STACK_${1}_is_nceplib"
+  echo "var = $var"
   set +u
   local is_nceplib=${!var}
   set -u
+  echo "is_nceplib = ${is_nceplib}"
 
   # Determine if $1 is a python virtual environment
   local var="STACK_${1}_is_pyvenv"
   set +u
   local is_pyvenv=${!var}
   set -u
+  echo "is_pyvenv = ${is_pyvenv} "
 
   if [[ ${stack_build} =~ [yYtT] ]]; then
+      echo " stack_build = ${stack_build}"
       local log="$logdir/$1.log"
       [[ -f $log ]] && ( logDate=$(date -r $log +%F_%H%M); mv -f $log $log.$logDate )
       if [[ ${is_nceplib:-} =~ [yYtT] ]]; then
+        echo 
+        echo "call ${HPC_STACK_ROOT}/libs/build_nceplibs.sh for $1 build , log is $log "
         ${HPC_STACK_ROOT}/libs/build_nceplibs.sh "$1" 2>&1 | tee "$log"
       elif [[ ${is_pyvenv:-} =~ [yYtT] ]]; then
+        echo "is_pyvenv = ${is_pyvenv}"
         if [[ "${VENVTYPE:-"pyvenv"}" == "pyvenv" ]]; then
+          echo "call ${HPC_STACK_ROOT}/libs/build_pyvenv.sh for $1 build "
           ${HPC_STACK_ROOT}/libs/build_pyvenv.sh "$1" 2>&1 | tee "$log"
         elif [[ "${VENVTYPE:-"pyvenv"}" == "condaenv" ]]; then
           ${HPC_STACK_ROOT}/libs/build_condaenv.sh "$1" 2>&1 | tee "$log"
         fi
       else
         ${HPC_STACK_ROOT}/libs/build_$1.sh 2>&1 | tee "$log"
+        echo "call ${HPC_STACK_ROOT}/libs/build_$1.sh for $1 build , log is $log "
       fi
       local ret=${PIPESTATUS[0]}
       if [[ $ret -gt 0 ]]; then

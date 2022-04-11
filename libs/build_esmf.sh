@@ -4,6 +4,7 @@ set -eux
 
 name="esmf"
 version=${1:-${STACK_esmf_version}}
+install_as=${STACK_esmf_install_as:-${version}}
 
 software=${name}_$version
 
@@ -15,13 +16,14 @@ COMPILER=$(echo $HPC_COMPILER | cut -d/ -f1)
 MPI=$(echo $HPC_MPI | cut -d/ -f1)
 
 host=$(uname -s)
+abi64=$(uname -m)
 
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 [[ ${STACK_esmf_debug} =~ [yYtT] ]] && enable_debug=YES || enable_debug=NO
 
 # This will allow debug version of software (ESMF) to be installed next to the optimized version (this is only affected for $MODULES)
-[[ $enable_debug =~ [yYtT] ]] && version_install=$version-debug || version_install=$version
+[[ $enable_debug =~ [yYtT] ]] && version_install=${install_as}-debug || version_install=${install_as}
 
 if $MODULES; then
   set +x
@@ -74,7 +76,7 @@ URL="https://github.com/esmf-org/esmf"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software="ESMF_$version"
+software="$version"
 
 [[ -d $software ]] || ( git clone -b $software $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
@@ -96,6 +98,7 @@ case $COMPILER in
   gnu|gcc|clang )
     export ESMF_COMPILER="gfortran"
     export ESMF_F90COMPILEOPTS="-g -fbacktrace ${FCFLAGS}"
+    [[ "$abi64" == "arm64" ]] && export ESMF_ABI=64
     if [[ "$host" == "Darwin" ]]; then
       export ESMF_CXXCOMPILEOPTS="-g -Wno-error=format-security ${CXXFLAGS}"
     else
