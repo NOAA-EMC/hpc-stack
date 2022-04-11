@@ -1,5 +1,5 @@
 gnu:
-  build: YES
+  build: NO
   version: 11.2.0_3
 
 mpi:
@@ -85,7 +85,7 @@ esmf:
 
 fms:
   build: YES
-  version: 2021.03
+  version: 2021.04
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DENABLE_QUAD_PRECISION=OFF "
 
@@ -299,7 +299,6 @@ atlas:
 madis:
   build: YES
   version: 4.3
-  STACK_madis_FFLAGS=" -fallow-argument-mismatch -fallow-invalid-boz"
 
 esma_cmake:
   build: YES
@@ -325,7 +324,6 @@ mapl:
   build: YES
   repo: GEOS-ESM
   version: v2.12.2
-  esmf_version: 8.2.0
 
 geos:
   build: YES

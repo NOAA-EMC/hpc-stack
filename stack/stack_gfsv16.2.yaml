@@ -209,7 +209,7 @@ wgrib2:
   version: 2.0.7
   install_as: 2.0.7
   lib: YES
-  ipolates: 3
+  ipolates: 1
 
 prod_util:
   build: YES

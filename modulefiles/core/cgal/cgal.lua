@@ -7,7 +7,7 @@ local pkgNameVer = myModuleFullName()
 
 conflict(pkgName)
 
-prereq("boost-headers")
+depends_on("boost-headers")
 
 local opt = os.getenv("OPT") or "/opt/modules"
 

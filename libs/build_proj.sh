@@ -60,12 +60,29 @@ CMAKE_OPTS=${STACK_proj_cmake_opts:-""}
 
 if [[ -n ${LIBTIFF_ROOT-} ]] ; then
   CMAKE_OPTS+=" -DTIFF_INCLUDE_DIR=${LIBTIFF_ROOT}/include "
-  [[ -f ${LIBTIFF_ROOT}/lib64/libtiff.so ]] && CMAKE_OPTS+=" -DTIFF_LIBRARY=${LIBTIFF_ROOT}/lib64/libtiff.so " || CMAKE_OPTS+=" -DTIFF_LIBRARY=${LIBTIFF_ROOT}/lib/libtiff.so "
+  if [[ -f ${LIBTIFF_ROOT}/lib64/libtiff.so ]] ; then
+    CMAKE_OPTS+=" -DTIFF_LIBRARY=${LIBTIFF_ROOT}/lib64/libtiff.so " 
+  elif [[ -f ${LIBTIFF_ROOT}/lib/libtiff.so ]] ; then
+    CMAKE_OPTS+=" -DTIFF_LIBRARY=${LIBTIFF_ROOT}/lib/libtiff.so "
+  elif [[ -f ${LIBTIFF_ROOT}/lib/libtiff.dylib ]] ; then
+    CMAKE_OPTS+=" -DTIFF_LIBRARY=${LIBTIFF_ROOT}/lib/libtiff.dylib "
+  else
+    echo "WARNING: TIFF_LIBRARY is undefined! SKIPPING " 
+    exit 0
+  fi
 fi
-
 if [[ -n ${SQLITE_ROOT-} ]] ; then
   CMAKE_OPTS+=" -DSQLITE3_INCLUDE_DIR=${SQLITE_ROOT}/include "
-  CMAKE_OPTS+=" -DSQLITE3_LIBRARY=${SQLITE_ROOT}/lib/libsqlite3.so "
+  if [[ -f ${SQLITE_ROOT}/lib64/libsqlite3.so ]] ; then
+    CMAKE_OPTS+=" -DSQLITE3_LIBRARY=${SQLITE_ROOT}/lib64/libsqlite3.so " 
+  elif [[ -f ${SQLITE_ROOT}/lib/libsqlite3.so ]] ; then
+    CMAKE_OPTS+=" -DSQLITE3_LIBRARY=${SQLITE_ROOT}/lib/libsqlite3.so "
+  elif [[ -f ${SQLITE_ROOT}/lib/libsqlite3.dylib ]] ; then
+    CMAKE_OPTS+=" -DSQLITE3_LIBRARY=${SQLITE_ROOT}/lib/libsqlite3.dylib "
+  else
+    echo "WARNING: SQLITE3_LIBRARY is undefined! SKIPPING " 
+    exit 0
+  fi
 fi
 
 LIB_DIR=${SQLITE_ROOT:-} cmake -H. -Bbuild -DCMAKE_INSTALL_PREFIX=$prefix $CMAKE_OPTS
