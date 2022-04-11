@@ -297,7 +297,7 @@ Set build ``libpng`` library to NO in ``./stack/stack_<machine>.yaml`` to avoid 
 .. code-block:: console
 
     libpng:
-        build: NO
+    build: NO
 
 
 Set Up the Modules and Environment
