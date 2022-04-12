@@ -10,6 +10,7 @@ HPC-Stack User's Guide
    
    hpc-intro
    hpc-install
+   mac-install
    hpc-prereqs
    hpc-parameters
    hpc-components
