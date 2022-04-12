@@ -1,6 +1,10 @@
 name: Build macOS
 on:
   pull_request:
+    paths-ignore:
+      - '**/README.md'
+      - 'docs/**'
+      - 'LICENSE'
   workflow_dispatch:
 
 jobs:

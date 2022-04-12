@@ -1,6 +1,10 @@
 name: Build Intel
 on:
   pull_request:
+    paths-ignore:
+      - '**/README.md'
+      - 'docs/**'
+      - 'LICENSE'
   workflow_dispatch:
 
 # Use custom shell with -l so .bash_profile is sourced which loads intel/oneapi/setvars.sh
