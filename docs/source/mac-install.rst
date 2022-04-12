@@ -307,7 +307,7 @@ Set up the modules and environment:
 
 .. code-block:: console 
 
-    ./setup_modules.sh -c config/config_<machine>.sh -p $HPC_INSTALL_DIR |&  tee setup_modules.log
+    ./setup_modules.sh -c config/config_<machine>.sh -p $HPC_INSTALL_DIR | tee setup_modules.log
 
 where ``<machine>`` is ``mac_m1_gnu`` (Option 1), or ``mac_gnu`` (Option 2), and ``$HPC_INSTALL_DIR`` is the *absolute* path for the installation directory of the HPC-Stack. You will be asked to choose whether or not to use "native" installations of Python, the compilers, and the MPI. "Native" means that they are already installed on your system. Thus, you answer "YES" to python, "YES" to gnu compilers, and "NO" for MPI/mpich. 
 
@@ -318,8 +318,7 @@ Build the modules:
 
 .. code-block:: console
 
-    ./build_stack.sh -c config/config_<machine>.sh -p $HPC_INSTALL_DIR  -y stack/stack_<machine>.yaml -m |& tee build_stack.log
-
+    ./build_stack.sh -c config/config_<machine>.sh -p $HPC_INSTALL_DIR  -y stack/stack_<machine>.yaml -m 2>&1 | tee build_stack.log
 
 .. attention:: 
     * The option ``-p`` requires an absolute path (full path) of the installation directory!
