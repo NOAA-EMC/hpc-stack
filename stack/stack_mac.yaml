@@ -224,8 +224,8 @@ prod_util:
 
 grib_util:
   build: YES
-  version: v1.2.3
-  install_as: 1.2.3
+  version: v1.2.4
+  install_as: 1.2.4
   openmp: ON
   is_nceplib: YES
 

@@ -133,6 +133,7 @@ if $MODULES; then
       module try-load jasper
       module try-load zlib
       module try-load libpng
+      module try-load w3emc/2.9.2
       module load bacio
       module load w3nco
       module load g2
