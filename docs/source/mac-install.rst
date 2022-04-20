@@ -1,6 +1,6 @@
 .. _MacInstall:
 
-==========================================
+
 Install and Build HPC-Stack on MacOS
 ==========================================
 
@@ -14,10 +14,10 @@ HPC-Stack can be installed and built on MacOS systems. The following two options
     Examples throughout this chapter presume that the user is running Terminal.app with a bash shell environment. If this is not the case, users will need to adjust commands to fit their command line application and shell environment. 
 
 Prerequisites for Building HPC-Stack
-======================================
+----------------------------------------
 
 Install Homebrew and Xcode Command-Line Tools (CLT)
------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Open Terminal.app and a web browser. Go to https://brew.sh, copy the command-line installation directive, and run it in a new Terminal window. Terminal will request a ``sudo`` access password. The installation command will look similar to the following:
 
@@ -34,7 +34,7 @@ An alternative way to install the Xcode command-line tools (CLT) is as follows:
     xcode-select --install 
 
 Install Compilers
-------------------------
+^^^^^^^^^^^^^^^^^^^^^
 
 Install GNU compiler suite (version 11) and gfortran: 
 
@@ -74,7 +74,7 @@ Verify that they show the correct version of GNU installed:
     gfortran --version 
 
 Install CMake
-----------------
+^^^^^^^^^^^^^^^^^^^^^
 
 Install the cmake utility via homebrew:
 
@@ -84,7 +84,7 @@ Install the cmake utility via homebrew:
 
 
 Install/Upgrade Make
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 
 To install the make utility via homebrew:
 
@@ -103,7 +103,7 @@ To upgrade the make utility via homebrew:
 .. _InstallLmod:
 
 Install Lmod
-----------------
+^^^^^^^^^^^^^^^^
 
 Install Lmod, the module management environment: 
 
@@ -128,7 +128,7 @@ For the Option 2 installation, add:
 .. _InstallLibpng:
 
 Install libpng 
---------------------
+^^^^^^^^^^^^^^^^^^^
 
 The libpng library has issues when building on MacOS during the HPC-Stack bundle build. Therefore, it must be installed separately. To install the libpng library, run:
 
@@ -138,7 +138,7 @@ The libpng library has issues when building on MacOS during the HPC-Stack bundle
 
 
 Install wget
-----------------
+^^^^^^^^^^^^^^^^
 
 Install the Wget software package:
 
@@ -149,7 +149,7 @@ Install the Wget software package:
 .. _InstallPython:
 
 Install or Update Python3 
-------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 First, verify that Python3 is installed, and check the current version:
 
@@ -171,7 +171,7 @@ Start a new bash session (type ``bash`` in the existing terminal), and verify th
 The output should now correspond to the Python version you installed. 
 
 Install Git
----------------
+^^^^^^^^^^^^^^^
 
 Install git and dependencies:
 
@@ -182,10 +182,10 @@ Install git and dependencies:
 
 
 Building HPC-Stack
-======================
+--------------------
 
 Clone HPC-Stack
---------------------
+^^^^^^^^^^^^^^^^^^
 
 Download HPC-Stack code from `GitHub <github.com>`__: 
 
@@ -199,7 +199,7 @@ The configuration files are ``./config/config_<machine>.sh``. For Option 1, ``<m
 The ``./stack/stack_<machine>.yaml`` file lists the libraries that will be built as part of HPC-Stack, in addition to library-specific options. These can be altered based on user preferences. 
 
 Lmod Environment
---------------------
+^^^^^^^^^^^^^^^^^^^
 
 Verify the initialization of Lmod environment, or add it to the configuration file ``./config/config_<machine>.sh``, as in :numref:`Step %s <InstallLmod>`.
 
@@ -217,7 +217,7 @@ For Option 2:
 
 
 Specify Compiler, Python, and MPI
-------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Specify the combination of compilers, python libraries, and MPI libraries in the configuration file ``./config/config_<machine>.sh``.
 
@@ -232,7 +232,7 @@ Comment out any export statements not relevant to the system, and make sure that
 
 
 Set Appropriate Flags
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 When using gfortran version 10 or higher, verify that the following flags are set in ``config_<machine>.sh``: 
 
@@ -251,7 +251,7 @@ For Option 2:
     export STACK_CXXFLAGS="-march=native" 
 
 Set Environment Variables
-----------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Set the environmental variables for compiler paths in ``./config/config_<machine>.sh``. The variable ``GNU`` below refers to the directory where the compiler binaries are located. For example, with Option 1, ``GNU=/opt/homebrew/bin/gcc``, and with Option 2: ``GNU=/usr/local/bin``. 
 
@@ -267,7 +267,7 @@ Set the environmental variables for compiler paths in ``./config/config_<machine
 
 
 Specify MPI Libraries
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 Specify the MPI libraries to be built within the HPC-Stack in ``./stack/stack_<machine>.yaml``. The ``openmpi/4.1.2`` (Option 1) and ``mpich/3.3.2`` (Option 2) have been built successfully.
 
@@ -290,7 +290,7 @@ Option 2:
     version: 3.3.2
 
 Libpng
-----------
+^^^^^^^^^
 
 Set build ``libpng`` library to NO in ``./stack/stack_<machine>.yaml`` to avoid problems during the HPC-Stack build. Leave the defaults for other libraries and versions in ``./stack/stack_<machine>.yaml``. 
 
@@ -301,7 +301,7 @@ Set build ``libpng`` library to NO in ``./stack/stack_<machine>.yaml`` to avoid 
 
 
 Set Up the Modules and Environment
---------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Set up the modules and environment:
 
@@ -312,7 +312,7 @@ Set up the modules and environment:
 where ``<machine>`` is ``mac_m1_gnu`` (Option 1), or ``mac_gnu`` (Option 2), and ``$HPC_INSTALL_DIR`` is the *absolute* path for the installation directory of the HPC-Stack. You will be asked to choose whether or not to use "native" installations of Python, the compilers, and the MPI. "Native" means that they are already installed on your system. Thus, you answer "YES" to python, "YES" to gnu compilers, and "NO" for MPI/mpich. 
 
 Building HPC-Stack
------------------------
+^^^^^^^^^^^^^^^^^^^^^
 
 Build the modules: 
 
