@@ -3,7 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="gnu/11.2.0"
 export HPC_MPI="mpt/2.25"
-export HPC_PYTHON="python/dummy"
+export HPC_PYTHON="python/3.7.9"
 
 # Build options
 export USE_SUDO=N
@@ -22,6 +22,7 @@ module purge
 module load gnu/11.2.0
 module load mpt/2.25
 module load cmake/3.22.0
+module load python/3.7.9
 
 # gfortran-10 compatibility flags for incompatible software
 export STACK_esmf_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
