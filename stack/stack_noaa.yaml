@@ -368,9 +368,9 @@ metplus_pyenv:
 
 met:
   build: YES
-  version: 9.1.1
-  enable_pytho: NO
+  version: 10.1.1
+  enable_python: NO
 
 metplus:
   build: NO
-  version: 3.1.1
+  version: 4.1.1
