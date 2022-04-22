@@ -1,11 +1,11 @@
 gnu:
   build: NO
-  version: 9.3.0
+  version: 11.2.0
 
 mpi:
   build: NO
   flavor: openmpi
-  version: 4.0.1
+  version: 4.1.2
 
 cmake:
   build: NO
@@ -70,8 +70,8 @@ nccmp:
   version: 1.8.9.0
 
 nco:
-  build: NO
-  version: 4.9.3
+  build: YES
+  version: 5.0.6
 
 cdo:
   build: NO 
@@ -85,14 +85,14 @@ pio:
 
 esmf:
   build: YES
-  version: v8.2.1b04
+  version: 8.2.1.b04
   shared: YES
   enable_pnetcdf: NO
   debug: NO
 
 fms:
   build: YES
-  version: 2021.03
+  version: 2021.04
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
