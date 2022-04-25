@@ -16,7 +16,7 @@ export MAKE_VERBOSE=N
 export   MAKE_CLEAN=N
 export DOWNLOAD_ONLY=N
 export STACK_EXIT_ON_FAIL=Y
-export WGET="wget -nv"
+export WGET="wget -nv --no-check-certificate"
 
 module purge
 module load intel/2021.2
