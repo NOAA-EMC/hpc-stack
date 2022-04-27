@@ -227,8 +227,8 @@ grib_util:
 
 ncio:
   build: YES
-  version: v1.0.0
-  install_as: 1.0.0
+  version: v1.1.0
+  install_as: 1.1.0
   is_nceplib: YES
 
 boost:
