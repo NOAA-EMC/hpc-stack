@@ -59,7 +59,7 @@ netcdf:
 
 nccmp:
   build: YES
-  version: 1.8.9.0
+  version: 1.9.1.0
 
 nco:
   build: YES
@@ -85,7 +85,7 @@ esmf:
 
 fms:
   build: YES
-  version: 2021.03
+  version: 2022.01
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
@@ -231,8 +231,8 @@ grib_util:
 
 ncio:
   build: YES
-  version: v1.0.0
-  install_as: 1.0.0
+  version: v1.1.0
+  install_as: 1.1.0
   is_nceplib: YES
 
 boost:
