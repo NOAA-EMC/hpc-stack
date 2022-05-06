@@ -99,13 +99,36 @@ To upgrade the make utility via homebrew:
     brew upgrade make
 
 
+.. _InstallOpenssl:
+
+Install Openssl@3
+^^^^^^^^^^^^^^^^^^^^^
+To install the openssl@3 package, run:
+
+.. code-block:: console
+
+   brew install openssl@3
+
+Note the messages in the end of the installation. Depending on what they say, users may need to add the location of the openssl@3 binaries to the environment variable ``$PATH``. To add it to the ``PATH``, run:
+
+.. code-block:: console
+
+   echo 'export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"' >> ~/.bashrc
+
+Users may also need to set certain flags so that the compilers can find the openssl@3 package:
+
+.. code-block:: console
+
+   export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
+   export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
+
 
 .. _InstallLmod:
 
 Install Lmod
 ^^^^^^^^^^^^^^^^
 
-Install Lmod, the module management environment: 
+Install Lmod, which is the module management environment, run: 
 
 .. code-block:: console
 
@@ -117,13 +140,15 @@ For the Option 1 installation, add:
 
 .. code-block:: console
 
-    source /opt/homebrew/opt/lmod/init/profile
+   export BASH_ENV="/opt/homebrew/opt/lmod/init/bash"
+   source $BASH_ENV
 
 For the Option 2 installation, add:
 
 .. code-block:: console
 
-    source /usr/local/opt/lmod/init/profile
+   export BASH_ENV="/usr/local/opt/lmod/init/bash"
+   source $BASH_ENV
 
 .. _InstallLibpng:
 
@@ -207,13 +232,15 @@ For Option 1:
 
 .. code-block:: console 
 
-    source /opt/homebrew/opt/lmod/init/profile
+   export BASH_ENV="/opt/homebrew/opt/lmod/init/profile"
+   source $BASH_ENV
 
 For Option 2:
 
 .. code-block:: console 
 
-    source /usr/local/opt/lmod/init/profile
+   export BASH_ENV="/usr/local/opt/lmod/init/profile"
+   source $BASH_ENV
 
 
 Specify Compiler, Python, and MPI
