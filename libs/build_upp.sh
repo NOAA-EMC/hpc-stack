@@ -10,16 +10,18 @@ install_as=${STACK_upp_install_as:-${version}}
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+[[ -z $mpi ]] && modpath=compiler || modpath=mpi
 
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
-  module try-load cmake
+  module is-loaded cmake || module try-load cmake
   module try-load libpng
   module try-load jasper
-  module load netcdf
+  module restore hpc-$modpath-netcdf
+  module is-loaded netcdf || module load netcdf
   module load bacio
   module load w3nco
   module load g2

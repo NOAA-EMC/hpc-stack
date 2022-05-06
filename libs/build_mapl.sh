@@ -17,7 +17,7 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
-  module try-load cmake
+  module is-loaded cmake || module try-load cmake
   module load esma_cmake
   module load cmakemodules
   module load ecbuild
@@ -25,8 +25,10 @@ if $MODULES; then
   export ECBUILD_ROOT=$ecbuild_ROOT
   module load gftl-shared
   module load yafyaml
-  module load netcdf
-  module load esmf/${STACK_mapl_esmf_version:-default}
+  modpath=mpi
+  module restore hpc-$modpath-esmf
+  module is-loaded netcdf || module load netcdf
+  module is-loaded esmf || module load esmf/${STACK_mapl_esmf_version:-default}
   module list
 
   set -x

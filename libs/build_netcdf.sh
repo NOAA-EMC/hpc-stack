@@ -136,7 +136,10 @@ $SUDO make install
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $c_version
 echo netcdf-c $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
-
+if [[ $MODULES ]]; then
+   module load $name/$c_version
+   module save hpc-$modpath-netcdf
+fi
 ##################################################
 
 set +x
@@ -208,3 +211,4 @@ if [[ $enable_cxx =~ [yYtT] ]]; then
 
   echo netcdf-cxx $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 fi
+[[ $MODULES ]] && module save hpc-$modpath-netcdf

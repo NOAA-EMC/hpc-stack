@@ -11,7 +11,7 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
-    module try-load cmake
+    module is-loaded cmake || module try-load cmake
     module list
     set -x
 
