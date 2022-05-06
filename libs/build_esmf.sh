@@ -192,5 +192,5 @@ echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 # Save module environment
 if $MODULES; then
    module load $name/$version_install 
-   save hpc-$modpath-esmf
+   module save hpc-$modpath-esmf
 fi
