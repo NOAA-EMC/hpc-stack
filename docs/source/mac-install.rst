@@ -109,7 +109,7 @@ To install the openssl@3 package, run:
 
    brew install openssl@3
 
-Note the messages in the end of the installation. Depending on what they say, users may need to add the location of the openssl@3 binaries to the environment variable ``$PATH``. To add it to the ``PATH``, run:
+Note the messages at the end of the installation. Depending on what they say, users may need to add the location of the openssl@3 binaries to the environment variable ``$PATH``. To add it to the ``PATH``, run:
 
 .. code-block:: console
 
