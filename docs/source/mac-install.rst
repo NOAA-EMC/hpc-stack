@@ -216,7 +216,7 @@ Download HPC-Stack code from `GitHub <github.com>`__:
 
 .. code-block:: console 
 
-    git clone git@github.com:NOAA-EMC/hpc-stack.git
+    git clone https://github.com/NOAA-EMC/hpc-stack.git
     cd hpc-stack
 
 The configuration files are ``./config/config_<machine>.sh``. For Option 1, ``<machine>`` is ``mac_m1_gnu`` and for Option 2, ``<machine>`` is ``mac_gnu``. 
