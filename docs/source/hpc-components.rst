@@ -77,7 +77,7 @@ The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the
   * `NCEPLIBS-ncio <https://github.com/noaa-emc/nceplibs-ncio.git>`__
   * `NCEPLIBS-wrf_io <https://github.com/noaa-emc/nceplibs-wrf_io.git>`__
   * `EMC_crtm <https://github.com/noaa-emc/EMC_crtm.git>`__
-  * `EMC_post <https://github.com/noaa-emc/EMC_post.git>`__
+  * `UPP <https://github.com/NOAA-EMC/UPP>`__
 
 
 * **JEDI Dependencies**
