@@ -99,13 +99,36 @@ To upgrade the make utility via homebrew:
     brew upgrade make
 
 
+.. _InstallOpenssl:
+
+Install Openssl@3
+^^^^^^^^^^^^^^^^^^^^^
+To install the openssl@3 package, run:
+
+.. code-block:: console
+
+   brew install openssl@3
+
+Note the messages at the end of the installation. Depending on what they say, users may need to add the location of the openssl@3 binaries to the environment variable ``$PATH``. To add it to the ``PATH``, run:
+
+.. code-block:: console
+
+   echo 'export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"' >> ~/.bashrc
+
+Users may also need to set certain flags so that the compilers can find the openssl@3 package:
+
+.. code-block:: console
+
+   export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
+   export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
+
 
 .. _InstallLmod:
 
 Install Lmod
 ^^^^^^^^^^^^^^^^
 
-Install Lmod, the module management environment: 
+Install Lmod, which is the module management environment, run: 
 
 .. code-block:: console
 
@@ -117,13 +140,15 @@ For the Option 1 installation, add:
 
 .. code-block:: console
 
-    source /opt/homebrew/opt/lmod/init/profile
+   export BASH_ENV="/opt/homebrew/opt/lmod/init/bash"
+   source $BASH_ENV
 
 For the Option 2 installation, add:
 
 .. code-block:: console
 
-    source /usr/local/opt/lmod/init/profile
+   export BASH_ENV="/usr/local/opt/lmod/init/bash"
+   source $BASH_ENV
 
 .. _InstallLibpng:
 
@@ -160,7 +185,7 @@ First, verify that Python3 is installed, and check the current version:
 
 The first command should return ``/usr/bin/python3`` and the second should return ``Python 3.8.2`` or similar (the exact version is unimportant).
 
-If necessary, download an updated version of Python3 for MacOS from https://www.python.org/downloads. The version 3.9.11 64-bit universal2 installer package is recommended (i.e., ``python-3.9.11-macosc10.9.pkg``). Double-click on the installer package, and accept the license terms. An administrative level password will be requested for the installation. At the end of the installation, run ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
+If necessary, download an updated version of Python3 for MacOS from https://www.python.org/downloads. The version 3.9.11 64-bit universal2 installer package is recommended (i.e., ``python-3.9.11-macos11.pkg``). Double-click on the installer package, and accept the license terms. An administrative level password will be requested for the installation. At the end of the installation, run ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
 
 Start a new bash session (type ``bash`` in the existing terminal), and verify the installed version:
 
@@ -191,7 +216,7 @@ Download HPC-Stack code from `GitHub <github.com>`__:
 
 .. code-block:: console 
 
-    git clone git@github.com:NOAA-EMC/hpc-stack.git
+    git clone https://github.com/NOAA-EMC/hpc-stack.git
     cd hpc-stack
 
 The configuration files are ``./config/config_<machine>.sh``. For Option 1, ``<machine>`` is ``mac_m1_gnu`` and for Option 2, ``<machine>`` is ``mac_gnu``. 
@@ -207,13 +232,15 @@ For Option 1:
 
 .. code-block:: console 
 
-    source /opt/homebrew/opt/lmod/init/profile
+   export BASH_ENV="/opt/homebrew/opt/lmod/init/profile"
+   source $BASH_ENV
 
 For Option 2:
 
 .. code-block:: console 
 
-    source /usr/local/opt/lmod/init/profile
+   export BASH_ENV="/usr/local/opt/lmod/init/profile"
+   source $BASH_ENV
 
 
 Specify Compiler, Python, and MPI
