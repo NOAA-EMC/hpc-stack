@@ -17,7 +17,7 @@ if $MODULES; then
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
   module try-load cmake
-  module try-load libpng
+  module try-load png
   module try-load jasper
   module load netcdf
   module load bacio

@@ -137,7 +137,7 @@ build_lib cmake
 build_lib udunits
 build_lib jpeg
 build_lib zlib
-build_lib libpng
+build_lib png
 build_lib szip
 build_lib jasper
 build_lib sqlite
@@ -188,12 +188,12 @@ build_lib sigio
 build_lib sfcio
 build_lib gfsio
 build_lib w3nco
-build_lib w3emc
 build_lib sp
 build_lib ip
 build_lib ip2
 build_lib landsfcutil
 build_lib nemsio
+build_lib w3emc
 build_lib nemsiogfs
 build_lib g2
 build_lib g2c
@@ -214,7 +214,7 @@ if $MODULES; then
   _HPC_MPI=$HPC_MPI
   export HPC_MPI=""
 
-  build_lib nemsio
+#  build_lib nemsio
 
   # Restore $HPC_MPI variable
   export HPC_MPI=$_HPC_MPI
