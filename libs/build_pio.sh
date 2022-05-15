@@ -24,7 +24,6 @@ if $MODULES; then
     module is-loaded hdf5 || module load hdf5
     module is-loaded netcdf || module load netcdf
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
-    module load netcdf
     module list
     set -x
 

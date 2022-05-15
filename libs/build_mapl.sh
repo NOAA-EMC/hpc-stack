@@ -17,7 +17,6 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
-  module is-loaded cmake || module try-load cmake
   module load esma_cmake
   module load cmakemodules
   module load ecbuild
@@ -27,6 +26,7 @@ if $MODULES; then
   module load yafyaml
   modpath=mpi
   module restore hpc-$modpath-esmf
+  module is-loaded cmake || module try-load cmake
   module is-loaded netcdf || module load netcdf
   module is-loaded esmf || module load esmf/${STACK_mapl_esmf_version:-default}
   module list
