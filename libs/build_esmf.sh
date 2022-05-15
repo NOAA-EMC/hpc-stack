@@ -167,6 +167,7 @@ else
     export ESMF_OPTLEVEL="2"
   fi
 fi
+[[ "$STACK_esmf_os" == "Linux" ]] && export ESMF_OS="Linux"
 
 export ESMF_INSTALL_PREFIX=$prefix
 export ESMF_INSTALL_BINDIR=bin
@@ -174,6 +175,7 @@ export ESMF_INSTALL_LIBDIR=lib
 export ESMF_INSTALL_MODDIR=mod
 export ESMF_INSTALL_HEADERDIR=include
 [[ $enable_shared =~ [yYtT] ]] || export ESMF_SHARED_LIB_BUILD=OFF
+
 
 make info
 make -j${NTHREADS:-4}
