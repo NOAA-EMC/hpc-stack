@@ -4,10 +4,10 @@ gsl:
 
 met:
   build: YES
-  release_date: 20211201
+  release_date: 20220314
   enable_python: YES
-  version: 10.0.1
+  version: 10.1.0
 
 metplus:
   build: YES
-  version: 4.0.0
+  version: 4.1.1

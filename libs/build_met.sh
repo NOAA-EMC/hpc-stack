@@ -26,7 +26,7 @@ if $MODULES; then
     module load g2c
     module unload cray-mpich
     module load hdf5
-    module load netcdf
+    module load netcdf/4.7.4
     module list
     set -x
 
