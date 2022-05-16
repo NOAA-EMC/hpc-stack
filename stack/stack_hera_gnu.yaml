@@ -306,7 +306,7 @@ atlas:
   repo: ecmwf
 
 madis:
-  build: YES
+  build: NO
   version: 4.3
 
 esma_cmake:
@@ -344,7 +344,7 @@ proj:
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
 miniconda3:
-  build: NO
+  build: YES
   version: 4.6.14
 
 r2d2:

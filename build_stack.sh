@@ -202,6 +202,11 @@ build_lib crtm
 build_lib nceppost
 build_lib upp
 build_lib wrf_io
+
+# Python and associate virtual environments
+build_lib miniconda3
+build_lib r2d2
+
 build_lib bufr
 build_lib wgrib2
 build_lib prod_util
@@ -225,11 +230,6 @@ fi
 # Other
 
 build_lib madis
-
-# Python and associate virtual environments
-
-build_lib miniconda3
-build_lib r2d2
 
 # JEDI 3rd party dependencies
 

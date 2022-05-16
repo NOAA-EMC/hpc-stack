@@ -40,7 +40,7 @@ export CXX=g++
 export FC=gfortran
 
 # Miniconda3 URL on Hera
-export STACK_miniconda3_URL="http://anaconda.rdhpcs.noaa.gov"
+export STACK_miniconda3_URL="https://repo.anaconda.com"
 
 export SERIAL_CC=gcc
 export SERIAL_CXX=g++
