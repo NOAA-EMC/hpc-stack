@@ -4,9 +4,9 @@
 source /opt/homebrew/opt/lmod/init/profile
 
 # Compiler/MPI combination
-export HPC_COMPILER="gnu/11.2.0_3"
+export HPC_COMPILER="gnu/11.2.0"
 export HPC_MPI="openmpi/4.1.2"
-export HPC_PYTHON="python/3.10.2"
+export HPC_PYTHON="python/3.8.9"
 
 # Build options
 export USE_SUDO=N
