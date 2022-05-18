@@ -1,11 +1,11 @@
 gnu:
-  build: YES
-  version: 11.2.0_3
+  build: NO
+  version: 11.2.0
 
 mpi:
   build: YES
-  flavor: mpich
-  version: 3.3.2
+  flavor: openmpi
+  version: 4.1.2
 
 cmake:
   build: NO
@@ -20,9 +20,9 @@ zlib:
   build: YES
   version: 1.2.11
 
-libpng:
+png:
   build: NO
-  version: 1.6.37
+  version: 1.6.35
 
 szip:
   build: YES
@@ -59,7 +59,7 @@ netcdf:
 
 nccmp:
   build: YES
-  version: 1.9.1.0
+  version: 1.8.9.0
 
 nco:
   build: YES
@@ -78,14 +78,14 @@ pio:
 esmf:
   build: YES
   version: ESMF_8_2_0
-  install_as: 8.2.0
+  install_as: 8_2_0
   shared: YES
   enable_pnetcdf: NO
   debug: NO
 
 fms:
   build: YES
-  version: 2021.03
+  version: 2021.04
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DENABLE_QUAD_PRECISION=OFF "
 
@@ -148,8 +148,8 @@ landsfcutil:
 
 nemsio:
   build: YES
-  version: v2.5.4
-  install_as: 2.5.4
+  version: v2.5.2
+  install_as: 2.5.2
   is_nceplib: YES
 
 nemsiogfs:
@@ -160,8 +160,8 @@ nemsiogfs:
 
 w3emc:
   build: YES
-  version: v2.9.2
-  install_as: 2.9.2
+  version: v2.7.3
+  install_as: 2.7.3
   is_nceplib: YES
 
 g2:
@@ -191,8 +191,8 @@ crtm:
 
 upp:
   build: YES
-  version: upp_v10.0.9
-  install_as: 10.0.9
+  version: upp_v10.0.10
+  install_as: 10.0.10
   openmp: ON
 
 wrf_io:
@@ -224,15 +224,15 @@ prod_util:
 
 grib_util:
   build: YES
-  version: v1.2.4
-  install_as: 1.2.4
+  version: v1.2.3
+  install_as: 1.2.3
   openmp: ON
   is_nceplib: YES
 
 ncio:
   build: YES
-  version: v1.1.0
-  install_as: 1.1.0
+  version: v1.0.0
+  install_as: 1.0.0
   is_nceplib: YES
 
 boost:
@@ -299,7 +299,6 @@ atlas:
 madis:
   build: YES
   version: 4.3
-  STACK_madis_FFLAGS=" -fallow-argument-mismatch -fallow-invalid-boz"
 
 esma_cmake:
   build: YES
@@ -325,7 +324,6 @@ mapl:
   build: YES
   repo: GEOS-ESM
   version: v2.12.2
-  esmf_version: 8.2.0
 
 geos:
   build: YES
