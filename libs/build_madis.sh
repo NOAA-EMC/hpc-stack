@@ -12,8 +12,15 @@ mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-URL="https://madis-data.ncep.noaa.gov/source/$software.tar.gz"
-[[ -f $software.tar.gz ]] || ( $WGET $URL )
+if [[ -z ${STACK_git_URL-} ]]; then
+  URL="https://madis-data.ncep.noaa.gov/source/$software.tar.gz"
+  [[ -f $software.tar.gz ]] || ( $WGET $URL )
+else
+  URL=${STACK_git_URL}/$software.tar.gz
+  [[ -f $software.tar.gz ]] || ( $WGET "${URL}?raw=true" )
+  [[ -f $software.tar.gz ]] ||  mv "$software.tar.gz?raw=true" $software.tar.gz
+fi
+
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 if $MODULES; then

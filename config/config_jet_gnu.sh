@@ -26,6 +26,11 @@ module purge
 module load gnu/9.2.0
 module load cmake/3.20.1
 module load openmpi/3.1.4
+# Use alternative URL to download tar files
+# Miniconda3 URL 
+export STACK_miniconda3_URL="https://repo.anaconda.com"
+# Madis, wgrib2, boost - tar files from github
+export STACK_git_URL="https://github.com/natalie-perlin/HPC-stack-NOAA-blocked-downloads/blob/main"
 # Build FMS with AVX2 flags
 export STACK_fms_CFLAGS="-march=core-avx2"
 export STACK_fms_FFLAGS="-march=core-avx2"
