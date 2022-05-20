@@ -245,7 +245,7 @@ ncio:
   is_nceplib: YES
 
 boost:
-  build: YES
+  build: NO
   version: 1.68.0
   level: headers-only
 
