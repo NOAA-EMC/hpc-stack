@@ -42,7 +42,7 @@ export FC=gfortran
 # Miniconda3 URL on Hera
 export STACK_miniconda3_URL="https://repo.anaconda.com"
 # Madis, wgrib2, boost - tar files from github
-export STACK_git_url="https://github.com/natalie-perlin/HPC-stack-NOAA-blocked-downloads/blob/main/"
+export STACK_git_URL="https://github.com/natalie-perlin/HPC-stack-NOAA-blocked-downloads/blob/main"
 
 export SERIAL_CC=gcc
 export SERIAL_CXX=g++

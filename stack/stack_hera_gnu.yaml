@@ -1,11 +1,11 @@
 gnu:
   build: NO
-  version: 10.3.0
+  version: 9.2.0
 
 mpi:
   build: NO
   flavor: openmpi
-  version: 4.1.2
+  version: 3.1.4
 
 cmake:
   build: NO
@@ -245,7 +245,7 @@ ncio:
   is_nceplib: YES
 
 boost:
-  build: NO
+  build: YES
   version: 1.68.0
   level: headers-only
 
@@ -306,7 +306,7 @@ atlas:
   repo: ecmwf
 
 madis:
-  build: NO
+  build: YES
   version: 4.3
 
 esma_cmake:
