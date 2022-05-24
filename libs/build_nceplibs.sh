@@ -265,7 +265,7 @@ if [[ "$name" == "crtm" ]]; then
       crtm_tarball=fix_REL-${install_as}_emc.tgz
      [[ -f $crtm_tarball ]] || ( $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball )
       tar xzf $crtm_tarball
-      mv fix crtm_fix-${install_as}
+      mv crtm-internal_REL-2.4.0_emc/fix crtm_fix-${install_as}
 #      rm -f $crtm_tarball
     fi
     if [[ "${install_as}" == "2.3.0" ]]; then
