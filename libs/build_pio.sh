@@ -21,7 +21,7 @@ if $MODULES; then
     module try-load szip
     module load hdf5
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
-    module load netcdf
+    module load netcdf/4.7.4
     module list
     set -x
 

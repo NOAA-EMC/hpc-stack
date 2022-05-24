@@ -1,0 +1,5 @@
+g2tmpl:
+  build: YES
+  version: v1.10.2
+  install_as: 1.10.2
+  is_nceplib: YES

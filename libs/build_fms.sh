@@ -16,7 +16,7 @@ if $MODULES; then
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
   module try-load cmake
-  module load netcdf
+  module load netcdf/4.7.4
   module list
   set -x
 
