@@ -32,6 +32,7 @@ export STACK_esmf_os="Linux"
 export STACK_fms_CFLAGS="-march=core-avx2"
 export STACK_fms_FFLAGS="-march=core-avx2"
 
+
 # WCOSS2 specific
 # NOTE:
 # On WCOSS2 the Intel compiler module is "intel/19.1.3.304"
@@ -41,6 +42,8 @@ export STACK_fms_FFLAGS="-march=core-avx2"
 # loads the Intel module (as it should), and
 # define cc, FC and CC for CC, FC and CXX respectively.
 # cray-intel does not imply the native module in this case
+
+export CONFIG_SITE=""
 
 module purge
 module load envvar/1.0
@@ -64,6 +67,8 @@ module load netcdf/4.7.4
 module load jasper/2.0.25
 module load libjpeg/9c
 module load libpng/1.6.37
+module load gsl/2.7
+export GSL_ROOT="/apps/spack/gsl/2.7/intel/19.1.3.304/xks7dxbowrdxhjck5zxc4rompopocevb"
 
 export MET_PYTHON_CC="-I/apps/spack/python/3.8.6/intel/19.1.3.304/pjn2nzkjvqgmjw4hmyz43v5x4jbxjzpk/include/python3.8"
 export MET_PYTHON_LD="-L/apps/spack/python/3.8.6/intel/19.1.3.304/pjn2nzkjvqgmjw4hmyz43v5x4jbxjzpk/lib -lpython3.8"
