@@ -52,6 +52,7 @@ for configfile in config_nco_wcoss2.sh ; do
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_7.yaml -m
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_8.yaml -m
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_2_0_8_ip2.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_wgrib2_3_1_1.yaml -m
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2_v3_4_1.yaml -m
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2_v3_4_4.yaml -m
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_g2c_v1_6_2.yaml -m
@@ -60,6 +61,7 @@ for configfile in config_nco_wcoss2.sh ; do
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_w3emc_v2_9_2.yaml -m
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_grib_util_v1_2_4.yaml -m
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_metplus.yaml -m
+      ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_metplus_coordinated_4_1_0.yaml -m
       ./build_stack.sh -p $installprefix -c config/$configfile -y stack/stack_ufs_dev_wcoss2.yaml -m
    fi
 
