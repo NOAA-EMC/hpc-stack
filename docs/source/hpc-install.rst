@@ -88,7 +88,7 @@ Build the HPC-Stack
       sed -i "10 a export PATH=/usr/local/sbin:/usr/local/bin:$PATH" ./build_stack.sh
       sed -i "10 a export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH" ./build_stack.sh
 
-#. Build the environment. This may take several hours to complete. 
+#. Build the environment. This may take up to a couple of hours to complete. 
    
    .. code-block:: console
 
@@ -119,7 +119,7 @@ To install the HPC-Stack locally, the following pre-requisites must be installed
 * **Python 3:** Can be obtained either from the `main distributor <https://www.python.org/>`_ or from `Anaconda <https://www.anaconda.com/>`_. 
 * **Compilers:** Distributions of Fortran, C, and C++ compilers that work for your system. 
 * **Message Passing Interface (MPI)** libraries for multi-processor and multi-core communications, configured to work with your corresponding Fortran, C, and C++ compilers. 
-* **Programs and software packages:** `Lmod <https://lmod.readthedocs.io/en/latest/030_installing.html>`_, `CMake <https://cmake.org/install/>`_, `make <https://www.gnu.org/software/make/>`_, `wget <https://www.gnu.org/software/wget/>`_, `curl <https://curl.se/>`_, `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_, and the `TIFF library <https://gitlab.com/libtiff/libtiff.git>`_. 
+* **Programs and software packages:** `Lmod <https://lmod.readthedocs.io/en/latest/030_installing.html>`_, `CMake <https://cmake.org/install/>`_, `make <https://www.gnu.org/software/make/>`_, `wget <https://www.gnu.org/software/wget/>`_, `curl <https://curl.se/>`_, `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_.
 
 .. note::
    For detailed instructions on how to build the HPC-Stack on two particular configurations of MacOS, see :numref:`Chapter %s <MacInstall>`
@@ -202,22 +202,21 @@ These ``hpc-`` modules are really meta-modules that load the compiler/MPI librar
 
 In short, you may prefer not to load the compiler or MPI modules directly. Instead, loading the hpc- meta-modules as demonstrated above will provide everything needed to load software libraries.
    
-It may be necessary to set certain source and path variables in the ``build_stack.sh`` script. For example:
+It may be necessary to set few environment variables in the ``build_stack.sh`` script. For example:
+r
 
    .. code-block:: console
 
-      source /usr/share/lmod/6.6/init/bash
-      source /usr/share/lmod/lmod/init/bash
       export PATH=/usr/local/sbin:/usr/local/bin:$PATH
       export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
       export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
-It may also be necessary to initialize ``Lmod`` when using a user-specific ``Lmod`` installation:
+``Lmod`` needs to be initialized based on the installation directory:
 
    .. code-block:: console
 
       module purge
-      export BASH_ENV=$HOME/<Lmod-installation-dir>/lmod/lmod/init/bash 
+      export BASH_ENV=<Lmod-installation-dir>/lmod/lmod/init/profile
       source $BASH_ENV  
       export LMOD_SYSTEM_DEFAULT_MODULES=<module1>:<module2>:<module3>
       module --initial_load --no_redirect restore

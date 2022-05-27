@@ -21,6 +21,7 @@ The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the
   * `CMake <https://cmake.org/>`__
   * `Udunits <https://www.unidata.ucar.edu/software/udunits/>`__
   * `PNG <http://www.libpng.org/pub/png/>`__
+  * `TIFF <https://gitlab.com/libtiff/libtiff.git>`__
   * `JPEG <https://jpeg.org/>`__
   * `Jasper <https://github.com/jasper-software/jasper>`__
   * `SZip <https://support.hdfgroup.org/doc_resource/SZIP/>`__
@@ -34,7 +35,6 @@ The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the
   * `CDO <https://code.mpimet.mpg.de/projects/cdo>`__
   * `FFTW <http://www.fftw.org/>`__
   * `GPTL <https://jmrosinski.github.io/GPTL/>`__
-  * Tau2
   * `Boost <https://beta.boost.org/>`__
   * `Eigen <http://eigen.tuxfamily.org/>`__
   * `GSL-Lite <http://github.com/gsl-lite/gsl-lite>`__
