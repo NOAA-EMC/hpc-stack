@@ -21,7 +21,10 @@ abi64=$(uname -m)
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 [[ ${STACK_esmf_debug} =~ [yYtT] ]] && enable_debug=YES || enable_debug=NO
-
+if  [[ -n ${STACK_esmf_os-} ]]; then
+  [[ ${STACK_esmf_os} == "Linux" ]] && export ESMF_OS="Linux"
+  echo "STACK_esmf_os = $STACK_esmf_os"
+fi
 # This will allow debug version of software (ESMF) to be installed next to the optimized version (this is only affected for $MODULES)
 [[ $enable_debug =~ [yYtT] ]] && version_install=${install_as}-debug || version_install=${install_as}
 
@@ -174,6 +177,7 @@ export ESMF_INSTALL_LIBDIR=lib
 export ESMF_INSTALL_MODDIR=mod
 export ESMF_INSTALL_HEADERDIR=include
 [[ $enable_shared =~ [yYtT] ]] || export ESMF_SHARED_LIB_BUILD=OFF
+
 
 make info
 make -j${NTHREADS:-4}

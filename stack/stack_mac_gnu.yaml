@@ -1,11 +1,11 @@
 gnu:
   build: NO
-  version: 11.2.0_3
+  version: 11.2.0
 
 mpi:
   build: YES
-  flavor: mpich
-  version: 3.3.2
+  flavor: openmpi
+  version: 4.1.2
 
 cmake:
   build: NO
@@ -20,9 +20,9 @@ zlib:
   build: YES
   version: 1.2.11
 
-libpng:
+png:
   build: NO
-  version: 1.6.37
+  version: 1.6.35
 
 szip:
   build: YES
@@ -78,7 +78,7 @@ pio:
 esmf:
   build: YES
   version: ESMF_8_2_0
-  install_as: 8.2.0
+  install_as: 8_2_0
   shared: YES
   enable_pnetcdf: NO
   debug: NO
@@ -148,8 +148,8 @@ landsfcutil:
 
 nemsio:
   build: YES
-  version: v2.5.4
-  install_as: 2.5.4
+  version: v2.5.2
+  install_as: 2.5.2
   is_nceplib: YES
 
 nemsiogfs:
@@ -160,8 +160,8 @@ nemsiogfs:
 
 w3emc:
   build: YES
-  version: v2.9.2
-  install_as: 2.9.2
+  version: v2.7.3
+  install_as: 2.7.3
   is_nceplib: YES
 
 g2:
@@ -191,8 +191,8 @@ crtm:
 
 upp:
   build: YES
-  version: upp_v10.0.9
-  install_as: 10.0.9
+  version: upp_v10.0.10
+  install_as: 10.0.10
   openmp: ON
 
 wrf_io:
@@ -224,8 +224,8 @@ prod_util:
 
 grib_util:
   build: YES
-  version: v1.2.4
-  install_as: 1.2.4
+  version: v1.2.3
+  install_as: 1.2.3
   openmp: ON
   is_nceplib: YES
 

@@ -14,6 +14,8 @@ framework.
 
 This is part of the [NCEPLIBS](https://github.com/NOAA-EMC/NCEPLIBS) project.
 
+The branch `srw-public-v2` corresponds to the libraries required for building the SRW app release/public-v2 (repo: `ufs-community/ufs-srweather-app` ,`release/public-v2` branch) using GNU compilers (GNU10.2 or 9.2) and openmpi, on Orion, Gaea, Hera, Jet.
+
 ## Authors
 
 Rahul Mahajan, Kyle Gerheiser, Dusan Jovic, Hang-Lei, Dom Heinzeller
@@ -26,7 +28,7 @@ Machine     | Programmer
 ------------|------------------
 Hera        | Kyle Gerheiser
 Jet         | Kyle Gerheiser
-Orion       | Hang-Lei
+Orion       | Orion
 WCOSS-Dell  | Hang-Lei
 WCOSS-Cray  | Hang-Lei
 Cheyenne    | Jong Kim
@@ -34,7 +36,7 @@ Gaea        | Kyle Gerheiser
 
 ## Contributors
 
-Mark Potts, Steve Lawrence, Ed Hartnett, Guoqing Ge, Raffaele Montuoro, David Huber
+Mark Potts, Steve Lawrence, Ed Hartnett, Guoqing Ge, Raffaele Montuoro, David Huber, Natalie Perlin
 
 ## Prerequisites:
 

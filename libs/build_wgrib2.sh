@@ -37,13 +37,21 @@ export CXX=$SERIAL_CXX
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-URL="https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz.v${version}"
-
-[[ -d $software ]] || ( $WGET $URL; tar -xf wgrib2.tgz.v${version} )
+ 
+if [[ ! -d $software ]]; then
+  if [[ -z ${STACK_git_URL-} ]]; then
+    URL="https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz.v${version}"
+    $WGET $URL
+  else
+    URL=${STACK_git_URL-}
+    [[ ! -f "wgrib2.tgz.v${version}" ]] && $WGET "${URL}/wgrib2.tgz.v${version}?raw=true"
+    [[ ! -f "wgrib2.tgz.v${version}" ]] && mv "wgrib2.tgz.v${version}?raw=true" "wgrib2.tgz.v${version}"
+  fi
+  tar -xf wgrib2.tgz.v${version} 
 # wgrib2 is untarred as 'grib2'. Give a name with version.
-[[ -d $software ]] || mkdir $software && tar -xf wgrib2.tgz.v${version} -C $software --strip-components 1
+  mkdir $software && tar -xf wgrib2.tgz.v${version} -C $software --strip-components 1
+fi
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
-
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
 # The Jasper inside of wgrib2 does not build with Clang on macOS
