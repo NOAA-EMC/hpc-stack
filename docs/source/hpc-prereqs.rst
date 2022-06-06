@@ -20,6 +20,15 @@ The following system, compiler, and MPI combinations have been tested successful
    | Linux CentOS 7         | Intel compilers 2020.0  | Intel MPI                   |
    |                        | (ifort, icc, icps)      | (mpiifort, mpiicc, mpiicpc) |
    +------------------------+-------------------------+-----------------------------+
+   | Linux Ubuntu20.04      | GNU 10.3 compilers      | MPICH                       |
+   |                        | (gcc, g++, gfortran)    | (mpif90, mpicc, mpicxx)     |
+   +------------------------+-------------------------+-----------------------------+
+   | MacOS X x86_64 (Intel) | GNU 11.2 compilers      | OpenMPI                     |
+   | Darwin19 (Catalina)    | (gcc, g++, gfortran)    | (mpif90, mpicc, mpicxx)     |
+   +------------------------+-------------------------+-----------------------------+
+   | MacOS X arm64 (M1)     | GNU 11.2 compilers      | OpenMPI                     |
+   | Darwin20 (BigSur)      | (gcc, g++, gfortran)    | (mpif90, mpicc, mpicxx)     |
+   +------------------------+-------------------------+-----------------------------+
 
 Compilers and MPI libraries can be downloaded from the following websites: 
 
