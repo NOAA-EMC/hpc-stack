@@ -119,6 +119,7 @@ if $MODULES; then
       ;;
     nemsiogfs)
       module load nemsio
+      module try-load w3emc
       module load w3nco
       ;;
     w3emc)
@@ -134,7 +135,7 @@ if $MODULES; then
       module try-load jasper
       module try-load zlib
       module try-load png
-      module try-load w3emc/2.7.3
+      module try-load w3emc/2.9.2
       module load bacio
       module load w3nco
       module load g2
