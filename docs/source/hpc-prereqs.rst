@@ -20,20 +20,20 @@ The following system, compiler, and MPI combinations have been tested successful
    | Linux CentOS 7         | Intel compilers 2020.0  | Intel MPI                   |
    |                        | (ifort, icc, icps)      | (mpiifort, mpiicc, mpiicpc) |
    +------------------------+-------------------------+-----------------------------+
-   | Linux Ubuntu20.04      | GNU 10.3 compilers      | MPICH                       |
-   |                        | (gcc, g++, gfortran)    | (mpif90, mpicc, mpicxx)     |
+   | Linux Ubuntu 20.04     | GNU compilers 10.3      | MPICH 3.3.2                 |
+   |                        | (gcc, g++, gfortran)    | (mpifort, mpicc, mpicxx)    |
    +------------------------+-------------------------+-----------------------------+
-   | MacOS X x86_64 (Intel) | GNU 11.2 compilers      | OpenMPI                     |
-   | Darwin19 (Catalina)    | (gcc, g++, gfortran)    | (mpif90, mpicc, mpicxx)     |
+   | MacOS M1/arm64 arch.   | GNU compilers 10.2      | OpenMPI 4.1.2               |
+   |  Darwin20 (BigSur)     | (gcc, g++, gfortran)    | (mpifort, mpicc, mpicxx)    |
    +------------------------+-------------------------+-----------------------------+
-   | MacOS X arm64 (M1)     | GNU 11.2 compilers      | OpenMPI                     |
-   | Darwin20 (BigSur)      | (gcc, g++, gfortran)    | (mpif90, mpicc, mpicxx)     |
+   | MacOS Intel x86_64     | GNU compilers 10.2      | OpenMPI 4.1.2, MPICH 3.3.2  |
+   |   Darwin19 (Catalina)  | (gcc, g++, gfortran)    | (mpifort, mpicc, mpicxx)    |  
    +------------------------+-------------------------+-----------------------------+
 
 Compilers and MPI libraries can be downloaded from the following websites: 
 
 Compilers: 
-  * `GNU/GCC <https://gcc.gnu.org/>`__ (version 9.x)
+  * `GNU/GCC <https://gcc.gnu.org/>`__ (version 11.x)
   * `Intel <https://intel.com/>`__
 
 MPI's
