@@ -33,7 +33,7 @@ jasper:
   version: 2.0.25
 
 sqlite:
-  build: NO 
+  build: NO
   version: 3.32.3
 
 libtiff:
@@ -344,7 +344,7 @@ geos:
   version: 3.8.1
 
 proj:
-  build: NO 
+  build: YES
   version: 7.1.0
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
