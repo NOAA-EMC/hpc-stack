@@ -24,10 +24,10 @@ The following system, compiler, and MPI combinations have been tested successful
    |                        | (gcc, g++, gfortran)    | (mpifort, mpicc, mpicxx)    |
    +------------------------+-------------------------+-----------------------------+
    | MacOS M1/arm64 arch.   | GNU compilers 10.2      | OpenMPI 4.1.2               |
-   |  BigSur / Darwin 20    | (gcc, g++, gfortran)    | (mpifort, mpicc, mpicxx)    |
+   |  Darwin20 (BigSur)     | (gcc, g++, gfortran)    | (mpifort, mpicc, mpicxx)    |
    +------------------------+-------------------------+-----------------------------+
    | MacOS Intel x86_64     | GNU compilers 10.2      | OpenMPI 4.1.2, MPICH 3.3.2  |
-   |  Catalina/Darwin 19    | (gcc, g++, gfortran)    | (mpifort, mpicc, mpicxx)    |  
+   |   Darwin19 (Catalina)  | (gcc, g++, gfortran)    | (mpifort, mpicc, mpicxx)    |  
    +------------------------+-------------------------+-----------------------------+
 
 Compilers and MPI libraries can be downloaded from the following websites: 
