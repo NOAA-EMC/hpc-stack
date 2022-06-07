@@ -5,7 +5,7 @@ set -eux
 name="esma_cmake"
 repo="GEOS-ESM"
 version=${2:-${STACK_esma_cmake_version:-"main"}}
-id=${version//\//-}
+id=$(echo $version | sed 's/v//')
 
 if $MODULES; then
   set +x

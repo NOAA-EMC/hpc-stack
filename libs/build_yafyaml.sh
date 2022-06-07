@@ -4,11 +4,11 @@ set -eux
 
 name="yafyaml"
 repo="Goddard-Fortran-Ecosystem"
-version=${2:-${STACK_yafyaml_version:-"main"}}
+version=${STACK_yafyaml_version}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-id=${version//\//-}
+id=$(echo $version | sed 's/v//')
 
 if $MODULES; then
   set +x

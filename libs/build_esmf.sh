@@ -6,7 +6,7 @@ name="esmf"
 version=${1:-${STACK_esmf_version}}
 install_as=${STACK_esmf_install_as:-${version}}
 
-software=${name}-$(echo ${version} | cut -d/ -f2)
+software=${name}-${install_as}
 
 # Hyphenated versions used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -79,7 +79,7 @@ URL="https://github.com/esmf-org/esmf"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-[[ -d $software ]] || ( git clone -b $(echo ${version} | cut -d/ -f2) $URL $software )
+[[ -d $software ]] || ( git clone -b ${version} $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
