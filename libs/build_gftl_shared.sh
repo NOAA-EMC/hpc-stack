@@ -8,7 +8,7 @@ version=${2:-${STACK_gftl_shared_version:-"main"}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-id=${version//\//-}
+id=$(echo $version | sed 's/v//')
 
 if $MODULES; then
   set +x

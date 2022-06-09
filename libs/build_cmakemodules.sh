@@ -5,7 +5,7 @@ set -eux
 name="cmakemodules"
 repo="NOAA-EMC"
 version=${2:-${STACK_cmakemodules_version:-"develop"}}
-id=${version//\//-}
+id=$(echo $version | sed 's/v//')
 
 if $MODULES; then
   set +x
