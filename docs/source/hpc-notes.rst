@@ -10,11 +10,11 @@ HPC-Stack Additional Notes
 Setting Compiler Flags and Other Options
 -----------------------------------------
 
-Often it is necessary to specify compiler flags (e.g., ``gfortran-10 -fallow-argument-mismatch`` for the packages via ``FFLAGS``.  There are 2 ways this can be achieved:
+Often it is necessary to specify compiler flags (e.g., gfortran-10 requires ``-fallow-argument-mismatch``to be used with ``FFLAGS``.  There are 2 ways this can be achieved:
 
-#. **For all packages:** One can define variable e.g., ``STACK_FFLAGS=-fallow-argument-mismatch`` in the config file ``config_custom.sh``.  This will append ``STACK_FFLAGS`` to ``FFLAGS`` in every build script under libs.
+#. **For all packages:** One can define variable e.g., ``STACK_FFLAGS=-fallow-argument-mismatch`` in the config file ``config_custom.sh``.  This will append ``STACK_FFLAGS`` to ``FFLAGS`` in every build script under ./libs/ directory.
 
-#. **Package specific flags:** To compile only the specific package under ``libs`` with the above compiler flag, one can define variable ``FFLAGS=-fallow-argument-mismatch`` in the ``<package>`` section of the YAML file ``stack_custom.yaml``. This will append ``STACK_<package>_FFLAGS`` to ``FFLAGS`` in the build script for that package only.
+#. **Package-specific flags:** To compile only the specific package under ``libs`` with the above compiler flag, one can define variable ``FFLAGS=-fallow-argument-mismatch`` in the ``<package>`` section of the YAML file ``stack_custom.yaml``. This will append ``STACK_<package>_FFLAGS`` to ``FFLAGS`` in the build script for that package only.
 
 Adding a New Library or Package
 --------------------------------
