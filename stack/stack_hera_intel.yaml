@@ -1,19 +1,11 @@
 gnu:
   build: NO
-<<<<<<< HEAD
-  version: 9.2.0
-=======
   version: 10.2.0
->>>>>>> db5ead8583c6b559546eb73d66deb69b3acdcbff
 
 mpi:
   build: NO
   flavor: openmpi
-<<<<<<< HEAD
-  version: 3.1.4
-=======
   version: 4.0.4
->>>>>>> db5ead8583c6b559546eb73d66deb69b3acdcbff
 
 cmake:
   build: NO
@@ -41,11 +33,7 @@ jasper:
   version: 2.0.25
 
 sqlite:
-<<<<<<< HEAD
   build: NO 
-=======
-  build: NO
->>>>>>> db5ead8583c6b559546eb73d66deb69b3acdcbff
   version: 3.32.3
 
 libtiff:
@@ -97,11 +85,7 @@ pio:
 
 esmf:
   build: YES
-<<<<<<< HEAD
-  version: release/v8.3.0
-=======
   version: v8.3.0
->>>>>>> db5ead8583c6b559546eb73d66deb69b3acdcbff
   install_as: 8.3.0
   shared: YES
   enable_pnetcdf: NO
@@ -173,11 +157,7 @@ landsfcutil:
 nemsio:
   build: YES
   version: v2.5.4
-<<<<<<< HEAD
-  install_as: 2.5.2
-=======
   install_as: 2.5.4
->>>>>>> db5ead8583c6b559546eb73d66deb69b3acdcbff
   is_nceplib: YES
 
 nemsiogfs:
@@ -365,8 +345,8 @@ proj:
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
 miniconda3:
-  build: NO
-  version: 4.6.14
+  build: YES
+  version: 4.12.0 
 
 r2d2:
   build: NO

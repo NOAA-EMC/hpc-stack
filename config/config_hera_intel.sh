@@ -3,7 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="intel/2022.1.2"
 export HPC_MPI="impi/2022.1.2"
-export HPC_PYTHON="intelpython/2022.1.2"
+export HPC_PYTHON="miniconda3/4.12.0"
 
 # Build options
 export USE_SUDO=N
@@ -22,7 +22,6 @@ export WGET="wget -nv --no-check-certificate"
 module purge
 module load intel/2022.1.2
 module load impi/2022.1.2
-module load intelpython/2022.1.2
 module load cmake/3.20.1
 
 # Build FMS with AVX2 flags
