@@ -35,11 +35,15 @@ if $MODULES; then
   module try-load zlib
   module try-load szip
   [[ -z $mpi ]] || module load hpc-$HPC_MPI
-  module load hdf5
+  [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+  module restore hpc-$modpath-hdf5
+  module is-loaded hdf5 || module load hdf5
   if [[ ! -z $mpi ]]; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   fi
-  module load netcdf
+  [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+  module restore hpc-$modpath-netcdf
+  module is-loaded netcdf || module load netcdf
   module try-load udunits
   module list
   set -x
@@ -187,3 +191,8 @@ $SUDO make install
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $version_install
 echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+# Save module environment
+if $MODULES; then
+   module load $name/$version_install 
+   module save hpc-$modpath-esmf
+fi

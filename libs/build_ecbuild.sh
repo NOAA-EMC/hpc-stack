@@ -9,7 +9,7 @@ version=${2:-${STACK_ecbuild_version:-"release-stable"}}
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
-  module try-load cmake
+  module is-loaded cmake || module try-load cmake
   module list
   set -x
 

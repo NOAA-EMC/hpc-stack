@@ -22,6 +22,7 @@ openmp=${4:-${s_openmp:-"OFF"}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 python=$(echo $HPC_PYTHON | sed 's/\//-/g')
+[[ -z $mpi ]] && modpath=compiler || modpath=mpi
 
 if $MODULES; then
   set +x
@@ -83,20 +84,23 @@ if $MODULES; then
   # Load dependencies
   case $name in
     wrf_io)
-      module load netcdf
+      module restore hpc-$modpath-netcdf
+      module is-loaded netcdf || module load netcdf
       ;;
     wgrib2)
+      module restore hpc-$modpath-netcdf
+      module is-loaded netcdf || module load netcdf
       module try-load jpeg
       module try-load jasper
-      module try-load zlib
-      module try-load png
-      module load netcdf
+      module is-loaded zlib || module try-load zlib
+      module try-load libpng
       module load sp
       module load ip2
       ;;
     crtm)
       module load hpc-$HPC_MPI
-      module load netcdf
+      module restore hpc-$modpath-netcdf
+      module is-loaded netcdf || module load netcdf
       ;;
     ip2)
       module load sp
@@ -108,8 +112,7 @@ if $MODULES; then
       ;;
     g2c)
       module try-load jpeg
-      module try-load zlib
-      module try-load png
+      module is-loaded zlib || module try-load zlib
       module try-load libpng
       module try-load jasper
       ;;
@@ -125,7 +128,9 @@ if $MODULES; then
     w3emc)
       module load bacio
       if [[ "$using_mpi" =~ [yYtT] ]]; then
-          module load netcdf
+          module restore hpc-$modpath-netcdf
+          module is-loaded netcdf || module load netcdf
+          module load bacio
           module load sigio
           module load nemsio
       fi
@@ -135,7 +140,7 @@ if $MODULES; then
       module try-load jasper
       module try-load zlib
       module try-load png
-      module try-load w3emc/2.9.2
+      module try-load w3emc/2.7.3
       module load bacio
       module load w3nco
       module load g2

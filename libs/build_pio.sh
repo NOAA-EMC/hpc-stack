@@ -17,11 +17,13 @@ if $MODULES; then
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     module load hpc-$HPC_MPI
-    module try-load cmake
+    module is-loaded cmake || module try-load cmake
     module try-load szip
-    module load hdf5
+    [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+    module restore hpc-$modpath-netcdf
+    module is-loaded hdf5 || module load hdf5
+    module is-loaded netcdf || module load netcdf
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
-    module load netcdf
     module list
     set -x
 
