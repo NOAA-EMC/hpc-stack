@@ -132,7 +132,7 @@ if $MODULES; then
           module is-loaded netcdf || module load netcdf
           module load bacio
           module load sigio
-          module load nemsio
+          module load nemsio 
       fi
       ;;
     grib_util)
