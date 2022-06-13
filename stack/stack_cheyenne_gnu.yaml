@@ -1,11 +1,11 @@
 gnu:
   build: NO
-  version: 9.3.0
+  version: 10.2.0
 
 mpi:
   build: NO
   flavor: openmpi
-  version: 4.0.1
+  version: 4.1.2
 
 cmake:
   build: NO
@@ -32,6 +32,14 @@ jasper:
   build: YES
   version: 2.0.25
 
+sqlite:
+  build: YES
+  version: 3.32.3
+
+libtiff:
+  build: NO
+  version: 4.0.3
+
 udunits:
   build: YES
   version: 2.2.28
@@ -53,39 +61,39 @@ netcdf:
   shared: YES
   enable_pnetcdf: NO
   version_c: 4.7.4
-  version_f: 4.5.3
+  version_f: 4.5.4
   version_cxx: 4.3.1
   disable_cxx: YES
 
 nccmp:
   build: YES
-  version: 1.9.1.0
+  version: 1.8.9.0
 
 nco:
   build: YES
   version: 5.0.6
 
 cdo:
-  build: YES
+  build: NO 
   version: 1.9.8
 
 pio:
   build: YES
-  version: 2.5.3
+  version: 2.5.2
   enable_pnetcdf: NO
   enable_gptl: NO
 
 esmf:
   build: YES
-  version: ESMF_8_2_0
-  install_as: 8.2.0
+  version: v8.3.0b09
+  install_as: 8.3.0b09
   shared: YES
   enable_pnetcdf: NO
   debug: NO
 
 fms:
   build: YES
-  version: 2022.01
+  version: 2021.04
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
@@ -148,8 +156,8 @@ landsfcutil:
 
 nemsio:
   build: YES
-  version: v2.5.4
-  install_as: 2.5.4
+  version: v2.5.2
+  install_as: 2.5.2
   is_nceplib: YES
 
 nemsiogfs:
@@ -160,14 +168,14 @@ nemsiogfs:
 
 w3emc:
   build: YES
-  version: v2.9.2
-  install_as: 2.9.2
+  version: v2.7.3
+  install_as: 2.7.3
   is_nceplib: YES
 
 g2:
   build: YES
-  version: v3.4.5
-  install_as: 3.4.5
+  version: v3.4.3
+  install_as: 3.4.3
   is_nceplib: YES
 
 g2c:
@@ -191,9 +199,10 @@ crtm:
 
 upp:
   build: YES
-  version: upp_v10.0.9
-  install_as: 10.0.9
+  version: upp_v10.0.10
+  install_as: 10.0.10
   openmp: ON
+  is_nceplib: NO
 
 wrf_io:
   build: YES
@@ -224,15 +233,15 @@ prod_util:
 
 grib_util:
   build: YES
-  version: v1.2.4
-  install_as: 1.2.4
+  version: v1.2.3
+  install_as: 1.2.3
   openmp: ON
   is_nceplib: YES
 
 ncio:
   build: YES
-  version: v1.1.0
-  install_as: 1.1.0
+  version: v1.0.0
+  install_as: 1.0.0
   is_nceplib: YES
 
 boost:
@@ -323,29 +332,21 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
-  esmf_version: 8.2.0
-  version: v2.12.2
+  version: v2.11.0
 
 geos:
   build: YES
   version: 3.8.1
 
-libtiff:
-  build: YES
-  version: 4.0.3
-
-sqlite:
-  build: YES
-  version: 3.32.3
-
 proj:
-  build: YES
+  build: NO 
   version: 7.1.0
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
 miniconda3:
-  build: NO
-  version: 4.6.14
+  build: YES
+  version: 4.12.0
+  pyversion: py39
 
 r2d2:
   build: NO

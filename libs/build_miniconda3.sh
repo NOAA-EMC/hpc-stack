@@ -39,7 +39,6 @@ else
 fi
 
 software=$name-$version
-pkg_version=$version
 [[ -n ${pyversion:-} ]] && pkg_version=${pyversion}_$version
 installer="Miniconda3-${pkg_version}-${os}-x86_64.sh"
 
@@ -57,6 +56,7 @@ export CONDA_ROOT=$prefix
 export CONDARC=$CONDA_ROOT/.condarc
 export CONDA_ENVS_PATH=$CONDA_ROOT/envs
 export CONDA_PKGS_DIR=$CONDA_ROOT/pkgs
+export CONDA_SHLVL=0
 
 set +x
 echo "sourcing conda.sh"
@@ -67,7 +67,13 @@ source $prefix/etc/profile.d/conda.sh
 echo "disabling conda auto updates"
 conda config --system --set auto_update_conda False
 echo "install $version of conda"
-conda install -yq conda=$version
+#conda install -yq conda=$version
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+conda create -n regional_workflow -y jinja2 pyyaml f90nml
+conda activate regional_workflow
+conda env export > ${CONDA_PKGS_DIR}/regional_workflow.yml
+conda deactivate
 set -x
 
 # generate modulefile from template
