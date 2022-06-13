@@ -84,6 +84,7 @@ URL="https://github.com/esmf-org/esmf"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 [[ -d $software ]] || ( git clone -b ${version} $URL $software )
+
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
