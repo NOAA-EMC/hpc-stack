@@ -1,6 +1,6 @@
 gnu:
   build: NO
-  version: 10.2.0
+  version: 11.2.0
 
 mpi:
   build: NO
@@ -339,12 +339,12 @@ geos:
   version: 3.8.1
 
 proj:
-  build: NO 
+  build: YES
   version: 7.1.0
   cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
 
 miniconda3:
-  build: yes
+  build: YES
   version: 4.12.0
   pyversion: py39
 
