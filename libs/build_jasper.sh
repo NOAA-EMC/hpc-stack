@@ -16,7 +16,8 @@ if $MODULES; then
   module load hpc-$HPC_COMPILER
   # Load jpeg module if created by hpc-stack; requires setting
   # MAKE_POLICY_DEFAULT_CMP0074 to new below so that JPEG_ROOT is searched
-  module try-load jpeg
+  module is-loaded jpeg || module try-load jpeg
+  module is-loaded cmake || module try-load cmake
   module list
   set -x
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"

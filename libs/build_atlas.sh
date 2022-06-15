@@ -16,7 +16,6 @@ if $MODULES; then
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
   module try-load zlib
-  module is-loaded || module try-load cmake
   [[ -z $mpi ]] && modpath=compiler || modpath=mpi
   echo "Restoring hpc-$modpath-zlib"
   module restore hpc-$modpath-zlib
