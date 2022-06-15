@@ -207,6 +207,7 @@ build_lib wgrib2
 build_lib prod_util
 build_lib grib_util
 build_lib ncio
+build_lib ncdiag
 
 if $MODULES; then
 

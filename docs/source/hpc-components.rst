@@ -5,7 +5,7 @@
 HPC-Stack Components
 =====================
 
-The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the ``build_stack.sh`` script. The following software can optionally be built with the scripts under ``libs``. 
+The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the ``build_stack.sh`` script. The following software can optionally be built with the scripts under ``libs``.
 
 * **Compilers and MPI libraries**
 
@@ -78,6 +78,7 @@ The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the
   * `NCEPLIBS-wrf_io <https://github.com/noaa-emc/nceplibs-wrf_io.git>`__
   * `EMC_crtm <https://github.com/noaa-emc/EMC_crtm.git>`__
   * `UPP <https://github.com/NOAA-EMC/UPP>`__
+  * `GSI-ncdiag <https://github.com/noaa-emc/GSI-ncdiag.git>`__
 
 
 * **JEDI Dependencies**
