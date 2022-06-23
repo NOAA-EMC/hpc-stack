@@ -1,11 +1,11 @@
 gnu:
   build: NO
-  version: 10.2.0
+  version: 11.2.0
 
 mpi:
   build: NO
   flavor: openmpi
-  version: 4.0.4
+  version: 4.1.2
 
 cmake:
   build: NO
@@ -33,11 +33,11 @@ jasper:
   version: 2.0.25
 
 sqlite:
-  build: NO 
+  build: YES
   version: 3.32.3
 
 libtiff:
-  build: NO
+  build: YES
   version: 4.0.3
 
 udunits:
@@ -333,7 +333,6 @@ mapl:
   build: YES
   repo: GEOS-ESM
   version: v2.11.0
-  ESMF_VERSION: 8.3.0b09
 
 geos:
   build: YES
@@ -346,7 +345,8 @@ proj:
 
 miniconda3:
   build: YES
-  version: 4.12.0 
+  version: 4.12.0
+  pyversion: py39
 
 r2d2:
   build: NO

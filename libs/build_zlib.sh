@@ -66,4 +66,5 @@ $SUDO make install
 
 # generate modulefile from template
 $MODULES && update_modules compiler $name $version
+module load $name/$version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

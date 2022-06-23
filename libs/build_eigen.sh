@@ -10,7 +10,7 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module try-load boost-headers
-  module list
+  module is-loaded cmake || module try-load cmake
   set -x
 
   prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"

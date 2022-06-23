@@ -14,7 +14,6 @@ if $MODULES; then
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     module load hpc-$HPC_MPI
-    module is-loaded cmake || module try-load cmake
     module list
     set -x
 

@@ -9,12 +9,14 @@ version=${1:-${STACK_jpeg_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+modpath=compiler
 
 # manage package dependencies here
 if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
+    module is-loaded cmake || module try-load cmake
     module list
     set -x
 
