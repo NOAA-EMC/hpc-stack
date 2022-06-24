@@ -218,7 +218,7 @@ URL="https://github.com/noaa-emc/nceplibs-$name"
 extraCMakeFlags=""
 case $name in
   crtm)
-    URL="https://github.com/NOAA-EMC/crtm.git"
+    URL="https://github.com/JCSDA/crtm.git"
     ;;
   wgrib2)
     extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
@@ -286,6 +286,11 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
+if [[ "$software" == "crtm-v2.4.0" ]]; then
+[[ -d test ]] && rm -rf test
+mkdir -p test
+touch test/CMakeLists.txt
+fi
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
