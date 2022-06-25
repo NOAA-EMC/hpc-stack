@@ -3,13 +3,13 @@ gnu:
   version: 11.2.0
 
 mpi:
-  build: NO
+  build: YES
   flavor: openmpi
   version: 4.1.2
 
 cmake:
-  build: YES
-  bootstrap: YES
+  build: NO
+  bootstrap: NO
   version: 3.20.1
 
 jpeg:
@@ -20,8 +20,8 @@ zlib:
   build: YES
   version: 1.2.11
 
-libpng:
-  build: YES
+png:
+  build: NO
   version: 1.6.37
 
 szip:
@@ -31,14 +31,6 @@ szip:
 jasper:
   build: YES
   version: 2.0.25
-
-sqlite:
-  build: YES
-  version: 3.32.3
-
-libtiff:
-  build: YES
-  version: 4.0.3
 
 udunits:
   build: YES
@@ -74,7 +66,7 @@ nco:
   version: 5.0.6
 
 cdo:
-  build: NO 
+  build: YES
   version: 1.9.8
 
 pio:
@@ -86,7 +78,7 @@ pio:
 esmf:
   build: YES
   version: v8.3.0b09
-  install_as: 8.3.0
+  install_as: 8.3.0b09
   shared: YES
   enable_pnetcdf: NO
   debug: NO
@@ -95,7 +87,7 @@ fms:
   build: YES
   version: 2022.01
   repo: noaa-gfdl
-  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DENABLE_QUAD_PRECISION=OFF "
 
 bacio:
   build: YES
@@ -202,7 +194,6 @@ upp:
   version: upp_v10.0.10
   install_as: 10.0.10
   openmp: ON
-  is_nceplib: NO
 
 wrf_io:
   build: YES
@@ -332,11 +323,19 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
-  version: v2.11.0
+  version: v2.12.2
 
 geos:
   build: YES
   version: 3.8.1
+
+libtiff:
+  build: YES
+  version: 4.0.3
+
+sqlite:
+  build: YES
+  version: 3.32.3
 
 proj:
   build: YES

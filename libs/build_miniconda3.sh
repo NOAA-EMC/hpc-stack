@@ -39,7 +39,7 @@ else
 fi
 
 software=$name-$version
-[[ -n ${pyversion:-} ]] && pkg_version=${pyversion}_$version
+[[ -n ${pyversion:-} ]] && pkg_version=${pyversion}_$version || pkg_version="latest"
 installer="Miniconda3-${pkg_version}-${os}-x86_64.sh"
 
 URL_ROOT=${STACK_miniconda3_URL:-"https://repo.anaconda.com"}

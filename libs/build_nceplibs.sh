@@ -28,7 +28,7 @@ if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
-  module is-loaded cmake || module load cmake
+  module is-loaded cmake || module try-load cmake
 
   case $name in
     # The following require MPI
