@@ -320,7 +320,7 @@ cmakemodules:
 gftl_shared:
   build: YES
   repo: Goddard-Fortran-Ecosystem
-  version: v1.3.6
+  version: v1.5.0
 
 yafyaml:
   build: YES
@@ -330,7 +330,7 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
-  version: v2.12.2
+  version: v2.22.0
   esmf_version: 8.2.0
 
 geos:
