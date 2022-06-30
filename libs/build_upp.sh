@@ -43,6 +43,12 @@ if $MODULES; then
   fi
 else
   prefix=${UPP_ROOT:-"/usr/local"}
+  export CRTM_INC=$prefix/include
+  export W3EMC_INC4=$prefix/include_4
+  export G2_INC4=$prefix/include_4
+  export G2TMPL_INC=$prefix/include
+  export SIGIO_INC4=$prefix/include_4
+  export GFSIO_INC4=$prefix/include_4
 fi
 
 export FC=$MPI_FC
