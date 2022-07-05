@@ -93,7 +93,7 @@ esmf:
 
 fms:
   build: YES
-  version: 2021.04
+  version: 2022.01
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 

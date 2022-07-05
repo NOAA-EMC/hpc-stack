@@ -3,7 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="intel/2022.1"
 export HPC_MPI="mpt/2.25"
-export HPC_PYTHON="miniconda3/4.12.0"
+export HPC_PYTHON="python/3.7.9"
 
 # Build options
 export USE_SUDO=N

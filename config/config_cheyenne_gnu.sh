@@ -3,7 +3,7 @@
 # Compiler/MPI combination
 export HPC_COMPILER="gnu/11.2.0"
 export HPC_MPI="mpt/2.25"
-export HPC_PYTHON="miniconda3/4.12.0"
+export HPC_PYTHON="python/3.7.9"
 
 # Build options
 export USE_SUDO=N
@@ -13,7 +13,7 @@ export OVERWRITE=N
 export NTHREADS=4
 export   MAKE_CHECK=N
 export MAKE_VERBOSE=N
-export   MAKE_CLEAN=Y
+export   MAKE_CLEAN=N
 export DOWNLOAD_ONLY=N
 export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv --no-check-certificate"
