@@ -31,7 +31,7 @@ if $MODULES; then
 
   case $name in
     # The following require MPI
-    nemsiogfs | ncio )
+    nemsiogfs | ncio | ncdiag)
       module load hpc-$HPC_MPI
       using_mpi=YES
       ;;
@@ -44,7 +44,7 @@ if $MODULES; then
       if [[ "$major_ver" -le "2" ]]; then
           if [[ "$minor_ver" -le "5" ]]; then
               if [[ "$patch_ver" -lt "3" ]]; then
-                  [[ ! -z $mpi ]] || exit 0 
+                  [[ ! -z $mpi ]] || exit 0
                   module load hpc-$HPC_MPI
                   using_mpi=YES
                   w3dep="w3nco"
@@ -149,7 +149,7 @@ if $MODULES; then
     prod_util)
       module load w3nco
       ;;
-    ncio)
+    ncio | ncdiag)
       module load netcdf
       ;;
     bufr)
@@ -186,7 +186,7 @@ else
   eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
   case $name in
     # The following require MPI
-    nemsio | nemsiogfs | ncio )
+    nemsio | nemsiogfs | ncio | ncdiag )
       using_mpi=YES
       ;;
     # The following can use MPI (if available)
@@ -243,6 +243,9 @@ case $name in
     else
       extraCMakeFlags="-DENABLE_MPI=OFF"
     fi
+    ;;
+  ncdiag)
+    URL="https://github.com/NOAA-EMC/GSI-ncdiag"
     ;;
 esac
 

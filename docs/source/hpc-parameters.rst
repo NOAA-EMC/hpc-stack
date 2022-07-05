@@ -11,8 +11,9 @@ Compiler & MPI
 ``HPC_COMPILER``: 
    This defines the vendor and version of the compiler you wish to use for this build. The format is the same as what you would typically use in a module load command. For example, ``HPC_COMPILER=intel/2020``. Options include: 
 
-   * ``gnu/6.5.0``
    * ``gnu/9.2.0``
+   * ``gnu/10.1.0``
+   * ``gnu/11.2.0``
    * ``intel/18.0.5.274``
    * ``intel/19.0.5.281``
    * ``intel/2020``
@@ -31,6 +32,7 @@ Compiler & MPI
    * ``impi/2020.2``
    * ``impi/2021.3.0``
    * ``mvapich2/2.3``
+   * ``mpich/3.3.2``
    * ``openmpi/4.1.2``
 
 .. note:: 
