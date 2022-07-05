@@ -7,7 +7,7 @@ export HPC_PYTHON="python/3.7.9"
 
 # Build options
 export USE_SUDO=N
-export PKGDIR=pkg_gnu
+export PKGDIR=pkg
 export LOGDIR=log
 export OVERWRITE=N
 export NTHREADS=4
