@@ -9,14 +9,20 @@ version=${2:-${STACK_ecbuild_version:-"release-stable"}}
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
-  module try-load cmake
+  module is-loaded cmake || module try-load cmake
   module list
   set -x
 
   prefix="${PREFIX:-"/opt/modules"}/core/$name/$repo-$version"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix 
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 else
   prefix=${ECBUILD_ROOT:-"/usr/local"}

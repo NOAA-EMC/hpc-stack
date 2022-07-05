@@ -17,18 +17,26 @@ if $MODULES; then
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
     module load hpc-$HPC_MPI
-    module try-load cmake
+    module is-loaded cmake || module try-load cmake
     module try-load szip
-    module load hdf5
+    [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+    module restore hpc-$modpath-netcdf
+    module is-loaded hdf5 || module load hdf5
+    module is-loaded netcdf || module load netcdf
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
-    module load netcdf
     module list
     set -x
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
     if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
     fi
 else
     prefix=${PIO_ROOT:-"/usr/local"}

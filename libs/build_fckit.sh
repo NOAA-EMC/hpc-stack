@@ -15,7 +15,7 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
-  module try-load cmake
+  module is-loaded cmake || module try-load cmake
   module try-load zlib
   module try-load boost-headers
   module try-load eigen
@@ -26,8 +26,13 @@ if $MODULES; then
 
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$repo-$version"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 else
   prefix=${FCKIT_ROOT:-"/usr/local"}

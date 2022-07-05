@@ -13,7 +13,7 @@ zlib:
   shared: NO
   version: 1.2.11
 
-png:
+libpng:
   build: YES
   shared: NO
   version: 1.6.35
@@ -190,7 +190,6 @@ upp:
   version: upp_v10.0.5
   install_as: 10.0.5
   openmp: ON
-  is_nceplib: YES
 
 wrf_io:
   build: YES
@@ -228,6 +227,12 @@ grib_util:
   is_nceplib: YES
 
 ncio:
+  build: YES
+  version: v1.0.0
+  install_as: 1.0.0
+  is_nceplib: YES
+
+ncdiag:
   build: YES
   version: v1.0.0
   install_as: 1.0.0

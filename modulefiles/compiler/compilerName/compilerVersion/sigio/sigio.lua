@@ -20,6 +20,9 @@ setenv("sigio_VERSION", pkgVersion)
 setenv("SIGIO_INC", pathJoin(base,"include"))
 setenv("SIGIO_LIB", pathJoin(base,"lib/libsigio.a"))
 
+setenv("SIGIO_INC4", pathJoin(base,"include"))
+setenv("SIGIO_LIB4", pathJoin(base,"lib/libsigio.a"))
+
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
 whatis("Category: library")

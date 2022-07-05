@@ -20,7 +20,9 @@ if $MODULES; then
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
     module try-load szip
-    module load hdf5
+    [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+    module restore hpc-$modpath-hdf5
+    module is-loaded hdf5 || module load hdf5
     if [[ ! -z $mpi ]]; then
       [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
     fi
@@ -29,8 +31,14 @@ if $MODULES; then
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$c_version"
     if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
     fi
 
 else
@@ -130,7 +138,10 @@ $SUDO make install
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $c_version
 echo netcdf-c $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
-
+if [[ $MODULES ]]; then
+   module load $name/$c_version
+   module save hpc-$modpath-netcdf
+fi
 ##################################################
 
 set +x
@@ -141,7 +152,7 @@ set -x
 
 # Load netcdf-c before building netcdf-fortran
 set +x
-$MODULES && module load netcdf
+$MODULES && module load netcdf/$c_version
 $MODULES && module list
 set -x
 
@@ -202,3 +213,4 @@ if [[ $enable_cxx =~ [yYtT] ]]; then
 
   echo netcdf-cxx $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
 fi
+[[ $MODULES ]] && module save hpc-$modpath-netcdf

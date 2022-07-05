@@ -7,8 +7,6 @@ local pkgNameVer = myModuleFullName()
 
 conflict(pkgName)
 
-try_load("cmake")
-
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,"core",pkgName,pkgVersion)

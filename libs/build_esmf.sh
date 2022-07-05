@@ -4,6 +4,7 @@ set -eux
 
 name="esmf"
 version=${1:-${STACK_esmf_version}}
+install_as=${STACK_esmf_install_as:-${version}}
 
 software=${name}_$version
 
@@ -15,13 +16,14 @@ COMPILER=$(echo $HPC_COMPILER | cut -d/ -f1)
 MPI=$(echo $HPC_MPI | cut -d/ -f1)
 
 host=$(uname -s)
+abi64=$(uname -m)
 
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 [[ ${STACK_esmf_debug} =~ [yYtT] ]] && enable_debug=YES || enable_debug=NO
 
 # This will allow debug version of software (ESMF) to be installed next to the optimized version (this is only affected for $MODULES)
-[[ $enable_debug =~ [yYtT] ]] && version_install=$version-debug || version_install=$version
+[[ $enable_debug =~ [yYtT] ]] && version_install=${install_as}-debug || version_install=${install_as}
 
 if $MODULES; then
   set +x
@@ -30,19 +32,28 @@ if $MODULES; then
   module try-load zlib
   module try-load szip
   [[ -z $mpi ]] || module load hpc-$HPC_MPI
-  module load hdf5
+  [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+  module restore hpc-$modpath-hdf5
+  module is-loaded hdf5 || module load hdf5
   if [[ ! -z $mpi ]]; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   fi
-  module load netcdf
+  [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+  module restore hpc-$modpath-netcdf
+  module is-loaded netcdf || module load netcdf
   module try-load udunits
   module list
   set -x
 
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version_install"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 
 else
@@ -69,7 +80,7 @@ URL="https://github.com/esmf-org/esmf"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software="ESMF_$version"
+software="$version"
 
 #[[ -d $software ]] || ( git clone -b $software $URL $software )
 [[ -d $software ]] || ( git clone $URL $software )
@@ -92,6 +103,7 @@ case $COMPILER in
   gnu|gcc|clang )
     export ESMF_COMPILER="gfortran"
     export ESMF_F90COMPILEOPTS="-g -fbacktrace ${FCFLAGS}"
+    [[ "$abi64" == "arm64" ]] && export ESMF_ABI=64
     if [[ "$host" == "Darwin" ]]; then
       export ESMF_CXXCOMPILEOPTS="-g -Wno-error=format-security ${CXXFLAGS}"
     else
@@ -178,3 +190,8 @@ $SUDO make install
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
 $MODULES && update_modules $modpath $name $version_install
 echo $name $version_install $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+# Save module environment
+if $MODULES; then
+   module load $name/$version_install 
+   module save hpc-$modpath-esmf
+fi

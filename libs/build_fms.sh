@@ -15,15 +15,22 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
-  module try-load cmake
+  [[ -z $mpi ]] && modpath=compiler || modpath=mpi
+  module is-loaded cmake || module try-load cmake
   module load netcdf
+  module restore hpc-$modpath-netcdf
   module list
   set -x
 
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 else
   prefix=${FMS_ROOT:-"/usr/local"}

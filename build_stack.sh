@@ -29,6 +29,7 @@ usage() {
 
 # ==============================================================================
 
+echo "Starting hpc-stack build: `date` "
 # Defaults:
 library=""
 export PREFIX="$HOME/opt"
@@ -136,10 +137,11 @@ build_lib cmake
 build_lib udunits
 build_lib jpeg
 build_lib zlib
-build_lib png
+build_lib libpng
 build_lib szip
 build_lib jasper
 build_lib sqlite
+build_lib libtiff
 build_lib proj
 build_lib geos
 
@@ -205,6 +207,7 @@ build_lib wgrib2
 build_lib prod_util
 build_lib grib_util
 build_lib ncio
+build_lib ncdiag
 
 if $MODULES; then
 
@@ -266,3 +269,4 @@ build_lib mapl
 
 # ==============================================================================
 echo "build_stack.sh: SUCCESS!"
+echo "Finished hpc-stack build: `date` "

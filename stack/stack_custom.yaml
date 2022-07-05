@@ -20,7 +20,7 @@ zlib:
   build: YES
   version: 1.2.11
 
-png:
+libpng:
   build: YES
   version: 1.6.35
 
@@ -59,11 +59,11 @@ netcdf:
 
 nccmp:
   build: YES
-  version: 1.8.9.0
+  version: 1.9.1.0
 
 nco:
-  build: NO
-  version: 4.9.3
+  build: YES
+  version: 5.0.6
 
 cdo:
   build: YES
@@ -77,14 +77,15 @@ pio:
 
 esmf:
   build: YES
-  version: 8_1_1
+  version: ESMF_8_2_0
+  install_as: 8.2.0
   shared: YES
   enable_pnetcdf: NO
   debug: NO
 
 fms:
   build: YES
-  version: 2021.03
+  version: 2022.01
   repo: noaa-gfdl
   cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
 
@@ -193,7 +194,6 @@ upp:
   version: upp_v10.0.9
   install_as: 10.0.9
   openmp: ON
-  is_nceplib: YES
 
 wrf_io:
   build: YES
@@ -224,12 +224,18 @@ prod_util:
 
 grib_util:
   build: YES
-  version: v1.2.3
-  install_as: 1.2.3
+  version: v1.2.4
+  install_as: 1.2.4
   openmp: ON
   is_nceplib: YES
 
 ncio:
+  build: YES
+  version: v1.1.0
+  install_as: 1.1.0
+  is_nceplib: YES
+
+ncdiag:
   build: YES
   version: v1.0.0
   install_as: 1.0.0
@@ -313,7 +319,7 @@ cmakemodules:
 gftl_shared:
   build: YES
   repo: Goddard-Fortran-Ecosystem
-  version: v1.3.0
+  version: v1.5.0
 
 yafyaml:
   build: YES
@@ -323,11 +329,16 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
-  version: v2.7.3
+  esmf_version: 8.2.0
+  version: v2.22.0
 
 geos:
   build: YES
   version: 3.8.1
+
+libtiff:
+  build: YES
+  version: 4.0.3
 
 sqlite:
   build: YES
