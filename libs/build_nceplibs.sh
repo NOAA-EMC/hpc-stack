@@ -87,6 +87,7 @@ if $MODULES; then
     wrf_io)
       module restore hpc-$modpath-netcdf
       module is-loaded netcdf || module load netcdf
+      module is-loaded cmake || module load cmake 
       ;;
     wgrib2)
       module restore hpc-$modpath-netcdf
@@ -94,6 +95,7 @@ if $MODULES; then
       module try-load jpeg
       module try-load jasper
       module is-loaded zlib || module try-load zlib
+      module is-loaded cmake || module load cmake 
       module try-load libpng
       module load sp
       module load ip2
@@ -102,6 +104,7 @@ if $MODULES; then
       module load hpc-$HPC_MPI
       module restore hpc-$modpath-netcdf
       module is-loaded netcdf || module load netcdf
+      module is-loaded cmake || module load cmake 
       ;;
     ip2)
       module load sp
@@ -127,10 +130,14 @@ if $MODULES; then
       module load w3nco
       ;;
     w3emc)
+      module is-loaded cmake || module load cmake 
       module load bacio
+      module load sigio
+      module load nemsio 
       if [[ "$using_mpi" =~ [yYtT] ]]; then
           module restore hpc-$modpath-netcdf
           module is-loaded netcdf || module load netcdf
+          module is-loaded cmake || module load cmake 
           module load bacio
           module load sigio
           module load nemsio 
@@ -161,6 +168,7 @@ if $MODULES; then
           using_python=YES
         fi
       fi
+      module is-loaded cmake || module load cmake 
       ;;
   esac
   module list
