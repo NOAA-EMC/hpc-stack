@@ -51,7 +51,7 @@ module load PrgEnv-intel/8.1.0
 module load intel/19.1.3.304
 module load craype/2.7.8
 module load cray-mpich/8.1.7
-module load cmake/3.18.4
+module load cmake/3.20.2
 module load git/2.29.0
 
 export SERIAL_CC=cc
