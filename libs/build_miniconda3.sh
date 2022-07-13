@@ -8,6 +8,8 @@ set -eux
 name="miniconda3"
 version=${2:-${STACK_miniconda3_version:-"latest"}}
 pyversion=${3:-${STACK_miniconda3_pyversion:-}}
+pyvenv=${4:-${STACK_miniconda3_pyvenv:-}}
+[[ -n $pyvenv ]] &&  echo "STACK_miniconda3_pyvenv = ${STACK_miniconda3_pyvenv:-}"
 
 if $MODULES; then
   prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"
@@ -39,6 +41,10 @@ else
 fi
 
 software=$name-$version
+<<<<<<< HEAD
+=======
+pkg_version=$version
+>>>>>>> release/srw-public-v2
 [[ -n ${pyversion:-} ]] && pkg_version=${pyversion}_$version || pkg_version="latest"
 installer="Miniconda3-${pkg_version}-${os}-x86_64.sh"
 
@@ -67,6 +73,7 @@ source $prefix/etc/profile.d/conda.sh
 echo "disabling conda auto updates"
 conda config --system --set auto_update_conda False
 echo "install $version of conda"
+<<<<<<< HEAD
 #conda install -yq conda=$version
 conda config --add channels conda-forge
 conda config --set channel_priority strict
@@ -74,7 +81,28 @@ conda create -n regional_workflow -y jinja2 pyyaml f90nml
 conda activate regional_workflow
 conda env export > ${CONDA_PKGS_DIR}/regional_workflow.yml
 conda deactivate
+=======
+conda install -yq conda=$version
+#
+>>>>>>> release/srw-public-v2
 set -x
+
+# Check for conda environment file
+if [ -n "$pyvenv" ]; then
+  rqmts="$pyvenv.yml" && rqmts_file=${HPC_STACK_ROOT}/pyvenv/$rqmts 
+  if [ -f "$rqmts_file" ]; then
+# Create the conda environment
+#    echo "executing ... conda env -n $pyvenv create --file $rqmts_file"
+#    conda env create -n $pyvenv --file $rqmts_file
+    echo "executing ... conda env create --file $rqmts_file"
+    conda env create --file $rqmts_file
+  else
+    echo "Unable to find environment file for $pyvenv environment: $rqmts "
+    echo "Search path: $rqmts_file "
+    echo "ABORT!"
+    exit 1
+  fi
+fi
 
 # generate modulefile from template
 $MODULES && update_modules core $name $version
