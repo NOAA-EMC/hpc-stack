@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER=${HPC_COMPILER:-"intel/oneapi-2021.5.0"}
-export HPC_MPI=${HPC_MPI:-"impi/oneapi-2021.5.0"}
-export HPC_PYTHON=${HPC_PYTHON:-"python/3.9.4"}
+export HPC_COMPILER=${HPC_COMPILER:-"intel/oneapi-2022.1.0"}
+export HPC_MPI=${HPC_MPI:-"impi/oneapi-2022.1.0"}
+export HPC_PYTHON=${HPC_PYTHON:-"python/3.9.10"}
 export MODULESHOME=/usr/share/lmod/lmod
  #Build options
 export USE_SUDO=N
