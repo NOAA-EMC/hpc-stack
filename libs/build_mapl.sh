@@ -5,7 +5,7 @@ set -eux
 name="mapl"
 repo="GEOS-ESM"
 version=${2:-${STACK_mapl_version:-"main"}}
-export FFLAGS=" ${STACK_mapl_FFLAGS:-} "
+export FFLAGS="${STACK_FFLAGS:-} ${STACK_mapl_FFLAGS:-} "
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')

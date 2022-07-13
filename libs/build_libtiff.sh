@@ -46,6 +46,7 @@ URL="https://gitlab.com/${name}/${name}.git"
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
+sed -i -e 's/\"build TIFF documentation\" ON)/\"build TIFF documentation\" OFF)/g' CMakeLists.txt
 sourceDir=$PWD
 cd build
 cmake $sourceDir \
