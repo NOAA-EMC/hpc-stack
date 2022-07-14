@@ -26,8 +26,13 @@ echo "STACK_miniconda3_version = ${STACK_miniconda3_version:-}"
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
-  module load hpc-$HPC_PYTHON
-  [[ -n "${STACK_miniconda3_version:-} " ]] && module load miniconda3/${STACK_miniconda3_version:-}
+  module load hpc
+  if [[ -n "${STACK_miniconda3_version:-} " ]]; then
+    module is-loaded python  && module unload python
+    module load miniconda3/${STACK_miniconda3_version:-}
+  else
+    module load hpc-$HPC_PYTHON
+  fi
   module list
   set -x
 # Remove the old conda environment if it exists
@@ -92,6 +97,6 @@ set -x
 # Enable error trapping again
 set -u
 
-# generate modulefile from template
+# Do not need to generate a modulefile, only the conda environment is created
 # $MODULES && update_modules python $name $version $python_version
 echo $name $version $rqmts_file >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

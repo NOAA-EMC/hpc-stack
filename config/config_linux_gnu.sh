@@ -4,7 +4,8 @@
 #source $BASH_ENV
 # Load the module with GNU/GCC compilers, or initialize GNU variable 
 # as path for compiler binaries
-# export GNU="/usr/local/bin"
+# GNU="/usr/local/bin"
+export GNU=${GNU:-}
 
 # Compiler/MPI combination
 export HPC_COMPILER="gnu/10.3.0"
