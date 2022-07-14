@@ -206,6 +206,7 @@ build_lib wrf_io
 # Python and associate virtual environments
 build_lib miniconda3
 build_lib r2d2
+build_lib srwconda
 
 build_lib bufr
 build_lib wgrib2

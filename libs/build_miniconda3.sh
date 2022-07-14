@@ -8,8 +8,6 @@ set -eux
 name="miniconda3"
 version=${2:-${STACK_miniconda3_version:-"latest"}}
 pyversion=${3:-${STACK_miniconda3_pyversion:-}}
-pyvenv=${4:-${STACK_miniconda3_pyvenv:-}}
-[[ -n $pyvenv ]] &&  echo "STACK_miniconda3_pyvenv = ${STACK_miniconda3_pyvenv:-}"
 
 if $MODULES; then
   prefix="${PREFIX:-"/opt/modules"}/core/$name/$version"
@@ -58,7 +56,6 @@ export CONDA_ROOT=$prefix
 export CONDARC=$CONDA_ROOT/.condarc
 export CONDA_ENVS_PATH=$CONDA_ROOT/envs
 export CONDA_PKGS_DIR=$CONDA_ROOT/pkgs
-export CONDA_SHLVL=0
 
 set +x
 echo "sourcing conda.sh"
@@ -72,23 +69,6 @@ echo "install $version of conda"
 conda install -yq conda=$version
 #
 set -x
-
-# Check for conda environment file
-if [ -n "$pyvenv" ]; then
-  rqmts="$pyvenv.yml" && rqmts_file=${HPC_STACK_ROOT}/pyvenv/$rqmts 
-  if [ -f "$rqmts_file" ]; then
-# Create the conda environment
-#    echo "executing ... conda env -n $pyvenv create --file $rqmts_file"
-#    conda env create -n $pyvenv --file $rqmts_file
-    echo "executing ... conda env create --file $rqmts_file"
-    conda env create --file $rqmts_file
-  else
-    echo "Unable to find environment file for $pyvenv environment: $rqmts "
-    echo "Search path: $rqmts_file "
-    echo "ABORT!"
-    exit 1
-  fi
-fi
 
 # generate modulefile from template
 $MODULES && update_modules core $name $version

@@ -2,9 +2,6 @@
 # Initialize Lmod (customize path, uncomment)
 #export BASH_ENV=$HOME/apps/lmod/lmod/init/profile        
 #source $BASH_ENV
-# Load the module with GNU/GCC compilers, or initialize GNU variable 
-# as path for compiler binaries
-# export GNU="/usr/local/bin"
 
 # Compiler/MPI combination
 export HPC_COMPILER="gnu/10.3.0"
@@ -23,13 +20,12 @@ export   MAKE_CLEAN=N
 export DOWNLOAD_ONLY=N
 export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv --no-check-certificate"
+export VENVTYPE="condaenv"
 
 # gfortran-10 compatibility flags for incompatible software
 export STACK_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
 
-export STACK_fms_CFLAGS="-march=core-avx2"
-export STACK_fms_FFLAGS="-march=core-avx2"
-
+export GNU=/opt/homebrew/bin
 export CC=$GNU/gcc
 export FC=$GNU/gfortran
 export CXX=$GNU/g++

@@ -8,7 +8,7 @@ mpi:
   version: 4.1.2
 
 cmake:
-  build: YES
+  build: NO
   bootstrap: YES
   version: 3.20.1
 
@@ -308,7 +308,7 @@ madis:
 esma_cmake:
   build: YES
   repo: GEOS-ESM
-  version: v3.4.3
+  version: v3.12.0
 
 cmakemodules:
   build: YES
@@ -328,7 +328,7 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
-  version: v2.11.0
+  version: v2.12.2
 
 geos:
   build: YES
@@ -343,7 +343,6 @@ miniconda3:
   build: YES
   version: 4.12.0
   pyversion: py39
-  pyvenv: regional_workflow
 
 r2d2:
   build: NO
@@ -354,3 +353,8 @@ ufswm:
   build: NO
   version: 1.0.0
   is_pyvenv: YES
+
+srwconda:
+  build: YES
+  version: 1.0.0
+  pyvenv: regional_workflow
