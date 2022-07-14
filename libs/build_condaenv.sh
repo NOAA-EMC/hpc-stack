@@ -21,22 +21,25 @@ rqmts_file=${HPC_STACK_ROOT}/pyvenv/$rqmts
 [[ ! -f $rqmts_file ]] && ( echo "Unable to find environment file: $rqmts \nABORT!"; exit 1 )
 
 python=$(echo $HPC_PYTHON | sed 's/\//-/g')
+echo "STACK_miniconda3_version = ${STACK_miniconda3_version:-}"
 
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
   module load hpc-$HPC_PYTHON
+  [[ -n "${STACK_miniconda3_version:-} " ]] && module load miniconda3/${STACK_miniconda3_version:-}
   module list
   set -x
-  prefix="${PREFIX:-"/opt/modules"}/$python/$name/$version"
-  if [[ -d $prefix ]]; then
-            if [[ $OVERWRITE =~ [yYtT] ]]; then
-          echo "WARNING: $prefix EXISTS: OVERWRITING!"
-          $SUDO rm -rf $prefix
-      else
-          echo "WARNING: $prefix EXISTS, SKIPPING"
-          exit 0
-      fi
+# Remove the old conda environment if it exists
+  if [[ -d "$CONDA_ENVS_PATH/$name" ]]; then
+     if [[ $OVERWRITE =~ [yYtT] ]]; then
+       echo "WARNING: $CONDA_ENVS_PATH/$name EXISTS: OVERWRITING!"
+       echo "$SUDO conda env remove -n $name "
+       $SUDO conda env remove -n $name
+     else
+       echo "WARNING: $CONDA_ENVS_PATH/$name EXISTS, SKIPPING"
+       exit 0
+     fi
   fi
 else
   nameUpper=$(echo $name | tr [a-z] [A-Z])
@@ -74,6 +77,7 @@ set +x
 echo "executing ... conda deactivate"
 conda deactivate
 
+#
 # Create the conda environment
 echo "executing ... conda env create --file $rqmts_file"
 conda env create --file $rqmts_file
@@ -89,5 +93,5 @@ set -x
 set -u
 
 # generate modulefile from template
-$MODULES && update_modules python $name $version $python_version
+# $MODULES && update_modules python $name $version $python_version
 echo $name $version $rqmts_file >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

@@ -308,7 +308,7 @@ madis:
 esma_cmake:
   build: YES
   repo: GEOS-ESM
-  version: v3.12.0
+  version: v3.4.3
 
 cmakemodules:
   build: YES
@@ -328,7 +328,7 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
-  version: v2.12.2
+  version: v2.11.0
 
 geos:
   build: YES
@@ -354,7 +354,7 @@ ufswm:
   version: 1.0.0
   is_pyvenv: YES
 
-srwconda:
+regional_workflow:
   build: YES
   version: 1.0.0
-  pyvenv: regional_workflow
+  is_pyvenv: YES
