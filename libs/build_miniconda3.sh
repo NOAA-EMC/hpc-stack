@@ -41,10 +41,6 @@ else
 fi
 
 software=$name-$version
-<<<<<<< HEAD
-=======
-pkg_version=$version
->>>>>>> release/srw-public-v2
 [[ -n ${pyversion:-} ]] && pkg_version=${pyversion}_$version || pkg_version="latest"
 installer="Miniconda3-${pkg_version}-${os}-x86_64.sh"
 
@@ -73,18 +69,8 @@ source $prefix/etc/profile.d/conda.sh
 echo "disabling conda auto updates"
 conda config --system --set auto_update_conda False
 echo "install $version of conda"
-<<<<<<< HEAD
-#conda install -yq conda=$version
-conda config --add channels conda-forge
-conda config --set channel_priority strict
-conda create -n regional_workflow -y jinja2 pyyaml f90nml
-conda activate regional_workflow
-conda env export > ${CONDA_PKGS_DIR}/regional_workflow.yml
-conda deactivate
-=======
 conda install -yq conda=$version
 #
->>>>>>> release/srw-public-v2
 set -x
 
 # Check for conda environment file
