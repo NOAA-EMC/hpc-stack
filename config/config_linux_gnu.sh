@@ -23,7 +23,6 @@ export   MAKE_CLEAN=N
 export DOWNLOAD_ONLY=N
 export STACK_EXIT_ON_FAIL=Y
 export WGET="wget -nv --no-check-certificate"
-export VENVTYPE="condaenv"
 
 # gfortran-10 compatibility flags for incompatible software
 export STACK_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz"
