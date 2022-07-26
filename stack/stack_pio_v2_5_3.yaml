@@ -1,0 +1,5 @@
+pio:
+  build: YES
+  version: 2.5.3
+  enable_pnetcdf: NO
+  enable_gptl: NO
