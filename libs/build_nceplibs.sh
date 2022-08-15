@@ -72,7 +72,7 @@ if $MODULES; then
       fi
       ;;
     # The following can use MPI (if available)
-    wrf_io | wgrib2)
+    wrf_io )
       if [[ ! -z $mpi ]]; then
         module load hpc-$HPC_MPI
         using_mpi=YES
@@ -84,15 +84,6 @@ if $MODULES; then
   case $name in
     wrf_io)
       module load netcdf
-      ;;
-    wgrib2)
-      module try-load jpeg
-      module try-load jasper
-      module try-load zlib
-      module try-load libpng
-      module load netcdf
-      module load sp
-      module load ip2
       ;;
     crtm)
       module load hpc-$HPC_MPI
@@ -184,7 +175,7 @@ else
       using_mpi=YES
       ;;
     # The following can use MPI (if available)
-    wrf_io | wgrib2)
+    wrf_io )
       [[ ! -z $mpi ]] && using_mpi=YES
       ;;
   esac
@@ -217,9 +208,6 @@ extraCMakeFlags=""
 case $name in
   crtm)
     URL="https://github.com/NOAA-EMC/crtm.git"
-    ;;
-  wgrib2)
-    extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
     ;;
   bufr)
     if [[ ${using_python:-} =~ [yYtT] ]]; then
