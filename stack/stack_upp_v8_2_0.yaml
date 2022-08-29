@@ -1,0 +1,5 @@
+upp:
+  build: NO
+  version: upp_v8.2.0
+  install_as: 8.2.0
+  openmp: ON

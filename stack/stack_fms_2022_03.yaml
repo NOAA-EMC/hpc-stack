@@ -1,0 +1,5 @@
+fms:
+  build: YES
+  version: 2022.03
+  repo: noaa-gfdl
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"

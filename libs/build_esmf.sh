@@ -16,6 +16,7 @@ COMPILER=$(echo $HPC_COMPILER | cut -d/ -f1)
 MPI=$(echo $HPC_MPI | cut -d/ -f1)
 
 host=$(uname -s)
+abi64=$(uname -m)
 
 [[ $STACK_esmf_enable_pnetcdf =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_esmf_shared} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
@@ -36,6 +37,7 @@ if $MODULES; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   fi
   module load netcdf
+  module try-load pio/2.5.7
   module try-load udunits
   module list
   set -x
@@ -75,7 +77,7 @@ URL="https://github.com/esmf-org/esmf"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software="$version"
+software="v$version"
 
 [[ -d $software ]] || ( git clone -b $software $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
@@ -97,6 +99,7 @@ case $COMPILER in
   gnu|gcc|clang )
     export ESMF_COMPILER="gfortran"
     export ESMF_F90COMPILEOPTS="-g -fbacktrace ${FCFLAGS}"
+    [[ "$abi64" == "arm64" ]] && export ESMF_ABI=64
     if [[ "$host" == "Darwin" ]]; then
       export ESMF_CXXCOMPILEOPTS="-g -Wno-error=format-security ${CXXFLAGS}"
     else
@@ -151,6 +154,11 @@ export ESMF_NETCDF_INCLUDE=$NETCDF_ROOT/include
 export ESMF_NETCDF_LIBPATH=$NETCDF_ROOT/lib
 export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs"
 export ESMF_NFCONFIG=nf-config
+export ESMF_PIO="OFF"      
+#export ESMF_PIO="external"
+#export ESMF_PIO_INCLUDE=$PIO_INCLUDES
+#export ESMF_PIO_LIBPATH=$PIO_LIBRARIES
+
 [[ $enable_pnetcdf =~ [yYtT] ]] && export ESMF_PNETCDF=pnetcdf-config
 # Configure optimization level
 if [[ $enable_debug =~ [yYtT] ]]; then

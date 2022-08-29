@@ -1,0 +1,5 @@
+mapl:
+  build: YES
+  repo: GEOS-ESM
+  esmf_version: 8.4.0b08
+  version: v2.23.1
