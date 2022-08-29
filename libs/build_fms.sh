@@ -58,7 +58,7 @@ fi
 [[ -d build ]] && $SUDO rm -rf build
 mkdir -p build && cd build
 
-CMAKE_OPTS=${STACK_fms_cmake_opts:-""}
+CMAKE_OPTS=${STACK_fms_cmake_opts:-"-DCONSTANTS=GFS"}
 
 cmake .. -DCMAKE_INSTALL_PREFIX=$prefix ${CMAKE_OPTS}
 
