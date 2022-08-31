@@ -62,7 +62,7 @@ jobs:
         export HPC_PYTHON="python/${python_ver}"
         yes | ./setup_modules.sh -c config/config_custom.sh -p $prefix
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y stack/stack_custom.yaml -m
-
+        
     - name: Upload logs
       if: ${{ always() }}
       uses: actions/upload-artifact@v2

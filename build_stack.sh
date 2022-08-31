@@ -140,6 +140,7 @@ build_lib zlib
 build_lib libpng
 build_lib szip
 build_lib jasper
+build_lib gsl
 build_lib sqlite
 build_lib libtiff
 build_lib proj
@@ -251,6 +252,12 @@ build_lib ecbuild
 build_lib eckit
 build_lib fckit
 build_lib atlas
+
+# MET and METplus
+
+build_lib met
+build_lib metplus
+
 
 # UFS 3rd party dependencies
 
