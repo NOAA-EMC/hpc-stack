@@ -227,6 +227,12 @@ grib_util:
 
 ncio:
   build: YES
+  version: v1.1.0
+  install_as: 1.1.0
+  is_nceplib: YES
+
+ncdiag:
+  build: YES
   version: v1.0.0
   install_as: 1.0.0
   is_nceplib: YES
@@ -309,7 +315,7 @@ cmakemodules:
 gftl_shared:
   build: YES
   repo: Goddard-Fortran-Ecosystem
-  version: v1.3.0
+  version: v1.5.0
 
 yafyaml:
   build: YES
@@ -320,7 +326,7 @@ mapl:
   build: YES
   repo: GEOS-ESM
   esmf_version: 8.2.0
-  version: v2.7.3
+  version: v2.22.0
 
 geos:
   build: NO
