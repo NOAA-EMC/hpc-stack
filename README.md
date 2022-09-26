@@ -12,6 +12,8 @@ Data assimilation Integration
 (JEDI)](https://jointcenterforsatellitedataassimilation-jedi-docs.readthedocs-hosted.com/en/latest/)
 framework.
 
+Documentation is available at https://hpc-stack.readthedocs.io/en/latest/. 
+
 This is part of the [NCEPLIBS](https://github.com/NOAA-EMC/NCEPLIBS) project.
 
 ## Authors
