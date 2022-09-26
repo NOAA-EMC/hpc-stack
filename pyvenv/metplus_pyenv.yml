@@ -1,0 +1,10 @@
+name: metplus_pyenv
+channels:
+  - defaults
+dependencies:
+  - numpy
+  - pandas
+  - python-dateutil
+  - xarray
+  - netcdf4
+  - matplotlib
