@@ -20,12 +20,12 @@ This is part of the [NCEPLIBS](https://github.com/NOAA-EMC/NCEPLIBS) project.
 
 Rahul Mahajan, Kyle Gerheiser, Dusan Jovic, Hang-Lei, Dom Heinzeller
 
-Code Manager: Dom Heinzeller
+Code Manager: Kyle Gerheiser
 
 Installers:
 
 Machine     | Programmer
-------------|------------------
+------------|------------------------------------------
 Hera        | Jong Kim, Natalie Perlin, Cameron Book
 Jet         | Jong Kim, Natalie Perlin, Cameron Book
 Orion       | Hang-Lei
