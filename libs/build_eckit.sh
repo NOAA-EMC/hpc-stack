@@ -50,6 +50,12 @@ URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
 git checkout $version
+
+# Conform to NCO IT FISMA High Standards
+if [[ ${NCO_IT_CONFORMING:-"NO"} =~ [yYtT] ]]; then
+  rm -f .travis.yml
+fi
+
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 sed -i -e 's/project( eckit CXX/project( eckit CXX Fortran/' CMakeLists.txt
 [[ -d build ]] && $SUDO rm -rf build
