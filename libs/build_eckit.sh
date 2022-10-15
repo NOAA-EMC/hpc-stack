@@ -3,8 +3,8 @@
 set -eux
 
 name="eckit"
-repo=${1:-${STACK_eckit_repo:-"jcsda"}}
-version=${2:-${STACK_eckit_version:-"release-stable"}}
+repo=${1:-${STACK_eckit_repo:-"ecmwf"}}
+version=${2:-${STACK_eckit_version:-"master"}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')

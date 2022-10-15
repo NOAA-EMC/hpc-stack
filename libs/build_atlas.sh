@@ -3,8 +3,8 @@
 set -eux
 
 name="atlas"
-repo=${1:-${STACK_atlas_repo:-"jcsda"}}
-version=${2:-${STACK_atlas_version:-"release-stable"}}
+repo=${1:-${STACK_atlas_repo:-"ecmwf"}}
+version=${2:-${STACK_atlas_version:-"master"}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')

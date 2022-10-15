@@ -3,8 +3,8 @@
 set -eux
 
 name="fckit"
-repo=${1:-${STACK_fckit_repo:-"jcsda"}}
-version=${2:-${STACK_fckit_version:-"release-stable"}}
+repo=${1:-${STACK_fckit_repo:-"ecmwf"}}
+version=${2:-${STACK_fckit_version:-"master"}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -53,9 +53,9 @@ git checkout $version
 
 # Conform to NCO IT FISMA High Standards
 if [[ ${NCO_IT_CONFORMING:-"NO"} =~ [yYtT] ]]; then
-	rm -f tools/install-*
-	rm -f tools/github-sha*
-	rm -f .travis.yml
+  rm -f tools/install-*
+  rm -f tools/github-sha*
+  rm -f .travis.yml
 fi
 
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
