@@ -58,9 +58,9 @@ fi
 [[ -d build ]] && $SUDO rm -rf build
 mkdir -p build && cd build
 
-CMAKE_OPTS=${STACK_fms_cmake_opts:-"-DCONSTANTS=GFS"}
+CMAKE_OPTS=${STACK_fms_cmake_opts:-""}
 
-cmake .. -DCMAKE_INSTALL_PREFIX=$prefix ${CMAKE_OPTS}
+cmake .. -DCMAKE_INSTALL_PREFIX=$prefix ${CMAKE_OPTS} -DCONSTANTS=GFS
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 #[[ $MAKE_CHECK =~ [yYtT] ]] && make check # make check is not implemented in cmake builds

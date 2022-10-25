@@ -98,7 +98,7 @@ if $MODULES; then
       module load hpc-$HPC_MPI
       module load netcdf
       ;;
-    ip2)
+    ip | ip2)
       module load sp
       ;;
     g2)
