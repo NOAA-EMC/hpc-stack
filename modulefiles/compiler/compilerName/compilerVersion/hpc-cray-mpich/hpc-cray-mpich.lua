@@ -13,8 +13,8 @@ conflict(pkgName)
 conflict("hpc-impi","hpc-intel-mpi","hpc-mpich","hpc-mpt","hpc-openmpi")
 
 local mpi = pathJoin("cray-mpich",pkgVersion)
-load(mpi)
-prereq(mpi)
+--load("cray-mpich")
+prereq("cray-mpich")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 local mpath = pathJoin(opt,"modulefiles/mpi",compNameVer,"cray-mpich",pkgVersion)
