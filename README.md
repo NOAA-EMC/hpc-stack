@@ -12,25 +12,27 @@ Data assimilation Integration
 (JEDI)](https://jointcenterforsatellitedataassimilation-jedi-docs.readthedocs-hosted.com/en/latest/)
 framework.
 
+Documentation is available at https://hpc-stack.readthedocs.io/en/latest/. 
+
 This is part of the [NCEPLIBS](https://github.com/NOAA-EMC/NCEPLIBS) project.
 
 ## Authors
 
 Rahul Mahajan, Kyle Gerheiser, Dusan Jovic, Hang-Lei, Dom Heinzeller
 
-Code Manager: Kyle Gerheiser
+Code Manager: Alex Richert
 
 Installers:
 
 Machine     | Programmer
-------------|------------------
-Hera        | Kyle Gerheiser
-Jet         | Kyle Gerheiser
+------------|------------------------------------------
+Hera        | Jong Kim, Natalie Perlin, Cameron Book
+Jet         | Jong Kim, Natalie Perlin, Cameron Book
 Orion       | Hang-Lei
 WCOSS-Dell  | Hang-Lei
 WCOSS-Cray  | Hang-Lei
 Cheyenne    | Jong Kim
-Gaea        | Kyle Gerheiser
+Gaea        | Jong Kim, Natalie Perlin, Cameron Book
 
 ## Contributors
 
