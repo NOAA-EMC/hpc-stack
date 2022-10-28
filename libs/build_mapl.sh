@@ -59,6 +59,17 @@ URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
 git checkout $version
+# sanitize package as per NCO request
+# Issue (1)
+sed -i 's/http:\/\/gmao.gsfc.nasa.gov/DISABLED_BY_DEFAULT/g' gridcomps/History/MAPL_HistoryGridComp.F90
+# Issue (2)
+sed -i 's/http:\/\/gmao.gsfc.nasa.gov/DISABLED_BY_DEFAULT/g' base/MAPL_CFIO.F90
+# Issue (3)
+rm base/mapl_tree.py
+
+# Verify that the changes were applied
+git --no-pager diff
+
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 [[ -d build ]] && $SUDO rm -rf build
