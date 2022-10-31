@@ -16,6 +16,9 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
+  module load PrgEnv-intel
+  module load intel
+  module load craype
   module try-load cmake
   module load esma_cmake
   module load cmakemodules
