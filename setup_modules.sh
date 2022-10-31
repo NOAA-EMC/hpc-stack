@@ -198,7 +198,7 @@ if [[ ${overwriteStackModulefile:-} =~ [yYtT] ]]; then
   # sed does not like delimiter (/) to be a part of replacement string, do magic!
   cd $PREFIX/modulefiles/stack/hpc
   repl=$(echo ${PREFIX} | sed -e "s#/#\\\/#g")
-  $SUDO sed -i -e "s/#HPC_OPT_LOCAL#/${repl}/g" $PREFIX/modulefiles/stack/hpc/$HPC_STACK_VERSION.lua
+  $SUDO sed -i -e "s/#HPC_OPT#/${repl}/g" $PREFIX/modulefiles/stack/hpc/$HPC_STACK_VERSION.lua
   [[ -f $HPC_STACK_VERSION.lua-e ]] && $SUDO rm -f "$HPC_STACK_VERSION.lua-e"
 fi
 
