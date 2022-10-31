@@ -7,7 +7,7 @@ unset BASH_ENV
 # Compiler/MPI combination
 #export HPC_COMPILER="cray-intel/19.1.3.304"  # See IMPORTANT NOTE below
 export HPC_COMPILER="intel/19.1.3.304"
-export HPC_MPI="cray-mpich/8.1.7"
+export HPC_MPI="cray-mpich/8.1.9"
 export HPC_PYTHON="python/3.8.6"
 
 # Build options
