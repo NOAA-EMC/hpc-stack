@@ -24,8 +24,8 @@ if $MODULES; then
   module load cmakemodules
   module load ecbuild
   # module exports ecbuild_ROOT, but when building without modules ECBUILD_ROOT is set
-  export ECBUILD_ROOT=$ecbuild_ROOT
-  module load gftl-shared
+  #export ECBUILD_ROOT=$ecbuild_ROOT
+  module load gftl_shared
   module load yafyaml
   module load netcdf
   module load esmf/${STACK_mapl_esmf_version:-default}
