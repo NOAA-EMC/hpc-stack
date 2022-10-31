@@ -17,7 +17,7 @@ if $MODULES; then
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
   module load PrgEnv-intel
-  module load intel
+  module load intel/19.1.3.304
   module load craype
   module try-load cmake
   module load esma_cmake
