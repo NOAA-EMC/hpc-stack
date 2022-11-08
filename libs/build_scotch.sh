@@ -10,15 +10,6 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 version=$(echo ${version_id} | sed 's/v//')
 
-cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-
-#id=$(echo $version | sed ‘s/v//’)
-
-software=$name-${version_id}
-URL="https://gitlab.inria.fr/scotch/scotch/-/archive/${version_id}/scotch-${version_id}.tar.gz"
-[[ -f $software.tar.gz ]] || ( $WGET $URL )
-[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
-
 if $MODULES; then
   set +x
   source $MODULESHOME/init/bash
@@ -44,19 +35,25 @@ else
   prefix=${SCOTCH_ROOT:-"/usr/local"}
 fi
 
-tar -xvf $software.tar.gz; cd $software
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+
+software=$name-${version_id}
+URL="https://gitlab.inria.fr/scotch/scotch/-/archive/${version_id}/scotch-${version_id}.tar.gz"
+[[ -f $software.tar.gz ]] || ( $WGET $URL )
+[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
+
+[[ -f $software.tar.gz ]] && tar -xvf $software.tar.gz || ( echo "$software tarfile does not exist, ABORT!"; exit 1 )
+[[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
+
 mkdir build; cd build
 
-#SCOTCH_PREFIX=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/$software
+# Compile & Install Scotch/PTscotch
+cmake VERBOSE=1 -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE=Release ..
 
-
-cmake VERBOSE=1 -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_BUILD_TYPE=Release .. 2>&1 | tee cmake.out
-
-make VERBOSE=1 2>&1 | tee make.out
-make install 2>&1 | tee install.log
-make scotch 2>&1 | tee make_scotch.log
-make ptscotch 2>&1 | tee make_ptscotch.log
-
+make VERBOSE=1
+make install
+make scotch
+make ptscotch
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
