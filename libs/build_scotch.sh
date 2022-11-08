@@ -3,16 +3,19 @@
 set -eux
 
 name="scotch"
-version=${1:-${STACK_scotch_version}}
+version_id=${1:-${STACK_scotch_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+version=$(echo ${version_id} | sed 's/v//')
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software=$name-"v"$version
-URL="https://gitlab.inria.fr/scotch/scotch/-/archive/v${version}/scotch-v${version}.tar.gz"
+#id=$(echo $version | sed ‘s/v//’)
+
+software=$name-${version_id}
+URL="https://gitlab.inria.fr/scotch/scotch/-/archive/${version_id}/scotch-${version_id}.tar.gz"
 [[ -f $software.tar.gz ]] || ( $WGET $URL )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
@@ -21,8 +24,8 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
-  module load cmake/3.20.1
-  module load netcdf/4.9.0
+  module load cmake
+  module load netcdf
   module load gnu
   module list
   set -x
@@ -46,7 +49,6 @@ mkdir build; cd build
 
 #SCOTCH_PREFIX=${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/$software
 
-#cmake VERBOSE=1 -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc -DCMAKE_INSTALL_PREFIX=${SCOTCH_PREFIX}/install -DCMAKE_BUILD_TYPE=Release .. 2>&1 | tee cmake.out
 
 cmake VERBOSE=1 -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc -DCMAKE_INSTALL_PREFIX=../install -DCMAKE_BUILD_TYPE=Release .. 2>&1 | tee cmake.out
 
