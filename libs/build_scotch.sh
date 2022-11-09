@@ -3,12 +3,12 @@
 set -eux
 
 name="scotch"
-version_id=${1:-${STACK_scotch_version}}
+version=${1:-${STACK_scotch_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
-version=$(echo ${version_id} | sed 's/v//')
+id=$(echo $version | sed 's/v//')
 
 if $MODULES; then
   set +x
@@ -21,7 +21,7 @@ if $MODULES; then
   module list
   set -x
   
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
+  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$id"
   if [[ -d $prefix ]]; then
       if [[ $OVERWRITE =~ [yYtT] ]]; then
           echo "WARNING: $prefix EXISTS: OVERWRITING!"
@@ -37,8 +37,8 @@ fi
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software=$name-${version_id}
-URL="https://gitlab.inria.fr/scotch/scotch/-/archive/${version_id}/scotch-${version_id}.tar.gz"
+software=$name-$version
+URL="https://gitlab.inria.fr/scotch/scotch/-/archive/$version/scotch-$version.tar.gz"
 [[ -f $software.tar.gz ]] || ( $WGET $URL )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
@@ -58,5 +58,5 @@ make ptscotch
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
-$MODULES && update_modules $modpath $name $version
-echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $id
+echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
