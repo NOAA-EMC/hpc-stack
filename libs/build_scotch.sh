@@ -15,8 +15,6 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
-  module load cmake
-  module load netcdf
   module load gnu
   module list
   set -x
