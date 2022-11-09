@@ -22,7 +22,7 @@ if $MODULES; then
     module load bufr
     module load zlib
     module load jasper
-    module try-load png
+    module try-load libpng
     module load g2c
     module load hdf5
     module load netcdf
@@ -80,7 +80,7 @@ export GRIB2CLIB_NAME=-lg2c
 jasper_libdir=`find ${JASPER_ROOT} -name libjasper.a -exec dirname {} \;`
 export LIB_JASPER=$jasper_libdir
 
-export LIB_LIBPNG=${PNG_LIBDIR}
+export LIB_LIBPNG=${PNG_LIBRARIES}
 export LIB_Z=${ZLIB_ROOT}/lib
 
 if [[ $enable_python =~ [yYtT] ]]; then
