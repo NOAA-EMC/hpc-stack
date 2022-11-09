@@ -15,7 +15,6 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
-    module load $HPC_COMPILER
     module load hpc-$HPC_COMPILER
     module load hpc-$HPC_PYTHON
     module load gsl
