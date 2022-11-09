@@ -45,7 +45,8 @@ URL="https://gitlab.inria.fr/scotch/scotch/-/archive/${version_id}/scotch-${vers
 [[ -f $software.tar.gz ]] && tar -xvf $software.tar.gz || ( echo "$software tarfile does not exist, ABORT!"; exit 1 )
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
-mkdir build; cd build
+[[ -d build ]] && $SUDO rm -rf build
+mkdir -p build && cd build
 
 # Compile & Install Scotch/PTscotch
 cmake VERBOSE=1 -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE=Release ..
