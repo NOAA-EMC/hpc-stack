@@ -1,7 +1,7 @@
 help([[
 ]])
 
-local pkgName = myModuleName()
+local pkgName    = myModuleName()
 local pkgVersion = myModuleVersion()
 local pkgNameVer = myModuleFullName()
 
@@ -11,21 +11,18 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
-load("netcdf")
-prereq("netcdf")
-
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
-prepend_path("PATH", pathJoin(base, "bin"))
-setenv("wgrib2_ROOT", base)
-setenv("wgrib2_VERSION", pkgVersion)
-setenv("WGRIB2_INC", pathJoin(base, "include"))
-setenv("WGRIB_LIB", pathJoin(base, "lib", "libwgrib2.a"))
-setenv("WGRIB2", pathJoin(base, "bin", "wgrib2"))
+prepend_path("PATH", pathJoin(base,"bin"))
+prepend_path("MANPATH", pathJoin(base,"share","man"))
+
+setenv("MET_ROOT", base)
+setenv("MET_BASE", pathJoin(base, "share", "met"))
+setenv("MET_VERSION", pkgVersion)
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
-whatis("Category: library")
-whatis("Description: " .. pkgName .. " library")
+whatis("Category: applications")
+whatis("Description: Model Evaluation Tools (MET)")

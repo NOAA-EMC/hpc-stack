@@ -234,6 +234,12 @@ ncio:
   install_as: 1.1.2
   is_nceplib: YES
 
+ncdiag:
+  build: YES
+  version: v1.0.0
+  install_as: 1.0.0
+  is_nceplib: YES
+
 boost:
   build: NO
   version: 1.68.0
@@ -317,7 +323,7 @@ cmakemodules:
 gftl_shared:
   build: YES
   repo: Goddard-Fortran-Ecosystem
-  version: v1.3.6
+  version: v1.5.0
 
 yafyaml:
   build: YES
