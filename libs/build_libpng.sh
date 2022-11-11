@@ -45,14 +45,6 @@ URL="https://github.com/glennrp/libpng"
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 sourceDir=$PWD
-
-host=$(uname -s)
-arch=$(uname -m)
-
-if [[ $host == "Darwin" ]] && [[ $arch == "arm64" ]]; then
-  sed -i -e '/set(PNGLIB_VERSION*/a\'$'\n''set(PNG_ARM_NEON off CACHE INTERNAL "")'$'\n' ./CMakeLists.txt
-fi
-
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
