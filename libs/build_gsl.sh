@@ -6,7 +6,6 @@ name="gsl"
 version=${1:-${STACK_gsl_version}}
 
 compiler=$(echo $HPC_COMPILER | sed 's:/:-:g')
-mpi=$(echo $HPC_MPI | sed 's:/:-:g')
 
 if $MODULES; then
     set + x
@@ -17,14 +16,8 @@ if $MODULES; then
     
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
     if [[ -d $prefix ]]; then
-	if [[ $OVERWRITE =~ [yYtT] ]]; then
-            echo "WARNING: $prefix EXISTS: OVERWRITING!"
-            $SUDO rm -rf $prefix
-            $SUDO mkdir $prefix
-	else
-            echo "WARNING: $prefix EXISTS, SKIPPING"
-            exit 0
-	fi
+      [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
+                                 || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
     fi
 else
     prefix=${GSL_ROOT:-"/usr/local"}

@@ -37,7 +37,6 @@ if $MODULES; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   fi
   module load netcdf
-  module try-load pio/2.5.7
   module try-load udunits
   module list
   set -x
@@ -77,7 +76,7 @@ URL="https://github.com/esmf-org/esmf"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-software="v$version"
+software="$version"
 
 [[ -d $software ]] || ( git clone -b $software $URL $software )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
@@ -154,11 +153,6 @@ export ESMF_NETCDF_INCLUDE=$NETCDF_ROOT/include
 export ESMF_NETCDF_LIBPATH=$NETCDF_ROOT/lib
 export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs"
 export ESMF_NFCONFIG=nf-config
-export ESMF_PIO="OFF"      
-#export ESMF_PIO="external"
-#export ESMF_PIO_INCLUDE=$PIO_INCLUDES
-#export ESMF_PIO_LIBPATH=$PIO_LIBRARIES
-
 [[ $enable_pnetcdf =~ [yYtT] ]] && export ESMF_PNETCDF=pnetcdf-config
 # Configure optimization level
 if [[ $enable_debug =~ [yYtT] ]]; then

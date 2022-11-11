@@ -5,6 +5,7 @@ set -eux
 name="mapl"
 repo="GEOS-ESM"
 version=${2:-${STACK_mapl_version:-"main"}}
+export FFLAGS=" ${STACK_mapl_FFLAGS:-} "
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -60,7 +61,6 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-
 git checkout $version
 # sanitize package as per NCO request
 # Issue (1)
@@ -96,6 +96,10 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 # generate modulefile from template
 modpath=mpi
 
+# 
+echo "  "
+echo "Completed gmake install in build_mapl.sh" 
+echo "  "
 module_substitutions="-DMAPL_ESMF_VERSION=${ESMF_VERSION:-}"
 $MODULES && update_modules $modpath $name $install_as "" $module_substitutions
 echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

@@ -1,3 +1,12 @@
+gnu:
+  build: NO
+  version: 11.2.0_3
+
+mpi:
+  build: YES
+  flavor: mpich
+  version: 3.3.2
+
 cmake:
   build: NO
   bootstrap: NO
@@ -5,61 +14,56 @@ cmake:
 
 jpeg:
   build: YES
-  shared: NO
   version: 9.1.0
 
 zlib:
   build: YES
-  shared: NO
   version: 1.2.11
 
 libpng:
-  build: YES
-  shared: NO
-  version: 1.6.35
+  build: NO
+  version: 1.6.37
 
 szip:
   build: YES
-  shared: NO
   version: 2.1.1
 
 jasper:
   build: YES
-  shared: NO
   version: 2.0.25
 
 udunits:
   build: YES
-  shared: NO
   version: 2.2.28
 
 hdf5:
   build: YES
   version: 1.10.6
-  shared: NO
+  shared: YES
   enable_szip: NO
   enable_zlib: YES
 
 pnetcdf:
   build: NO
   version: 1.12.1
-  shared: NO
+  shared: YES
 
 netcdf:
   build: YES
-  shared: NO
+  shared: YES
   enable_pnetcdf: NO
   version_c: 4.7.4
-  version_f: 4.5.3
+  version_f: 4.5.4
   version_cxx: 4.3.1
+  disable_cxx: YES
 
 nccmp:
   build: YES
-  version: 1.9.1.0
+  version: 1.8.9.0
 
 nco:
-  build: NO
-  version: 4.9.3
+  build: YES
+  version: 5.0.6
 
 cdo:
   build: YES
@@ -75,15 +79,15 @@ esmf:
   build: YES
   version: ESMF_8_2_0
   install_as: 8.2.0
-  shared: NO
+  shared: YES
   enable_pnetcdf: NO
   debug: NO
 
 fms:
   build: YES
-  version: 2022.01
+  version: 2021.04
   repo: noaa-gfdl
-  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DENABLE_QUAD_PRECISION=OFF "
 
 bacio:
   build: YES
@@ -174,8 +178,8 @@ g2c:
 
 g2tmpl:
   build: YES
-  version: v1.9.1
-  install_as: 1.9.1
+  version: v1.10.0
+  install_as: 1.10.0
   is_nceplib: YES
 
 crtm:
@@ -227,8 +231,8 @@ grib_util:
 
 ncio:
   build: YES
-  version: v1.1.0
-  install_as: 1.1.0
+  version: v1.0.0
+  install_as: 1.0.0
   is_nceplib: YES
 
 ncdiag:
@@ -247,7 +251,7 @@ eigen:
   version: 3.3.7
 
 gsl_lite:
-  build: NO
+  build: YES
   version: 0.37.0
 
 gptl:
@@ -280,7 +284,7 @@ pybind11:
 
 ecbuild:
   build: YES
-  version: 3.6.1
+  version: 2021.08.0
   repo: ecmwf
 
 eckit:
@@ -294,7 +298,7 @@ fckit:
   repo: ecmwf
 
 atlas:
-  build: NO
+  build: YES
   version: 0.24.1
   repo: ecmwf
 
@@ -305,7 +309,7 @@ madis:
 esma_cmake:
   build: YES
   repo: GEOS-ESM
-  version: v3.4.3
+  version: v3.12.0
 
 cmakemodules:
   build: YES
@@ -315,7 +319,7 @@ cmakemodules:
 gftl_shared:
   build: YES
   repo: Goddard-Fortran-Ecosystem
-  version: v1.3.0
+  version: v1.3.6
 
 yafyaml:
   build: YES
@@ -325,5 +329,35 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
-  esmf_version: 8.2.0
-  version: v2.7.3
+  version: v2.12.2
+
+geos:
+  build: YES
+  version: 3.8.1
+
+libtiff:
+  build: YES
+  version: 4.0.3
+
+sqlite:
+  build: YES
+  version: 3.32.3
+
+proj:
+  build: YES
+  version: 7.1.0
+  cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
+
+miniconda3:
+  build: NO
+  version: 4.6.14
+
+r2d2:
+  build: NO
+  version: 1.0.0
+  is_pyvenv: YES
+
+ufswm:
+  build: NO
+  version: 1.0.0
+  is_pyvenv: YES

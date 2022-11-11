@@ -13,8 +13,7 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
-load("bacio", "g2", "g2tmpl", "ip", "sp", "w3nco", "w3emc", "crtm")
-prereq("bacio", "g2", "g2tmpl", "ip", "sp", "w3nco", "w3emc", "crtm")
+depends_on("bacio", "g2", "g2tmpl", "ip", "sp", "w3nco", "w3emc", "crtm")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 

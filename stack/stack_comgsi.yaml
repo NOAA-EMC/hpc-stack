@@ -195,13 +195,19 @@ prod_util:
 
 grib_util:
   build: NO
-  version: v1.2.2
-  install_as: 1.2.2
+  version: v1.2.4
+  install_as: 1.2.4
   openmp: ON
   is_nceplib: YES
 
 ncio:
   build: NO
   version: develop
+  install_as: 1.0.0
+  is_nceplib: YES
+
+ncdiag:
+  build: YES
+  version: v1.0.0
   install_as: 1.0.0
   is_nceplib: YES

@@ -29,6 +29,7 @@ usage() {
 
 # ==============================================================================
 
+echo "Starting hpc-stack build: `date` "
 # Defaults:
 library=""
 export PREFIX="$HOME/opt"
@@ -160,7 +161,6 @@ if $MODULES; then
   build_lib nccmp
   build_lib nco
   build_lib cdo
-  build_lib madis
 
   # Restore $HPC_MPI variable
   export HPC_MPI=$_HPC_MPI
@@ -179,7 +179,6 @@ if ! $MODULES; then
   build_lib nccmp
   build_lib nco
   build_lib cdo
-  build_lib madis
 fi
 build_lib pio
 
@@ -190,12 +189,12 @@ build_lib sigio
 build_lib sfcio
 build_lib gfsio
 build_lib w3nco
-build_lib nemsio
 build_lib w3emc
 build_lib sp
 build_lib ip
 build_lib ip2
 build_lib landsfcutil
+build_lib nemsio
 build_lib nemsiogfs
 build_lib g2
 build_lib g2c
@@ -217,7 +216,7 @@ if $MODULES; then
   _HPC_MPI=$HPC_MPI
   export HPC_MPI=""
 
-  #build_lib nemsio
+  build_lib nemsio
 
   # Restore $HPC_MPI variable
   export HPC_MPI=$_HPC_MPI
@@ -227,11 +226,12 @@ fi
 
 # Other
 
+build_lib madis
+
 # Python and associate virtual environments
 
 build_lib miniconda3
 build_lib r2d2
-build_lib metplus_pyenv
 
 # JEDI 3rd party dependencies
 
@@ -258,6 +258,7 @@ build_lib atlas
 build_lib met
 build_lib metplus
 
+
 # UFS 3rd party dependencies
 
 build_lib esmf
@@ -275,3 +276,4 @@ build_lib mapl
 
 # ==============================================================================
 echo "build_stack.sh: SUCCESS!"
+echo "Finished hpc-stack build: `date` "

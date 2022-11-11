@@ -1,21 +1,75 @@
-find_path (WGRIB2_INCLUDES
-  wgrib2api.mod
-  HINTS $ENV{wgrib2_ROOT}/include)
+# Find the wgrib2 headers, library and executable
+#
+# This module defines:
+#
+#   - wgrib2::wgrib2      - library and include directory, all in a single target.
+#   - WGRIB2_INCLUDE_DIR  - include directory
+#   - WGRIB2_LIBRARIES    - wgrib2 library
+#   - WGRIB2_EXE          - wgrib2 executable
+#
+# The following paths will be searched in order:
+#
+#   - WGRIB2_INCLUDE_DIRS - folders containing wgrib2.
+#   - WGRIB2_LIBRARY_DIRS - folders containing libwgrib2.a
+#   - wgrib2_ROOT         - root of wgrib2 installation
+#   - wgrib2_PATH         - root of wgrib2 installation
 
-find_library (WGRIB2_LIBRARIES
-  names libwgrib2.a
-  HINTS $ENV{wgrib2_ROOT}/lib)
+find_path(
+  WGRIB2_INCLUDE_DIR
+  NAMES wgrib2.h wgrib2api.mod
+  HINTS ${WGRIB2_INCLUDE_DIRS}
+        ${wgrib2_ROOT} $ENV{wgrib2_ROOT}
+        ${wgrib2_PATH} $ENV{wgrib2_PATH}
+  PATH_SUFFIXES include include/wgrib2
+  DOC "Path to wgrib2.h, wgrib2api.mod"
+  )
 
-if(EXISTS ${WGRIB2_INCLUDES} AND EXISTS ${WGRIB2_LIBRARIES})
-  message(STATUS "Found WGRIB2: include directory ${WGRIB2_INCLUDES}, library ${WGRIB2_LIBRARIES}")
-else()
-  message(STATUS "Unable to locate WGRIB2 library and/or Fortran modules")
-endif()
+find_library(
+  WGRIB2_LIBRARIES
+  NAMES libwgrib2.a
+  HINTS ${WGRIB2_LIBRARY_DIRS}
+        ${wgrib2_ROOT} $ENV{wgrib2_ROOT}
+        ${wgrib2_PATH} $ENV{wgrib2_PATH}
+  PATH_SUFFIXES lib lib64
+  DOC "Path to libwgrib2.a"
+  )
 
-mark_as_advanced (WGRIB2_INCLUDES WGRIB2_LIBRARIES)
+find_program(WGRIB2_EXE
+  NAMES wgrib2
+  HINTS ${wgrib2_ROOT} $ENV{wgrib2_ROOT}
+        ${wgrib2_PATH} $ENV{wgrib2_PATH}
+  PATH_SUFFIXES bin
+  DOC "Path to wgrib2 executable"
+  )
+
+mark_as_advanced(WGRIB2_INCLUDE_DIR WGRIB2_LIBRARIES WGRIB2_EXE)
 
 add_library(wgrib2::wgrib2 UNKNOWN IMPORTED)
-set_target_properties(wgrib2::wgrib2 PROPERTIES
-  IMPORTED_LOCATION "${WGRIB2_LIBRARIES}"
-  INTERFACE_INCLUDE_DIRECTORIES "${WGRIB2_INCLUDES}"
-  INTERFACE_LINK_LIBRARIES "${WGRIB2_LIBRARIES}")
+set_target_properties(wgrib2::wgrib2 PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${WGRIB2_INCLUDE_DIR})
+set_target_properties(wgrib2::wgrib2 PROPERTIES IMPORTED_LOCATION ${WGRIB2_LIBRARIES})
+set_target_properties(wgrib2::wgrib2 PROPERTIES INTERFACE_LINK_LIBRARIES ${WGRIB2_LIBRARIES})
+
+# wgrib2 changed how it outputs --version from "v0.x.y.z" to "vx.y.z" starting in wgrib2 3.0
+execute_process(COMMAND ${WGRIB2_EXE} --version OUTPUT_VARIABLE version)
+if(version MATCHES "^v0.*")
+  string(SUBSTRING "${version}" 3 5 WGRIB2_VERSION)
+else()
+  string(SUBSTRING "${version}" 1 5 WGRIB2_VERSION)
+endif()
+unset(version)
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(wgrib2
+  REQUIRED_VARS WGRIB2_LIBRARIES WGRIB2_INCLUDE_DIR WGRIB2_EXE
+  VERSION_VAR WGRIB2_VERSION
+  )
+
+if(wgrib2_FOUND AND NOT wgrib2_FIND_QUIETLY)
+  message(STATUS "Findwgrib2:")
+  message(STATUS "  - WGRIB2_INCLUDE_DIR: ${WGRIB2_INCLUDE_DIR}")
+  message(STATUS "  - WGRIB2_LIBRARIES: ${WGRIB2_LIBRARIES}")
+  message(STATUS "  - WGRIB2_EXE: ${WGRIB2_EXE}")
+  message(STATUS "  - WGRIB2_VERSION: ${WGRIB2_VERSION}")
+endif()
+
+

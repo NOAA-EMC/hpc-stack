@@ -19,7 +19,7 @@ install_as=${3:-${s_install_as}} #  third column of COMPONENTS
 openmp=${4:-${s_openmp:-"OFF"}}
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's:/:-:g')
+compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 python=$(echo $HPC_PYTHON | sed 's/\//-/g')
 
@@ -43,7 +43,7 @@ if $MODULES; then
       if [[ "$major_ver" -le "2" ]]; then
           if [[ "$minor_ver" -le "5" ]]; then
               if [[ "$patch_ver" -lt "3" ]]; then
-                  [[ ! -z $mpi ]] || exit 0 
+                  [[ ! -z $mpi ]] || exit 0
                   module load hpc-$HPC_MPI
                   using_mpi=YES
                   w3dep="w3nco"
@@ -72,7 +72,7 @@ if $MODULES; then
       fi
       ;;
     # The following can use MPI (if available)
-    wrf_io | wgrib2)
+    wrf_io )
       if [[ ! -z $mpi ]]; then
         module load hpc-$HPC_MPI
         using_mpi=YES
@@ -85,20 +85,11 @@ if $MODULES; then
     wrf_io)
       module load netcdf
       ;;
-    wgrib2)
-      module try-load jpeg
-      module try-load jasper
-      module try-load zlib
-      module try-load libpng
-      module load netcdf
-      module load sp
-      module load ip2
-      ;;
     crtm)
       module load hpc-$HPC_MPI
       module load netcdf
       ;;
-    ip | ip2)
+    ip2)
       module load sp
       ;;
     g2)
@@ -117,14 +108,12 @@ if $MODULES; then
       module load ${w3dep}
       ;;
     nemsiogfs)
-      module load w3nco
       module load nemsio
       module load w3nco
       ;;
     w3emc)
       module load bacio
       if [[ "$using_mpi" =~ [yYtT] ]]; then
-	  module load w3nco
           module load netcdf
           module load sigio
           module load nemsio
@@ -135,9 +124,9 @@ if $MODULES; then
       module try-load jasper
       module try-load zlib
       module try-load libpng
+      module try-load w3emc/2.9.2
       module load bacio
       module load w3nco
-      module load w3emc/2.9.2
       module load g2
       module load ip
       module load sp
@@ -182,11 +171,11 @@ else
   eval prefix="\${${nameUpper}_ROOT:-'/usr/local'}"
   case $name in
     # The following require MPI
-    nemsio | nemsiogfs | ncio | ncdiag)
+    nemsio | nemsiogfs | ncio | ncdiag )
       using_mpi=YES
       ;;
     # The following can use MPI (if available)
-    wrf_io | wgrib2)
+    wrf_io )
       [[ ! -z $mpi ]] && using_mpi=YES
       ;;
   esac
@@ -218,10 +207,7 @@ URL="https://github.com/noaa-emc/nceplibs-$name"
 extraCMakeFlags=""
 case $name in
   crtm)
-    URL="https://github.com/JCSDA/crtm.git"
-    ;;
-  wgrib2)
-    extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
+    URL="https://github.com/NOAA-EMC/crtm.git"
     ;;
   bufr)
     if [[ ${using_python:-} =~ [yYtT] ]]; then
@@ -268,7 +254,7 @@ if [[ "$name" == "crtm" ]]; then
       crtm_tarball=fix_REL-${install_as}_emc.tgz
      [[ -f $crtm_tarball ]] || ( $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball )
       tar xzf $crtm_tarball
-      mv crtm-internal_REL-2.4.0_emc/fix crtm_fix-${install_as}
+      mv fix crtm_fix-${install_as}
 #      rm -f $crtm_tarball
     fi
     if [[ "${install_as}" == "2.3.0" ]]; then
@@ -286,11 +272,6 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-if [[ "$software" == "crtm-v2.4.0" ]]; then
-[[ -d test ]] && rm -rf test
-mkdir -p test
-touch test/CMakeLists.txt
-fi
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 

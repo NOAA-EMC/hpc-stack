@@ -5,7 +5,7 @@
 HPC-Stack Components
 =====================
 
-The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the ``build_stack.sh`` script. The following software can optionally be built with the scripts under ``libs``. 
+The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the ``build_stack.sh`` script. The following software can optionally be built with the scripts under ``libs``.
 
 * **Compilers and MPI libraries**
 
@@ -21,6 +21,7 @@ The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the
   * `CMake <https://cmake.org/>`__
   * `Udunits <https://www.unidata.ucar.edu/software/udunits/>`__
   * `PNG <http://www.libpng.org/pub/png/>`__
+  * `TIFF <https://gitlab.com/libtiff/libtiff.git>`__
   * `JPEG <https://jpeg.org/>`__
   * `Jasper <https://github.com/jasper-software/jasper>`__
   * `SZip <https://support.hdfgroup.org/doc_resource/SZIP/>`__
@@ -34,7 +35,6 @@ The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the
   * `CDO <https://code.mpimet.mpg.de/projects/cdo>`__
   * `FFTW <http://www.fftw.org/>`__
   * `GPTL <https://jmrosinski.github.io/GPTL/>`__
-  * Tau2
   * `Boost <https://beta.boost.org/>`__
   * `Eigen <http://eigen.tuxfamily.org/>`__
   * `GSL-Lite <http://github.com/gsl-lite/gsl-lite>`__
@@ -77,7 +77,8 @@ The HPC-Stack packages are built in :numref:`Step %s <NonConHPCBuild>` using the
   * `NCEPLIBS-ncio <https://github.com/noaa-emc/nceplibs-ncio.git>`__
   * `NCEPLIBS-wrf_io <https://github.com/noaa-emc/nceplibs-wrf_io.git>`__
   * `EMC_crtm <https://github.com/noaa-emc/EMC_crtm.git>`__
-  * `EMC_post <https://github.com/noaa-emc/EMC_post.git>`__
+  * `UPP <https://github.com/NOAA-EMC/UPP>`__
+  * `GSI-ncdiag <https://github.com/noaa-emc/GSI-ncdiag.git>`__
 
 
 * **JEDI Dependencies**

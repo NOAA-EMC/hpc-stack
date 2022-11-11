@@ -88,7 +88,7 @@ Build the HPC-Stack
       sed -i "10 a export PATH=/usr/local/sbin:/usr/local/bin:$PATH" ./build_stack.sh
       sed -i "10 a export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH" ./build_stack.sh
 
-#. Build the environment. This may take several hours to complete. 
+#. Build the environment. This may take up to a couple of hours to complete. 
    
    .. code-block:: console
 
@@ -108,8 +108,8 @@ From here, the user can continue to install and run applications that depend on 
 
 .. _NonContainerInstall:
 
-Non-Container HPC-Stack Installation and Build 
-=================================================
+Non-Container HPC-Stack Installation and Build (General/Linux)
+================================================================
 
 Install Prerequisites
 ----------------------
@@ -119,7 +119,10 @@ To install the HPC-Stack locally, the following pre-requisites must be installed
 * **Python 3:** Can be obtained either from the `main distributor <https://www.python.org/>`_ or from `Anaconda <https://www.anaconda.com/>`_. 
 * **Compilers:** Distributions of Fortran, C, and C++ compilers that work for your system. 
 * **Message Passing Interface (MPI)** libraries for multi-processor and multi-core communications, configured to work with your corresponding Fortran, C, and C++ compilers. 
-* **Programs and software packages:** `Lmod <https://lmod.readthedocs.io/en/latest/030_installing.html>`_, `CMake <https://cmake.org/install/>`_, `make <https://www.gnu.org/software/make/>`_, `wget <https://www.gnu.org/software/wget/>`_, `curl <https://curl.se/>`_, `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_, and the `TIFF library <https://gitlab.com/libtiff/libtiff.git>`_. 
+* **Programs and software packages:** `Lmod <https://lmod.readthedocs.io/en/latest/030_installing.html>`_, `CMake <https://cmake.org/install/>`_, `make <https://www.gnu.org/software/make/>`_, `wget <https://www.gnu.org/software/wget/>`_, `curl <https://curl.se/>`_, `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_.
+
+.. note::
+   For detailed instructions on how to build the HPC-Stack on two particular configurations of MacOS, see :numref:`Chapter %s <MacInstall>`
 
 To determine whether these prerequisites are installed, query the environment variables (for ``Lmod``) or the location and version of the packages (for ``cmake``, ``make``, ``wget``, ``curl``, ``git``). For example:
 
@@ -129,18 +132,105 @@ To determine whether these prerequisites are installed, query the environment va
       which cmake 
       cmake --version 
 
-Methods for determining whether ``libtiff`` is installed vary between systems. Users can try the following approaches:
+If compilers or MPI's need to be installed, consult the :ref:`HPC-Stack Prerequisites <Prerequisites>` document for further guidance. MPI could also be built bundled with the HPC-stack, if not pre-installed in the system.
 
-   .. code-block:: console
+.. _UbuntuLinux:
 
-      whereis libtiff
-      locate libtiff
-      ldconfig -p | grep libtiff 
-      ls /usr/lib64/libtiff*
-      ls /usr/lib/libtiff*
+Ubuntu 20.04 Linux Example
+--------------------------
+
+The example for Ubuntu 20.4 is for a user with sudo privileges to install system-wide. First, install GNU 10 compilers:
+
+.. code-block:: console
+
+    sudo apt install gcc-10 g++-10
+    sudo apt install gfortran-10
+    which gcc 
+
+The location of default compilers is likely be in ``/usr/bin/`` (e.g. /usr/bin/gcc), and other versions are installed with the same location with the version tag. Check all the versions installed and configure the alternatives to specify which version is to be default. Below is the example when two versions are available, e.g., gcc-9 and gcc-10.
+
+.. code-block:: console
+
+    ls -la /usr/bin/gcc-*  
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 1
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 2
+    sudo update-alternatives --config gcc
+
+Make selection (1) for gcc-10 to be the first priority (default).
+
+Repeat similar steps to configure the alternatives for g++  and gfortran. No need to configure for gfortran if you have only a single version.
+
+.. code-block:: console
+
+    ls -la /usr/bin/g++-*  
+    sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
+    sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 2
+    sudo update-alternatives --config g++
+
+Install ``lua``, ``luac`` and ``tcl`` needed to support the ``Lmod`` module management system. Verify the installation location.
+
+.. code-block:: console
+
+    sudo apt-get install lua5.3 liblua5.3-0 liblua5.3-dev lua-filesystem-dev lua-posix-dev
+    sudo apt-get install tcl tcl8.6-dev libtcl8.6
+    which lua
+    which luac
+    
+Standard installation paths for lua/luac are ``/usr/bin/lua`` and ``/usr/bin/luac``. 
+Download and install Lmod, the module management environment, if not installed in the system. When installed, the environmental variable $LMOD_ROOT is defined: 
+
+.. code-block:: console
+
+    echo $LMOD_ROOT
+    git clone https://github.com/TACC/Lmod.git 
+    cd Lmod
+
+See the INSTALL file for instructions; configure and install. Use the paths for ``lua`` and ``luac`` installed in the previous step. ``Lmod`` could be configured to be installed system-wide, or in user space as in the example below, e.g., in ``${HOME}/apps``. 
+
+.. code-block:: console
+
+    ./configure --with-lua=/usr/bin/lua  --with-luac=/usr/bin/luac --prefix=${HOME}/apps 
+    make install
+
+Add the Lmod environment initialization to your shell profile, i.e. to $HOME/.bashrc or $HOME/.bash_profile: 
+
+.. code-block:: console
+
+    export BASH_ENV=$HOME/apps/lmod/lmod/init/profile        
+    source $BASH_ENV
+
+Install  wget, git, make and cmake; cmake could also be built bundled with the hpc-stack.
+
+.. code-block:: console
+
+    sudo apt install git
+    sudo apt install wget
+    sudo apt install make
+    sudo apt install cmake  
+
+Install openssl, libssl-dev packages:
+
+.. code-block:: console
+
+    sudo apt install openssl
+    sudo apt-get install libssl-dev
 
 
-If compilers or MPI's need to be installed, consult the :ref:`HPC-Stack Prerequisites <Prerequisites>` document for further guidance. 
+Both ``python2`` and ``python3`` are needed; python2 version higher than 2.7.x; python3 version higher than 3.6. You could update ``python3`` if higher versions are available (python3.9 in the example below at the time of writing), and set the alternatives when multiple versions exist. The highest version among the existing python3.8 and python3.9 is set as a default in the example below (choose selection 1 for python3.9 when prompt). 
+
+.. code-block:: console
+
+    which python3 
+    python3 --version 
+    apt list | grep python  
+    sudo apt install python3.9
+    sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
+    sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
+    sudo update-alternatives --config python3  
+    python3 --version  
+
+Verify the version (python 3.9) set as default after the configuration. 
+
 
 .. _NonConConfigure:
 
@@ -199,22 +289,21 @@ These ``hpc-`` modules are really meta-modules that load the compiler/MPI librar
 
 In short, you may prefer not to load the compiler or MPI modules directly. Instead, loading the hpc- meta-modules as demonstrated above will provide everything needed to load software libraries.
    
-It may be necessary to set certain source and path variables in the ``build_stack.sh`` script. For example:
+It may be necessary to set few environment variables in the ``build_stack.sh`` script. For example:
+r
 
    .. code-block:: console
 
-      source /usr/share/lmod/6.6/init/bash
-      source /usr/share/lmod/lmod/init/bash
       export PATH=/usr/local/sbin:/usr/local/bin:$PATH
       export LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
       export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
-It may also be necessary to initialize ``Lmod`` when using a user-specific ``Lmod`` installation:
+``Lmod`` needs to be initialized based on the installation directory:
 
    .. code-block:: console
 
       module purge
-      export BASH_ENV=$HOME/<Lmod-installation-dir>/lmod/lmod/init/bash 
+      export BASH_ENV=<Lmod-installation-dir>/lmod/lmod/init/profile
       source $BASH_ENV  
       export LMOD_SYSTEM_DEFAULT_MODULES=<module1>:<module2>:<module3>
       module --initial_load --no_redirect restore

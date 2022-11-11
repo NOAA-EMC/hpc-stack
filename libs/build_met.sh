@@ -21,32 +21,36 @@ if $MODULES; then
     module load bufr
     module load zlib
     module load jasper
-    module try-load libpng
     module try-load png
     module load g2c
-    module unload cray-mpich
     module load hdf5
-    module load netcdf/4.7.4
+    module load netcdf
     module list
     set -x
 
-    module show bufr
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
     if [[ -d $prefix ]]; then
-	if [[ $OVERWRITE =~ [yYtT] ]]; then
-            echo "WARNING: $prefix EXISTS: OVERWRITING!"
-            $SUDO rm -rf $prefix
-            $SUDO mkdir $prefix
-	else
-            echo "WARNING: $prefix EXISTS, SKIPPING"
-            exit 0
-	fi
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
     fi
 else
 
     prefix=${MET_ROOT:-"/usr/local"}
 
 fi
+
+
+cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
+software=$name-$version.$release_date
+pkg_name=$name-$version
+URL="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.gz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
+[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 export MET_BASE=$prefix/share/met
 
@@ -63,9 +67,6 @@ export CXXFLAGS+="-D__64BIT__"
 
 export MET_NETCDF=${NETCDF_ROOT}
 export MET_HDF5=${HDF5_ROOT}
-
-echo "bufr_ROOT=${bufr_ROOT}"
-echo "gsl_ROOT=${GSL_ROOT}"
 
 bufr_libdir=`find ${bufr_ROOT:-${BUFR_ROOT}} -name libbufr_4.a -exec dirname {} \;`
 export MET_BUFRLIB=$bufr_libdir
@@ -104,12 +105,6 @@ LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG} -L${LIB_Z}"
 export LDFLAGS="-fPIE ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
 export LIBS="-lhdf5_hl -lhdf5 -lz"
 
-cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-software=$name-$version.$release_date
-pkg_name=$name-$version
-URL="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
-[[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}
