@@ -21,7 +21,7 @@ if $MODULES; then
     module load bufr
     module load zlib
     module load jasper
-    module try-load png
+    module try-load libpng
     module load g2c
     module load hdf5
     module load netcdf
@@ -79,7 +79,7 @@ export GRIB2CLIB_NAME=-lg2c
 jasper_libdir=`find ${JASPER_ROOT} -name libjasper.a -exec dirname {} \;`
 export LIB_JASPER=$jasper_libdir
 
-export LIB_LIBPNG=${PNG_LIBDIR}
+export LIB_LIBPNG=${PNG_LIBRARIES}
 export LIB_Z=${ZLIB_ROOT}/lib
 
 if [[ $enable_python =~ [yYtT] ]]; then
@@ -103,7 +103,7 @@ LDFLAGS3="-L${MET_GRIB2CLIB} -L${MET_GSL}/lib"
 LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG} -L${LIB_Z}"
 
 export LDFLAGS="-fPIE ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
-export LIBS="-lhdf5_hl -lhdf5 -lz"
+export LIBS="-lhdf5_hl -lhdf5 -lz -ldl"
 
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 

@@ -49,4 +49,4 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 
 # generate modulefile from template
 $MODULES && update_modules compiler $name $id
-echo $name $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
