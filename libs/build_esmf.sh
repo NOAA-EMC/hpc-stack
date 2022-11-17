@@ -128,7 +128,7 @@ case $MPI in
     ;;
   cray-mpich )
     export ESMF_OS=${STACK_esmf_os:-"Unicos"}
-    export ESMF_COMM=${STACK_esmf_comm:-"mpi"}
+#    export ESMF_COMM=${STACK_esmf_comm:-"mpi"}
     ;;
   impi )
     export ESMF_COMM="intelmpi"
@@ -147,11 +147,11 @@ esac
 HDF5ExtraLibs=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
 HDF5LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "AM_LDFLAGS" | cut -d: -f2)
 
-export ESMF_CXXCOMPILER=$CXX
-export ESMF_CXXLINKER=$CXX
+#export ESMF_CXXCOMPILER=$CXX
+#export ESMF_CXXLINKER=$CXX
 export ESMF_CXXLINKPATHS="-L$HDF5_ROOT/lib $HDF5LDFLAGS"
-export ESMF_F90COMPILER=$FC
-export ESMF_F90LINKER=$FC
+#export ESMF_F90COMPILER=$FC
+#export ESMF_F90LINKER=$FC
 export ESMF_F90LINKPATHS="-L$HDF5_ROOT/lib $HDF5LDFLAGS"
 
 export ESMF_NETCDF=split
@@ -159,7 +159,7 @@ export ESMF_NETCDF_INCLUDE=$NETCDF_ROOT/include
 export ESMF_NETCDF_LIBPATH=$NETCDF_ROOT/lib
 export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs"
 export ESMF_NFCONFIG=nf-config
-export ESMF_PIO="OFF"      
+#export ESMF_PIO="OFF"      
 #export ESMF_PIO="external"
 #export ESMF_PIO_INCLUDE=$PIO_INCLUDES
 #export ESMF_PIO_LIBPATH=$PIO_LIBRARIES
