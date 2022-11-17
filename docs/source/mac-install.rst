@@ -182,13 +182,13 @@ Python (python2.7.x) is no longer provided with the MacOS version 12.3 (Monterey
 
 .. code-block:: console
 
-/bin/bash -c "$(curl -fsSL https://github.com/alfredapp/dependency-scripts/raw/main/scripts/install-python2.sh)"
+    /bin/bash -c "$(curl -fsSL https://github.com/alfredapp/dependency-scripts/raw/main/scripts/install-python2.sh)"
  
 Python3 could be installed using the similar approach:
 
 .. code-block:: console
 
-/bin/bash -c "$(curl -fsSL https://github.com/alfredapp/dependency-scripts/raw/main/scripts/install-python3.sh)"
+    /bin/bash -c "$(curl -fsSL https://github.com/alfredapp/dependency-scripts/raw/main/scripts/install-python3.sh)"
 
 For other Python3 installation ways and updates on MacOS refer to https://www.python.org/downloads. A 64-bit universal2 installer package is recommended (``python-3.9.11-macos11.pkg`` latest at the time of writing). Double-click on the installer package, and accept the license terms. An administrative level password will be requested for the installation. At the end of the installation, run ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
 
