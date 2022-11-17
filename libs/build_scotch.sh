@@ -47,7 +47,7 @@ URL="https://gitlab.inria.fr/scotch/scotch/-/archive/$version/scotch-$version.ta
 mkdir -p build && cd build
 
 # Compile & Install Scotch/PTscotch
-cmake VERBOSE=1 -DCMAKE_Fortran_COMPILER=ifort -DCMAKE_C_COMPILER=icc -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE=Release ..
+cmake VERBOSE=1 -DCMAKE_Fortran_COMPILER=${SERIAL_FC} -DCMAKE_C_COMPILER=${SERIAL_CC} -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE=Release ..
 
 make VERBOSE=1
 make install
