@@ -4,11 +4,13 @@
 Install and Build HPC-Stack on MacOS
 ==========================================
 
-HPC-Stack can be installed and built on MacOS systems. The following two options have been tested:
+HPC-Stack can be installed and built on MacOS systems with either M1/arm64 or x86_64 architecture. The following options have been tested:
 
-* **Option 1:** MacBookAir 2020, M1 chip (arm64, running natively), 4+4 cores, Big Sur 11.6.4, GNU compiler suite v.11.2.0 (gcc, gfortran, g++); no MPI pre-installed
+* MacBookAir 2020, **M1** chip (**arm64, running natively**), 4+4 cores, Big Sur 11.6.4, GNU compiler suite v.11.3.0 (gcc, gfortran, g++); no MPI pre-installed
 
-* **Option 2:** MacBook Pro 2015, 2.8 GHz Quad-Core Intel Core i7 (x86_64), Catalina OS X 10.15.7, GNU compiler suite v.11.2.0 (gcc, gfortran, g++); no MPI pre-installed
+* MacBookPro 2015, **x86_64**, 2.8 GHz Quad-Core Intel Core i7, Catalina OS X 10.15.7, GNU compiler suite v.11.3.0 (gcc, gfortran, g++); no MPI pre-installed
+
+* MacBookPro 2019, **x86_64**, 2.4 GHz 8-core Intel Core i9, Monterey OS X 12.6.1, GNU compiler suite v.11.3.0 (gcc, gfortran, g++); no MPI pre-installed
 
 .. note::
     Examples throughout this chapter presume that the user is running Terminal.app with a bash shell environment. If this is not the case, users will need to adjust commands to fit their command line application and shell environment. 
@@ -33,12 +35,12 @@ An alternative way to install the Xcode command-line tools (CLT) is as follows:
 
     xcode-select --install 
 
-Note the messages at the end of the installation. Users may need to update the environment variable ``$PATH`` and add it to the shell initialization:
+Note the messages at the end of the installation. Users may need to update the environment variable ``$PATH`` and add it to the shell initialization. Standard installation path could be queued using ``brew --prefix``. The instructions below assume a variable ``$BREW`` is set as following: ``BREW=$(brew --prefix)``.
 
 .. code-block:: console
 
-   export PATH=/opt/homebrew/bin:$PATH
-   echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.bashrc
+   export PATH=$BREW/bin:$PATH
+   echo 'export PATH="$BREW/bin:$PATH"' >> ~/.bashrc
 
 Install Compilers
 ^^^^^^^^^^^^^^^^^^^^^
@@ -49,16 +51,17 @@ Install GNU compiler suite (version 11) with gfortran:
 
     brew install gcc@11 
 
-Create symbolic links from the version-specific binaries to gcc and g++.  A ``sudo`` password may be requested. The path will likely be ``/opt/homebrew/bin/gcc-11`` (Option 1), or ``/usr/local/bin/gcc-11`` (Option 2). 
+Create symbolic links from the version-specific binaries to gcc and g++.  A ``sudo`` password may be requested. Standard installation paths are ``/opt/homebrew/bin/`` (M1/arm64), or ``/usr/local/bin/`` (x86_64). 
+
 
 .. code-block:: console
 
     which gcc-11    
-    cd /opt/homebrew/bin/    (Version 2: cd /usr/local/bin/) 
+    cd $BREW/bin/  
     ln -s gcc-11 gcc  
     ln -s g++-11 g++
 
-Verify that compiler path installed using homebrew takes precedence over  ``/usr/bin`` path with system compilers: ``echo $PATH``.  
+Verify that compiler path installed using Homebrew, ``$BREW\bin`` takes precedence over  ``/usr/bin`` path with system compilers: ``echo $PATH``.  
     
 Check if a previous version of gfortran exists; rename it in that case (e.g., to "gfortran-X") and create a link to a newer binary:
 
@@ -87,7 +90,7 @@ Verify that they show the correct version of GNU installed:
 Install CMake
 ^^^^^^^^^^^^^^^^^^^^^
 
-Install the cmake utility via homebrew:
+Install the cmake utility via Homebrew:
 
 .. code-block:: console
 
@@ -97,16 +100,11 @@ Install the cmake utility via homebrew:
 Install/Upgrade Make
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-To install the make utility via homebrew:
+To install or upgrade the make utility via Homebrew, use either one of the following:
 
 .. code-block:: console
 
     brew install make
-
-To upgrade the make utility via homebrew:
-
-.. code-block:: console
-
     brew upgrade make
 
 
@@ -124,14 +122,14 @@ Note the messages at the end of the installation. Depending on what they say, us
 
 .. code-block:: console
 
-   echo 'export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"' >> ~/.bashrc
+   echo 'export PATH="$BREW/opt/openssl@3/bin:$PATH"' >> ~/.bashrc
 
 Users may also need to set certain flags so that the compilers can find the openssl@3 package:
 
 .. code-block:: console
 
-   export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
-   export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
+   export LDFLAGS+=" -L$BREW/opt/openssl@3/lib "
+   export CPPFLAGS+=" -I$BREW/opt/openssl@3/include "
 
 
 .. _InstallLmod:
@@ -147,30 +145,10 @@ Install Lmod, which is the module management environment, run:
 
 You may need to add the Lmod environment initialization to your shell profile, e.g., to ``$HOME/.bashrc``. 
 
-For the Option 1 installation, add: 
-
 .. code-block:: console
 
-   export BASH_ENV="/opt/homebrew/opt/lmod/init/profile"
+   export BASH_ENV="$BREW/opt/lmod/init/profile"
    source $BASH_ENV
-
-For the Option 2 installation, add:
-
-.. code-block:: console
-
-   export BASH_ENV="/usr/local/opt/lmod/init/profile"
-   source $BASH_ENV
-
-.. _InstallLibpng:
-
-Install libpng 
-^^^^^^^^^^^^^^^^^^^
-
-The libpng library has issues when building on MacOS during the HPC-Stack bundle build. Install it separately using homebrew:
-
-.. code-block:: console
-
-    brew install libpng 
 
 
 Install wget
@@ -184,19 +162,35 @@ Install the Wget software package:
 
 .. _InstallPython:
 
-Install or Update Python3 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Install or Update Python3 and Python2 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-First, verify that Python3 is installed, and check the current version:
+First, verify whether python (python2) and python3 are installed, and check the current version:
 
 .. code-block:: console
 
+    which python
+    python --version
+    which python2
+    python2 --version
     which python3
     python3 --version
 
-The first command should return ``/usr/bin/python3`` and the second should return ``Python 3.8.2`` or similar (the exact version is unimportant).
+The query for python3 in the last two lines in the code block above may return something similar to ``/usr/bin/python3`` and ``Python 3.8.2``, respectively (the exact version is unimportant).
 
-For Python3 installation and updates on MacOS refer to https://www.python.org/downloads. A 64-bit universal2 installer package is recommended (``python-3.9.11-macos11.pkg`` latest at the time of writing). Double-click on the installer package, and accept the license terms. An administrative level password will be requested for the installation. At the end of the installation, run ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
+Python (python2.7.x) is no longer provided with the MacOS version 12.3 (Monterey), but is a part of standard MacOS for earlier versions. You would then need to install it separely.The following could be one of the methods:
+
+.. code-block:: console
+
+/bin/bash -c "$(curl -fsSL https://github.com/alfredapp/dependency-scripts/raw/main/scripts/install-python2.sh)"
+ 
+Python3 could be installed using the similar approach:
+
+.. code-block:: console
+
+/bin/bash -c "$(curl -fsSL https://github.com/alfredapp/dependency-scripts/raw/main/scripts/install-python3.sh)"
+
+For other Python3 installation ways and updates on MacOS refer to https://www.python.org/downloads. A 64-bit universal2 installer package is recommended (``python-3.9.11-macos11.pkg`` latest at the time of writing). Double-click on the installer package, and accept the license terms. An administrative level password will be requested for the installation. At the end of the installation, run ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
 
 Start a new bash session (type ``bash`` in the existing terminal), and verify the installed version:
 
@@ -216,7 +210,6 @@ Install git and dependencies:
     brew install git
 
 
-
 Building HPC-Stack
 --------------------
 
@@ -230,34 +223,25 @@ Download HPC-Stack code from `GitHub <github.com>`__:
     git clone https://github.com/NOAA-EMC/hpc-stack.git
     cd hpc-stack
 
-The configuration files are ``./config/config_<machine>.sh``. For Option 1, ``<machine>`` is ``mac_m1_gnu`` and for Option 2, ``<machine>`` is ``mac_gnu``. 
+The example of a configuration file is ``./config/config_macos_gnu.sh``. 
 
-The ``./stack/stack_<machine>.yaml`` file lists the libraries that will be built as part of HPC-Stack, in addition to library-specific options. These can be altered based on user preferences. 
+The ``./stack/stack_macos.yaml`` file lists the libraries that will be built as part of HPC-Stack, in addition to library-specific options. These can be altered based on user preferences and particular application for which the HPC-stack is being built. 
 
 Lmod Environment
 ^^^^^^^^^^^^^^^^^^^
 
-Verify the initialization of Lmod environment, or add it to the configuration file ``./config/config_<machine>.sh``, as in :numref:`Step %s <InstallLmod>`.
-
-For Option 1: 
+Verify the initialization of Lmod environment, or add it to the configuration file ``./config/config_macos_gnu.sh``, as in :numref:`Step %s <InstallLmod>`.
 
 .. code-block:: console 
 
-   export BASH_ENV="/opt/homebrew/opt/lmod/init/profile"
-   source $BASH_ENV
-
-For Option 2:
-
-.. code-block:: console 
-
-   export BASH_ENV="/usr/local/opt/lmod/init/profile"
+   export BASH_ENV="$BREW/opt/lmod/init/profile"
    source $BASH_ENV
 
 
 Specify Compiler, Python, and MPI
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Specify the combination of compilers, python libraries, and MPI libraries in the configuration file ``./config/config_<machine>.sh``.
+Specify the combination of compilers, python libraries, and MPI libraries in the configuration file ``./config/config_macos_gnu.sh``.
 
 .. code-block:: console 
 
@@ -271,16 +255,7 @@ Comment out any export statements not relevant to the system, and make sure that
 Set Appropriate Flags
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-When using gfortran version 10 or higher, verify that the following flags are set in ``config_<machine>.sh``: 
-
-For Option 1:
-
-.. code-block:: console 
-
-    export STACK_FFLAGS="-fallow-argument-mismatch -fallow-invalid-boz" 
-    
-
-For Option 2:
+When using gfortran version 10 or higher, verify that the following flags are set in ``config_macos_gnu.sh``: 
 
 .. code-block:: console 
 
@@ -290,23 +265,23 @@ For Option 2:
 Set Environment Variables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Set the environmental variables for compiler paths in ``./config/config_<machine>.sh``. The variable ``GNU`` below refers to the directory where the compiler binaries are located. For example, with Option 1, ``GNU=/opt/homebrew/bin``, and with Option 2: ``GNU=/usr/local/bin``. 
+Set the environmental variables for compiler paths in ``./config/config_macos_gnu.sh``. 
 
 .. code-block:: console 
 
-    export GNU="path/to/compiler/binaries"
-    export CC=$GNU/gcc
-    export FC=$GNU/gfortran
-    export CXX=$GNU/g++
-    export SERIAL_CC=$GNU/gcc
-    export SERIAL_FC=$GNU/gfortran
-    export SERIAL_CXX=$GNU/g++
+    BREW=$(brew --prefix)
+    export CC=$BREW/bin/gcc
+    export FC=$BREW/bin/gfortran
+    export CXX=$BREW/bin/g++
+    export SERIAL_CC=$BREW/bin/gcc
+    export SERIAL_FC=$BREW/bin/gfortran
+    export SERIAL_CXX=$BREW/bin/g++
 
 
 Specify MPI Libraries
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Specify the MPI libraries to be built within the HPC-Stack in ``./stack/stack_<machine>.yaml``. The ``openmpi/4.1.2`` (Option 1 and Option 2) and ``mpich/3.3.2`` (Option 2) have been built successfully.
+Specify the MPI libraries to be built within the HPC-Stack in ``./stack/stack_macos.yaml``. The ``openmpi/4.1.2`` has been built successfully on all the systems, and ``mpich/3.3.2`` on some.
 
 .. code-block:: console 
 
@@ -315,10 +290,7 @@ Specify the MPI libraries to be built within the HPC-Stack in ``./stack/stack_<m
     flavor: openmpi
     version: 4.1.2
 
-Libpng
-^^^^^^^^^
-
-Set build ``libpng`` library to NO in ``./stack/stack_<machine>.yaml`` to avoid problems during the HPC-Stack build. Leave the defaults for other libraries and versions in ``./stack/stack_<machine>.yaml``. 
+You could leave the defaults for other libraries and versions in ``./stack/stack_macos.yaml``. 
 
 .. code-block:: console
 
@@ -333,9 +305,9 @@ Set up the modules and environment:
 
 .. code-block:: console 
 
-    ./setup_modules.sh -c config/config_<machine>.sh -p $HPC_INSTALL_DIR | tee setup_modules.log
+    ./setup_modules.sh -c config/config_macos_gnu.sh -p $HPC_INSTALL_DIR | tee setup_modules.log
 
-where ``<machine>`` is ``mac_m1_gnu`` (Option 1), or ``mac_gnu`` (Option 2), and ``$HPC_INSTALL_DIR`` is the *absolute* path of the HPC-stack installation directory. When asked whether to use "native" Python or compilers, choose "YES" if using those already installed on your system, or "NO" if they will be built during the HPC-stack installation. The likely response is to answer "YES" to python, "YES" to compilers, and "NO" for MPI/mpich. 
+where the ``$HPC_INSTALL_DIR`` is the *absolute* path of the HPC-stack installation directory. When asked whether to use "native" Python or compilers, choose "YES" if using those already installed on your system, or "NO" if they will be built during the HPC-stack installation. The likely response is to answer "YES" to python, "YES" to compilers, and "NO" for MPI/openmpi. 
 
 Building HPC-Stack
 ^^^^^^^^^^^^^^^^^^^^^
@@ -344,7 +316,7 @@ Build the modules:
 
 .. code-block:: console
 
-    ./build_stack.sh -c config/config_<machine>.sh -p $HPC_INSTALL_DIR  -y stack/stack_<machine>.yaml -m 2>&1 | tee build_stack.log
+    ./build_stack.sh -c config/config_macos_gnu.sh -p $HPC_INSTALL_DIR  -y stack/stack_macos.yaml -m 2>&1 | tee build_stack.log
 
 .. attention:: 
     * The option ``-p`` requires an absolute path (full path) of the installation directory!
