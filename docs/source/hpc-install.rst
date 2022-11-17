@@ -122,7 +122,7 @@ To install the HPC-Stack locally, the following pre-requisites must be installed
 * **Programs and software packages:** `Lmod <https://lmod.readthedocs.io/en/latest/030_installing.html>`_, `CMake <https://cmake.org/install/>`_, `make <https://www.gnu.org/software/make/>`_, `wget <https://www.gnu.org/software/wget/>`_, `curl <https://curl.se/>`_, `git <https://git-scm.com/book/en/v2/Getting-Started-Installing-Git>`_.
 
 .. note::
-   For detailed instructions on how to build the HPC-Stack on two particular configurations of MacOS, see :numref:`Chapter %s <MacInstall>`
+   For detailed instructions on how to build the HPC-Stack on several configurations of MacOS, see :numref:`Chapter %s <MacInstall>`
 
 To determine whether these prerequisites are installed, query the environment variables (for ``Lmod``) or the location and version of the packages (for ``cmake``, ``make``, ``wget``, ``curl``, ``git``). For example:
 
@@ -136,10 +136,10 @@ If compilers or MPI's need to be installed, consult the :ref:`HPC-Stack Prerequi
 
 .. _UbuntuLinux:
 
-Ubuntu 20.04 Linux Example
---------------------------
+Ubuntu Linux (20.04, 22.04) Example
+-------------------------------------
 
-The example for Ubuntu 20.4 is for a user with sudo privileges to install system-wide. First, install GNU 10 compilers:
+The example for Ubuntu (tested for 20.04 and 22.04) is for a user with sudo privileges to install system-wide. First, install GNU 10 compilers:
 
 .. code-block:: console
 
@@ -147,7 +147,7 @@ The example for Ubuntu 20.4 is for a user with sudo privileges to install system
     sudo apt install gfortran-10
     which gcc 
 
-The location of default compilers is likely be in ``/usr/bin/`` (e.g. /usr/bin/gcc), and other versions are installed with the same location with the version tag. Check all the versions installed and configure the alternatives to specify which version is to be default. Below is the example when two versions are available, e.g., gcc-9 and gcc-10.
+The location of default compilers is likely be in ``/usr/bin/`` (e.g. /usr/bin/gcc), and other versions could be installed with the same location with the version tag. Check all the versions installed and configure the alternatives to specify which version is to be default. Below is the example when two versions are available, e.g., gcc-9 and gcc-10.
 
 .. code-block:: console
 
@@ -177,7 +177,7 @@ Install ``lua``, ``luac`` and ``tcl`` needed to support the ``Lmod`` module mana
     which luac
     
 Standard installation paths for lua/luac are ``/usr/bin/lua`` and ``/usr/bin/luac``. 
-Download and install Lmod, the module management environment, if not installed in the system. When installed, the environmental variable $LMOD_ROOT is defined: 
+Download and install Lmod, the module management environment, if not installed in the system. When installed, the environmental variable $LMOD_ROOT is usually defined: 
 
 .. code-block:: console
 
@@ -192,7 +192,8 @@ See the INSTALL file for instructions; configure and install. Use the paths for 
     ./configure --with-lua=/usr/bin/lua  --with-luac=/usr/bin/luac --prefix=${HOME}/apps 
     make install
 
-Add the Lmod environment initialization to your shell profile, i.e. to $HOME/.bashrc or $HOME/.bash_profile: 
+Add the Lmod environment initialization to your shell profile, 
+i.e. to $HOME/.bash_profile (login bash session) or $HOME/.bashrc (non-login bash):
 
 .. code-block:: console
 
@@ -215,8 +216,14 @@ Install openssl, libssl-dev packages:
     sudo apt install openssl
     sudo apt-get install libssl-dev
 
+Install make and cmake:
 
-Both ``python2`` and ``python3`` are needed; python2 version higher than 2.7.x; python3 version higher than 3.6. You could update ``python3`` if higher versions are available (python3.9 in the example below at the time of writing), and set the alternatives when multiple versions exist. The highest version among the existing python3.8 and python3.9 is set as a default in the example below (choose selection 1 for python3.9 when prompt). 
+.. code-block:: console
+
+    sudo apt install make
+    sudo apt install cmake 
+
+Both ``python2`` and ``python3`` are needed; python2 version higher than 2.7.x; python3 version higher than 3.6. Usually, ``python`` and ``python2`` are available with the Linux distribution. You could update ``python3`` if higher versions are available (python3.9 in the example below at the time of writing), and set the alternatives when multiple versions exist. The highest version among the existing python3.8 and python3.9 is set as a default in the example below (choose selection 1 for python3.9 when prompt). 
 
 .. code-block:: console
 
@@ -326,7 +333,7 @@ Now all that remains is to build the stack:
 
       ./build_stack.sh -p <prefix> -c <configuration> -y <yaml_file> -m
 
-Here the -m option is only required when you need to build your own modules *and* LMod is used for managing the software stack. It should be omitted otherwise. ``<prefix>`` and ``<configuration>`` are the same as in :numref:`Step %s <NonConSetUp>`, namely a reference to the absolute-path installation prefix and a corresponding configuration file in the ``config`` directory. As in :numref:`Step %s <NonConSetUp>`, if this argument is omitted, the default is to use ``$HOME/opt`` and ``config/config_custom.sh`` respectively. ``<yaml_file>`` represents a user configurable yaml file containing a list of packages that need to be built in the stack along with their versions and package options. The default value of ``<yaml_file>`` is ``stack/stack_custom.yaml``.
+The the ``-m`` option is **required** to build the sofware stack as modules for Lmod environment, which is usually needed. It could be omitted to build the libraries with no module environment. ``<prefix>`` and ``<configuration>`` are the same as in :numref:`Step %s <NonConSetUp>`, namely a reference to the absolute-path installation prefix and a corresponding configuration file in the ``config`` directory. As in :numref:`Step %s <NonConSetUp>`, if this argument is omitted, the default is to use ``$HOME/opt`` and ``config/config_custom.sh`` respectively. ``<yaml_file>`` represents a user configurable yaml file containing a list of packages that need to be built in the stack along with their versions and package options. The default value of ``<yaml_file>`` is ``stack/stack_custom.yaml``.
 
 .. warning:: 
    Steps :numref:`Step %s <NonConConfigure>`, :numref:`Step %s <NonConSetUp>`, and :numref:`Step %s <NonConHPCBuild>` need to be repeated for each compiler/MPI combination that you wish to install. The new packages will be installed alongside any previously-existing packages that may already have been built from other compiler/MPI combinations.
