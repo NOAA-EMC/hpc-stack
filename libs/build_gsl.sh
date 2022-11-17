@@ -46,5 +46,5 @@ make -j${NTHREADS:-4}
 $SUDO make install
 
 modpath=compiler
-$MODULES && update_modules $modpath $name $version \
-         || echo $name $version $url >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
+$MODULES && update_modules $modpath $name $version
+echo $name $version $url >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

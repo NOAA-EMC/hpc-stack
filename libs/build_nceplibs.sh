@@ -247,8 +247,12 @@ fi
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-# Download CRTM fix files
 if [[ "$name" == "crtm" ]]; then
+# Correction to allow for the crtm-2.4.0 serial build:
+  if [[ "${version}" == "v2.4.0" ]]; then
+sed -i'.orig' -e 's/  find_package(MPI REQUIRED)/\#  find_package(MPI REQUIRED)/g' ./cmake/FindNetCDF.cmake
+  fi
+# Download CRTM fix files
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
     if [[ ! -d crtm_fix-${install_as} ]]; then
       crtm_tarball=fix_REL-${install_as}_emc.tgz
