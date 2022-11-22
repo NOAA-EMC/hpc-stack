@@ -1,0 +1,7 @@
+esmf:
+  build: YES
+  version: 8.3.0b09
+  install_as: 8.3.0b09
+  shared: YES
+  enable_pnetcdf: NO
+  debug: Yes
