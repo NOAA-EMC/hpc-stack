@@ -36,7 +36,7 @@ if $MODULES; then
   module load intel/19.1.3.304
   module load craype/2.7.10
   module load cray-mpich/8.1.9
-  module use /apps/prod/lmodules/INTEL_cray_mpich/19.1.3.304/cray-mpich/8.1.4
+  module use /apps/prod/hpc-stack/intel-19.1.3.304/cray-mpich-8.1.4
   module load hdf5
   if [[ ! -z $mpi ]]; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
@@ -128,7 +128,7 @@ case $MPI in
     ;;
   cray-mpich )
     export ESMF_OS=${STACK_esmf_os:-"Unicos"}
-#    export ESMF_COMM=${STACK_esmf_comm:-"mpi"}
+    export ESMF_COMM=${STACK_esmf_comm:-"mpi"}
     ;;
   impi )
     export ESMF_COMM="intelmpi"
@@ -147,11 +147,11 @@ esac
 HDF5ExtraLibs=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
 HDF5LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "AM_LDFLAGS" | cut -d: -f2)
 
-#export ESMF_CXXCOMPILER=$CXX
-#export ESMF_CXXLINKER=$CXX
+export ESMF_CXXCOMPILER=$CXX
+export ESMF_CXXLINKER=$CXX
 export ESMF_CXXLINKPATHS="-L$HDF5_ROOT/lib $HDF5LDFLAGS"
-#export ESMF_F90COMPILER=$FC
-#export ESMF_F90LINKER=$FC
+export ESMF_F90COMPILER=$FC
+export ESMF_F90LINKER=$FC
 export ESMF_F90LINKPATHS="-L$HDF5_ROOT/lib $HDF5LDFLAGS"
 
 export ESMF_NETCDF=split
