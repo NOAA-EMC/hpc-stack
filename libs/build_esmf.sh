@@ -36,7 +36,6 @@ if $MODULES; then
   module load intel/19.1.3.304
   module load craype/2.7.10
   module load cray-mpich/8.1.9
-  module use /apps/prod/hpc-stack/intel-19.1.3.304/cray-mpich-8.1.4
   module load hdf5
   if [[ ! -z $mpi ]]; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
