@@ -20,7 +20,6 @@ if $MODULES; then
   module load intel/19.1.3.304
   module load craype/2.7.10
   module load cray-mpich/8.1.9
-  module use /apps/prod/lmodules/INTEL_cray_mpich/19.1.3.304/cray-mpich/8.1.4
   module try-load cmake
   module load esma_cmake
   module load cmakemodules
