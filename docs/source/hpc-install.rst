@@ -145,9 +145,9 @@ The example for Ubuntu (tested for 20.04 and 22.04) is for a user with sudo priv
 
     sudo apt install gcc-10 g++-10
     sudo apt install gfortran-10
-    which gcc 
+    which gcc-10
 
-The location of default compilers is likely be in ``/usr/bin/`` (e.g. /usr/bin/gcc), and other versions could be installed with the same location with the version tag. Check all the versions installed and configure the alternatives to specify which version is to be default. Below is the example when two versions are available, e.g., gcc-9 and gcc-10.
+Newly installed compiler versions and default compilers likely are located under ``/usr/bin/`` directory. Verify the location of a default compiler using ``which gcc`` command (expected ``/usr/bin/gcc``). Several versions of gcc, g++ and gfortran compilers may be present at the same location with the version tag, e.g. gcc-9, gcc-10, g++-9, g++-10. Check all the versions installed and configure the alternatives to specify a default version for each compier, as well further priorities. Below is the example on how to set alternatives and a default compiler for ``gcc`` when two versions are available, e.g., gcc-9 and gcc-10.
 
 .. code-block:: console
 
@@ -156,9 +156,9 @@ The location of default compilers is likely be in ``/usr/bin/`` (e.g. /usr/bin/g
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 2
     sudo update-alternatives --config gcc
 
-Make selection (1) for gcc-10 to be the first priority (default).
+Make a selection (1) for gcc-10 to be the first priority (default).
 
-Repeat similar steps to configure the alternatives for g++  and gfortran. No need to configure for gfortran if you have only a single version.
+Repeat similar steps to configure the alternatives for g++  and gfortran, if several versions are present.
 
 .. code-block:: console
 
@@ -166,6 +166,18 @@ Repeat similar steps to configure the alternatives for g++  and gfortran. No nee
     sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 1
     sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 2
     sudo update-alternatives --config g++
+    ls -la /usr/bin/gfortran-*  
+    sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-10 1
+    sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-9 2
+    sudo update-alternatives --config gfortran
+
+If there are no multiple versions, a symbolic link could be created instead of setting up alternatives. The example below shows how to create a link when only gfortran-10 is present:  
+
+.. code-block:: console
+
+    ls -la /usr/bin/gfortran*  
+    ln -s /usr/bin/gfortran-10 /usr/bin/gfortran
+   
 
 Install ``lua``, ``luac`` and ``tcl`` needed to support the ``Lmod`` module management system. Verify the installation location.
 
@@ -177,11 +189,12 @@ Install ``lua``, ``luac`` and ``tcl`` needed to support the ``Lmod`` module mana
     which luac
     
 Standard installation paths for lua/luac are ``/usr/bin/lua`` and ``/usr/bin/luac``. 
-Download and install Lmod, the module management environment, if not installed in the system. When installed, the environmental variable $LMOD_ROOT is usually defined: 
+Download and install Lmod, the module management environment, if not installed in the system. When installed, the environmental variable $LMOD_ROOT or $LMOD_PKG are usually defined.
 
 .. code-block:: console
 
     echo $LMOD_ROOT
+    echo $LMOD_PKG 
     git clone https://github.com/TACC/Lmod.git 
     cd Lmod
 
@@ -200,7 +213,7 @@ i.e. to $HOME/.bash_profile (login bash session) or $HOME/.bashrc (non-login bas
     export BASH_ENV=$HOME/apps/lmod/lmod/init/profile        
     source $BASH_ENV
 
-Install  wget, git, make and cmake; cmake could also be built bundled with the hpc-stack.
+Install  wget, git, make and cmake; cmake could also be built bundled with the hpc-stack as an alternative..
 
 .. code-block:: console
 
@@ -223,7 +236,18 @@ Install make and cmake:
     sudo apt install make
     sudo apt install cmake 
 
-Both ``python2`` and ``python3`` are needed; python2 version higher than 2.7.x; python3 version higher than 3.6. Usually, ``python`` and ``python2`` are available with the Linux distribution. You could update ``python3`` if higher versions are available (python3.9 in the example below at the time of writing), and set the alternatives when multiple versions exist. The highest version among the existing python3.8 and python3.9 is set as a default in the example below (choose selection 1 for python3.9 when prompt). 
+
+Both ``python`` and ``python3`` commands need to be defined. The ``python`` could be set to python2 version higher than 2.7.x or to python3. python3 version needs to be higher than 3.6. Verify they are present and their versions:
+
+.. code-block:: console
+
+    which python 
+    which python3 
+    python --version 
+    python3 --version 
+    apt list | grep python  
+
+Usually, ``python`` and ``python2`` are available with the Linux distribution. If no ``python`` is found, a symbolic link to ``python3`` could be created, or alternatives to use python3 could be set instead. Python3 could be installed or updated if higher versions than existing are available. The example below shows how to verify the current installed version (e.g. python3.8), update to a higher one (e.g, python3.9), and set the alternatives to use python3.9 as a default version of ``python3``. Choose selection 1 for python3.9 when prompt: 
 
 .. code-block:: console
 
@@ -236,7 +260,7 @@ Both ``python2`` and ``python3`` are needed; python2 version higher than 2.7.x; 
     sudo update-alternatives --config python3  
     python3 --version  
 
-Verify the version (python 3.9) set as default after the configuration. 
+Verify the version (python 3.9 in the above example) set as default using ``python3 --version``.
 
 
 .. _NonConConfigure:
