@@ -171,6 +171,7 @@ Install the Wget software package:
 
     brew install wget
 
+    which python3
 .. _InstallPython:
 
 Install or Update Python3 and Python2 
@@ -189,27 +190,23 @@ First, verify whether python (python2) and python3 are installed, and check the 
 
 The query for python3 in the last two lines in the code block above may return something similar to ``/usr/bin/python3`` and ``Python 3.8.2``, respectively (the exact version is unimportant).
 
-Python (python2.7.x) is no longer provided with the MacOS version 12.3 (Monterey), but is a part of standard MacOS for earlier versions. You would then need to install it separely.The following could be one of the methods:
+Python (python2.7.x) is no longer provided with the MacOS version 12.3 (Monterey), but is a part of standard MacOS for earlier versions. If there is no other need to install python2, you may install python3, and then create a symbolic link to set it as a default ``python``. The example below shows python3 installed using Homebrew with the path ``$BREW/bin/python3``, and subsequent link created:
 
 .. code-block:: console
 
-   /bin/bash -c "$(curl -fsSL https://github.com/alfredapp/dependency-scripts/raw/main/scripts/install-python2.sh)"
- 
-Python3 could be installed using the similar approach:
+    brew install python3
+    cd $BREW/bin
+    ln -s python3 python
+
+Another way to create a link is from one of User's directories, e.g., $HOME/bin, which could be added to the search $PATH for binaries:
 
 .. code-block:: console
 
-   /bin/bash -c "$(curl -fsSL https://github.com/alfredapp/dependency-scripts/raw/main/scripts/install-python3.sh)"
-
-For other Python3 installation ways and updates on MacOS refer to https://www.python.org/downloads. A 64-bit universal2 installer package is recommended (``python-3.9.11-macos11.pkg`` latest at the time of writing). Double-click on the installer package, and accept the license terms. An administrative level password will be requested for the installation. At the end of the installation, run ``Install Certificates.command`` by double-clicking on the shell script in Finder.app that opens and runs it. 
-
-Start a new bash session (type ``bash`` in the existing terminal), and verify the installed version:
-
-.. code-block:: console
-
-    python3 --version
-
-The output should now correspond to the Python version you installed. 
+    which python3
+    ln -s $BREW/bin/python3 $HOME/bin/python
+    export PATH="$HOME/bin/python:$PATH"
+    echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+    which python
 
 Install Git and Git-lfs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -259,7 +256,7 @@ Specify the combination of compilers, python libraries, and MPI libraries in the
 
 .. code-block:: console 
 
-    export HPC_COMPILER="gnu/11.2.0"
+    export HPC_COMPILER="gnu/11.3.0"
     export HPC_MPI="openmpi/4.1.2" 
     export HPC_PYTHON="python/3.10.2"
 
