@@ -300,7 +300,7 @@ Specify the MPI libraries to be built within the HPC-Stack in ``./stack/stack_ma
 .. code-block:: console 
 
     gnu:
-      build: YES
+      build: NO
       version: 11.3.0
 
     mpi:
