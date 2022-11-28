@@ -188,9 +188,8 @@ First, verify whether python (python2) and python3 are installed, and check the 
     which python3
     python3 --version
 
-The query for python3 in the last two lines in the code block above may return something similar to ``/usr/bin/python3`` and ``Python 3.8.2``, respectively (the exact version is unimportant).
-
-Python (python2.7.x) is no longer provided with the MacOS version 12.3 (Monterey), but is a part of standard MacOS for earlier versions. If there is no other need to install python2, you may install python3, and then create a symbolic link to set it as a default ``python``. The example below shows python3 installed using Homebrew with the path ``$BREW/bin/python3``, and subsequent link created:
+If the python3 is installed, a query in the last two lines in the code block above may return something similar to ``/usr/bin/python3`` and ``Python 3.8.2``, respectively (the exact version is unimportant).
+Python (python2.7.x) is no longer provided with the MacOS version 12.3 (Monterey), but is a part of standard MacOS for earlier versions. If there is no other need to install ``python`` as ``python2``, you could create a symbolic link to ``python3``. The example below shows python3 being installed using Homebrew with the path ``$BREW/bin/python3``, and subsequent link created for a default ``python``:
 
 .. code-block:: console
 
@@ -198,6 +197,7 @@ Python (python2.7.x) is no longer provided with the MacOS version 12.3 (Monterey
     cd $BREW/bin
     ln -s python3 python
 
+where $BREW is set as ``BREW=$(brew --prefix)``.
 Another way to create a link is from one of User's directories, e.g., $HOME/bin, which could be added to the search $PATH for binaries:
 
 .. code-block:: console
