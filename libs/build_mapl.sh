@@ -28,7 +28,7 @@ if $MODULES; then
   #export ECBUILD_ROOT=$ecbuild_ROOT
   module load gftl_shared
   module load yafyaml
-  module load netcdf
+  module load netcdf/4.9.1
   module load esmf/${STACK_mapl_esmf_version:-default}
   module list
 
@@ -69,7 +69,7 @@ sed -i 's/http:\/\/gmao.gsfc.nasa.gov/DISABLED_BY_DEFAULT/g' gridcomps/History/M
 # Issue (2)
 sed -i 's/http:\/\/gmao.gsfc.nasa.gov/DISABLED_BY_DEFAULT/g' base/MAPL_CFIO.F90
 # Issue (3)
-rm base/mapl_tree.py
+[[ ! -f base/mapl_tree.py ]] || ( rm base/mapl_tree.py )
 
 # Verify that the changes were applied
 git --no-pager diff
@@ -90,6 +90,7 @@ cmake .. \
       -DESMA_USE_GFE_NAMESPACE=ON \
       -DBUILD_SHARED_MAPL=OFF \
       -DUSE_EXTDATA2G=OFF \
+      -DBUILD_WITH_FARGPARSE=NO \
       ${CMAKE_OPTS}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install

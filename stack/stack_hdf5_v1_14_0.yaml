@@ -1,0 +1,6 @@
+hdf5:
+  build: YES
+  version: 1.14.0
+  shared: YES
+  enable_szip: NO
+  enable_zlib: YES

@@ -126,6 +126,8 @@ mkdir -p build && cd build
              --disable-dap \
              --enable-netcdf-4 \
              --disable-doxygen \
+	     --disable-libxml2 \
+	     --disable-byterange \
              ${shared_flags:-} ${pnetcdf_conf:-} ${extra_conf:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}

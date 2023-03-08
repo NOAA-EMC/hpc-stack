@@ -36,12 +36,12 @@ if $MODULES; then
   module load intel/19.1.3.304
   module load craype/2.7.10
   module load cray-mpich/8.1.9
-  module load hdf5
+  module load hdf5/1.14.0
   if [[ ! -z $mpi ]]; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   fi
-  module load netcdf
-  module try-load pio/2.5.7
+  module load netcdf/4.9.1
+  module try-load pio/2.5.10
   module try-load udunits
   module list
   set -x
@@ -126,8 +126,8 @@ case $MPI in
     export ESMF_COMM=${STACK_esmf_comm:-"mpich3"}
     ;;
   cray-mpich )
-    export ESMF_OS=${STACK_esmf_os:-"Unicos"}
-    export ESMF_COMM=${STACK_esmf_comm:-"mpi"}
+#    export ESMF_OS=${STACK_esmf_os:-"Unicos"}
+#    export ESMF_COMM=${STACK_esmf_comm:-"mpi"}
     ;;
   impi )
     export ESMF_COMM="intelmpi"
@@ -146,11 +146,11 @@ esac
 HDF5ExtraLibs=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
 HDF5LDFLAGS=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "AM_LDFLAGS" | cut -d: -f2)
 
-export ESMF_CXXCOMPILER=$CXX
-export ESMF_CXXLINKER=$CXX
+#export ESMF_CXXCOMPILER=$CXX
+#export ESMF_CXXLINKER=$CXX
 export ESMF_CXXLINKPATHS="-L$HDF5_ROOT/lib $HDF5LDFLAGS"
-export ESMF_F90COMPILER=$FC
-export ESMF_F90LINKER=$FC
+#export ESMF_F90COMPILER=$FC
+#export ESMF_F90LINKER=$FC
 export ESMF_F90LINKPATHS="-L$HDF5_ROOT/lib $HDF5LDFLAGS"
 
 export ESMF_NETCDF=split
@@ -158,10 +158,10 @@ export ESMF_NETCDF_INCLUDE=$NETCDF_ROOT/include
 export ESMF_NETCDF_LIBPATH=$NETCDF_ROOT/lib
 export ESMF_NETCDF_LIBS="-lnetcdff -lnetcdf -lhdf5_hl -lhdf5 $HDF5ExtraLibs"
 export ESMF_NFCONFIG=nf-config
-#export ESMF_PIO="OFF"      
-#export ESMF_PIO="external"
-#export ESMF_PIO_INCLUDE=$PIO_INCLUDES
-#export ESMF_PIO_LIBPATH=$PIO_LIBRARIES
+#export ESMF_PIO="internal"      
+export ESMF_PIO="external"
+export ESMF_PIO_INCLUDE=$PIO_INCLUDES
+export ESMF_PIO_LIBPATH=$PIO_LIBRARIES
 
 [[ $enable_pnetcdf =~ [yYtT] ]] && export ESMF_PNETCDF=pnetcdf-config
 # Configure optimization level
