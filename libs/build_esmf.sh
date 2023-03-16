@@ -41,7 +41,7 @@ if $MODULES; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   fi
   module load netcdf/4.7.4
-  module try-load pio/2.5.7
+  module try-load pio/2.5.10
   module try-load udunits
   module list
   set -x
