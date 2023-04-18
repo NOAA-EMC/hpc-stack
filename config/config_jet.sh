@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="intel/18.0.5.274"
-export HPC_MPI="impi/2018.4.274"
-export HPC_PYTHON="intelpython/3.6.5"
+export HPC_COMPILER="intel/2022.1.2"
+export HPC_MPI="impi/2022.1.2"
+export HPC_PYTHON="miniconda3/4.12.0"
 
 # Build options
 export USE_SUDO=N
@@ -22,3 +22,15 @@ export WGET="wget -nv"
 export __lmod_vx=""
 
 module load cmake/3.20.1
+
+module load intel/2022.1.2
+module load impi/2022.1.2
+module use /mnt/lfs4/HFIP/hfv3gfs/role.epic/miniconda3/modulefiles
+module load miniconda3/4.12.0
+
+# Madis, wgrib2, boost - tar files from github
+export STACK_git_URL="https://github.com/natalie-perlin/HPC-stack-NOAA-blocked-downloads/blob/main"
+
+export SERIAL_CC=icc
+export SERIAL_CXX=icpc
+export SERIAL_FC=ifort
