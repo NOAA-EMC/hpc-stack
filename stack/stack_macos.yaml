@@ -70,7 +70,7 @@ cdo:
 
 pio:
   build: YES
-  version: 2.5.3
+  version: 2.5.7
   enable_pnetcdf: NO
   enable_gptl: NO
 
@@ -84,9 +84,9 @@ esmf:
 
 fms:
   build: YES
-  version: 2022.01
+  version: 2022.04
   repo: noaa-gfdl
-  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DENABLE_QUAD_PRECISION=OFF "
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DENABLE_QUAD_PRECISION=OFF -DCONSTANTS=GFS "
 
 bacio:
   build: YES
@@ -177,21 +177,21 @@ g2c:
 
 g2tmpl:
   build: YES
-  version: v1.10.0
-  install_as: 1.10.0
+  version: v1.10.2
+  install_as: 1.10.2
   is_nceplib: YES
 
 crtm:
   build: YES
-  version: v2.3.0
-  install_as: 2.3.0
+  version: v2.4.0
+  install_as: 2.4.0
   is_nceplib: YES
   install_fix: NO
 
 upp:
   build: YES
-  version: upp_v10.0.9
-  install_as: 10.0.9
+  version: upp_v10.0.10
+  install_as: 10.0.10
   openmp: ON
 
 wrf_io:
@@ -313,7 +313,7 @@ madis:
 esma_cmake:
   build: YES
   repo: GEOS-ESM
-  version: v3.12.0
+  version: v3.24.0
 
 cmakemodules:
   build: YES
@@ -366,7 +366,7 @@ metplus:
 
 miniconda3:
   build: NO
-  version: 4.6.14
+  version: 4.12.0
 
 r2d2:
   build: NO
