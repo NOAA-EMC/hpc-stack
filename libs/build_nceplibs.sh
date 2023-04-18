@@ -89,7 +89,7 @@ if $MODULES; then
       module load hpc-$HPC_MPI
       module load netcdf
       ;;
-    ip2)
+    ip | ip2)
       module load sp
       ;;
     g2)
@@ -247,27 +247,16 @@ fi
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
-if [[ "$name" == "crtm" ]]; then
-# Correction to allow for the crtm-2.4.0 serial build:
-  if [[ "${version}" == "v2.4.0" ]]; then
-sed -i'.orig' -e 's/  find_package(MPI REQUIRED)/\#  find_package(MPI REQUIRED)/g' ./cmake/FindNetCDF.cmake
-  fi
 # Download CRTM fix files
+if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
     if [[ ! -d crtm_fix-${install_as} ]]; then
       crtm_tarball=fix_REL-${install_as}_emc.tgz
-     [[ -f $crtm_tarball ]] || ( $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball )
+      [[ -f $crtm_tarball ]] || ( $WGET http://ftp.ssec.wisc.edu/pub/s4/CRTM/$crtm_tarball )
       tar xzf $crtm_tarball
-      mv fix crtm_fix-${install_as}
-#      rm -f $crtm_tarball
-    fi
-    if [[ "${install_as}" == "2.3.0" ]]; then
-     if [[ ! -f link_crtm_coeffs.sh ]]; then
-       $WGET https://raw.githubusercontent.com/NOAA-EMC/GSI/master/ush/link_crtm_coeffs.sh
-       sed -i'.backup' -e 's/LINK="ln -sf"/LINK="cp"/g' link_crtm_coeffs.sh
-       chmod +x link_crtm_coeffs.sh
-       rm -f link_crtm_coeffs.sh.backup
-     fi
+      [[ "${install_as}" == "2.3.0" ]] && mv fix_REL-${install_as}_emc crtm_fix-${install_as}
+      [[ "${install_as}" == "2.4.0" ]] && mv crtm-internal_REL-${install_as}_emc/fix crtm_fix-${install_as}
+      rm -f $crtm_tarball
     fi
   fi
 fi
@@ -276,6 +265,15 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
+# Correction to allow the crtm-2.4.0 serial build:
+if [[ "$name" == "crtm" ]]; then
+ if [[ "${install_as}" == "2.4.0" ]]; then
+    if [[ -f "cmake/FindNetCDF.cmake" ]]; then
+      sed -i'.orig' -e 's/  find_package(MPI REQUIRED)/\#  find_package(MPI REQUIRED)/g' cmake/FindNetCDF.cmake
+    fi
+  fi
+fi
+
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
@@ -294,23 +292,21 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
     if [[ -d crtm_fix-${install_as} ]]; then
-     if [[ "${install_as}" == "2.3.0" ]]; then
-       ./link_crtm_coeffs.sh ./crtm_fix-${install_as} $prefix/fix
-     else
-       mkdir -p $prefix/fix
-       cp ./crtm_fix-${install_as}/ACCoeff/netcdf/* $prefix/fix
-       cp ./crtm_fix-${install_as}/AerosolCoeff/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/AerosolCoeff/netCDF/* $prefix/fix
-       cp ./crtm_fix-${install_as}/CloudCoeff/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/CloudCoeff/netCDF/* $prefix/fix
-       cp ./crtm_fix-${install_as}/EmisCoeff/*/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/EmisCoeff/*/*/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/SpcCoeff/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/SpcCoeff/netcdf/* $prefix/fix
-       cp ./crtm_fix-${install_as}/TauCoeff/ODPS/Big_Endian/* $prefix/fix
-       mv $prefix/fix/amsua_metop-c.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.noACC.bin
-       cp ./crtm_fix-${install_as}/SpcCoeff/Little_Endian/amsua_metop-c_v2.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.bin
-     fi
+      mkdir -p $prefix/fix
+      cp -p ./crtm_fix-${install_as}/AerosolCoeff/Big_Endian/* $prefix/fix
+      cp -p ./crtm_fix-${install_as}/CloudCoeff/Big_Endian/* $prefix/fix
+      cp -p ./crtm_fix-${install_as}/EmisCoeff/*/Big_Endian/* $prefix/fix
+      cp -p ./crtm_fix-${install_as}/EmisCoeff/*/*/Big_Endian/* $prefix/fix
+      cp -p ./crtm_fix-${install_as}/SpcCoeff/Big_Endian/* $prefix/fix
+      cp -p ./crtm_fix-${install_as}/TauCoeff/ODPS/Big_Endian/* $prefix/fix
+      if [[ "${install_as}" == "2.4.0" ]]; then
+         cp -p ./crtm_fix-${install_as}/ACCoeff/netcdf/* $prefix/fix
+         cp -p ./crtm_fix-${install_as}/AerosolCoeff/netCDF/* $prefix/fix
+         cp -p ./crtm_fix-${install_as}/CloudCoeff/netCDF/* $prefix/fix
+         cp -p ./crtm_fix-${install_as}/SpcCoeff/netcdf/* $prefix/fix
+         mv $prefix/fix/amsua_metop-c.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.noACC.bin
+         cp -p ./crtm_fix-${install_as}/SpcCoeff/Little_Endian/amsua_metop-c_v2.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.bin
+      fi
     fi
   fi
 fi
