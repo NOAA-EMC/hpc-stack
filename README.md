@@ -28,10 +28,10 @@ Machine     | Programmer
 ------------|------------------------------------------
 Hera        | Jong Kim, Natalie Perlin, Cameron Book
 Jet         | Jong Kim, Natalie Perlin, Cameron Book
-Orion       | Hang-Lei
+Orion       | Natalie Perlin, Cameron Book
 WCOSS-Dell  | Hang-Lei
 WCOSS-Cray  | Hang-Lei
-Cheyenne    | Jong Kim
+Cheyenne    | Jong Kim, Natalie Perlin
 Gaea        | Jong Kim, Natalie Perlin, Cameron Book
 
 ## Contributors
@@ -45,7 +45,7 @@ The prerequisites of building hpc-stack are:
 - [Lmod](https://lmod.readthedocs.io/en/latest/) - An Environment Module System
 - CMake and make
 - wget and curl
-- git
+- git, git-lsf
 
 Building the software stack is a **Three-Step process**, as described in the documentation:
 
