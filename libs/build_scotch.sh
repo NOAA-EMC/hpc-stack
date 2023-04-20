@@ -15,10 +15,10 @@ if $MODULES; then
   source $MODULESHOME/init/bash
   module load hpc-$HPC_COMPILER
   module load hpc-$HPC_MPI
-  module load gnu
+  module load gcc/10.2.0 #Orion
   module list
   set -x
-  
+
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$id"
   if [[ -d $prefix ]]; then
       if [[ $OVERWRITE =~ [yYtT] ]]; then
@@ -47,12 +47,13 @@ URL="https://gitlab.inria.fr/scotch/scotch/-/archive/$version/scotch-$version.ta
 mkdir -p build && cd build
 
 # Compile & Install Scotch/PTscotch
-cmake VERBOSE=1 -DCMAKE_Fortran_COMPILER=${SERIAL_FC} -DCMAKE_C_COMPILER=${SERIAL_CC} -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE=Release ..
+#cmake VERBOSE=1 -DCMAKE_Fortran_COMPILER=${SERIAL_FC} -DCMAKE_C_COMPILER=${SERIAL_CC} -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_BUILD_TYPE=Release ..
 
 make VERBOSE=1
 make install
-make scotch
-make ptscotch
+#make scotch
+#make ptscotch
 
 # generate modulefile from template
 [[ -z $mpi ]] && modpath=compiler || modpath=mpi
