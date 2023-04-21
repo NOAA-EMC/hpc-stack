@@ -127,7 +127,7 @@ mkdir -p build && cd build
              --disable-dap \
              --enable-netcdf-4 \
              --disable-doxygen \
-             --disable-libxml2 \ 
+             --disable-libxml2 \
              --disable-byterange \
              ${shared_flags:-} ${pnetcdf_conf:-} ${extra_conf:-}
 
