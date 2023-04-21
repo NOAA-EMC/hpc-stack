@@ -27,10 +27,3 @@ module load intel/2022.1.2
 module load impi/2022.1.2
 module use /mnt/lfs4/HFIP/hfv3gfs/role.epic/miniconda3/modulefiles
 module load miniconda3/4.12.0
-
-# Madis, wgrib2, boost - tar files from github
-export STACK_git_URL="https://github.com/natalie-perlin/HPC-stack-NOAA-blocked-downloads/blob/main"
-
-export SERIAL_CC=icc
-export SERIAL_CXX=icpc
-export SERIAL_FC=ifort

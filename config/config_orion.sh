@@ -32,15 +32,3 @@ module load miniconda3/4.12.0
 # Build FMS with AVX2 flags
 export STACK_fms_CFLAGS="-march=core-avx2"
 export STACK_fms_FFLAGS="-march=core-avx2"
-
-export CC=icc
-export CXX=icpc
-export FC=ifort
-
-export SERIAL_CC=icc
-export SERIAL_CXX=icpc
-export SERIAL_FC=ifort
-
-export MPI_CC=mpiicc
-export MPI_CXX=mpiicpc
-export MPI_FC=mpiifort
