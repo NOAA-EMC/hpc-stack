@@ -23,8 +23,6 @@ export VENVTYPE="condaenv"
 module purge
 module load cmake/3.22.1
 module load git
-module load intel/2022.1.2
-module load impi/2022.1.2
 
 module use /work/noaa/epic-ps/role-epic-ps/miniconda3/modulefiles
 module load miniconda3/4.12.0

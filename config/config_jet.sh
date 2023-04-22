@@ -23,7 +23,5 @@ export __lmod_vx=""
 
 module load cmake/3.20.1
 
-module load intel/2022.1.2
-module load impi/2022.1.2
 module use /mnt/lfs4/HFIP/hfv3gfs/role.epic/miniconda3/modulefiles
 module load miniconda3/4.12.0

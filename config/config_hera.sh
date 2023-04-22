@@ -22,8 +22,6 @@ export VENVTYPE="condaenv"
 # Load these basic modules for Hera
 module purge
 module load cmake/3.20.1
-module load intel/2022.1.2
-module load impi/2022.1.2
 
 # Build FMS with AVX2 flags
 export STACK_fms_CFLAGS="-march=core-avx2"
