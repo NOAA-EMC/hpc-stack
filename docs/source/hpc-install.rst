@@ -316,7 +316,7 @@ The compiler and MPI modules can be handled separately from the rest of the buil
       module load hpc-intel/2020
       module load hpc-impi/2020
 
-These ``hpc-`` modules are really meta-modules that load the compiler/MPI library and modify the MODULEPATH so that the user has access to the software packages that will be built in :numref:`Step %s <NonConHPCBuild>`. On HPC systems, these meta-modules load the native modules provided by the system administrators. 
+These ``hpc-`` modules are really meta-modules that load the compiler/MPI library and modify the MODULEPATH so that the user has access to the software packages that will be built in :numref:`Step %s <NonConHPCBuild>`. On HPC systems, these meta-modules load the modules provided by the system administrators. 
 
 In short, you may prefer not to load the compiler or MPI modules directly. Instead, loading the hpc- meta-modules as demonstrated above will provide everything needed to load software libraries.
    
