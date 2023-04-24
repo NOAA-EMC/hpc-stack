@@ -33,6 +33,7 @@ WCOSS-Dell  | Hang-Lei
 WCOSS-Cray  | Hang-Lei
 Cheyenne    | Jong Kim, Natalie Perlin
 Gaea        | Jong Kim, Natalie Perlin, Cameron Book
+S4          | David Huber
 
 ## Contributors
 
