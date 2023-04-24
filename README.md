@@ -45,7 +45,7 @@ The prerequisites of building hpc-stack are:
 - [Lmod](https://lmod.readthedocs.io/en/latest/) - An Environment Module System
 - CMake and make
 - wget and curl
-- git, git-lsf
+- git, git-lfs
 
 Building the software stack is a **Three-Step process**, as described in the documentation:
 
