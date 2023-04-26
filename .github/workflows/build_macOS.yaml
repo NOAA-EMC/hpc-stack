@@ -29,7 +29,7 @@ jobs:
         sudo ln -s /usr/local/Cellar/openssl@1.1/$ssl_ver/lib/libcrypto.1.1.dylib /usr/local/lib/libcrypto.dylib
 
     - name: Get sources
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: ${{ matrix.compiler }}-${{ matrix.mpi }}
 
@@ -62,3 +62,9 @@ jobs:
       with:
         name: ${{ matrix.compiler }}-${{ matrix.mpi }}-log
         path: ${{ matrix.compiler }}-${{ matrix.mpi }}/log
+
+    - name: Clean disk space of downloaded packages
+      if: ${{ success() }}
+      run: |
+        cd ${{ matrix.compiler }}-${{ matrix.mpi }}
+        rm -rf pkg
