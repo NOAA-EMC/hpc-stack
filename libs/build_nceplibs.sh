@@ -30,7 +30,7 @@ if $MODULES; then
 
   case $name in
     # The following require MPI
-    nemsiogfs | ncio | ncdiag)
+    crtm | nemsiogfs | ncio | ncdiag)
       module load hpc-$HPC_MPI
       using_mpi=YES
       ;;
@@ -86,7 +86,6 @@ if $MODULES; then
       module load netcdf
       ;;
     crtm)
-      module load hpc-$HPC_MPI
       module load netcdf
       ;;
     ip | ip2)
@@ -266,20 +265,11 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 # A block below with the correction may be needed for certain non-Linux systems (e.g., Gaea/Cray) 
-# Correction to allow the crtm-2.4.0 serial build:
-#if [[ "$name" == "crtm" ]]; then
-# if [[ "${install_as}" == "2.4.0" ]]; then
-#    if [[ -f "cmake/FindNetCDF.cmake" ]]; then
-#      sed -i'.orig' -e 's/  find_package(MPI REQUIRED)/\#  find_package(MPI REQUIRED)/g' cmake/FindNetCDF.cmake
-#    fi
-#  fi
-#fi
-
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
 cmake .. \
-  -DCMAKE_INSTALL_PREFIX=$prefix \
+  -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_Fortran_COMPILER=${FC} \
   -DENABLE_TESTS=OFF -DOPENMP=${openmp} ${extraCMakeFlags:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
