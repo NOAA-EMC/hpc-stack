@@ -317,7 +317,7 @@ Set up the modules and environment:
 
     ./setup_modules.sh -c config/config_macos_gnu.sh -p $HPC_INSTALL_DIR | tee setup_modules.log
 
-where the ``$HPC_INSTALL_DIR`` is the *absolute* path of the HPC-stack installation directory. The $HPC_INSTALL_DIR needs to be different from the source directory, where you build and compile the software stack. When asked whether to use "native" Python or compilers, choose "YES" if using those already installed on your system, or "NO" if they will be built during the HPC-stack installation. The likely response is to answer "YES" to python, "YES" to compilers, and "NO" for MPI/openmpi. 
+where the ``$HPC_INSTALL_DIR`` is the *absolute* path of the HPC-stack installation directory. The $HPC_INSTALL_DIR needs to be different from the source directory, where you build and compile the software stack. When asked whether to use "native" Python or compilers, choose "YES" if python or compiler paths are already listed in the $PATH variable, and "NO" if the modules need to be loaded. The likely response is to answer "YES" to python, "NO" to compilers, and "NO" for MPI/openmpi. 
 
 Building HPC-Stack
 ^^^^^^^^^^^^^^^^^^^^^

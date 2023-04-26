@@ -68,7 +68,7 @@ mkdir -p build && cd build
 
 [[ -z $mpi ]] || extra_conf="--enable-parallel --enable-unsupported"
 
-[[ $enable_shared =~ [yYtT] ]] || shared_flags="--disable-shared --enable-static --enable-static-exec"
+[[ $enable_shared =~ [yYtT] ]] || shared_flags="--disable-shared --enable-static"
 [[ $enable_szip =~ [yYtT] ]] && szip_flags="--with-szlib=$SZIP_ROOT"
 [[ $enable_zlib =~ [yYtT] ]] && zlib_flags="--with-zlib=$ZLIB_ROOT"
 

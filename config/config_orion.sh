@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="intel/2018.4"
-export HPC_MPI="impi/2018.4"
-export HPC_PYTHON="miniconda3/4.6.14"
+export HPC_COMPILER="intel/2022.1.2"
+export HPC_MPI="impi/2022.1.2"
+export HPC_PYTHON="miniconda3/4.12.0"
 
 # Build options
 export USE_SUDO=N
@@ -21,8 +21,11 @@ export VENVTYPE="condaenv"
 
 # Load these basic modules for Orion
 module purge
-module load cmake
+module load cmake/3.22.1
 module load git
+
+module use /work/noaa/epic-ps/role-epic-ps/miniconda3/modulefiles
+module load miniconda3/4.12.0
 
 # Build FMS with AVX2 flags
 export STACK_fms_CFLAGS="-march=core-avx2"
