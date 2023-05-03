@@ -28,7 +28,7 @@ if $MODULES; then
   #export ECBUILD_ROOT=$ecbuild_ROOT
   module load gftl_shared
   module load yafyaml
-  module load netcdf/4.9.1
+  module load netcdf/4.9.2
   module load esmf/${STACK_mapl_esmf_version:-default}
   module list
 

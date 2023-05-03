@@ -36,11 +36,11 @@ if $MODULES; then
   module load intel/19.1.3.304
   module load craype/2.7.10
   module load cray-mpich/8.1.9
-  module load hdf5/1.10.6
+  module load hdf5/1.14.0
   if [[ ! -z $mpi ]]; then
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
   fi
-  module load netcdf/4.7.4
+  module load netcdf/4.9.2
   module try-load pio/2.5.10
   module try-load udunits
   module list

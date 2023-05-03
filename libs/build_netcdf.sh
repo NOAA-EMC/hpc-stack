@@ -20,7 +20,7 @@ if $MODULES; then
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
     module try-load szip
-    module load hdf5
+    module load hdf5/1.14.0
     if [[ ! -z $mpi ]]; then
       [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
     fi

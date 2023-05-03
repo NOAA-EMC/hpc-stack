@@ -19,9 +19,9 @@ if $MODULES; then
     module load hpc-$HPC_MPI
     module try-load cmake
     module try-load szip
-    module load hdf5/1.10.6
+    module load hdf5/1.14.0
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
-    module load netcdf/4.7.4
+    module load netcdf/4.9.2
     module list
     set -x
 
