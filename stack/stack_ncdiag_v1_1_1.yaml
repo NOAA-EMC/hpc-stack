@@ -1,0 +1,5 @@
+ncdiag:
+  build: YES
+  version: v1.1.1
+  install_as: 1.1.1
+  is_nceplib: YES
