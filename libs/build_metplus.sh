@@ -13,7 +13,7 @@ software="v"$version
 pkg_name=METplus-$version
 met_version=${1:-${STACK_met_version}}
 URL="https://github.com/dtcenter/METplus/archive/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
+[[ -d $pkg_name ]] || ( $WGET $URL; tar -xf $software.tar.gz )
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 
 if $MODULES; then

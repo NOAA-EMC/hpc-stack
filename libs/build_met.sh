@@ -4,7 +4,6 @@ set -eux
 
 name="met"
 version=${1:-${STACK_met_version}}
-release_date=${2:-${STACK_met_release_date}}
 install_as=${STACK_met_install_as:-${version}}
 
 # Hyphenated version used for install prefix
@@ -46,10 +45,9 @@ fi
 
 
 cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
-software=$name-$version.$release_date
-pkg_name=$name-$version
-URL="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.gz"
-[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
+software=MET-$version
+URL="https://github.com/dtcenter/MET/archive/refs/tags/v$version.tar.gz"
+[[ -d $software ]] || ( $WGET $URL; tar -xf v$version.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 export MET_BASE=$prefix/share/met
@@ -105,9 +103,9 @@ LDFLAGS4="-L${LIB_JASPER} -L${MET_HDF5}/lib -L${LIB_LIBPNG} -L${LIB_Z}"
 export LDFLAGS="-fPIE ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
 export LIBS="-lhdf5_hl -lhdf5 -lz -ldl"
 
-[[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
+[[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
-cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${pkg_name}
+cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}/${software}
 curr_dir=$(pwd)
 
 extra_flags="--enable-grib2 "

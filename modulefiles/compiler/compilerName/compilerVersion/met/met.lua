@@ -19,6 +19,8 @@ prepend_path("PATH", pathJoin(base,"bin"))
 prepend_path("MANPATH", pathJoin(base,"share","man"))
 
 setenv("MET_ROOT", base)
+setenv("MET_INSTALL_DIR", base)
+setenv("MET_BIN_EXEC", pathJoin(base, "bin"))
 setenv("MET_BASE", pathJoin(base, "share", "met"))
 setenv("MET_VERSION", pkgVersion)
 
