@@ -13,12 +13,14 @@ software="v"$version
 pkg_name=METplus-$version
 met_version=${1:-${STACK_met_version}}
 URL="https://github.com/dtcenter/METplus/archive/$software.tar.gz"
-[[ -d $pkg_name ]] || ( $WGET $URL; tar -xf $software.tar.gz )
+[[ -d $software ]] || ( $WGET $URL; tar -xf $software.tar.gz )
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 
 if $MODULES; then
+  source $MODULESHOME/init/bash
+    module load hpc-$HPC_COMPILER
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version" 
-    met_prefix="${PREFIX:-"/opt/modules"}/$compiler"
+    met_prefix=${MET_ROOT:-"${PREFIX:-"/opt/modules"}/$compiler"}
 else
     prefix=${MET_ROOT:-"/usr/local"}
     met_prefix=$prefix
@@ -43,7 +45,7 @@ curr_dir=$(pwd)
 
 # Update the path to the MET tools for the users
 cd ${curr_dir}/parm/metplus_config
-cat metplus_system.conf | \
+cat defaults.conf | \
   sed "s%MET_INSTALL_DIR = /path/to%MET_INSTALL_DIR = $met_prefix/met/$met_version%g" \
   > metplus_system_new.conf
 mv metplus_system_new.conf metplus_system.conf
