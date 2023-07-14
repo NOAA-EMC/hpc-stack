@@ -145,6 +145,7 @@ build_lib sqlite
 build_lib libtiff
 build_lib proj
 build_lib geos
+build_lib openblas
 
 # Also build serial versions of HDF5 and netCDF, if using MODULES
 if $MODULES; then
