@@ -82,10 +82,7 @@ if $MODULES; then
 
   # Load dependencies
   case $name in
-    wrf_io)
-      module load netcdf
-      ;;
-    crtm)
+    wrf_io | crtm)
       module load netcdf
       ;;
     ip | ip2)
