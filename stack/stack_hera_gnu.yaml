@@ -1,3 +1,12 @@
+gnu:
+  build: NO
+  version: 12.1.0
+
+mpi:
+  build: NO
+  flavor: mpich
+  version: 3.3.2
+
 cmake:
   build: NO
   bootstrap: NO
@@ -55,7 +64,7 @@ netcdf:
 
 nccmp:
   build: YES
-  version: 1.9.1.0
+  version: 1.8.9.0
 
 nco:
   build: YES
@@ -183,7 +192,7 @@ crtm:
   version: v2.4.0
   install_as: 2.4.0
   is_nceplib: YES
-  install_fix: YES
+  install_fix: NO
 
 upp:
   build: YES
@@ -229,6 +238,7 @@ ncio:
   build: YES
   version: v1.1.2
   install_as: 1.1.2
+  build: YES
   is_nceplib: YES
 
 ncdiag:
@@ -236,11 +246,6 @@ ncdiag:
   version: v1.1.1
   install_as: 1.1.1
   is_nceplib: YES
-
-boost:
-  build: YES
-  version: 1.68.0
-  level: headers-only
 
 eigen:
   build: YES
@@ -342,48 +347,11 @@ metplus:
   repo: DTCenter
   version: 5.0.2
 
-geos:
-  build: NO
-  version: 3.8.1
-
-sqlite:
-  build: NO
-  version: 3.32.3
-
-proj:
-  build: NO
-  version: 7.1.0
-  cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
-
-miniconda3:
-  build: NO
-  version: 4.12.0
-
-r2d2:
-  build: NO
-  version: 1.0.0
-  is_pyvenv: YES
-
-hofx:
-  build: NO
-  version: 1.0.0
-  is_pyvenv: YES
-
-hofxdiag:
-  build: NO
-  version: 1.0.0
-  is_pyvenv: YES
-
-ufswm:
-  build: NO
-  version: 1.0.0
-  is_pyvenv: YES
-
 scotch:
   build: YES
   version: v7.0.3
   install_as: 7.0.3
 
 openblas:
-  build: NO
+  build: YES
   version: 0.3.23

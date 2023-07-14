@@ -14,12 +14,12 @@ cmake:
 
 jpeg:
   build: YES
-  shared: YES
+  shared: NO
   version: 9.1.0
 
 zlib:
   build: YES
-  shared: YES
+  shared: NO
   version: 1.2.11
 
 libtiff:
@@ -246,8 +246,8 @@ ncio:
 
 ncdiag:
   build: YES
-  version: v1.0.0
-  install_as: 1.0.0
+  version: v1.1.1
+  install_as: 1.1.1
   is_nceplib: YES
 
 boost:
@@ -348,13 +348,12 @@ mapl:
 met:
   build: YES
   repo: DTCenter
-  release_date: 20220516
-  version: 10.1.2
+  version: 11.0.2
 
 metplus:
   build: YES
   repo: DTCenter
-  version: 4.1.3
+  version: 5.0.2
 
 geos:
   build: NO
@@ -392,3 +391,13 @@ ufswm:
   build: NO
   version: 1.0.0
   is_pyvenv: YES
+
+scotch:
+  build: YES
+  version: v7.0.3
+  install_as: 7.0.3
+
+openblas:
+  build: NO
+  version: 0.3.23
+
