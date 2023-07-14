@@ -262,6 +262,7 @@ build_lib metplus
 # UFS 3rd party dependencies
 
 build_lib esmf
+build_lib scotch
 build_lib fms
 build_lib cmakemodules
 build_lib esma_cmake
