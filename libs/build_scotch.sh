@@ -20,7 +20,11 @@ if $MODULES; then
   set -x
 
   install_as=${STACK_scotch_install_as:-${version}}
-  prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
+  if [[ ! -z $mpi ]]; then
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
+  else
+    prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$install_as"
+  fi
   if [[ -d $prefix ]]; then
       if [[ $OVERWRITE =~ [yYtT] ]]; then
           echo "WARNING: $prefix EXISTS: OVERWRITING!"

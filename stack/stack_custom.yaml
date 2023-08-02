@@ -348,12 +348,13 @@ mapl:
 met:
   build: YES
   repo: DTCenter
-  version: 11.0.2
+  release_date: 20220516
+  version: 10.1.2
 
 metplus:
   build: YES
   repo: DTCenter
-  version: 5.0.2
+  version: 4.1.3
 
 geos:
   build: NO

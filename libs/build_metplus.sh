@@ -17,8 +17,10 @@ URL="https://github.com/dtcenter/METplus/archive/$software.tar.gz"
 [[ -d $pkg_name ]] && cd $pkg_name || ( echo "$pkg_name does not exist, ABORT!"; exit 1 )
 
 if $MODULES; then
-  source $MODULESHOME/init/bash
+    source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
+    module try-load met
+    echo "Using module met version (none if blank) = ${MET_VERSION:-:}"
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version" 
     met_prefix=${MET_ROOT:-"${PREFIX:-"/opt/modules"}/$compiler"}
 else
