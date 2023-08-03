@@ -51,7 +51,7 @@ jobs:
         sudo python3 -m pip install -U netCDF4
 
     - name: Get sources
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: ${{ matrix.mpi }}
 
@@ -77,3 +77,9 @@ jobs:
       with:
         name: ${{ matrix.mpi }}-log
         path: ${{ matrix.mpi }}/log
+
+    - name: Clean disk space of downloaded packages
+      if: ${{ success() }}
+      run: |
+        cd ${{ matrix.mpi }}
+        rm -rf pkg

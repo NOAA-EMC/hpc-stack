@@ -12,7 +12,7 @@ jobs:
     steps:
 
     - name: Get sources
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: hpc-stack
 
@@ -23,3 +23,9 @@ jobs:
         prefix=$GITHUB_WORKSPACE/install
         sed -i "s/install_fix: YES/install_fix: NO/" stack/stack_noaa.yaml
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y stack/stack_noaa.yaml
+
+    - name: Clean disk space of downloaded packages
+      if: ${{ success() }}
+      run: |
+        cd hpc-stack
+        rm -rf pkg
