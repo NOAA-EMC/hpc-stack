@@ -15,7 +15,7 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    module load hpc-$HPC_PYTHON
+    [[ ${STACK_met_enable_python:-} =~ [yYtT] ]] && module load hpc-$HPC_PYTHON
     module load gsl
     module load bufr
     module load zlib
