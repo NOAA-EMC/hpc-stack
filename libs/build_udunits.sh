@@ -19,8 +19,13 @@ if $MODULES; then
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
     if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
     fi
 else
     prefix=${UDUNITS_ROOT:-"/usr/local"}
@@ -38,7 +43,7 @@ export LDFLAGS="${STACK_LDFLAGS:-} ${STACK_udunits_LDFLAGS:-}"
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-URL=ftp://ftp.unidata.ucar.edu/pub/udunits/$software.tar.gz
+URL=https://downloads.unidata.ucar.edu/udunits/$version/$software.tar.gz
 [[ -d $software ]] || ( $WGET $URL; tar xvf $software.tar.gz && rm -f $software.tar.gz )
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )

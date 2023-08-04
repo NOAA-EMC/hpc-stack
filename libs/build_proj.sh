@@ -17,13 +17,20 @@ if $MODULES; then
   module load hpc-$HPC_COMPILER
   module try-load cmake
   module load sqlite
+  module try-load libtiff
   module list
   set -x
 
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 
 else
@@ -50,6 +57,33 @@ URL="https://download.osgeo.org/proj/$software.tar.gz"
 CMAKE_OPTS=${STACK_proj_cmake_opts:-""}
 
 [[ $MAKE_CHECK =~ [yYtT] ]] || CMAKE_OPTS+=" -DBUILD_TESTING=OFF"
+
+if [[ -n ${LIBTIFF_ROOT-} ]] ; then
+  CMAKE_OPTS+=" -DTIFF_INCLUDE_DIR=${LIBTIFF_ROOT}/include "
+  if [[ -f ${LIBTIFF_ROOT}/lib64/libtiff.so ]] ; then
+    CMAKE_OPTS+=" -DTIFF_LIBRARY=${LIBTIFF_ROOT}/lib64/libtiff.so " 
+  elif [[ -f ${LIBTIFF_ROOT}/lib/libtiff.so ]] ; then
+    CMAKE_OPTS+=" -DTIFF_LIBRARY=${LIBTIFF_ROOT}/lib/libtiff.so "
+  elif [[ -f ${LIBTIFF_ROOT}/lib/libtiff.dylib ]] ; then
+    CMAKE_OPTS+=" -DTIFF_LIBRARY=${LIBTIFF_ROOT}/lib/libtiff.dylib "
+  else
+    echo "WARNING: TIFF_LIBRARY is undefined! SKIPPING " 
+    exit 0
+  fi
+fi
+if [[ -n ${SQLITE_ROOT-} ]] ; then
+  CMAKE_OPTS+=" -DSQLITE3_INCLUDE_DIR=${SQLITE_ROOT}/include "
+  if [[ -f ${SQLITE_ROOT}/lib64/libsqlite3.so ]] ; then
+    CMAKE_OPTS+=" -DSQLITE3_LIBRARY=${SQLITE_ROOT}/lib64/libsqlite3.so " 
+  elif [[ -f ${SQLITE_ROOT}/lib/libsqlite3.so ]] ; then
+    CMAKE_OPTS+=" -DSQLITE3_LIBRARY=${SQLITE_ROOT}/lib/libsqlite3.so "
+  elif [[ -f ${SQLITE_ROOT}/lib/libsqlite3.dylib ]] ; then
+    CMAKE_OPTS+=" -DSQLITE3_LIBRARY=${SQLITE_ROOT}/lib/libsqlite3.dylib "
+  else
+    echo "WARNING: SQLITE3_LIBRARY is undefined! SKIPPING " 
+    exit 0
+  fi
+fi
 
 LIB_DIR=${SQLITE_ROOT:-} cmake -H. -Bbuild -DCMAKE_INSTALL_PREFIX=$prefix $CMAKE_OPTS
 cd build

@@ -21,8 +21,14 @@ if $MODULES; then
 
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$id"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 else
   prefix=${YAFYAML_ROOT:-"/usr/local"}
@@ -34,8 +40,13 @@ URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
-git fetch --tags
 git checkout $version
+
+# Conform to NCO IT FISMA High Standards
+if [[ ${NCO_IT_CONFORMING:-"NO"} =~ [yYtT] ]]; then
+  rm -f tools/ci-install-gfe.bash
+fi
+
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 [[ -d build ]] && $SUDO rm -rf build

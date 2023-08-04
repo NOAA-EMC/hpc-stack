@@ -2,13 +2,13 @@
 
 set -eux
 
-name="png"
-version=${1:-${STACK_png_version}}
+name="libpng"
+version=${1:-${STACK_libpng_version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 
-[[ ${STACK_png_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
+[[ ${STACK_libpng_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
 # manage package dependencies here
 if $MODULES; then
@@ -21,16 +21,21 @@ if $MODULES; then
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
     if [[ -d $prefix ]]; then
-        [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!";$SUDO rm -rf $prefix ) \
-                                   || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
     fi
 
 else
-    prefix=${PNG_ROOT:-"/usr/local"}
+    prefix=${LIBPNG_ROOT:-"/usr/local"}
 fi
 
 export CC=$SERIAL_CC
-export CFLAGS="${STACK_CFLAGS:-} ${STACK_png_CFLAGS:-} -fPIC"
+export CFLAGS="${STACK_CFLAGS:-} ${STACK_libpng_CFLAGS:-} -fPIC"
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
@@ -40,6 +45,14 @@ URL="https://github.com/glennrp/libpng"
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 sourceDir=$PWD
+
+host=$(uname -s)
+arch=$(uname -m)
+
+if [[ $host == "Darwin" ]] && [[ $arch == "arm64" ]]; then
+  sed -i -e '/set(PNGLIB_VERSION*/a\'$'\n''set(PNG_ARM_NEON off CACHE INTERNAL "")'$'\n' ./CMakeLists.txt
+fi
+
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 

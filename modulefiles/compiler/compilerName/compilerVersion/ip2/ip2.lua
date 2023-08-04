@@ -9,8 +9,7 @@ local hierA        = hierarchyA(pkgNameVer,1)
 local compNameVer  = hierA[1]
 local compNameVerD = compNameVer:gsub("/","-")
 
-load("sp")
-prereq("sp")
+depends_on("sp")
 
 conflict(pkgName)
 

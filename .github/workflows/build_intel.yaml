@@ -47,7 +47,7 @@ jobs:
         sudo python3 -m pip install -U netCDF4
 
     - name: Get sources
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: hpc-stack
 
@@ -69,3 +69,9 @@ jobs:
       with:
         name: intel-log
         path: intel/log
+
+    - name: Clean disk space of downloaded packages
+      if: ${{ success() }}
+      run: |
+        cd hpc-stack
+        rm -rf pkg

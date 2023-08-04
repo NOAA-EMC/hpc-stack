@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="intel/18.0.5.274"
-export HPC_MPI="impi/2018.0.4"
-export HPC_PYTHON="miniconda3/4.6.14"
+export HPC_COMPILER="intel/2022.1.2"
+export HPC_MPI="impi/2022.1.2"
+export HPC_PYTHON="miniconda3/4.12.0"
 
 # Build options
 export USE_SUDO=N

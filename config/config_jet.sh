@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="intel/18.0.5.274"
-export HPC_MPI="impi/2018.4.274"
-export HPC_PYTHON="intelpython/3.6.5"
+export HPC_COMPILER="intel/2022.1.2"
+export HPC_MPI="impi/2022.1.2"
+export HPC_PYTHON="miniconda3/4.12.0"
 
 # Build options
 export USE_SUDO=N
@@ -22,3 +22,6 @@ export WGET="wget -nv"
 export __lmod_vx=""
 
 module load cmake/3.20.1
+
+module use /mnt/lfs4/HFIP/hfv3gfs/role.epic/miniconda3/modulefiles
+module load miniconda3/4.12.0

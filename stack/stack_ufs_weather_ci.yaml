@@ -20,12 +20,12 @@ zlib:
   build: YES
   version: 1.2.11
 
-png:
+libpng:
   build: YES
   version: 1.6.35
 
 szip:
-  build: YES
+  build: NO
   version: 2.1.1
 
 jasper:
@@ -33,7 +33,7 @@ jasper:
   version: 2.0.25
 
 udunits:
-  build: YES
+  build: NO
   version: 2.2.28
 
 hdf5:
@@ -57,7 +57,7 @@ netcdf:
   version_cxx: 4.3.1
 
 nccmp:
-  build: YES
+  build: NO
   version: 1.8.9.0
 
 nco:
@@ -158,8 +158,8 @@ nemsiogfs:
 
 w3emc:
   build: YES
-  version: v2.7.3
-  install_as: 2.7.3
+  version: v2.9.2
+  install_as: 2.9.2
   is_nceplib: YES
 
 g2:
@@ -192,7 +192,6 @@ upp:
   version: upp_v10.0.9
   install_as: 10.0.9
   openmp: ON
-  is_nceplib: YES
 
 wrf_io:
   build: YES

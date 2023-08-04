@@ -29,6 +29,7 @@ usage() {
 
 # ==============================================================================
 
+echo "Starting hpc-stack build: `date` "
 # Defaults:
 library=""
 export PREFIX="$HOME/opt"
@@ -136,10 +137,12 @@ build_lib cmake
 build_lib udunits
 build_lib jpeg
 build_lib zlib
-build_lib png
+build_lib libpng
 build_lib szip
 build_lib jasper
+build_lib gsl
 build_lib sqlite
+build_lib libtiff
 build_lib proj
 build_lib geos
 
@@ -148,7 +151,7 @@ if $MODULES; then
 
   # Save $HPC_MPI variable
   _HPC_MPI=$HPC_MPI
-  unset HPC_MPI
+  export HPC_MPI=""
 
   # Build hdf5 and netcdf as serial versions
   build_lib hdf5
@@ -186,13 +189,13 @@ build_lib sigio
 build_lib sfcio
 build_lib gfsio
 build_lib w3nco
+build_lib w3emc
 build_lib sp
 build_lib ip
 build_lib ip2
 build_lib landsfcutil
 build_lib nemsio
 build_lib nemsiogfs
-build_lib w3emc
 build_lib g2
 build_lib g2c
 build_lib g2tmpl
@@ -205,6 +208,21 @@ build_lib wgrib2
 build_lib prod_util
 build_lib grib_util
 build_lib ncio
+build_lib ncdiag
+
+if $MODULES; then
+
+  # Save $HPC_MPI variable
+  _HPC_MPI=$HPC_MPI
+  export HPC_MPI=""
+
+  build_lib nemsio
+
+  # Restore $HPC_MPI variable
+  export HPC_MPI=$_HPC_MPI
+  unset _HPC_MPI
+
+fi
 
 # Other
 
@@ -235,6 +253,12 @@ build_lib eckit
 build_lib fckit
 build_lib atlas
 
+# MET and METplus
+
+build_lib met
+build_lib metplus
+
+
 # UFS 3rd party dependencies
 
 build_lib esmf
@@ -252,3 +276,4 @@ build_lib mapl
 
 # ==============================================================================
 echo "build_stack.sh: SUCCESS!"
+echo "Finished hpc-stack build: `date` "

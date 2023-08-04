@@ -5,6 +5,7 @@ set -eux
 name="mapl"
 repo="GEOS-ESM"
 version=${2:-${STACK_mapl_version:-"main"}}
+export FFLAGS=" ${STACK_mapl_FFLAGS:-} "
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
@@ -34,8 +35,14 @@ if $MODULES; then
   install_as=${STACK_mapl_install_as:-"${id}-esmf-${short_esmf_ver}"}
   prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 else
   prefix=${MAPL_ROOT:-"/usr/local"}
@@ -51,8 +58,6 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] || git clone $URL $software
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
-
-git fetch --tags
 git checkout $version
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
@@ -69,6 +74,8 @@ cmake .. \
       -DBUILD_WITH_PFLOGGER=OFF \
       -DESMA_USE_GFE_NAMESPACE=ON \
       -DBUILD_SHARED_MAPL=OFF \
+      -DBUILD_WITH_FARGPARSE=NO \
+      -DUSE_EXTDATA2G=OFF \
       ${CMAKE_OPTS}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
@@ -76,6 +83,10 @@ VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4} install
 # generate modulefile from template
 modpath=mpi
 
+# 
+echo "  "
+echo "Completed gmake install in build_mapl.sh" 
+echo "  "
 module_substitutions="-DMAPL_ESMF_VERSION=${ESMF_VERSION:-}"
 $MODULES && update_modules $modpath $name $install_as "" $module_substitutions
 echo $name $id $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log

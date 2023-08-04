@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Compiler/MPI combination
-export HPC_COMPILER="intel/18.0.3"
-export HPC_MPI="impi/18.0.3"
+export HPC_COMPILER="intel/2022.1"
+export HPC_MPI="impi/2022.1"
 export HPC_PYTHON="miniconda/3.8-s4"
 
 # Build options

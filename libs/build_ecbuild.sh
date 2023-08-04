@@ -3,8 +3,8 @@
 set -eux
 
 name="ecbuild"
-repo=${1:-${STACK_ecbuild_repo:-"jcsda"}}
-version=${2:-${STACK_ecbuild_version:-"release-stable"}}
+repo=${1:-${STACK_ecbuild_repo:-"ecmwf"}}
+version=${2:-${STACK_ecbuild_version:-"master"}}
 
 if $MODULES; then
   set +x
@@ -15,8 +15,14 @@ if $MODULES; then
 
   prefix="${PREFIX:-"/opt/modules"}/core/$name/$repo-$version"
   if [[ -d $prefix ]]; then
-    [[ $OVERWRITE =~ [yYtT] ]] && ( echo "WARNING: $prefix EXISTS: OVERWRITING!"; $SUDO rm -rf $prefix; $SUDO mkdir $prefix ) \
-                               || ( echo "WARNING: $prefix EXISTS, SKIPPING"; exit 1 )
+      if [[ $OVERWRITE =~ [yYtT] ]]; then
+          echo "WARNING: $prefix EXISTS: OVERWRITING!"
+          $SUDO rm -rf $prefix
+          $SUDO mkdir $prefix
+      else
+          echo "WARNING: $prefix EXISTS, SKIPPING"
+          exit 0
+      fi
   fi
 else
   prefix=${ECBUILD_ROOT:-"/usr/local"}
@@ -29,11 +35,20 @@ URL="https://github.com/$repo/$name.git"
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
 
 git checkout $version
+
+# Conform to NCO IT FISMA High Standards
+if [[ ${NCO_IT_CONFORMING:-"NO"} =~ [yYtT] ]]; then
+  sed -r -i 's|ssh://[a-zA-Z0-9.@]*||g' cmake/compat/ecmwf_git.cmake
+  sed -r -i 's|http[]://[a-zA-Z0-9@${}_./]*||g' cmake/compat/ecmwf_git.cmake
+  sed -r -i 's|http[]://[a-zA-Z0-9./-]*/test-data|DISABLED_BY_DEFAULT|g' cmake/ecbuild_check_urls.cmake
+  sed -r -i 's|http[]://[a-zA-Z0-9./-]*/test-data|DISABLED_BY_DEFAULT|g' cmake/ecbuild_get_test_data.cmake
+fi
+
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 [[ -d build ]] && $SUDO rm -rf build
 mkdir -p build && cd build
 
-cmake -DCMAKE_INSTALL_PREFIX=$prefix ..
+../bin/ecbuild --prefix=$prefix ..
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE $SUDO make install
 
