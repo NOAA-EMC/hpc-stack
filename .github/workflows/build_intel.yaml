@@ -47,7 +47,7 @@ jobs:
         sudo python3 -m pip install -U netCDF4
 
     - name: Get sources
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: hpc-stack
 
@@ -62,10 +62,16 @@ jobs:
         export HPC_PYTHON="python/${python_ver}"
         yes | ./setup_modules.sh -c config/config_custom.sh -p $prefix
         ./build_stack.sh -p $prefix -c config/config_custom.sh -y stack/stack_custom.yaml -m
-        
+
     - name: Upload logs
       if: ${{ always() }}
       uses: actions/upload-artifact@v2
       with:
         name: intel-log
         path: intel/log
+
+    - name: Clean disk space of downloaded packages
+      if: ${{ success() }}
+      run: |
+        cd hpc-stack
+        rm -rf pkg
