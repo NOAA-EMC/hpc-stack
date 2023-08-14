@@ -19,7 +19,7 @@ if $MODULES; then
   module list
   set -x
 
-  install_as=${STACK_scotch_install_as:-${version}}
+  install_as=${STACK_scotch_install_as:-${id}}
   if [[ ! -z $mpi ]]; then
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$install_as"
   else
