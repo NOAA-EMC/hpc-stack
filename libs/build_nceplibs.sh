@@ -82,7 +82,10 @@ if $MODULES; then
 
   # Load dependencies
   case $name in
-    wrf_io | crtm)
+    wrf_io)
+      module load netcdf
+      ;;
+    crtm)
       module load netcdf
       ;;
     ip | ip2)
@@ -225,20 +228,39 @@ case $name in
   ncdiag)
     URL="https://github.com/NOAA-EMC/GSI-ncdiag"
     ;;
+  prod_util)
+    min_version="2.0.13"
+    min_version2="2.0.14"
+    if [ "$(printf '%s\n' "$min_version" "$install_as" | sort -V | head -n1)" = "$min_version" ]; then 
+       # echo "min_version is $min_version";
+       URL="git@github.com:NCEP-NCO/prod_util.git"
+    fi
+    if [ "$(printf '%s\n' "$min_version2" "$install_as" | sort -V | head -n1)" = "$min_version2" ]; then 
+       URL="https://www.nco.ncep.noaa.gov/pmb/codes/nwprod/prod_util.${version}/"
+    fi
+    ;;
 esac
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 software=$name-$version
-if [[ ! -d $software ]]; then
-  export GIT_LFS_SKIP_SMUDGE=1
-  git clone $URL $software
-  cd $software
-  if [[ "$name" == "crtm" ]]; then
-    version=release/REL-${install_as}_emc
-  fi
-  git checkout $version
-  git submodule update --init --recursive
+if [[ ${name} == "prod_util"  &&  "$(printf '%s\n' "$min_version2" "$install_as" | sort -V | head -n1)" = "$min_version2" ]] ; then
+   if [[ ! -d $software ]]; then
+     mkdir $software
+     cd $software
+     wget --recursive --convert-links --quiet --no-parent -nH --cut-dirs=4 -E -R html $URL
+   fi
+else
+   if [[ ! -d $software ]]; then
+     export GIT_LFS_SKIP_SMUDGE=1
+     git clone $URL $software
+     cd $software
+     if [[ "$name" == "crtm" ]]; then
+       version=release/REL-${install_as}_emc
+     fi
+     git checkout $version
+     git submodule update --init --recursive
+   fi
 fi
 
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
@@ -265,15 +287,37 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-cmake .. \
+if [[ ${name} == "prod_util"  &&  "$(printf '%s\n' "$min_version" "$install_as" | sort -V | head -n1)" = "$min_version" ]] ; then
+   mkdir bin
+   cd ../sorc
+   for dir in fsync_file.cd  mdate.fd  ndate.fd  nhour.fd; do
+     cd $dir 
+     sed -i "s:ifort:${FC}:" makefile
+     sed -i "s:icc:${CC}:" makefile
+     exe=${dir/.*/}
+     rm -f $exe
+     make
+     if [ $? -eq 0 ]; then
+       mv $exe ../../build/bin/.
+     fi
+     cd ..
+   done
+   if [ $? -eq 0 ]; then
+      cp -r ../ush/* ../build/bin/.
+      [[ ! -d $prefix ]] && mkdir $prefix
+      mv ../build/bin $prefix/.
+   fi
+   [[ $USE_SUDO =~ [yYtT] ]] && sudo -- bash -c "export PATH=$PATH" 
+else
+    cmake .. \
   -DCMAKE_INSTALL_PREFIX=$prefix -DCMAKE_Fortran_COMPILER=${FC} \
   -DENABLE_TESTS=OFF -DOPENMP=${openmp} ${extraCMakeFlags:-}
 
-VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
-[[ $MAKE_CHECK =~ [yYtT] ]] && make check
-[[ $USE_SUDO =~ [yYtT] ]] && sudo -- bash -c "export PATH=$PATH; make install" \
+  VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
+  [[ $MAKE_CHECK =~ [yYtT] ]] && make check
+  [[ $USE_SUDO =~ [yYtT] ]] && sudo -- bash -c "export PATH=$PATH; make install" \
                           || make install
-
+fi
 cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 # Install CRTM fix files
