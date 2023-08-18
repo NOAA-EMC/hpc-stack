@@ -303,7 +303,7 @@ if [[ ${name} == "prod_util"  &&  "$(printf '%s\n' "$min_version" "$install_as" 
      cd ..
    done
    if [ $? -eq 0 ]; then
-      cp -r ../ush/* ../build/bin/.
+      chmod 755 ../ush/* && cp -r ../ush/* ../build/bin/.
       [[ ! -d $prefix ]] && mkdir $prefix
       mv ../build/bin $prefix/.
    fi
