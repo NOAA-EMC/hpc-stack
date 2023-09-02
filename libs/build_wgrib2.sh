@@ -39,7 +39,7 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 
 URL="https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz.v${version}"
 
-[[ -d $software ]] || ( $WGET $URL; tar -xf wgrib2.tgz.v${version} )
+[[ -d $software || -f "wgrib2.tgz.v${version}" ]] || ( $WGET $URL )
 # wgrib2 is untarred as 'grib2'. Give a name with version.
 [[ -d $software ]] || mkdir $software && tar -xf wgrib2.tgz.v${version} -C $software --strip-components 1
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
@@ -71,13 +71,14 @@ sed -i'.backup' "s:^USE_REGEX=.*:USE_REGEX=${STACK_wgrib2_negex:-1}:" makefile
 sed -i'.backup' "s:^USE_TIGGE=.*:USE_TIGGE=${STACK_wgrib2_tigge:-1}:" makefile
 sed -i'.backup' "s:^USE_IPOLATES=.*:USE_IPOLATES=${STACK_wgrib2_ipolates:-3}:" makefile
 sed -i'.backup' "s:^USE_SPECTRAL=.*:USE_SPECTRAL=${STACK_wgrib2_spectral:-0}:" makefile
-sed -i'.backup' "s:^USE_UDF=.*:USE_AEC=${STACK_wgrib2_udf:-0}:" makefile
+sed -i'.backup' "s:^USE_UDF=.*:USE_UDF=${STACK_wgrib2_udf:-0}:" makefile
 sed -i'.backup' "s:^USE_JASPER=.*:USE_JASPER=${STACK_wgrib2_jasper:-1}:" makefile
 sed -i'.backup' "s:^USE_OPENMP=.*:USE_OPENMP=${STACK_wgrib2_openmp:-1}:" makefile
 sed -i'.backup' "s:^MAKE_FTN_API=.*:MAKE_FTN_API=${STACK_wgrib2_ftn_api:-1}:" makefile
 sed -i'.backup' "s:^USE_G2CLIB=.*:USE_G2CLIB=${STACK_wgrib2_g2clib:-0}:" makefile
 sed -i'.backup' "s:^USE_PNG=.*:USE_PNG=${STACK_wgrib2_png:-1}:" makefile
 sed -i'.backup' "s:^USE_AEC=.*:USE_AEC=${STACK_wgrib2_aec:-1}:" makefile
+sed -i'.backup' "s:\\\#define :\#define :g" makefile
 
 # Fix openmp flag in older version of wgrib2. Intel compilers no longer accept -openmp.
 sed -i'.backup' "s:-openmp:-qopenmp:" makefile
@@ -104,13 +105,14 @@ if [[ ${STACK_wgrib2_lib:-n} =~ [yYtT] ]]; then
     sed -i'.backup' "s:^USE_TIGGE=.*:USE_TIGGE=1:" makefile
     sed -i'.backup' "s:^USE_IPOLATES=.*:USE_IPOLATES=0:" makefile
     sed -i'.backup' "s:^USE_SPECTRAL=.*:USE_SPECTRAL=0:" makefile
-    sed -i'.backup' "s:^USE_UDF=.*:USE_AEC=0:" makefile
+    sed -i'.backup' "s:^USE_UDF=.*:USE_UDF=0:" makefile
     sed -i'.backup' "s:^USE_JASPER=.*:USE_JASPER=0:" makefile
     sed -i'.backup' "s:^USE_OPENMP=.*:USE_OPENMP=0:" makefile
     sed -i'.backup' "s:^MAKE_FTN_API=.*:MAKE_FTN_API=1:" makefile
     sed -i'.backup' "s:^USE_G2CLIB=.*:USE_G2CLIB=0:" makefile
     sed -i'.backup' "s:^USE_PNG=.*:USE_PNG=0:" makefile
     sed -i'.backup' "s:^USE_AEC=.*:USE_AEC=0:" makefile
+    sed -i'.backup' "s:\\\#define :\#define :g" makefile
 
     make lib
 
