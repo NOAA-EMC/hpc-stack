@@ -5,10 +5,10 @@ set -eux
 name="met"
 version=${1:-${STACK_met_version}}
 release_date=${2:-${STACK_met_release_date}}
-install_as=${STACK_met_install_as:-${version}}
 
 # Hyphenated version used for install prefix
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
+mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 [[ ${STACK_met_enable_python:-} =~ [yYtT] ]] && enable_python=YES || enable_python=NO
 
@@ -16,7 +16,8 @@ if $MODULES; then
     set +x
     source $MODULESHOME/init/bash
     module load hpc-$HPC_COMPILER
-    [[ ${STACK_met_enable_python:-} =~ [yYtT] ]] && module load hpc-$HPC_PYTHON
+    [[ ! -z $mpi ]] && module load hpc-$HPC_MPI
+    [[ ${STACK_met_enable_python:-} =~ [yYtT] ]] &&  module load hpc-$HPC_PYTHON
     module load gsl
     module load bufr
     module load zlib
@@ -29,6 +30,8 @@ if $MODULES; then
     set -x
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$name/$version"
+    [[ ! -z $mpi ]] && prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
+
     if [[ -d $prefix ]]; then
       if [[ $OVERWRITE =~ [yYtT] ]]; then
           echo "WARNING: $prefix EXISTS: OVERWRITING!"
@@ -44,20 +47,26 @@ else
 
 fi
 
+if [[ ! -z $mpi ]]; then
+  export FC=$MPI_FC
+  export CC=$MPI_CC
+  export CXX=$MPI_CXX
+else
+  export FC=$SERIAL_FC
+  export CC=$SERIAL_CC
+  export CXX=$SERIAL_CXX
+fi
 
 cd  ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 software=MET-$version
 software=$name-$version.$release_date
 pkg_name=$name-$version
 URL="https://github.com/dtcenter/MET/releases/download/v$version/$software.tar.gz"
-[[ -d $pkg_name ]] || ( $WGET $URL; tar -xf $software.tar.gz )
+[[ -d $pkg_name || -f $software.tar.gz ]] || ( $WGET $URL )
+[[ -d $pkg_name ]] ||  tar -xf $software.tar.gz
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 export MET_BASE=$prefix/share/met
-
-export FC=$SERIAL_FC
-export CC=$SERIAL_CC
-export CXX=$SERIAL_CXX
 
 export F77=$FC
 export FFLAGS="${STACK_FFLAGS:-} ${STACK_met_FFLAGS:-}"
@@ -120,5 +129,6 @@ make
 $SUDO make install
 
 # generate modulefile from template
-$MODULES && update_modules compiler $name $install_as
+[[ -z $mpi ]] && modpath=compiler || modpath=mpi
+$MODULES && update_modules $modpath $name $version
 echo $name $version $URL >> ${HPC_STACK_ROOT}/hpc-stack-contents.log
