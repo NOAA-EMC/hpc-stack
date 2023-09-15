@@ -1,0 +1,15 @@
+esma_cmake:
+  build: NO
+  repo: GEOS-ESM
+  version: v3.4.3
+
+cmakemodules:
+  build: NO
+  repo: NOAA-EMC
+  version: v1.2.0
+  
+mapl:
+  build: YES
+  repo: GEOS-ESM
+  esmf_version: 8.5.0
+  version: v2.40.3

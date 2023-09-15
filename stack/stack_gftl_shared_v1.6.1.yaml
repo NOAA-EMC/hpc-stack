@@ -1,0 +1,4 @@
+gftl_shared:
+  build: YES
+  repo: Goddard-Fortran-Ecosystem
+  version: v1.6.1

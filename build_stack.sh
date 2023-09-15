@@ -160,7 +160,7 @@ if $MODULES; then
   build_lib nccmp
   build_lib nco
   build_lib cdo
-  build_lib madis
+#  build_lib madis
 
   # Restore $HPC_MPI variable
   export HPC_MPI=$_HPC_MPI
@@ -179,7 +179,7 @@ if ! $MODULES; then
   build_lib nccmp
   build_lib nco
   build_lib cdo
-  build_lib madis
+#  build_lib madis
 fi
 build_lib pio
 
@@ -235,6 +235,7 @@ build_lib metplus_pyenv
 
 # JEDI 3rd party dependencies
 
+build_lib madis
 build_lib boost
 build_lib eigen
 build_lib gsl_lite

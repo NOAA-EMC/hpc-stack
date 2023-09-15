@@ -1,0 +1,6 @@
+sp:
+  build: YES
+  version: v2.4.0
+  install_as: 2.4.0
+  openmp: ON
+  is_nceplib: YES

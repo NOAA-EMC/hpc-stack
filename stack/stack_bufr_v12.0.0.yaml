@@ -1,0 +1,6 @@
+bufr:
+  build: YES
+  version: bufr_v12.0.0
+  install_as: 12.0.0
+  python: NO
+  is_nceplib: YES
