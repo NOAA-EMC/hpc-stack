@@ -96,7 +96,8 @@ if $MODULES; then
       ;;
     crtm)
       module load hpc-$HPC_MPI
-      module load netcdf
+      module load hdf5/1.10.6
+      module load netcdf/4.7.4
       ;;
     ip | ip2)
       module load sp
@@ -105,6 +106,8 @@ if $MODULES; then
       module try-load jpeg
       module try-load libpng
       module try-load jasper
+      module try-load bacio
+      module try-load w3emc
       ;;
     g2c)
       module try-load jpeg
@@ -122,6 +125,8 @@ if $MODULES; then
       module load w3nco
       ;;
     w3emc)
+      module load PrgEnv-intel
+      module load craype
       module load bacio
       if [[ "$using_mpi" =~ [yYtT] ]]; then
 	  module load w3nco
@@ -139,7 +144,7 @@ if $MODULES; then
       module load w3nco
       module load w3emc/2.9.2
       module load g2
-      module load ip
+      module load ip/3.3.3
       module load sp
       ;;
     prod_util)
@@ -253,9 +258,11 @@ if [[ ! -d $software ]]; then
   git clone $URL $software
   cd $software
   if [[ "$name" == "crtm" ]]; then
-    version=release/REL-${install_as}_emc
+  #  version=release/REL-${install_as}_emc
+    tag=v${version}_emc.3
+  #  version=${tag}
   fi
-  git checkout $version
+  git checkout $tag
   git submodule update --init --recursive
 fi
 
@@ -264,11 +271,16 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 # Download CRTM fix files
 if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
-    if [[ ! -d crtm_fix-${install_as} ]]; then
-      crtm_tarball=fix_REL-${install_as}_emc.tgz
-     [[ -f $crtm_tarball ]] || ( $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball )
+#    if [[ ! -d crtm_fix-${install_as} ]]; then
+#      crtm_tarball=fix_REL-${install_as}_emc.tgz
+if [[ ! -d crtm_fix-${version} ]]; then
+           crtm_tarball=fix_REL-${version}_emc_07112023.tgz
+     [[ -f $crtm_tarball ]] || ( $WGET ftp://bin.ssec.wisc.edu/pub/s4/CRTM/fix_REL-2.4.0_emc_07112023.tgz )
+
+#      [[ -f $crtm_tarball ]] || ( $WGET ftp://ftp.ucar.edu/pub/cpaess/bjohns/$crtm_tarball )
       tar xzf $crtm_tarball
-      mv crtm-internal_REL-2.4.0_emc/fix crtm_fix-${install_as}
+#      mv crtm-internal_REL-2.4.0_emc/fix crtm_fix-${install_as}
+       mv fix crtm_fix-${version}
 #      rm -f $crtm_tarball
     fi
     if [[ "${install_as}" == "2.3.0" ]]; then
@@ -308,23 +320,24 @@ cd ${HPC_STACK_ROOT}/${PKGDIR:-"pkg"}
 # Install CRTM fix files
 if [[ "$name" == "crtm" ]]; then
   if [[ ${STACK_crtm_install_fix:-} =~ [yYtT] ]]; then
-    if [[ -d crtm_fix-${install_as} ]]; then
+    if [[ -d crtm_fix-${version} ]]; then
      if [[ "${install_as}" == "2.3.0" ]]; then
        ./link_crtm_coeffs.sh ./crtm_fix-${install_as} $prefix/fix
      else
        mkdir -p $prefix/fix
-       cp ./crtm_fix-${install_as}/ACCoeff/netcdf/* $prefix/fix
-       cp ./crtm_fix-${install_as}/AerosolCoeff/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/AerosolCoeff/netCDF/* $prefix/fix
-       cp ./crtm_fix-${install_as}/CloudCoeff/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/CloudCoeff/netCDF/* $prefix/fix
-       cp ./crtm_fix-${install_as}/EmisCoeff/*/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/EmisCoeff/*/*/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/SpcCoeff/Big_Endian/* $prefix/fix
-       cp ./crtm_fix-${install_as}/SpcCoeff/netcdf/* $prefix/fix
-       cp ./crtm_fix-${install_as}/TauCoeff/ODPS/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${version}/ACCoeff/netcdf/* $prefix/fix
+       cp ./crtm_fix-${version}/AerosolCoeff/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${version}/AerosolCoeff/netCDF/* $prefix/fix
+       cp ./crtm_fix-${version}/CloudCoeff/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${version}/CloudCoeff/netCDF/* $prefix/fix
+       cp ./crtm_fix-${version}/EmisCoeff/*/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${version}/EmisCoeff/*/*/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${version}/SpcCoeff/Big_Endian/* $prefix/fix
+       cp ./crtm_fix-${version}/SpcCoeff/netcdf/* $prefix/fix
+       cp ./crtm_fix-${version}/TauCoeff/ODPS/Big_Endian/* $prefix/fix
        mv $prefix/fix/amsua_metop-c.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.noACC.bin
-       cp ./crtm_fix-${install_as}/SpcCoeff/Little_Endian/amsua_metop-c_v2.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.bin
+       cp ./crtm_fix-${version}/SpcCoeff/Little_Endian/amsua_metop-c_v2.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.bin       
+       
      fi
     fi
   fi
