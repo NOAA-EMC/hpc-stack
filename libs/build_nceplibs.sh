@@ -261,8 +261,10 @@ if [[ ! -d $software ]]; then
   #  version=release/REL-${install_as}_emc
     tag=v${version}_emc.3
   #  version=${tag}
-  fi
   git checkout $tag
+  else
+  git checkout $version
+  fi
   git submodule update --init --recursive
 fi
 
