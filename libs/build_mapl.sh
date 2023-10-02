@@ -29,8 +29,9 @@ if $MODULES; then
   module try-load gftl_shared
   module try-load gftl-shared
   module load yafyaml
-  module load netcdf/4.9.2
-  module load esmf/${STACK_mapl_esmf_version:-default}
+  module load netcdf-A/4.9.2
+  module try-load esmf/${STACK_mapl_esmf_version:-default}
+  module try-load esmf-A/${STACK_mapl_esmf_version:-default}
   module list
 
   set -x
