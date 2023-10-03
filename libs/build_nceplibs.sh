@@ -327,7 +327,7 @@ if [[ "$name" == "crtm" ]]; then
       mkdir -p $prefix/fix
       find ./crtm_fix-${install_as} -type f \( -path '*/Big_Endian/*' -o -path '*/netcdf/*' -o -path '*/netCDF/*' \) -not -path '*/Little_Endian/*' -exec cp -p {} $prefix/fix \;
       mv $prefix/fix/amsua_metop-c.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.noACC.bin
-      cp -p ./crtm_fix-${install_as}/SpcCoeff/Little_Endian/amsua_metop-c_v2.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.bin
+      cp -p ./crtm_fix-${install_as}/fix/SpcCoeff/Little_Endian/amsua_metop-c_v2.SpcCoeff.bin $prefix/fix/amsua_metop-c.SpcCoeff.bin
     fi
   fi
 fi
