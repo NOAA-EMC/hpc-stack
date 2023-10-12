@@ -157,7 +157,7 @@ if $MODULES; then
       if [[ $OVERWRITE =~ [yYtT] ]]; then
           echo "WARNING: $prefix EXISTS: OVERWRITING!"
           $SUDO rm -rf $prefix
-          $SUDO mkdir $prefix
+          $SUDO mkdir -p $prefix
       else
           echo "WARNING: $prefix EXISTS, SKIPPING"
           exit 0
@@ -304,7 +304,7 @@ if [[ ${name} == "prod_util"  &&  "$(printf '%s\n' "$min_version" "$install_as" 
    done
    if [ $? -eq 0 ]; then
       chmod 755 ../ush/* && cp -r ../ush/* ../build/bin/.
-      [[ ! -d $prefix ]] && mkdir $prefix
+      [[ ! -d $prefix ]] && mkdir -p $prefix
       mv ../build/bin $prefix/.
    fi
    [[ $USE_SUDO =~ [yYtT] ]] && sudo -- bash -c "export PATH=$PATH" 
