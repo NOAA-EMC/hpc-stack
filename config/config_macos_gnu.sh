@@ -5,9 +5,9 @@ LMOD=$(brew --prefix lmod)
 source $LMOD/init/profile
 
 # Compiler/MPI combination
-export HPC_COMPILER="gnu/11.3.0"
-export HPC_MPI="openmpi/4.1.2"
-export HPC_PYTHON="python/3.9.13"
+export HPC_COMPILER="gnu/12.3.0"
+export HPC_MPI="openmpi/4.1.5"
+export HPC_PYTHON="python/3.11.6"
 
 # Build options
 export USE_SUDO=N

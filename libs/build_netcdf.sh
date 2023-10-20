@@ -11,6 +11,8 @@ cxx_version=${3:-${STACK_netcdf_version_cxx}}
 compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
+host=$(uname -s)
+
 [[ ${STACK_netcdf_enable_pnetcdf:-} =~ [yYtT] ]] && enable_pnetcdf=YES || enable_pnetcdf=NO
 [[ ${STACK_netcdf_disable_cxx:-} =~ [yYtT] ]] && enable_cxx=NO || enable_cxx=YES
 
@@ -122,14 +124,20 @@ mkdir -p build && cd build
 [[ -z $mpi ]] || extra_conf="--enable-parallel-tests"
 
 # flags --disable-libxml2, --disable-byterange are needed to build netcdf>=4.9.1
+min_version="4.9.1"
+if [ "$(printf '%s\n' "$min_version" "$c_version" | sort -V | head -n1)" = "$min_version" ]; then
+  if [ "$host" == "Darwin" ]; then version_flags=" --disable-byterange "
+  else 
+    version_flags="--disable-libxml2 --disable-byterange "
+  fi
+fi
+
 ../configure --prefix=$prefix \
              --enable-cdf5 \
              --disable-dap \
              --enable-netcdf-4 \
              --disable-doxygen \
-             --disable-libxml2 \
-             --disable-byterange \
-             ${shared_flags:-} ${pnetcdf_conf:-} ${extra_conf:-}
+             ${version_flags:-} ${shared_flags:-} ${pnetcdf_conf:-} ${extra_conf:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
