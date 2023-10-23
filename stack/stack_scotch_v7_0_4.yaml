@@ -1,0 +1,4 @@
+scotch:
+  build: YES
+  version: v7.0.4
+  install_as: 7.0.4
