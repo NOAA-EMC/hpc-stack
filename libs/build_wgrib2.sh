@@ -78,7 +78,6 @@ sed -i'.backup' "s:^MAKE_FTN_API=.*:MAKE_FTN_API=${STACK_wgrib2_ftn_api:-1}:" ma
 sed -i'.backup' "s:^USE_G2CLIB=.*:USE_G2CLIB=${STACK_wgrib2_g2clib:-0}:" makefile
 sed -i'.backup' "s:^USE_PNG=.*:USE_PNG=${STACK_wgrib2_png:-1}:" makefile
 sed -i'.backup' "s:^USE_AEC=.*:USE_AEC=${STACK_wgrib2_aec:-1}:" makefile
-sed -i'.backup' "s:\\\#define :\#define :g" makefile
 
 # Fix openmp flag in older version of wgrib2. Intel compilers no longer accept -openmp.
 sed -i'.backup' "s:-openmp:-qopenmp:" makefile
@@ -112,7 +111,6 @@ if [[ ${STACK_wgrib2_lib:-n} =~ [yYtT] ]]; then
     sed -i'.backup' "s:^USE_G2CLIB=.*:USE_G2CLIB=0:" makefile
     sed -i'.backup' "s:^USE_PNG=.*:USE_PNG=0:" makefile
     sed -i'.backup' "s:^USE_AEC=.*:USE_AEC=0:" makefile
-    sed -i'.backup' "s:\\\#define :\#define :g" makefile
 
     make lib
 
