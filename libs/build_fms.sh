@@ -60,7 +60,7 @@ mkdir -p build && cd build
 
 CMAKE_OPTS=${STACK_fms_cmake_opts:-""}
 
-cmake .. -DCMAKE_INSTALL_PREFIX=$prefix ${CMAKE_OPTS} -DCONSTANTS=GFS
+cmake .. -DCMAKE_INSTALL_PREFIX=$prefix ${CMAKE_OPTS} -DCONSTANTS=GFS -DUSE_DEPRECATED_IO=on
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 #[[ $MAKE_CHECK =~ [yYtT] ]] && make check # make check is not implemented in cmake builds
