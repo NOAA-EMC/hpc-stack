@@ -145,6 +145,7 @@ build_lib sqlite
 build_lib libtiff
 build_lib proj
 build_lib geos
+build_lib openblas
 
 # Also build serial versions of HDF5 and netCDF, if using MODULES
 if $MODULES; then
@@ -262,6 +263,7 @@ build_lib metplus
 # UFS 3rd party dependencies
 
 build_lib esmf
+build_lib scotch
 build_lib fms
 build_lib cmakemodules
 build_lib esma_cmake
