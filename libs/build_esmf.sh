@@ -13,7 +13,9 @@ compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 
 COMPILER=$(echo $HPC_COMPILER | cut -d/ -f1)
+[[ "$COMPILER" = *"intel"* ]] && COMPILER="intel"
 MPI=$(echo $HPC_MPI | cut -d/ -f1)
+[[ "$MPI" = *"oneapi-mpi"* ]] && MPI="impi"
 
 host=$(uname -s)
 abi64=$(uname -m)

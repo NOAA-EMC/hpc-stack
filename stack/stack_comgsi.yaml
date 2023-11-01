@@ -13,7 +13,7 @@ zlib:
 
 libpng:
   build: NO
-  version: 1.6.35
+  version: 1.6.37
 
 szip:
   build: NO
@@ -49,11 +49,11 @@ netcdf:
 
 nccmp:
   build: NO
-  version: 1.8.7.0
+  version: 1.8.9.0
 
 nco:
   build: NO
-  version: 4.9.3
+  version: 5.0.6
 
 cdo:
   build: NO
@@ -136,33 +136,33 @@ w3emc:
 
 g2:
   build: YES
-  version: v3.4.1
-  install_as: 3.4.1
+  version: v3.4.5
+  install_as: 3.4.4
   is_nceplib: YES
 
 g2c:
   build: YES
-  version: v1.6.2
-  install_as: 1.6.2
+  version: v1.6.4
+  install_as: 1.6.4
   is_nceplib: YES
 
 g2tmpl:
   build: YES
-  version: v1.9.1
-  install_as: 1.9.1
+  version: v1.10.2
+  install_as: 1.10.2
   is_nceplib: YES
 
 crtm:
   build: YES
-  version: v2.3.0
-  install_as: 2.3.0
+  version: v2.4.0
+  install_as: 2.4.0
   is_nceplib: YES
   install_fix: YES
 
 upp:
   build: NO
-  version: upp_v10.0.5
-  install_as: 10.0.5
+  version: upp_v10.0.10
+  install_as: 10.0.10
   openmp: ON
 
 wrf_io:
@@ -174,18 +174,17 @@ wrf_io:
 
 bufr:
   build: YES
-  version: bufr_v11.5.0
-  install_as: 11.5.0
+  version: bufr_v11.7.0
+  install_as: 11.7.0
   python: NO
   is_nceplib: YES
 
 wgrib2:
   build: NO
-  version: v2.0.8-cmake-v6
+  version: v2.0.8
   install_as: 2.0.8
-  openmp: ON
-  cmake_opts: "-DUSE_SPECTRAL=ON -DUSE_IPOLATES=3 -DUSE_NETCDF4=ON"
   is_nceplib: YES
+  ipolates: 3
 
 prod_util:
   build: NO
@@ -202,12 +201,12 @@ grib_util:
 
 ncio:
   build: NO
-  version: develop
-  install_as: 1.0.0
+  version: v1.1.2
+  install_as: 1.1.2
   is_nceplib: YES
 
 ncdiag:
   build: YES
-  version: v1.0.0
-  install_as: 1.0.0
+  version: v1.1.1
+  install_as: 1.1.1
   is_nceplib: YES

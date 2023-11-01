@@ -16,7 +16,7 @@ zlib:
 libpng:
   build: YES
   shared: NO
-  version: 1.6.35
+  version: 1.6.37
 
 szip:
   build: YES
@@ -58,8 +58,8 @@ nccmp:
   version: 1.9.1.0
 
 nco:
-  build: NO
-  version: 4.9.3
+  build: YES
+  version: 5.0.6
 
 cdo:
   build: YES
@@ -67,23 +67,23 @@ cdo:
 
 pio:
   build: YES
-  version: 2.5.3
+  version: 2.5.7
   enable_pnetcdf: NO
   enable_gptl: NO
 
 esmf:
   build: YES
-  version: ESMF_8_2_0
-  install_as: 8.2.0
-  shared: NO
+  version: v8.3.0b09
+  install_as: 8.3.0b09
+  shared: YES
   enable_pnetcdf: NO
   debug: NO
 
 fms:
   build: YES
-  version: 2022.01
+  version: 2022.04
   repo: noaa-gfdl
-  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON -DCONSTANTS=GFS"
 
 bacio:
   build: YES
@@ -174,21 +174,21 @@ g2c:
 
 g2tmpl:
   build: YES
-  version: v1.9.1
-  install_as: 1.9.1
+  version: v1.10.2
+  install_as: 1.10.2
   is_nceplib: YES
 
 crtm:
   build: YES
-  version: v2.3.0
-  install_as: 2.3.0
+  version: v2.4.0
+  install_as: 2.4.0
   is_nceplib: YES
   install_fix: NO
 
 upp:
   build: YES
-  version: upp_v10.0.9
-  install_as: 10.0.9
+  version: upp_v10.0.10
+  install_as: 10.0.10
   openmp: ON
 
 wrf_io:
@@ -200,9 +200,9 @@ wrf_io:
 
 bufr:
   build: YES
-  version: bufr_v11.5.0
-  install_as: 11.5.0
-  python: YES
+  version: bufr_v11.7.0
+  install_as: 11.7.0
+  python: NO
   is_nceplib: YES
 
 wgrib2:
@@ -227,14 +227,14 @@ grib_util:
 
 ncio:
   build: YES
-  version: v1.1.0
-  install_as: 1.1.0
+  version: v1.1.2
+  install_as: 1.1.2
   is_nceplib: YES
 
 ncdiag:
   build: YES
-  version: v1.0.0
-  install_as: 1.0.0
+  version: v1.1.1
+  install_as: 1.1.1
   is_nceplib: YES
 
 boost:
@@ -247,8 +247,12 @@ eigen:
   version: 3.3.7
 
 gsl_lite:
-  build: NO
+  build: YES
   version: 0.37.0
+
+gsl:
+  build: YES
+  version: 2.7.1
 
 gptl:
   build: NO
@@ -315,7 +319,7 @@ cmakemodules:
 gftl_shared:
   build: YES
   repo: Goddard-Fortran-Ecosystem
-  version: v1.3.0
+  version: v1.5.0
 
 yafyaml:
   build: YES
@@ -325,5 +329,24 @@ yafyaml:
 mapl:
   build: YES
   repo: GEOS-ESM
-  esmf_version: 8.2.0
-  version: v2.7.3
+  esmf_version: 8.3.0b09
+  version: v2.22.0
+
+met:
+  build: YES
+  repo: DTCenter
+  version: 11.0.2
+
+metplus:
+  build: YES
+  repo: DTCenter
+  version: 5.0.2
+
+scotch:
+  build: YES
+  version: v7.0.3
+  install_as: 7.0.3
+
+openblas:
+  build: NO
+  version: 0.3.23

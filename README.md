@@ -37,7 +37,7 @@ S4          | David Huber
 
 ## Contributors
 
-Mark Potts, Steve Lawrence, Ed Hartnett, Guoqing Ge, Raffaele Montuoro, David Huber
+Mark Potts, Steve Lawrence, Ed Hartnett, Guoqing Ge, Raffaele Montuoro, David Huber, Natalie Perlin
 
 ## Prerequisites:
 
