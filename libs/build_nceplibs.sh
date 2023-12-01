@@ -151,7 +151,7 @@ if $MODULES; then
       module load w3nco
       ;;
     ncio | ncdiag)
-      module load netcdf
+      module load netcdf-A
       ;;
     bufr)
       if [[ ! -z $python ]]; then
