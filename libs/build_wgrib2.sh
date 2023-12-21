@@ -60,6 +60,7 @@ if [[ $($CC --version | grep Intel) ]]; then
     export COMP_SYS=intel_linux
 fi
 
+export need_ftn=1
 # Wgrib2 uses an in-source build. Clean before starting.
 make clean
 make deep-clean
@@ -73,6 +74,7 @@ sed -i'.backup' "s:^USE_IPOLATES=.*:USE_IPOLATES=${STACK_wgrib2_ipolates:-3}:" m
 sed -i'.backup' "s:^USE_SPECTRAL=.*:USE_SPECTRAL=${STACK_wgrib2_spectral:-0}:" makefile
 sed -i'.backup' "s:^USE_UDF=.*:USE_AEC=${STACK_wgrib2_udf:-0}:" makefile
 sed -i'.backup' "s:^USE_JASPER=.*:USE_JASPER=${STACK_wgrib2_jasper:-1}:" makefile
+sed -i'.backup' "s:^USE_OPENJPEG=.*:USE_OPENJPEG=${STACK_wgrib2_jpeg2000:-0}:" makefile
 sed -i'.backup' "s:^USE_OPENMP=.*:USE_OPENMP=${STACK_wgrib2_openmp:-1}:" makefile
 sed -i'.backup' "s:^MAKE_FTN_API=.*:MAKE_FTN_API=${STACK_wgrib2_ftn_api:-1}:" makefile
 sed -i'.backup' "s:^USE_G2CLIB=.*:USE_G2CLIB=${STACK_wgrib2_g2clib:-0}:" makefile
