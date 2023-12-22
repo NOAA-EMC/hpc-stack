@@ -151,6 +151,7 @@ if $MODULES; then
       module load w3nco
       ;;
     ncio | ncdiag)
+      module unload netcdf
       module load netcdf-A
       ;;
     bufr)
