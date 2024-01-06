@@ -11,8 +11,8 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
-always_load("netcdf")
-prereq("netcdf")
+--always_load("netcdf")
+--prereq("netcdf")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 

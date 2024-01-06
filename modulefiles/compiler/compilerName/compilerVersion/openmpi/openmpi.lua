@@ -14,7 +14,7 @@ family("mpi")
 conflict(pkgName)
 conflict("mpich","impi")
 
-try_load("szip")
+--try_load("szip")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 

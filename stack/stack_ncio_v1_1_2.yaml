@@ -1,0 +1,5 @@
+ncio:
+  build: YES
+  version: v1.1.2
+  install_as: 1.1.2
+  is_nceplib: YES

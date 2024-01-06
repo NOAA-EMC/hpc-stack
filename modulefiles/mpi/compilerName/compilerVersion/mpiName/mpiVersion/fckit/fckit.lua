@@ -13,7 +13,7 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
-try_load("eckit")
+--try_load("eckit")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
