@@ -11,5 +11,5 @@ cmakemodules:
 mapl:
   build: YES
   repo: GEOS-ESM
-  esmf_version: 8.5.0
+  esmf_version: 8.6.0
   version: v2.40.3
