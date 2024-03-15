@@ -13,8 +13,8 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
-prereq("eckit")
-prereq("fckit")
+--prereq("eckit")
+--prereq("fckit")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
