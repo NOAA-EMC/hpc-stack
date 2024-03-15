@@ -153,13 +153,13 @@ if $MODULES; then
   export HPC_MPI=""
 
   # Build hdf5 and netcdf as serial versions
-  build_lib hdf5
-  build_lib netcdf
+  # build_lib hdf5
+  # build_lib netcdf
 
   # Build netcdf utilities with the serial netCDF library
-  build_lib nccmp
-  build_lib nco
-  build_lib cdo
+  # build_lib nccmp
+  # build_lib nco
+  # build_lib cdo
 #  build_lib madis
 
   # Restore $HPC_MPI variable
