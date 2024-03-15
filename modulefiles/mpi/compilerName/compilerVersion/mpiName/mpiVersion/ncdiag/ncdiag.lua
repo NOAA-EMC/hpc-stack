@@ -12,7 +12,7 @@ local mpiNameVerD  = mpiNameVer:gsub("/","-")
 local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
-depends_on("netcdf")
+--depends_on("netcdf")
 
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
