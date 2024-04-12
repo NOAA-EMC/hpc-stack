@@ -19,9 +19,9 @@ if $MODULES; then
     module load hpc-$HPC_MPI
     module try-load cmake
     module try-load szip
-    module load hdf5/1.14.0
+    module load hdf5-A/1.14.0
     [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
-    module load netcdf/4.9.2
+    module load netcdf-A/4.9.2
     module list
     set -x
 
@@ -75,7 +75,7 @@ CMAKE_FLAGS="-DUSER_CMAKE_MODULE_PATH=`pwd`/CMake_Fortran_utils -DGENF90_PATH=`p
 mkdir -p build && cd build
 
 
-[[ $enable_pnetcdf =~ [yYtT] ]] && CMAKE_FLAGS+=" -DWITH_PNETCDF=ON -DPnetCDF_PATH=$PNETCDF" \
+[[ $enable_pnetcdf =~ [yYtT] ]] && CMAKE_FLAGS+=" -DWITH_PNETCDF=ON -DPnetCDF_PATH=$PNetCDF" \
                                 || CMAKE_FLAGS+=" -DWITH_PNETCDF=OFF"
 [[ $enable_gptl =~ [yYtT] ]] && CMAKE_FLAGS+=" -DPIO_ENABLE_TIMING=ON" \
                              || CMAKE_FLAGS+=" -DPIO_ENABLE_TIMING=OFF"
