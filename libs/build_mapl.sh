@@ -23,15 +23,18 @@ if $MODULES; then
   module try-load cmake
   module load esma_cmake
   module load cmakemodules
+  module use /apps/dev/lmodules/core
   module load ecbuild
   # module exports ecbuild_ROOT, but when building without modules ECBUILD_ROOT is set
   #export ECBUILD_ROOT=$ecbuild_ROOT
-  module try-load gftl_shared
-  module try-load gftl-shared
+  module use /apps/dev/lmodules/intel/19.1.3.304
+  module try-load gftl_shared/1.6.1
+  module try-load gftl-shared/1.6.1
   module load yafyaml
-  module load netcdf-A/4.9.2
+  module load hdf5/1.14.0
+  module load netcdf/4.9.2
   module try-load esmf/${STACK_mapl_esmf_version:-default}
-  module try-load esmf-A/${STACK_mapl_esmf_version:-default}
+  # module try-load esmf-A/${STACK_mapl_esmf_version:-default}
   module list
 
   set -x
