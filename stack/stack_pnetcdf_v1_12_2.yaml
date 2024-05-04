@@ -1,0 +1,4 @@
+pnetcdf:
+    build: YES
+    version: 1.12.2
+    shared: YES
