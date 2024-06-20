@@ -22,6 +22,10 @@ openmp=${4:-${s_openmp:-"OFF"}}
 compiler=$(echo $HPC_COMPILER | sed 's:/:-:g')
 mpi=$(echo $HPC_MPI | sed 's/\//-/g')
 python=$(echo $HPC_PYTHON | sed 's/\//-/g')
+  module load PrgEnv-intel
+  module load intel
+  module load craype
+  module load cray-mpich
 
 if $MODULES; then
   set +x

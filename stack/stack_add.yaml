@@ -1,0 +1,376 @@
+gnu:
+  build: NO
+  version: 9.3.0
+
+mpi:
+  build: NO
+  flavor: openmpi
+  version: 4.0.1
+
+cmake:
+  build: NO
+  bootstrap: YES
+  version: 3.20.1
+
+jpeg:
+  build: NO
+  version: 9.1.0
+
+zlib:
+  build: NO
+  version: 1.2.11
+
+libpng:
+  build: NO
+  version: 1.6.37
+
+szip:
+  build: NO
+  version: 2.1.1
+
+jasper:
+  build: NO
+  version: 2.0.25
+
+udunits:
+  build: NO
+  version: 2.2.28
+
+zstd:
+  build: NO
+  shared: NO
+  version: 1.5.0
+
+hdf5:
+  build: YES
+  version: 1.14.0
+  shared: YES
+  enable_szip: NO
+  enable_zlib: YES
+
+pnetcdf:
+  build: YES
+  version: 1.12.2
+  shared: YES
+
+netcdf:
+  build: YES
+  shared: YES
+  enable_pnetcdf: YES
+  version_c: 4.9.2
+  version_f: 4.6.0
+  version_cxx: 4.3.1
+  disable_cxx: NO
+
+nccmp:
+  build: NO
+  version: 1.9.0.1
+
+nco:
+  build: NO
+  version: 5.0.6
+
+cdo:
+  build: NO
+  version: 1.9.8
+
+pio:
+  build: YES
+  version: 2.5.10
+  enable_pnetcdf: YES
+  enable_gptl: NO
+
+esmf:
+  build: YES
+  version: 8.6.0
+  shared: YES
+  enable_pnetcdf: YES
+  debug: NO
+
+fms:
+  build: YES
+  version: 2023.04
+  repo: noaa-gfdl
+  cmake_opts: "-DGFS_PHYS=ON -D64BIT=ON -DOPENMP=ON"
+
+bacio:
+  build: NO
+  version: v2.4.1
+  install_as: 2.4.1
+  is_nceplib: YES
+
+sigio:
+  build: NO
+  version: v2.3.2
+  install_as: 2.3.2
+  is_nceplib: YES
+
+sfcio:
+  build: NO
+  version: v1.4.1
+  install_as: 1.4.1
+  is_nceplib: YES
+
+gfsio:
+  build: NO
+  version: v1.4.1
+  install_as: 1.4.1
+  is_nceplib: YES
+
+w3nco:
+  build: NO
+  version: v2.4.1
+  install_as: 2.4.1
+  is_nceplib: YES
+
+sp:
+  build: NO
+  version: v2.3.3
+  install_as: 2.3.3
+  openmp: ON
+  is_nceplib: YES
+
+ip:
+  build: NO
+  version: v3.3.3
+  install_as: 3.3.3
+  openmp: ON
+  is_nceplib: YES
+
+ip2:
+  build: NO
+  version: v1.1.2
+  install_as: 1.1.2
+  openmp: ON
+  is_nceplib: YES
+
+landsfcutil:
+  build: NO
+  version: v2.4.1
+  install_as: 2.4.1
+  is_nceplib: YES
+
+nemsio:
+  build: NO
+  version: v2.5.4
+  install_as: 2.5.4
+  is_nceplib: YES
+
+nemsiogfs:
+  build: NO
+  version: v2.5.3
+  install_as: 2.5.3
+  is_nceplib: YES
+
+w3emc:
+  build: NO
+  version: v2.9.2
+  install_as: 2.9.2
+  is_nceplib: YES
+
+g2:
+  build: NO
+  version: v3.4.5
+  install_as: 3.4.5
+  is_nceplib: YES
+
+g2c:
+  build: NO
+  version: v1.6.4
+  install_as: 1.6.4
+  is_nceplib: YES
+
+g2tmpl:
+  build: NO
+  version: develop
+  install_as: 1.12.0
+  is_nceplib: YES
+
+crtm:
+  build: NO
+  version: v2.3.0
+  install_as: 2.3.0
+  is_nceplib: YES
+  install_fix: NO
+
+upp:
+  build: NO
+  version: upp_v10.0.9
+  install_as: 10.0.9
+  openmp: ON
+
+wrf_io:
+  build: NO
+  version: v1.2.0
+  install_as: 1.2.0
+  openmp: ON
+  is_nceplib: YES
+
+bufr:
+  build: NO
+  version: bufr_v12.0.0
+  install_as: 12.0.0
+  python: YES
+  is_nceplib: YES
+
+wgrib2:
+  build: NO
+  version: 2.0.8
+  install_as: 2.0.8
+  lib: YES
+  ipolates: 3
+
+prod_util:
+  build: NO
+  version: v1.2.2
+  install_as: 1.2.2
+  is_nceplib: YES
+
+grib_util:
+  build: NO
+  version: v1.2.3
+  install_as: 1.2.3
+  openmp: ON
+  is_nceplib: YES
+
+ncio:
+  build: NO
+  version: v1.0.0
+  install_as: 1.0.0
+  is_nceplib: YES
+
+boost:
+  build: NO
+  version: 1.68.0
+  level: headers-only
+
+eigen:
+  build: NO
+  version: 3.4.0
+
+gsl_lite:
+  build: NO
+  version: 0.37.0
+
+gsl:
+  build: NO
+  version: 2.6
+
+gptl:
+  build: NO
+  version: 8.0.2
+
+fftw:
+  build: NO
+  version: 3.3.8
+
+tau2:
+  build: NO
+  version: 3.25.1
+
+cgal:
+  build: NO
+  version: 5.0.2
+
+json:
+  build: NO
+  version: 3.9.1
+
+json_schema_validator:
+  build: NO
+  version: 2.1.0
+
+pybind11:
+  build: NO
+  version: 2.5.0
+
+ecbuild:
+  build: NO
+  version: 3.7.0
+  repo: ecmwf
+
+eckit:
+  build: NO
+  version: 1.24.4
+  repo: ecmwf
+
+fckit:
+  build: NO
+  version: 0.11.0
+  repo: ecmwf
+
+atlas:
+  build: NO
+  version: 0.35.0
+  repo: jcsda
+
+met:
+  build: NO
+  enable_python: NO
+  version: 9.1.1
+  release_date: 20201118
+
+metplus:
+  build: NO
+  version: 3.1.1
+
+madis:
+  build: NO
+  version: 4.3
+
+esma_cmake:
+  build: NO
+  repo: GEOS-ESM
+  version: v3.4.3
+
+cmakemodules:
+  build: NO
+  repo: NOAA-EMC
+  version: v1.2.0
+
+gftl_shared:
+  build: NO
+  repo: Goddard-Fortran-Ecosystem
+  version: v1.6.1
+
+yafyaml:
+  build: NO
+  repo: Goddard-Fortran-Ecosystem
+  version: v0.5.1
+
+mapl:
+  build: NO
+  repo: GEOS-ESM
+  esmf_version: 8.4.2
+  version: v2.35.2
+
+geos:
+  build: NO
+  version: 3.8.1
+
+libtiff:
+  build: NO
+  version: 4.0.3
+
+sqlite:
+  build: NO
+  version: 3.32.3
+
+proj:
+  build: NO
+  version: 7.1.0
+  cmake_opts: "-DENABLE_CURL=OFF -DBUILD_PROJSYNC=OFF"
+
+miniconda3:
+  build: NO
+  version: 4.6.14
+
+r2d2:
+  build: NO
+  version: 1.0.0
+  is_pyvenv: YES
+
+ufswm:
+  build: NO
+  version: 1.0.0
+  is_pyvenv: YES
