@@ -206,13 +206,13 @@ else
 fi
 
 if [[ ${using_mpi:-} =~ [yYtT] ]]; then
-  export FC=$MPI_FC
-  export CC=$MPI_CC
-  export CXX=$MPI_CXX
+  export FC=ftn
+  export CC=cc
+  export CXX=CC
 else
-  export FC=$SERIAL_FC
-  export CC=$SERIAL_CC
-  export CXX=$SERIAL_CXX
+  export FC=ftn
+  export CC=cc
+  export CXX=CC
 fi
 
 eval fflags="\${STACK_${name}_FFLAGS:-}"
@@ -231,6 +231,9 @@ extraCMakeFlags=""
 case $name in
   crtm)
     URL="https://github.com/JCSDA/crtm.git"
+    ;;
+  g2)
+    extraCMakeFlags="-DCMAKE_PREFIX_PATH="${PNG_LIBDIR};${PNG_INC};${JASPER_LIBDIR};${JASPER_INC}""
     ;;
   wgrib2)
     extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
