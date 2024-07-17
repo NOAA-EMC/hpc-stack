@@ -81,7 +81,6 @@ if $MODULES; then
   esac
 
   # Load dependencies
-   module purge
    module load envvar
    module load PrgEnv-intel
    module load intel
@@ -231,6 +230,9 @@ extraCMakeFlags=""
 case $name in
   crtm)
     URL="https://github.com/JCSDA/crtm.git"
+    ;;
+  g2)
+    extraCMakeFlags="-DCMAKE_PREFIX_PATH=${PNG_LIBDIR};${PNG_INC};${JASPER_LIBDIR};${JASPER_INC}"
     ;;
   wgrib2)
     extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
