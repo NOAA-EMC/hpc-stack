@@ -1,0 +1,5 @@
+w3emc:
+  build: YES
+  version: v2.12.0
+  install_as: 2.12.0
+  is_nceplib: YES
