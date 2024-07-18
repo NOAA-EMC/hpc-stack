@@ -133,6 +133,7 @@ if $MODULES; then
       module load PrgEnv-intel
       module load craype
       module load bacio
+      module load bufr
       if [[ "$using_mpi" =~ [yYtT] ]]; then
 	  module load w3nco
           module load netcdf
