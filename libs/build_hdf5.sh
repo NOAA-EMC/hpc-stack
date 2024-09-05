@@ -66,7 +66,7 @@ software=$name-$(echo $version | sed 's/\./_/g')
 [[ -d build ]] && rm -rf build
 mkdir -p build && cd build
 
-[[ -z $mpi ]] || extra_conf="--enable-parallel --enable-unsupported"
+[[ -z $mpi ]] || extra_conf="--enable-parallel --enable-hl --enable-unsupported"
 
 [[ $enable_shared =~ [yYtT] ]] || shared_flags="--disable-shared --enable-static --enable-static-exec"
 [[ $enable_szip =~ [yYtT] ]] && szip_flags="--with-szlib=$SZIP_ROOT"
@@ -74,6 +74,7 @@ mkdir -p build && cd build
 
 ../configure --prefix=$prefix \
              --enable-fortran --enable-cxx \
+	     --with-default-plugindir=${prefix}/lib/plugin \
              ${szip_flags:-} ${zlib_flags:-} ${shared_flags:-} ${extra_conf:-}
 
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}

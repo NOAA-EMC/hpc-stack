@@ -21,6 +21,7 @@ if $MODULES; then
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
     module try-load szip
     module load hdf5/1.14.0
+    module load zstd
     if [[ ! -z $mpi ]]; then
       [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
     fi
@@ -53,6 +54,7 @@ else
     export CXX=$SERIAL_CXX
 fi
 
+export HDF5_PLUGIN_PATH="$HDF5_ROOT/lib/plugin"
 export F77=$FC
 export F9X=$FC
 export FFLAGS="${STACK_FFLAGS:-} ${STACK_netcdf_FFLAGS:-} -fPIC"
@@ -73,7 +75,9 @@ if [[ ${STACK_netcdf_shared:-} != [yYtT] ]]; then
   LDFLAGS3=$(cat $HDF5_ROOT/lib/libhdf5.settings | grep "Extra libraries" | cut -d: -f2)
   [[ $enable_pnetcdf =~ [yYtT] ]] && LDFLAGS4+=" -lpnetcdf"
 fi
-export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-}"
+
+LDFLAGS5="-L$ZSTD_ROOT/lib"
+export LDFLAGS="${LDFLAGS1:-} ${LDFLAGS2:-} ${LDFLAGS3:-} ${LDFLAGS4:-} ${LDFLAGS5:-}"
 
 export CFLAGS+=" -I$HDF5_ROOT/include"
 export CPPFLAGS+=" -I$HDF5_ROOT/include"
@@ -119,17 +123,20 @@ mkdir -p build && cd build
 
 [[ ${STACK_netcdf_shared} =~ [yYtT] ]] || shared_flags="--disable-shared"
 [[ $enable_pnetcdf =~ [yYtT] ]] && pnetcdf_conf="--enable-pnetcdf"
-[[ -z $mpi ]] || extra_conf="--enable-parallel-tests"
+[[ -z $mpi ]] || extra_conf="--with-zstd=$ZSTD_ROOT"
 
 ../configure --prefix=$prefix \
              --enable-cdf5 \
+	     --enable-parallel-tests \
+	     --with-plugin-dir \
              --disable-dap \
              --enable-netcdf-4 \
              --disable-doxygen \
+	     --disable-nczarr \
 	     --disable-libxml2 \
 	     --disable-byterange \
              ${shared_flags:-} ${pnetcdf_conf:-} ${extra_conf:-}
-
+#--enable-parallel-tests \
 VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
 $SUDO make install
@@ -162,6 +169,7 @@ else
 fi
 export CFLAGS+=" -I$prefix/include"
 export CXXFLAGS+=" -I$prefix/include"
+export HDF5_PLUGIN_PATH="$HDF5_ROOT/lib/plugin"
 
 cd $curr_dir
 
@@ -174,8 +182,8 @@ URL="$URLroot/$name-fortran.git"
 mkdir -p build && cd build
 
 ../configure --prefix=$prefix \
+	     --enable-parallel-tests \
              ${shared_flags:-}
-
 #VERBOSE=$MAKE_VERBOSE make -j${NTHREADS:-4}
 VERBOSE=$MAKE_VERBOSE make -j1 #NetCDF-Fortran-4.5.2 & intel/20 have a linker bug if built with j>1
 [[ $MAKE_CHECK =~ [yYtT] ]] && make check
