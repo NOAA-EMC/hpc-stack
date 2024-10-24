@@ -1,0 +1,6 @@
+ip:
+  build: YES
+  version: v5.0.0
+  install_as: 5.0.0
+  openmp: ON
+  is_nceplib: YES
