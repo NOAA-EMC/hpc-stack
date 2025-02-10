@@ -18,8 +18,8 @@ if $MODULES; then
   module load hpc-$HPC_MPI
   module load PrgEnv-intel/8.3.3
   module load intel/19.1.3.304
-  module load craype/2.7.10
-  module load cray-mpich/8.1.9
+  module load craype/2.7.17
+  module load cray-mpich/8.1.12
   module try-load cmake
   module load esma_cmake
   module load cmakemodules

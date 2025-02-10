@@ -7,8 +7,8 @@ unset BASH_ENV
 # Compiler/MPI combination
 #export HPC_COMPILER="cray-intel/19.1.3.304"  # See IMPORTANT NOTE below
 export HPC_COMPILER="intel/19.1.3.304"
-export HPC_MPI="cray-mpich/8.1.9"
-export HPC_PYTHON="python/3.8.6"
+export HPC_MPI="cray-mpich/8.1.12"
+export HPC_PYTHON="python/3.10.4"
 
 # Build options
 export USE_SUDO=N
@@ -49,8 +49,8 @@ module purge
 module load envvar/1.0
 module load PrgEnv-intel/8.1.0
 module load intel/19.1.3.304
-module load craype/2.7.10
-module load cray-mpich/8.1.9
+module load craype/2.7.17
+module load cray-mpich/8.1.12
 module load cmake/3.20.2
 module load git/2.29.0
 

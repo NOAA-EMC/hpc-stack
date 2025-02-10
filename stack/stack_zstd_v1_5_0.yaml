@@ -1,0 +1,4 @@
+zstd:
+  build: YES
+  shared: YES
+  version: 1.5.0
