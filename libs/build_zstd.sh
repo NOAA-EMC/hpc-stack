@@ -6,7 +6,9 @@ name="zstd"
 version=${1:-${STACK_zstd_version}}
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER)
+compiler=$(echo $HPC_COMPILER | sed 's:/:-:g')
+mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+python=$(echo $HPC_PYTHON | sed 's/\//-/g')
 
 [[ ${STACK_zstd_shared:-} =~ [yYtT] ]] && enable_shared=YES || enable_shared=NO
 
