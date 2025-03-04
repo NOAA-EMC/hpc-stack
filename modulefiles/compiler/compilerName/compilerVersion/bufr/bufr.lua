@@ -22,8 +22,8 @@ end
 
 setenv("bufr_ROOT", base)
 setenv("bufr_VERSION", pkgVersion)
-setenv("BUFR_INC4",    pathJoin(base,libdir,"include_4"))
-setenv("BUFR_LIB4",    pathJoin(base,libdir,"libbufr_4.a"))
+setenv("BUFR_INC4",    pathJoin(base,"include"))
+setenv("BUFR_LIB4",    pathJoin(base,"lib64","libbufr_4.a"))
 prepend_path("PATH", pathJoin(base,"bin"))
 local pydir = pathJoin(base,libdir,"python${PYTHON_VERSION}/site-packages")
 if (isDir(pydir)) then
