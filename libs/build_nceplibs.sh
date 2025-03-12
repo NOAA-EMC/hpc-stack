@@ -92,12 +92,16 @@ if $MODULES; then
       ;;
     wgrib2)
       module try-load jpeg
-      module try-load jasper
-      module try-load zlib
+      module load jasper
+      module load zlib
       module try-load libpng
+      module load g2c
       module load netcdf
       module load sp
-      module load ip2
+      module load ip
+      export USE_NETCDF=ON
+      export USE_IPOLATES=ON
+      export USE_JASPER=ON
       ;;
     crtm)
       module load hpc-$HPC_MPI
@@ -148,9 +152,9 @@ if $MODULES; then
       module try-load libpng
       module load bacio
       module load w3nco
-      module load w3emc/2.9.2
+      module load w3emc
       module load g2
-      module load ip/3.3.3
+      module load ip
       module load sp
       ;;
     prod_util)
@@ -237,6 +241,7 @@ case $name in
     ;;
   wgrib2)
     extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
+    URL="https://github.com/noaa-emc/$name"
     ;;
   bufr)
     if [[ ${using_python:-} =~ [yYtT] ]]; then
