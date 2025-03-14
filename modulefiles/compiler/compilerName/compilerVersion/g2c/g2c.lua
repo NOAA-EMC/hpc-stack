@@ -15,10 +15,13 @@ local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
+prepend_path("LD_LIBRARY_PATH", pathJoin(base,"lib64"))
+
 setenv("g2c_ROOT", base)
 setenv("g2c_VERSION", pkgVersion)
 setenv("G2C_INC", pathJoin(base,"include"))
-setenv("G2C_LIB", pathJoin(base,"lib/libg2c.a"))
+setenv("G2C_LIBDIR", pathJoin(base,"lib64"))
+setenv("G2C_LIB", pathJoin(base,"lib64/libg2c.so"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)
