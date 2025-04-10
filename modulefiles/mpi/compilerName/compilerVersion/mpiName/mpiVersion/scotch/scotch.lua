@@ -13,17 +13,14 @@ local compNameVerD = compNameVer:gsub("/","-")
 
 conflict(pkgName)
 
-depends_on("zlib")
-
 local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
 
 prepend_path("PATH", pathJoin(base,"bin"))
-prepend_path("MANPATH", pathJoin(base,"man"))
-prepend_path("LIBRARY_PATH", pathJoin(base,"lib"))
-prepend_path("LD_LIBRARY_PATH", pathJoin(base,"lib"))
-prepend_path("DYLD_LIBRARY_PATH", pathJoin(base,"lib"))
+prepend_path("LIBRARY_PATH", pathJoin(base,"lib64"))
+prepend_path("LD_LIBRARY_PATH", pathJoin(base,"lib64"))
+prepend_path("DYLD_LIBRARY_PATH", pathJoin(base,"lib64"))
 prepend_path("CPATH", pathJoin(base,"include"))
 prepend_path("CMAKE_PREFIX_PATH", base)
 
