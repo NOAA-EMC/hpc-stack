@@ -80,7 +80,7 @@ export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS} ${HDF5_LIBS} ${EXTRA_LIBS:-}"
 export CPPFLAGS="-I${NETCDF_ROOT}/include"
 
 # Enable header pad comparison, if netcdf-c src directory exists!
-[[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && netcdf_src="$PWD/netcdf-c-$NETCDF_VERSION"
+[[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && netcdf_src="${NETCDF_ROOT}"
 [[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && extra_confs="--with-netcdf=$netcdf_src"
 
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )
