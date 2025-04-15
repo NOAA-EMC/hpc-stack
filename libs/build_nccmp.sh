@@ -14,8 +14,8 @@ URL="https://gitlab.com/remikz/nccmp/-/archive/$version/${software}.tar.gz"
 [[ ${DOWNLOAD_ONLY} =~ [yYtT] ]] && exit 0
 
 # Hyphenated version used for install prefix
-compiler=$(echo $HPC_COMPILER | sed 's/\//-/g')
-mpi=$(echo $HPC_MPI | sed 's/\//-/g')
+compiler=$(echo $HPC_COMPILER)
+mpi=$(echo $HPC_MPI)
 
 if $MODULES; then
     set +x
@@ -23,13 +23,13 @@ if $MODULES; then
     module load hpc-$HPC_COMPILER
     [[ -z $mpi ]] || module load hpc-$HPC_MPI
     module try-load szip
-    module load hdf5
-    module load netcdf
+    module load hdf5-D
+    module load netcdf-D
     module list
     set -x
     enable_pnetcdf=$(nc-config --has-pnetcdf)
     set +x
-      [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf
+      [[ $enable_pnetcdf =~ [yYtT] ]] && module load pnetcdf-D
     set -x
 
     prefix="${PREFIX:-"/opt/modules"}/$compiler/$mpi/$name/$version"
@@ -80,7 +80,7 @@ export LIBS="${PNETCDF_LIBS:-} ${NETCDF_LIBS} ${HDF5_LIBS} ${EXTRA_LIBS:-}"
 export CPPFLAGS="-I${NETCDF_ROOT}/include"
 
 # Enable header pad comparison, if netcdf-c src directory exists!
-[[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && netcdf_src="$PWD/netcdf-c-$NETCDF_VERSION"
+[[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && netcdf_src="/apps/prod/hpc-stack/build/localbuild/i-19.1.3.304__m-8.1.19__h-1.14.0__n-4.9.2__p-2.5.10__e-8.8.0_pnetcdf/hpc-stack/pkg/netcdf-c-4.9.2"
 [[ -d "netcdf-c-${NETCDF_VERSION:-}" ]] && extra_confs="--with-netcdf=$netcdf_src"
 
 [[ -d $software ]] && cd $software || ( echo "$software does not exist, ABORT!"; exit 1 )

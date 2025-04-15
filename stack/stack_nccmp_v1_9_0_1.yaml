@@ -1,3 +1,4 @@
 nccmp:
   build: YES
   version: 1.9.0.1
+  enable_pnetcdf: YES
