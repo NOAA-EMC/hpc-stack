@@ -95,13 +95,10 @@ if $MODULES; then
       module load jasper
       module load zlib
       module try-load libpng
-      module load g2c
+      module load g2c/2.2.0
       module load netcdf
       module load sp
-      module load ip
-      export USE_NETCDF=ON
-      export USE_IPOLATES=ON
-      export USE_JASPER=ON
+      module load ip/5.2.0
       ;;
     crtm)
       module load hpc-$HPC_MPI
@@ -121,8 +118,8 @@ if $MODULES; then
     g2c)
       module try-load jpeg
       module try-load zlib
-      module try-load libpng
-      module try-load jasper
+      module load libpng
+      module load jasper
       ;;
     nemsio)
       module load bacio
@@ -240,7 +237,9 @@ case $name in
     extraCMakeFlags="-DCMAKE_PREFIX_PATH=${PNG_LIBDIR};${PNG_INC};${JASPER_LIBDIR};${JASPER_INC}"
     ;;
   wgrib2)
-    extraCMakeFlags="${STACK_wgrib2_cmake_opts:-}"
+    extraCMakeFlags="${STACK_wgrib2_cmake_opts:--DUSE_NETCDF=ON -DUSE_IPOLATES=ON -DUSE_JASPER=ON -DUSE_PNG=ON -DMAKE_FTN_API=ON -DBUILD_SHARED_LIB=OFF}"
+#    export LD_LIBRARY_PATH=$G2C_LIBDIR:$LD_LIBRARY_PATH
+    export CFLAGS='-fPIC -w -fopenmp -fopenmp-simd'
     URL="https://github.com/noaa-emc/$name"
     ;;
   bufr)

@@ -21,7 +21,7 @@ setenv("g2c_ROOT", base)
 setenv("g2c_VERSION", pkgVersion)
 setenv("G2C_INC", pathJoin(base,"include"))
 setenv("G2C_LIBDIR", pathJoin(base,"lib64"))
-setenv("G2C_LIB", pathJoin(base,"lib64/libg2c.so"))
+setenv("G2C_LIB", pathJoin(base,"lib64/libg2c.a"))
 
 whatis("Name: ".. pkgName)
 whatis("Version: " .. pkgVersion)

@@ -17,6 +17,7 @@ local base = pathJoin(opt,compNameVerD,pkgName,pkgVersion)
 
 setenv("ip_ROOT", base)
 setenv("ip_VERSION", pkgVersion)
+setenv("ip_DIR", pathJoin(base,"lib64/cmake/ip"))
 setenv("IP_INC4", pathJoin(base,"include_4"))
 setenv("IP_INCd", pathJoin(base,"include_d"))
 setenv("IP_LIB4", pathJoin(base,"lib64/libip_4.a"))
