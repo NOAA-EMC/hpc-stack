@@ -96,7 +96,7 @@ if $MODULES; then
       module load zlib
       module try-load libpng
       module load g2c/2.2.0
-      module load netcdf
+      module load netcdf-C/4.9.2
       module load sp
       module load ip/5.2.0
       ;;
