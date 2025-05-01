@@ -31,8 +31,8 @@ if [ ! -f stack/$yaml ]; then
 fi
 
 case $whichcompiler in
-  all) configfilelist="config_nco_wcoss2.sh" ;;
-  intel) configfilelist="config_nco_wcoss2.sh" ;;
+  all) configfilelist="config_local.sh" ;;
+  intel) configfilelist="config_local.sh" ;;
   gcc|gnu) echo "No gcc config file yet! Exitting..." ; exit 1 ;;
   *) echo "Compiler '$whichcompiler' not recognized! Exitting..." ; exit 1 ;;
 esac
@@ -43,9 +43,9 @@ echo "  config script list: $(readlink -f config/$configfilelist)"
 echo "  yaml config file: $(readlink -f stack/$yaml)"
 read -p "ENTER to continue, Ctrl-C to quit."
 
-./setup_modules.sh -p $installprefix -c config/config_nco_wcoss2.sh
+./setup_modules.sh -p $installprefix -c config/config_local.sh
 
-for configfile in config_nco_wcoss2.sh ; do
+for configfile in config_local.sh ; do
   ./build_stack.sh -p $installprefix -c config/$configfile -y stack/$yaml -m
 
    if [[ $whichpackage == "all" ]]; then
