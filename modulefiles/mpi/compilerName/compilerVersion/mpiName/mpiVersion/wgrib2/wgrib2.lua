@@ -17,12 +17,15 @@ local opt = os.getenv("HPC_OPT") or os.getenv("OPT") or "/opt/modules"
 
 local base = pathJoin(opt,compNameVerD,mpiNameVerD,pkgName,pkgVersion)
 
+prepend_path("LD_LIBRARY_PATH", pathJoin(base,"lib64"))
 prepend_path("PATH", pathJoin(base,"bin"))
+
 setenv("wgrib2_ROOT", base)
 setenv("wgrib2_VERSION", pkgVersion)
 setenv("WGRIB2_INC", pathJoin(base,"include"))
 setenv("WGRIB2_LIBDIR", pathJoin(base,"lib64"))
 setenv("WGRIB2_LIB", pathJoin(base,"lib64/libwgrib2.a"))
+setenv("WGRIB2_C_API", pathJoin(base,"lib64/libwgrib2_c_api.a"))
 setenv("WGRIB2_LIBAPI", pathJoin(base,"lib64/libwgrib2_ftn_api.a"))
 
 

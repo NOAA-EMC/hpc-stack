@@ -1,0 +1,8 @@
+wgrib2:
+  build: YES
+  version: v3.8.0
+  install_as: 3.8.0
+  openmp: ON
+  enable_pnetcdf: YES
+  is_nceplib: YES
+  ipolates: 1

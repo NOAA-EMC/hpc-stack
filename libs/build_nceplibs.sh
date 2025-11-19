@@ -94,8 +94,9 @@ if $MODULES; then
       module try-load jpeg
       module load jasper
       module load zlib
-      module try-load libpng
-      module load g2c/2.2.0
+      module load libpng
+      module load libaec/1.1.3
+      module load g2c/2.3.0
       module load netcdf-D/4.9.2
       module load sp
       module load ip/5.2.0
@@ -117,7 +118,8 @@ if $MODULES; then
       ;;
     g2c)
       module try-load jpeg
-      module try-load zlib
+      module load zlib
+      module load libaec/1.1.3
       module load libpng
       module load jasper
       ;;
@@ -236,8 +238,11 @@ case $name in
   g2)
     extraCMakeFlags="-DCMAKE_PREFIX_PATH=${PNG_LIBDIR};${PNG_INC};${JASPER_LIBDIR};${JASPER_INC}"
     ;;
+  g2c)
+    extraCMakeFlags="-DUSE_AEC=ON -DCMAKE_PREFIX_PATH=${AEC_LIBDIR};${AEC_INC}"
+    ;;
   wgrib2)
-    extraCMakeFlags="${STACK_wgrib2_cmake_opts:--DUSE_NETCDF=ON -DUSE_IPOLATES=ON -DUSE_JASPER=ON -DUSE_PNG=ON -DMAKE_FTN_API=ON -DUSE_OPENMP=ON -DBUILD_WGRIB=ON -DBUILD_SHARED_LIB=OFF}"
+    extraCMakeFlags="${STACK_wgrib2_cmake_opts:--DUSE_NETCDF=ON -DUSE_IPOLATES=ON -DUSE_AEC=ON -DUSE_JASPER=ON -DUSE_PNG=ON -DMAKE_FTN_API=ON -DUSE_OPENMP=ON -DUSE_G2CLIB_LOW=ON -DBUILD_WGRIB=ON -DBUILD_SHARED_LIB=OFF -DCMAKE_PREFIX_PATH="/apps/prod/libaec/1.1.3"}"
 #    export LD_LIBRARY_PATH=$G2C_LIBDIR:$LD_LIBRARY_PATH
     export CFLAGS='-fPIC -w -fopenmp -fopenmp-simd'
     URL="https://github.com/noaa-emc/$name"
